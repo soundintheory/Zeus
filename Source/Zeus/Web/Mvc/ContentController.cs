@@ -149,20 +149,19 @@ namespace Zeus.Web.Mvc
 			{
 				HttpContextBase httpContext = controllerContext.HttpContext;
 
-                Dictionary<string, object> tempDataDictionary = null;
-                //let these through, non dangerous and stops bots throwing 100s of errors
-				if (httpContext.Session == null)
+				//let these through, non dangerous and stops bots throwing 100s of errors
+				if (httpContext.Session?.IsReadOnly != false)
 				{
 					//throw new InvalidOperationException("Session state appears to be disabled.");
                     return new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 				}
                 else
                 {
-                    tempDataDictionary = (httpContext.Session[TempDataSessionStateKey]
+					var tempDataDictionary = (httpContext.Session[TempDataSessionStateKey]
 																	?? httpContext.Items[TempDataSessionStateKey])
 																 as Dictionary<string, object>;
 
-				    if (tempDataDictionary == null)
+					if (tempDataDictionary == null)
 				    {
 					    return new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 				    }
@@ -180,13 +179,15 @@ namespace Zeus.Web.Mvc
 			{
 				HttpContextBase httpContext = controllerContext.HttpContext;
 
-                //let these through, non dangerous and stops bots throwing 100s of errors
-                if (httpContext.Session == null)
-                {
-                //    throw new InvalidOperationException("Session state appears to be disabled.  User Agent was " + httpContext.Request.UserAgent);
-                }
-                else
-                    httpContext.Session[TempDataSessionStateKey] = values;
+				//let these through, non dangerous and stops bots throwing 100s of errors
+				if (httpContext.Session?.IsReadOnly != false)
+				{
+					//    throw new InvalidOperationException("Session state appears to be disabled.  User Agent was " + httpContext.Request.UserAgent);
+				}
+				else
+				{
+					httpContext.Session[TempDataSessionStateKey] = values;
+				}
 			}
 
 			#endregion
