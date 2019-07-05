@@ -18,7 +18,6 @@ using Zeus.Serialization;
 using Zeus.Web;
 using Zeus.Web.Security;
 using AuthorizationRule = Zeus.Security.AuthorizationRule;
-using Microsoft.SqlServer.Management.Smo;
 
 namespace Zeus.Installation
 {
@@ -108,9 +107,9 @@ namespace Zeus.Installation
 
         public string CreateDatabase(string server, string name)
         {
-            Server dbServer = new Server(server);
-            Database db = new Database(dbServer, name);
-            db.Create();
+            //Server dbServer = new Server(server);
+            //Database db = new Database(dbServer, name);
+            //db.Create();
 
             return string.Format(@"Server={0};Database={1};Integrated Security=True", server, name);
         }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.271
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{9293D83E-48A0-4A7D-9FC2-0F3F191CFEB9}"
 EndProject
@@ -11,8 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{95
 	ProjectSection(SolutionItems) = preProject
 		SitemapHTMLExample.htm = SitemapHTMLExample.htm
 	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AddIns", "AddIns", "{4FFD8740-F10F-453F-97FD-DAE6C34FF0CD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{203A0F4D-1D96-4F4C-995E-6F9505DD1D24}"
 	ProjectSection(SolutionItems) = preProject
@@ -46,10 +44,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zeus.Templates", "Zeus.Temp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinimalMvcExample", "..\Examples\MinimalMvcExample\MinimalMvcExample.csproj", "{E56C9E34-EC5D-4A9F-992E-D93BCD82ACEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zeus.AddIns.ECommerce", "Zeus.AddIns.ECommerce\Zeus.AddIns.ECommerce.csproj", "{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zeus.AddIns.ECommerce.PaymentGateways.SagePay", "Zeus.AddIns.ECommerce.PaymentGateways.SagePay\Zeus.AddIns.ECommerce.PaymentGateways.SagePay.csproj", "{2F01CC7A-40AE-4475-9948-E2B2EA405C13}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coolite.Ext.UX", "Coolite.Ext.UX\Coolite.Ext.UX.csproj", "{FD6CEDDE-9B2F-49CC-954F-A93F27F41E7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zeus.BaseLibrary", "Zeus.BaseLibrary\Zeus.BaseLibrary.csproj", "{76EF3F95-5CEC-47A8-8D99-2EF19018536C}"
@@ -57,8 +51,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zeus.BaseLibrary.Tests", "Zeus.BaseLibrary.Tests\Zeus.BaseLibrary.Tests.csproj", "{87A31BEF-E24C-4B85-BF83-7428EDE9C03B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zeus.Templates.Tests", "Zeus.Templates.Tests\Zeus.Templates.Tests.csproj", "{34EDBA77-B394-419F-9A68-05EA97DA9F98}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zeus.AddIns.ECommerce.PaypalExpress", "Zeus.AddIns.ECommerce.PaypalExpress\Zeus.AddIns.ECommerce.PaypalExpress.csproj", "{730D671D-33B8-4BF5-80B4-729E0965EACA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -181,42 +173,6 @@ Global
 		{E56C9E34-EC5D-4A9F-992E-D93BCD82ACEF}.Release|x64.Build.0 = Release|x64
 		{E56C9E34-EC5D-4A9F-992E-D93BCD82ACEF}.Release|x86.ActiveCfg = Release|x86
 		{E56C9E34-EC5D-4A9F-992E-D93BCD82ACEF}.Release|x86.Build.0 = Release|x86
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Debug|x64.ActiveCfg = Debug|x64
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Debug|x64.Build.0 = Debug|x64
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Debug|x86.ActiveCfg = Debug|x86
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Debug|x86.Build.0 = Debug|x86
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Documentation|Any CPU.Build.0 = Debug|Any CPU
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Documentation|x64.ActiveCfg = Debug|x64
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Documentation|x64.Build.0 = Debug|x64
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Documentation|x86.ActiveCfg = Debug|x86
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Documentation|x86.Build.0 = Debug|x86
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Release|x64.ActiveCfg = Release|x64
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Release|x64.Build.0 = Release|x64
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Release|x86.ActiveCfg = Release|x86
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4}.Release|x86.Build.0 = Release|x86
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Debug|x64.ActiveCfg = Debug|x64
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Debug|x64.Build.0 = Debug|x64
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Debug|x86.ActiveCfg = Debug|x86
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Debug|x86.Build.0 = Debug|x86
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Documentation|Any CPU.Build.0 = Debug|Any CPU
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Documentation|x64.ActiveCfg = Debug|x64
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Documentation|x64.Build.0 = Debug|x64
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Documentation|x86.ActiveCfg = Debug|x86
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Documentation|x86.Build.0 = Debug|x86
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Release|x64.ActiveCfg = Release|x64
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Release|x64.Build.0 = Release|x64
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Release|x86.ActiveCfg = Release|x86
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13}.Release|x86.Build.0 = Release|x86
 		{FD6CEDDE-9B2F-49CC-954F-A93F27F41E7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD6CEDDE-9B2F-49CC-954F-A93F27F41E7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD6CEDDE-9B2F-49CC-954F-A93F27F41E7E}.Debug|x64.ActiveCfg = Debug|x64
@@ -287,24 +243,6 @@ Global
 		{34EDBA77-B394-419F-9A68-05EA97DA9F98}.Release|x64.ActiveCfg = Release|x64
 		{34EDBA77-B394-419F-9A68-05EA97DA9F98}.Release|x64.Build.0 = Release|x64
 		{34EDBA77-B394-419F-9A68-05EA97DA9F98}.Release|x86.ActiveCfg = Release|Any CPU
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Debug|x64.ActiveCfg = Debug|x64
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Debug|x64.Build.0 = Debug|x64
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Debug|x86.Build.0 = Debug|Any CPU
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Documentation|Any CPU.Build.0 = Debug|Any CPU
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Documentation|x64.ActiveCfg = Debug|x64
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Documentation|x64.Build.0 = Debug|x64
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Documentation|x86.ActiveCfg = Debug|Any CPU
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Documentation|x86.Build.0 = Debug|Any CPU
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Release|x64.ActiveCfg = Release|x64
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Release|x64.Build.0 = Release|x64
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Release|x86.ActiveCfg = Release|Any CPU
-		{730D671D-33B8-4BF5-80B4-729E0965EACA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -318,13 +256,10 @@ Global
 		{E0C2BF09-ECCD-4EC2-B2AE-D376A4A32498} = {9293D83E-48A0-4A7D-9FC2-0F3F191CFEB9}
 		{EE13987B-E700-4CC6-9AF8-0BE51FD89A0C} = {2609146F-D8B6-43C5-8AAD-CAF08CE85B18}
 		{E56C9E34-EC5D-4A9F-992E-D93BCD82ACEF} = {951F5AA6-FECA-4A78-B5B2-32856CFED612}
-		{E1EC7BD3-0431-4AD5-A037-F68166BD92B4} = {4FFD8740-F10F-453F-97FD-DAE6C34FF0CD}
-		{2F01CC7A-40AE-4475-9948-E2B2EA405C13} = {4FFD8740-F10F-453F-97FD-DAE6C34FF0CD}
 		{FD6CEDDE-9B2F-49CC-954F-A93F27F41E7E} = {AAB76390-02E2-4B9A-9C8B-BC0057E660AC}
 		{76EF3F95-5CEC-47A8-8D99-2EF19018536C} = {9293D83E-48A0-4A7D-9FC2-0F3F191CFEB9}
 		{87A31BEF-E24C-4B85-BF83-7428EDE9C03B} = {9293D83E-48A0-4A7D-9FC2-0F3F191CFEB9}
 		{34EDBA77-B394-419F-9A68-05EA97DA9F98} = {2609146F-D8B6-43C5-8AAD-CAF08CE85B18}
-		{730D671D-33B8-4BF5-80B4-729E0965EACA} = {4FFD8740-F10F-453F-97FD-DAE6C34FF0CD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C9197B30-00AB-4821-B879-1B0ECD631E8A}
