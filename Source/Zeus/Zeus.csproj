@@ -372,6 +372,8 @@
     <Compile Include="Configuration\CredentialsSection.cs" />
     <Compile Include="Configuration\CredentialCollection.cs" />
     <Compile Include="Configuration\MachineKeySectionWrapper.cs" />
+    <Compile Include="Configuration\NamespaceElement.cs" />
+    <Compile Include="Configuration\NamespaceElementCollection.cs" />
     <Compile Include="Configuration\RecycleBinElement.cs" />
     <Compile Include="Configuration\ContentTypesSection.cs" />
     <Compile Include="Configuration\ContentTypeRule.cs" />
@@ -379,6 +381,7 @@
     <Compile Include="Configuration\ContentTypeRuleCollection.cs" />
     <Compile Include="Configuration\ContentTypeZone.cs" />
     <Compile Include="Configuration\ContentTypeZoneCollection.cs" />
+    <Compile Include="Configuration\RoutingSection.cs" />
     <Compile Include="Configuration\TreeElement.cs" />
     <Compile Include="Configuration\GlobalizationSection.cs" />
     <Compile Include="Configuration\DynamicContentControl.cs" />
