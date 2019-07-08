@@ -40,6 +40,15 @@ namespace Zeus.Web.Mvc
             this.engine = engine;
             this.routeHandler = routeHandler;
             this.controllerMapper = controllerMapper ?? engine.Resolve<IControllerMapper>();
+            this.DataTokens = new RouteValueDictionary();
+
+            var namespaces = Zeus.Context.Current.Resolve<RoutingSection>().Controllers.ToArray();
+
+            if (namespaces != null && namespaces.Length > 0)
+            {
+                this.DataTokens["Namespaces"] = namespaces;
+                this.DataTokens["UseNamespaceFallback "] = false;
+            }
 
             _adminSection = (AdminSection)ConfigurationManager.GetSection("zeus/admin");
         }
@@ -134,6 +143,10 @@ namespace Zeus.Web.Mvc
                 data.Values["param"] = extraParam;
             // trigger ASP.net areas
             data.DataTokens["area"] = areaName;
+
+            if (DataTokens.ContainsKey("Namespaces"))
+                data.DataTokens["Namespaces"] = DataTokens["Namespaces"];
+
             return data;
         }
 
