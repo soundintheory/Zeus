@@ -16,6 +16,7 @@ namespace Zeus.Engine
 		private readonly ITypeFinder _typeFinder;
 		readonly IAssemblyFinder assemblyFinder;
 		IAdapterDescriptor[] adapterDescriptors = new IAdapterDescriptor[0];
+		private readonly object _lockObject = new object();
 
 		public ContentAdapterProvider(ContentEngine engine, IAssemblyFinder finder, ITypeFinder typeFinder)
 		{
@@ -50,7 +51,7 @@ namespace Zeus.Engine
 		/// <param name="descriptorsToAdd">The adapter descriptors to add.</param>
 		public void RegisterAdapter(params IAdapterDescriptor[] descriptorsToAdd)
 		{
-			lock (this)
+			lock (_lockObject)
 			{
 				var references = new List<IAdapterDescriptor>(adapterDescriptors);
 				references.AddRange(descriptorsToAdd);
