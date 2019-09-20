@@ -30,12 +30,16 @@ namespace Zeus.Admin.Plugins.ContextMenu
 		public override void ModifyTreeNode(TreeNodeBase treeNode, ContentItem contentItem)
 		{
 			foreach (var actionPluginGroup in Context.AdminManager.GetActionPluginGroups())
+			{
 				foreach (var plugin in GetPlugins(actionPluginGroup.Name))
+				{
 					if (plugin.IsApplicable(contentItem) && (plugin.IsEnabled(contentItem) && plugin.IsDefault(contentItem)))
 					{
 						treeNode.Href = "javascript:(" + plugin.GetJavascriptHandler(contentItem) + ")();";
 						return;
 					}
+				}
+			}
 		}
 
 		private static IEnumerable<IContextMenuPlugin> GetPlugins(string groupName)

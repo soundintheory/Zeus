@@ -32,13 +32,23 @@ namespace Zeus.ContentTypes
 		public virtual bool IsAuthorized(IPrincipal user)
 		{
 			if (AuthorizedRoles == null)
+			{
 				return true;
+			}
+
 			if (user == null)
+			{
 				return false;
+			}
 
 			foreach (var role in AuthorizedRoles)
+			{
 				if (user.IsInRole(role))
+				{
 					return true;
+				}
+			}
+
 			return false;
 		}
 

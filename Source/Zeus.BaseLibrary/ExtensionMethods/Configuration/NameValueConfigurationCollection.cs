@@ -9,7 +9,10 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Configuration
 		{
 			var result = new NameValueCollection();
 			foreach (string key in collection)
+			{
 				result.Add(key, collection[key].Value);
+			}
+
 			return result;
 		}
 	}

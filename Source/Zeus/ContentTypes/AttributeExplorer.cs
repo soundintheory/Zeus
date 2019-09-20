@@ -22,7 +22,9 @@ namespace Zeus.ContentTypes
 			AddEditablesDefinedOnClass(typeToExplore, attributes);
 
 			if (attributes.Count > 1 && (attributes[0] is IComparable || attributes[0] is IComparable<T>))
+			{
 				attributes.Sort();
+			}
 
 			return attributes;
 		}
@@ -32,7 +34,10 @@ namespace Zeus.ContentTypes
 			var attributes = Find(typeToExplore);
 			var map = new Dictionary<string, T>();
 			foreach (var a in attributes)
+			{
 				map[a.Name] = a;
+			}
+
 			return map;
 		}
 
@@ -41,16 +46,21 @@ namespace Zeus.ContentTypes
 		private static void AddEditablesDefinedOnProperties(Type exploredType, ICollection<T> attributes)
 		{
 			foreach (var propertyOnItem in exploredType.GetProperties())
+			{
 				foreach (T attributeOnProperty in propertyOnItem.GetCustomAttributes(typeof(T), false))
+				{
 					if (!attributes.Contains(attributeOnProperty))
 					{
 						attributeOnProperty.Name = propertyOnItem.Name;
 						if (attributeOnProperty is ISecurable)
+						{
 							foreach (PropertyAuthorizedRolesAttribute rolesAttribute in propertyOnItem.GetCustomAttributes(typeof(PropertyAuthorizedRolesAttribute), false))
 							{
 								var s = attributeOnProperty as ISecurable;
 								s.AuthorizedRoles = rolesAttribute.Roles;
 							}
+						}
+
 						if (attributeOnProperty is IPropertyAwareAttribute)
 						{
 							var a = attributeOnProperty as IPropertyAwareAttribute;
@@ -58,22 +68,32 @@ namespace Zeus.ContentTypes
 						}
 						attributes.Add(attributeOnProperty);
 					}
+				}
+			}
 		}
 
 		private static void AddEditablesDefinedOnClass(Type exploredType, ICollection<T> attributes)
 		{
 			foreach (var t in EnumerateTypeAncestralHierarchy(exploredType))
+			{
 				foreach (T editableOnClass in t.GetCustomAttributes(typeof(T), true))
+				{
 					if (!attributes.Contains(editableOnClass))
 					{
 						if (editableOnClass.Name == null)
+						{
 							throw new ZeusException(
 								"The attribute {0} does not have a Name defined. Since it's defined on the class instead of a property it must have a name.",
 								editableOnClass);
+						}
 
 						if (!attributes.Contains(editableOnClass))
+						{
 							attributes.Add(editableOnClass);
+						}
 					}
+				}
+			}
 		}
 
 		private static IEnumerable<Type> EnumerateTypeAncestralHierarchy(Type type)

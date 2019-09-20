@@ -34,23 +34,33 @@ namespace Zeus.Admin.RecycleBin
 		private void OnItemCopied(object sender, DestinationEventArgs e)
 		{
 			if (LeavingTrash(e))
+			{
 				_recycleBinHandler.RestoreValues(e.AffectedItem);
+			}
 			else if (_recycleBinHandler.IsInTrash(e.Destination))
+			{
 				_recycleBinHandler.ExpireTrashedItem(e.AffectedItem);
+			}
 		}
 
 		private void OnItemMoved(object sender, CancelDestinationEventArgs e)
 		{
 			if (LeavingTrash(e))
+			{
 				_recycleBinHandler.RestoreValues(e.AffectedItem);
+			}
 			else if (_recycleBinHandler.IsInTrash(e.Destination))
+			{
 				_recycleBinHandler.ExpireTrashedItem(e.AffectedItem);
+			}
 		}
 
 		private void OnItemDeleting(object sender, CancelItemEventArgs e)
 		{
 			if (_recycleBinHandler.CanThrow(e.AffectedItem))
+			{
 				e.FinalAction = _recycleBinHandler.Throw;
+			}
 		}
 
 		private bool LeavingTrash(DestinationEventArgs e)

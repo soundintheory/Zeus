@@ -19,9 +19,13 @@ namespace Zeus.Configuration
 				{
 					var strings = (CommaDelimitedStringCollection) base["roles"];
 					if (strings == null)
+					{
 						_roles = new CommaDelimitedStringCollection();
+					}
 					else
+					{
 						_roles = strings.Clone();
+					}
 				}
 				return _roles;
 			}
@@ -36,9 +40,13 @@ namespace Zeus.Configuration
 				{
 					var strings = (CommaDelimitedStringCollection) base["users"];
 					if (strings == null)
+					{
 						_users = new CommaDelimitedStringCollection();
+					}
 					else
+					{
 						_users = strings.Clone();
+					}
 				}
 				return _users;
 			}

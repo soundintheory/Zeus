@@ -36,7 +36,10 @@ namespace Zeus.Web.UI.WebControls
 
 			var otherEditors = new List<string>();
 			foreach (var propertyControl in Parent.FindParent<ItemView>().PropertyControls)
+			{
 				otherEditors.Add("'" + propertyControl.Key + "' : '" + propertyControl.Value.ClientID + "'");
+			}
+
 			var reactiveOptions = string.Format(@"{{formatString: '{0}', keepUpdatedClientID: '{1}', otherEditors: {{{2}}} }}",
 				FormatString, chkKeepUpdated.ClientID, string.Join(", ", otherEditors.ToArray()));
 			var script = string.Format(@"jQuery(document).ready(function() {{
@@ -54,7 +57,10 @@ namespace Zeus.Web.UI.WebControls
 			// Copied from TextBox.Render() using Reflector
 			RenderBeginTag(writer);
 			if (TextMode == TextBoxMode.MultiLine)
+			{
 				HttpUtility.HtmlEncode(Text, writer);
+			}
+
 			RenderEndTag(writer);
 
 			// Needed to write out chkKeepUpdated

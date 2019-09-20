@@ -41,7 +41,10 @@ namespace Zeus.ContentTypes
 			foreach (var contentType in _definitions.Values)
 			{
 				if (discriminators.Contains(contentType.Discriminator))
+				{
 					throw new ZeusException("Duplicate content type discriminator. The discriminator '{0}' is already in use.", contentType.Discriminator);
+				}
+
 				discriminators.Add(contentType.Discriminator);
 			}
 
@@ -84,20 +87,28 @@ namespace Zeus.ContentTypes
 				var itemDefinition = GetContentType(item.GetType());
 
 				if (!parentDefinition.IsChildAllowed(itemDefinition))
+				{
 					throw new NotAllowedParentException(itemDefinition, parentItem.GetType());
+				}
 
 				item.Parent = parentItem;
 				foreach (var rule in parentItem.AuthorizationRules)
+				{
 					item.AuthorizationRules.Add(new AuthorizationRule(item, rule.Operation, rule.Role, rule.User, rule.Allowed));
+				}
 			}
 
 			if (item is ISelfPopulator)
+			{
 				((ISelfPopulator) item).Populate();
+			}
 
 			_notifier.Notify(item);
 
 			if (ItemCreated != null)
+			{
 				ItemCreated.Invoke(this, new ItemEventArgs(item));
+			}
 		}
 
 		public ICollection<ContentType> GetContentTypes()
@@ -108,26 +119,43 @@ namespace Zeus.ContentTypes
 		public ContentType GetContentType(Type type)
 		{
 			if (_definitions.ContainsKey(type))
+			{
 				return _definitions[type];
+			}
+
 			return null;
 		}
 
 		public IList<ContentType> GetAllowedChildren(ContentType contentType, string zone, IPrincipal user)
 		{
 			if (!contentType.HasZone(zone))
+			{
 				throw new ZeusException("The content type '{0}' does not allow a zone named '{1}'.", contentType.Title, zone);
+			}
 
 			var allowedChildren = new List<ContentType>();
 			foreach (var childItem in contentType.AllowedChildren)
 			{
 				if (!childItem.IsDefined)
+				{
 					continue;
+				}
+
 				if (!childItem.Enabled)
+				{
 					continue;
+				}
+
 				if (!childItem.IsAuthorized(user))
+				{
 					continue;
+				}
+
 				if (!childItem.IsAllowedInZone(zone))
+				{
 					continue;
+				}
+
 				allowedChildren.Add(childItem);
 			}
 			allowedChildren.Sort();

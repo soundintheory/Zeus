@@ -15,7 +15,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web.UI
 		public static void RegisterCssInclude(this ClientScriptManager clientScriptManager, string cssUrl, ResourceInsertPosition position)
 		{
 			if (cssUrl.StartsWith("~"))
+			{
 				cssUrl = VirtualPathUtility.ToAbsolute(cssUrl);
+			}
 
 			var page = (Page)HttpContext.Current.Handler;
 			if (page.Items[cssUrl] == null)
@@ -72,7 +74,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web.UI
 			string prefix, string postfix)
 		{
 			if (javascriptUrl.StartsWith("~"))
+			{
 				javascriptUrl = VirtualPathUtility.ToAbsolute(javascriptUrl);
+			}
 
 			var page = (Page)HttpContext.Current.Handler;
 			if (page.Items[javascriptUrl] == null)

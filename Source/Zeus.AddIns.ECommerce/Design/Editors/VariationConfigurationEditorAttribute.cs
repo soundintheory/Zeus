@@ -44,14 +44,18 @@ namespace Zeus.AddIns.ECommerce.Design.Editors
 
 			// Clear any existing variation configurations.
 			foreach (var variationConfiguration in product.GetChildren<VariationConfiguration>().ToArray())
+			{
 				Context.Persister.Delete(variationConfiguration);
+			}
 
 			foreach (var listItem in checkBoxList.Items.Cast<ListItem>().Where(li => li.Selected))
 			{
 				var variationPermutation = new VariationPermutation();
 				var variationIDs = listItem.Value.Split(',').Select(s => Convert.ToInt32(s)).ToArray();
 				foreach (var variationID in variationIDs)
+				{
 					variationPermutation.Variations.Add(Context.Persister.Get(variationID));
+				}
 
 				var variationConfiguration = new VariationConfiguration
 				{
@@ -73,12 +77,14 @@ namespace Zeus.AddIns.ECommerce.Design.Editors
 			// Build possible permutations.
 			var permutations = GetPermutations(product);
 			if (permutations != null)
+			{
 				foreach (var permutation in permutations)
 				{
 					var listItem = new ListItem(permutation.Join(v => v.Title, ", "), permutation.Join(v => v.ID.ToString(), ","));
 					listItem.Selected = HasPermutation(product, permutation);
 					checkBoxList.Items.Add(listItem);
 				}
+			}
 		}
 
 		private static bool HasPermutation(Product product, IEnumerable<Variation> permutation)
@@ -91,13 +97,19 @@ namespace Zeus.AddIns.ECommerce.Design.Editors
 		{
 			var variationSets = product.CurrentCategory.Shop.VariationsSet;
 			if (variationSets == null)
+			{
 				return null;
+			}
+
 			var inputVariationSets = new List<List<Variation>>();
 			foreach (var set in variationSets.Sets)
 			{
 				var inputVariations = new List<Variation>();
 				foreach (var variation in set.Variations)
+				{
 					inputVariations.Add(variation);
+				}
+
 				inputVariationSets.Add(inputVariations);
 			}
 			return CartesianProductUtility.Combinations(inputVariationSets[0], inputVariationSets[1]);

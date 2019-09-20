@@ -26,7 +26,10 @@ namespace Zeus.Design.Editors
 		{
 			var result = new List<ContentItem>();
 			foreach (var listItem in selectedListItems)
+			{
 				result.Add(Context.Persister.Get(Convert.ToInt32(listItem.Value)));
+			}
+
 			return result;
 		}
 

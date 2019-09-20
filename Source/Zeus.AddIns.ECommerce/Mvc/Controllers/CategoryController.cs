@@ -22,8 +22,11 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 		{
 			var subcategories = CurrentItem.GetChildren<Subcategory>();
 			if (subcategories.Any())
+			{
 				return View(new CategoryViewModel(CurrentItem,
 					subcategories, CurrentItem.GetChildren<Product>()));
+			}
+
 			return View("IndexNoSubcategories", new CategoryNoSubcategoriesViewModel(CurrentItem,
 				CurrentItem.GetChildren<Product>().AsPageable(!(viewAll ?? false), page ?? 1, 8)));
 		}

@@ -16,7 +16,9 @@ namespace Zeus.Web.UI.WebControls
 		public virtual void DataBind()
 		{
 			if (DataBinding != null)
+			{
 				DataBinding(this, EventArgs.Empty);
+			}
 		}
 
 		public override bool Initialize(bool sortingEnabled, System.Web.UI.Control control)

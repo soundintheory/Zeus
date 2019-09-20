@@ -33,7 +33,9 @@ namespace Zeus.Integrity
 			{
 				var assignable = IsAssignable(definition.ItemType);
 				if (assignable)
+				{
 					currentDefinition.AddAllowedChild(definition);
+				}
 			}
 		}
 	}

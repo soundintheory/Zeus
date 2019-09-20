@@ -38,6 +38,7 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 			var shoppingBasket = GetShoppingBasket();
 			IEnumerable<SelectListItem> deliveryMethods = null;
 			if (CurrentShop.DeliveryMethods != null)
+			{
 				deliveryMethods = CurrentShop.DeliveryMethods.GetChildren<DeliveryMethod>()
 					.Select(dm => new SelectListItem
 					{
@@ -45,6 +46,8 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 						Value = dm.ID.ToString(),
 						Selected = (dm == shoppingBasket.DeliveryMethod)
 					});
+			}
+
 			return View(new ShoppingBasketPageViewModel(CurrentItem, GetShoppingBasket(), deliveryMethods, CurrentShop.CheckoutPage));
 		}
 
@@ -84,7 +87,9 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 
 			// Validate that there are items in the shopping basket.
 			if (!GetShoppingBasket().Items.Any())
+			{
 				return RedirectToParentPage();
+			}
 
 			return Redirect(CurrentShop.CheckoutPage.Url);
 		}

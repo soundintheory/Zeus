@@ -14,7 +14,9 @@ namespace Zeus.AddIns.ECommerce.Admin.Plugins.ManageOrders
 		protected override void OnLoad(EventArgs e)
 		{
 			if (!IsPostBack)
+			{
 				ReBind();
+			}
 
 			base.OnLoad(e);
 		}

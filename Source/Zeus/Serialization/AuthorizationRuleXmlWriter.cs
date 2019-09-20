@@ -10,8 +10,12 @@ namespace Zeus.Serialization
 			using (new ElementWriter("authorizationRules", writer))
 			{
 				if (item.AuthorizationRules != null)
+				{
 					foreach (var ar in item.AuthorizationRules)
+					{
 						WriteRule(writer, ar);
+					}
+				}
 			}
 		}
 

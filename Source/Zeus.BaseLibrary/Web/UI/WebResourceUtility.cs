@@ -10,9 +10,14 @@ namespace Zeus.BaseLibrary.Web.UI
 		{
 			ClientScriptManager csm;
 			if (HttpContext.Current != null && HttpContext.Current.Handler is Page)
+			{
 				csm = ((Page) HttpContext.Current.Handler).ClientScript;
+			}
 			else
+			{
 				csm = new Page().ClientScript;
+			}
+
 			return csm.GetWebResourceUrl(type, resourceName);
 		}
 	}

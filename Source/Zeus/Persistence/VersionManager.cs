@@ -53,7 +53,10 @@ namespace Zeus.Persistence
 		{
 			var args = new CancelItemEventArgs(item);
 			if (ItemSavingVersion != null)
+			{
 				ItemSavingVersion.Invoke(this, args);
+			}
+
 			if (!args.Cancel)
 			{
 				item = args.AffectedItem;
@@ -65,13 +68,21 @@ namespace Zeus.Persistence
 				oldVersion.TranslationOf = null;
 				oldVersion.VersionOf = item;
 				if (item.Parent != null)
+				{
 					oldVersion["ParentID"] = item.Parent.ID;
+				}
+
 				if (item.TranslationOf != null)
+				{
 					oldVersion["TranslationOfID"] = item.TranslationOf.ID;
+				}
+
 				_itemRepository.SaveOrUpdate(oldVersion);
 
 				if (ItemSavedVersion != null)
+				{
 					ItemSavedVersion.Invoke(this, new ItemEventArgs(oldVersion));
+				}
 
 				return oldVersion;
 			}
@@ -86,7 +97,10 @@ namespace Zeus.Persistence
 		{
 			var args = new CancelDestinationEventArgs(currentItem, replacementItem);
 			if (ItemReplacingVersion != null)
+			{
 				ItemReplacingVersion.Invoke(this, args);
+			}
+
 			if (!args.Cancel)
 			{
 				currentItem = args.AffectedItem;
@@ -103,9 +117,14 @@ namespace Zeus.Persistence
 					_itemRepository.Update(currentItem);
 
 					if (ItemReplacedVersion != null)
+					{
 						ItemReplacedVersion.Invoke(this, new ItemEventArgs(replacementItem));
+					}
+
 					if (replacementItem.VersionOf == currentItem)
+					{
 						_itemRepository.Delete(replacementItem);
+					}
 
 					_itemRepository.Flush();
 					transaction.Commit();
@@ -123,26 +142,39 @@ namespace Zeus.Persistence
 			for (var t = currentItem.GetType(); t.BaseType != null; t = t.BaseType)
 			{
 				foreach (var pi in t.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
+				{
 					if (pi.GetCustomAttributes(typeof(CopyAttribute), true).Length > 0)
+					{
 						pi.SetValue(currentItem, pi.GetValue(replacementItem, null), null);
+					}
+				}
 
 				foreach (var fi in t.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
 				{
 					if (fi.GetCustomAttributes(typeof(CopyAttribute), true).Length > 0)
+					{
 						fi.SetValue(currentItem, fi.GetValue(replacementItem));
+					}
+
 					if (fi.Name == "_url")
+					{
 						fi.SetValue(currentItem, null);
+					}
 				}
 			}
 
 			foreach (var detail in replacementItem.Details.Values)
+			{
 				currentItem[detail.Name] = detail.Value;
+			}
 
 			foreach (var collection in replacementItem.DetailCollections.Values)
 			{
 				var newCollection = currentItem.GetDetailCollection(collection.Name, true);
 				foreach (var detail in collection.Details)
+				{
 					newCollection.Add(detail.Value);
+				}
 			}
 		}
 
@@ -150,7 +182,10 @@ namespace Zeus.Persistence
 		{
 			item.Details.Clear();
 			foreach (var collection in item.DetailCollections.Values)
+			{
 				collection.Details.Clear();
+			}
+
 			item.DetailCollections.Clear();
 		}
 
@@ -162,7 +197,9 @@ namespace Zeus.Persistence
 		public IList<ContentItem> GetVersionsOf(ContentItem publishedItem)
 		{
 			if (publishedItem.ID == 0)
+			{
 				return new List<ContentItem>();
+			}
 
 			return GetVersionsQuery(publishedItem)
 				.ToList();

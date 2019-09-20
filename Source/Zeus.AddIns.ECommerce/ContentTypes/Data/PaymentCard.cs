@@ -79,8 +79,11 @@ namespace Zeus.AddIns.ECommerce.ContentTypes.Data
 			get
 			{
 				if (StartMonth != null && StartYear != null)
+				{
 					// Sets the date to the first day of the month.
 					return new DateTime(StartYear.Value, StartMonth.Value, 1);
+				}
+
 				return null;
 			}
 		}

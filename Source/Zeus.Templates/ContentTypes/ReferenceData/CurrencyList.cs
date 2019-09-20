@@ -35,7 +35,9 @@ namespace Zeus.Templates.ContentTypes.ReferenceData
 			Children.Add(new Currency("Euro", "EUR", "€"));
 
 			foreach (Currency currency in Children)
+			{
 				currency.Parent = this;
+			}
 		}
 
 		#endregion

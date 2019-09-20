@@ -24,8 +24,13 @@ namespace Zeus.ContentProperties
 		{
 			var underlyingType = type.GetTypeOrUnderlyingType();
 			foreach (var propertyDataTypeAttribute in _propertyDataTypes)
+			{
 				if (propertyDataTypeAttribute.IsDefaultPropertyDataTypeForType(underlyingType))
+				{
 					return propertyDataTypeAttribute.ContextType;
+				}
+			}
+
 			return null;
 		}
 

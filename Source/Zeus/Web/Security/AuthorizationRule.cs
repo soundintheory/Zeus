@@ -38,21 +38,31 @@ namespace Zeus.Web.Security
 		{
 			var num = (Action == AuthorizationRuleAction.Allow) ? 1 : -1;
 			if (Everyone)
+			{
 				return num;
+			}
 
 			if (FindVerb(verb))
 			{
 				if (AllUsersSpecified)
+				{
 					return num;
+				}
 
 				if (AnonUserSpecified && !user.Identity.IsAuthenticated)
+				{
 					return num;
+				}
 
 				if (Users.Any(u => u == user.Identity.Name))
+				{
 					return num;
+				}
 
 				if (Roles.Any(r => user.IsInRole(r)))
+				{
 					return num;
+				}
 			}
 
 			return 0;
@@ -61,7 +71,9 @@ namespace Zeus.Web.Security
 		private bool FindVerb(string verb)
 		{
 			if (Verbs.Count < 1)
+			{
 				return true;
+			}
 
 			return Verbs.Any(v => string.Equals(v, verb, StringComparison.OrdinalIgnoreCase));
 		}

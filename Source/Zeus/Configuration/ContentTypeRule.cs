@@ -24,13 +24,20 @@ namespace Zeus.Configuration
 		{
 			var num = (Action == ContentTypeRuleAction.Allow) ? 1 : -1;
 			if (AllSpecified)
+			{
 				return num;
+			}
 
 			var type = System.Type.GetType(Type);
 			if (type == null)
+			{
 				throw new ArgumentException("Could not load type: '" + Type + "'", "Type");
+			}
+
 			if (type.IsAssignableFrom(contentType.ItemType))
+			{
 				return num;
+			}
 
 			return 0;
 		}

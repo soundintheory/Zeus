@@ -10,8 +10,10 @@ namespace Zeus.Web.UI
 		{
 			var container = FindParent<IContentItemContainer>(control.Parent);
 			if (container != null)
+			{
 				return container.CurrentItem;
-			
+			}
+
 			return null;
 		}
 
@@ -19,7 +21,9 @@ namespace Zeus.Web.UI
 		{
 			var container = FindParent<IEditableObjectEditor>(control.Parent);
 			if (container != null)
+			{
 				return container.CurrentItem;
+			}
 
 			return null;
 		}
@@ -28,9 +32,13 @@ namespace Zeus.Web.UI
 			where T : class
 		{
 			if (control == null || control is T)
+			{
 				return control as T;
+			}
 			else
+			{
 				return FindParent<T>(control.Parent);
+			}
 		}
 	}
 }

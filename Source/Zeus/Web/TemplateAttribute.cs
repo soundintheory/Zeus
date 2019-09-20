@@ -79,17 +79,23 @@ namespace Zeus.Web
 			var newTemplateUrl = GetTemplateUrl(item);
 
 			if (string.IsNullOrEmpty(remainingUrl))
+			{
 				return new PathData(item, newTemplateUrl);
+			}
 
 			if (remainingUrl.Equals(action, StringComparison.InvariantCultureIgnoreCase) || remainingUrl.Equals(action + item.Extension))
+			{
 				return new PathData(item, newTemplateUrl, action, string.Empty) { SslSecured = SslSecured };
+			}
 
 			if (remainingUrl.StartsWith(nameWithSlash))
 			{
 				var extension = item.Extension;
 				var arguments = remainingUrl.Substring(nameLength + 1);
 				if (arguments.EndsWith(extension, StringComparison.InvariantCultureIgnoreCase))
+				{
 					arguments = arguments.Substring(0, arguments.Length - extension.Length);
+				}
 
 				return new PathData(item, newTemplateUrl, action, arguments) { SslSecured = SslSecured };
 			}

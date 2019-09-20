@@ -14,7 +14,9 @@ namespace Zeus.Admin.Plugins.Globalization.DeleteLanguage
 		{
 			// Disable, if there are no translations of the original item.
 			if (!Context.Current.LanguageManager.GetTranslationsOf(contentItem.TranslationOf ?? contentItem, false).Any())
+			{
 				return false;
+			}
 
 			return base.IsEnabled(contentItem);
 		}

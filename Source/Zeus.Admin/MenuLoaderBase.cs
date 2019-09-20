@@ -19,7 +19,9 @@ namespace Zeus.Admin
                 //use abs value due to placement folders needing to use negative value of their parent so sorting will work, also the folders needed unique IDs, so used 100000 as increment
                 var nodeID = Convert.ToInt32(nodeId);
                 if (nodeID < 0)
-                    nodeID = -1 * (nodeID % 100000);
+				{
+					nodeID = -1 * (nodeID % 100000);
+				}
 
 				var selectedItem = Context.Persister.Get(Math.Abs(Convert.ToInt32(nodeId)));
 
@@ -37,7 +39,9 @@ namespace Zeus.Admin
 		private static object GetObjectForJsonSerialization(Component baseMenuItem)
 		{
 			if (baseMenuItem is MenuSeparator)
+			{
 				return "-";
+			}
 
 			if (baseMenuItem is MenuItem)
 			{
@@ -71,7 +75,9 @@ namespace Zeus.Admin
 		private static string GetMenuItemText(MenuItem menuItem)
 		{
 			if (menuItem.ControlStyle.Font.Bold)
+			{
 				return "<b>" + menuItem.Text + "</b>";
+			}
 
 			return menuItem.Text;
 		}
@@ -88,14 +94,18 @@ namespace Zeus.Admin
 					if (IsApplicable(plugin, currentItem))
 					{
 						if (first)
+						{
 							result.Add(new MenuSeparator());
+						}
 
 						var menuItem = GetMenuItem(plugin, currentItem);
 						menuItem.Enabled = IsEnabled(plugin, currentItem);
 
 						// Check if this is the default plugin for this content item.
 						if (IsDefault(plugin, currentItem))
+						{
 							menuItem.ControlStyle.Font.Bold = true;
+						}
 
 						result.Add(menuItem);
 
@@ -103,7 +113,9 @@ namespace Zeus.Admin
 					}
 				}
 				if (result.Any())
+				{
 					first = true;
+				}
 			}
 
 			return result;

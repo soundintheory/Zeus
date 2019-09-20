@@ -35,7 +35,9 @@ namespace Zeus.Admin.Plugins.ManageZones
 		public override bool IsApplicable(ContentItem contentItem)
 		{
 			if (!contentItem.IsPage)
+			{
 				return false;
+			}
 
 			return base.IsApplicable(contentItem);
 		}
@@ -44,7 +46,9 @@ namespace Zeus.Admin.Plugins.ManageZones
 		{
 			var definition = Context.ContentTypes.GetContentType(contentItem.GetType());
 			if (!definition.AvailableZones.Any())
+			{
 				return false;
+			}
 
 			return base.IsEnabled(contentItem);
 		}

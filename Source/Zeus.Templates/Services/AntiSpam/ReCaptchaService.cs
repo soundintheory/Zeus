@@ -80,7 +80,9 @@ namespace Zeus.Templates.Services.AntiSpam
 
 				error = null;
 				if (success)
+				{
 					return true;
+				}
 
 				// Line 2 - If Line 1 is false, then this string will be an error code.
 				// reCAPTCHA can display the error to the user (through the error parameter

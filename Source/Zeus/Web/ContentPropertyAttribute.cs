@@ -49,12 +49,16 @@ namespace Zeus
 		{
 			// If type has been set explicitly, use that.
 			if (_propertyDataType != null)
+			{
 				return _propertyDataType;
+			}
 
 			// For underlying property type "string", return typeof(StringProperty), etc.
 			var propertyDataType = Context.Current.Resolve<IContentPropertyManager>().GetDefaultPropertyDataType(UnderlyingProperty.PropertyType);
 			if (propertyDataType != null)
+			{
 				return propertyDataType;
+			}
 
 			throw new ZeusException("No default PropertyData type is registered for property type '" + UnderlyingProperty.PropertyType + "'");
 		}

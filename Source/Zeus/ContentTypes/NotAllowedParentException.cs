@@ -14,16 +14,30 @@ namespace Zeus.ContentTypes
 			ParentType = parentType;
 		}
 
+		public NotAllowedParentException(string message) : base(message)
+		{
+		}
+
+		public NotAllowedParentException(string messageFormat, params object[] args) : base(messageFormat, args)
+		{
+		}
+
+		public NotAllowedParentException(string message, Exception innerException) : base(message, innerException)
+		{
+		}
+
+		public NotAllowedParentException() : base()
+		{
+		}
+
 		public ContentType ContentType
 		{
 			get;
-			private set;
 		}
 
 		public Type ParentType
 		{
 			get;
-			private set;
 		}
 	}
 }

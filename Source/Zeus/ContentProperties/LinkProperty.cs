@@ -29,9 +29,13 @@ namespace Zeus.ContentProperties
 			{
 				_linkedItem = value;
 				if (value != null)
+				{
 					LinkValue = value.ID;
+				}
 				else
+				{
 					LinkValue = null;
+				}
 			}
 		}
 

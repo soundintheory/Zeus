@@ -21,7 +21,9 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageSettings
 				chkInheritSettings.Checked = !SelectedItem.LanguageSettings.Any();
 				chkInheritSettings.Visible = (SelectedItem.Parent != null);
 				if (SelectedItem.Parent != null)
+				{
 					chkInheritSettings.Text = " Inherit settings from parent: '" + SelectedItem.Parent.Title + "'";
+				}
 			}
 
 			hlCancel.NavigateUrl = CancelUrl();
@@ -49,7 +51,9 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageSettings
 		{
 			var availableLanguages = Engine.Resolve<ILanguageManager>().GetAvailableLanguages();
 			foreach (var language in availableLanguages)
+			{
 				CreateRow(language, availableLanguages);
+			}
 		}
 
 		private void CreateRow(Language language, IEnumerable<Language> availableLanguages)
@@ -60,10 +64,16 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageSettings
 			var ddl = new DropDownList { ID = "ddlFallbackLanguage" + language.ID, Width = Unit.Pixel(200) };
 			ddl.Items.Add(string.Empty);
 			foreach (var availableLanguage in availableLanguages.Where(l => l != language))
+			{
 				ddl.Items.Add(new ListItem(availableLanguage.Title, availableLanguage.Name));
+			}
+
 			var languageSetting = SelectedItem.LanguageSettings.SingleOrDefault(ls => ls.Language == language.Name);
 			if (languageSetting != null && !string.IsNullOrEmpty(languageSetting.FallbackLanguage))
+			{
 				ddl.SelectedValue = languageSetting.FallbackLanguage;
+			}
+
 			var cell = new TableCell();
 			cell.Controls.Add(ddl);
 			row.Cells.Add(cell);

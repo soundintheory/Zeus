@@ -18,7 +18,9 @@ namespace Zeus.Web.UI.WebControls
 		public override object[] GetCustomAttributes(Type attributeType, bool inherit)
 		{
 			if (attributeType == typeof(TemplateContainerAttribute))
+			{
 				return new Attribute[] { new TemplateContainerAttribute(_templateContainerType) };
+			}
 
 			return base.GetCustomAttributes(attributeType, inherit);
 		}

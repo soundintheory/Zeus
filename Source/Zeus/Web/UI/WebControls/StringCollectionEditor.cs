@@ -22,7 +22,10 @@ namespace Zeus.Web.UI.WebControls
 
 			var txt = new TextBox { CssClass = "linkedItem", ID = ID + "_txt_" + id };
 			if (stringProperty != null)
+			{
 				txt.Text = stringProperty.StringValue;
+			}
+
 			return txt;
 		}
 	}

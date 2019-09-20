@@ -88,17 +88,26 @@ namespace Zeus.Security
 		public bool IsAuthorized(IPrincipal user, string operation)
 		{
 			if (!Allowed)
+			{
 				return false;
+			}
 
 			if (IsEveryone && (operation == null || operation == Operation))
+			{
 				return true;
+			}
 
 			if (user != null && (operation == null || operation == Operation))
 			{
 				if (user.IsInRole(Role))
+				{
 					return true;
+				}
+
 				if (user.Identity.Name == User)
+				{
 					return true;
+				}
 			}
 
 			return false;

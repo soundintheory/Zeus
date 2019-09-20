@@ -53,11 +53,21 @@ namespace Zeus.BaseLibrary.Reflection
 
 		private static MethodInfo GetMethodInfo(Expression method)
 		{
-			if (method == null) throw new ArgumentNullException("method");
+			if (method == null)
+			{
+				throw new ArgumentNullException(nameof(method));
+			}
 
 			var lambda = method as LambdaExpression;
-			if (lambda == null) throw new ArgumentException("Not a lambda expression", "method");
-			if (lambda.Body.NodeType != ExpressionType.Call) throw new ArgumentException("Not a method call", "method");
+			if (lambda == null)
+			{
+				throw new ArgumentException("Not a lambda expression", nameof(method));
+			}
+
+			if (lambda.Body.NodeType != ExpressionType.Call)
+			{
+				throw new ArgumentException("Not a method call", nameof(method));
+			}
 
 			return ((MethodCallExpression) lambda.Body).Method;
 		}
@@ -70,7 +80,10 @@ namespace Zeus.BaseLibrary.Reflection
 		public static PropertyInfo GetProperty(Expression<Func<TTarget, object>> property)
 		{
 			var info = GetMemberInfo(property) as PropertyInfo;
-			if (info == null) throw new ArgumentException("Member is not a property");
+			if (info == null)
+			{
+				throw new ArgumentException("Member is not a property");
+			}
 
 			return info;
 		}
@@ -83,17 +96,26 @@ namespace Zeus.BaseLibrary.Reflection
 		public static FieldInfo GetField(Expression<Func<TTarget, object>> field)
 		{
 			var info = GetMemberInfo(field) as FieldInfo;
-			if (info == null) throw new ArgumentException("Member is not a field");
+			if (info == null)
+			{
+				throw new ArgumentException("Member is not a field");
+			}
 
 			return info;
 		}
 
 		private static MemberInfo GetMemberInfo(Expression member)
 		{
-			if (member == null) throw new ArgumentNullException("member");
+			if (member == null)
+			{
+				throw new ArgumentNullException(nameof(member));
+			}
 
 			var lambda = member as LambdaExpression;
-			if (lambda == null) throw new ArgumentException("Not a lambda expression", "member");
+			if (lambda == null)
+			{
+				throw new ArgumentException("Not a lambda expression", nameof(member));
+			}
 
 			MemberExpression memberExpr = null;
 
@@ -110,7 +132,10 @@ namespace Zeus.BaseLibrary.Reflection
 				memberExpr = lambda.Body as MemberExpression;
 			}
 
-			if (memberExpr == null) throw new ArgumentException("Not a member access", "member");
+			if (memberExpr == null)
+			{
+				throw new ArgumentException("Not a member access", nameof(member));
+			}
 
 			return memberExpr.Member;
 		}

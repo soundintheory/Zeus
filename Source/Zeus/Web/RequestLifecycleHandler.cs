@@ -74,9 +74,14 @@ namespace Zeus.Web
 				if (webContext.IsWeb)
 				{
 					if (Url.ServerUrl == null)
+					{
 						Url.ServerUrl = webContext.Url.HostUrl;
+					}
+
 					if (checkInstallation)
+					{
 						CheckInstallation();
+					}
 				}
 			}
 
@@ -100,7 +105,10 @@ namespace Zeus.Web
 		/// <summary>Infuses the http handler (usually an aspx page) with the content page associated with the url if it implements the <see cref="IContentTemplate"/> interface.</summary>
 		protected virtual void Application_AcquireRequestState(object sender, EventArgs e)
 		{
-			if (webContext.CurrentPath == null || webContext.CurrentPath.IsEmpty()) return;
+			if (webContext.CurrentPath == null || webContext.CurrentPath.IsEmpty())
+			{
+				return;
+			}
 
 			var controller = dispatcher.ResolveAdapter<RequestAdapter>();
 			controller.InjectCurrentPage(webContext.Handler);
@@ -108,7 +116,10 @@ namespace Zeus.Web
 
 		protected virtual void Application_AuthorizeRequest(object sender, EventArgs e)
 		{
-			if (webContext.CurrentPath == null || webContext.CurrentPath.IsEmpty()) return;
+			if (webContext.CurrentPath == null || webContext.CurrentPath.IsEmpty())
+			{
+				return;
+			}
 
 			var controller = dispatcher.ResolveAdapter<RequestAdapter>();
 			controller.AuthorizeRequest(webContext.User);

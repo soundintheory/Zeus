@@ -40,7 +40,10 @@ namespace Zeus.ContentProperties
 			set
 			{
 				if (Blob == null)
+				{
 					Blob = new ObjectPropertyDataBlob();
+				}
+
 				Blob.Blob = value;
 			}
 		}

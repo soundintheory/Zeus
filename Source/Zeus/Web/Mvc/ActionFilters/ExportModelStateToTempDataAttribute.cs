@@ -11,7 +11,9 @@ namespace Zeus.Web.Mvc.ActionFilters
 			{
 				//Export if we are redirecting
 				if ((filterContext.Result is RedirectResult) || (filterContext.Result is RedirectToRouteResult))
+				{
 					filterContext.Controller.TempData[Key] = filterContext.Controller.ViewData.ModelState;
+				}
 			}
 
 			base.OnActionExecuted(filterContext);

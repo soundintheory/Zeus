@@ -33,7 +33,10 @@ namespace Zeus.Design.Editors
 		protected override object GetValue(ListControl ddl)
 		{
 			if (!string.IsNullOrEmpty(ddl.SelectedValue))
+			{
 				return Context.Current.Persister.Get(Convert.ToInt32(ddl.SelectedValue));
+			}
+
 			return null;
 		}
 
@@ -41,7 +44,10 @@ namespace Zeus.Design.Editors
 		{
 			var linkedItem = (ContentItem) item[Name];
 			if (linkedItem != null)
+			{
 				return linkedItem.ID.ToString();
+			}
+
 			return string.Empty;
 		}
 
@@ -88,7 +94,10 @@ namespace Zeus.Design.Editors
             }
             IEnumerable<ContentItem> itemList = itemsAsEnum.ToList().Where(i => !string.IsNullOrEmpty(i.Title)).ToList();
 			if (ExcludeSelf)
+			{
 				itemList = itemList.Where(i => i != item);
+			}
+
 			return itemList
 				.OrderBy(i => i.HierarchicalTitle)
                 .Select(i => new ListItem { Value = i.ID.ToString(), Text = UseNonHiearchicalTitle ? i.Title : i.HierarchicalTitle })

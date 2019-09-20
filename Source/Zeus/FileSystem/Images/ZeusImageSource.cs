@@ -36,7 +36,10 @@ namespace Zeus.FileSystem.Images
 				catch (DynamicImageException ex)
 				{
 					if (ThrowExceptionOnFormatError)
+					{
 						throw new ZeusException("Could not load image from file with file extension '" + image.FileExtension + "' and content type '" + image.ContentType + "'", ex);
+					}
+
 					return null;
 				}
 			}

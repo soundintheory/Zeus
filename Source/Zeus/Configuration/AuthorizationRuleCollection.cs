@@ -20,7 +20,10 @@ namespace Zeus.Configuration
 				if (!(str == "allow"))
 				{
 					if (str == "deny")
+					{
 						rule.Action = Zeus.Configuration.AuthorizationRuleAction.Deny;
+					}
+
 					return rule;
 				}
 				rule.Action = Zeus.Configuration.AuthorizationRuleAction.Allow;
@@ -39,7 +42,10 @@ namespace Zeus.Configuration
 			string str;
 			var flag = false;
 			if (((str = elementname.ToLower(CultureInfo.InvariantCulture)) == null) || (!(str == "allow") && !(str == "deny")))
+			{
 				return flag;
+			}
+
 			return true;
 		}
 

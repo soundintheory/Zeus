@@ -31,12 +31,16 @@ namespace Zeus.Web
 		public override ContentItem Parse(string url)
 		{
 			if (url.StartsWith("/") || url.StartsWith("~/"))
+			{
 				return base.Parse(url);
+			}
 
 			var site = Host.GetSite(url);
 			if (site != null)
+			{
 				return TryLoadingFromQueryString(url, PathData.ItemQueryKey, PathData.PageQueryKey)
 					?? Parse(Persister.Get(site.StartPageID), Url.Parse(url).PathAndQuery);
+			}
 
 			return TryLoadingFromQueryString(url, PathData.ItemQueryKey, PathData.PageQueryKey);
 		}
@@ -49,7 +53,10 @@ namespace Zeus.Web
 		protected override ContentItem GetStartPage(Url url)
 		{
 			if (!url.IsAbsolute)
+			{
 				return StartPage;
+			}
+
 			var site = Host.GetSite(url) ?? Host.CurrentSite;
 			return Persister.Get(site.StartPageID);
 		}
@@ -70,8 +77,12 @@ namespace Zeus.Web
 
 				// find the start page and use it's host name
 				foreach (var site in Host.Sites)
+				{
 					if (startPage.ID == site.StartPageID)
+					{
 						return GetHostedUrl(item, url, site);
+					}
+				}
 			}
 
 			return url;
@@ -81,7 +92,9 @@ namespace Zeus.Web
 		{
 			var hostName = site.GetHostName(item.Language);
 			if (string.IsNullOrEmpty(hostName))
+			{
 				return item.FindPath(PathData.DefaultAction).RewrittenUrl;
+			}
 
 			return Url.Parse(url).SetAuthority(hostName);
 		}
@@ -89,8 +102,13 @@ namespace Zeus.Web
 		protected override bool IsStartPage(ContentItem item)
 		{
 			foreach (var site in Host.Sites)
+			{
 				if (IsStartPage(item, site))
+				{
 					return true;
+				}
+			}
+
 			return base.IsStartPage(item);
 		}
 	}

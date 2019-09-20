@@ -72,19 +72,26 @@ namespace Zeus.Security
 			var item = _webContext.CurrentPage;
 
 			if (item == null)
+			{
 				return;
+			}
 
 			if (_security.IsAuthorized(item, _webContext.User, Operations.Read))
+			{
 				return;
+			}
 
 			var args = new CancelItemEventArgs(item);
 			if (AuthorizationFailed != null)
+			{
 				AuthorizationFailed.Invoke(this, args);
+			}
 
 			if (!args.Cancel)
+			{
 				//throw new PermissionDeniedException(item, webContext.User);
 				throw new UnauthorizedAccessException();
-
+			}
 		}
 
 		/// <summary>Is invoked when an item is saved.</summary>
@@ -92,12 +99,19 @@ namespace Zeus.Security
 		protected virtual void OnItemSaving(ContentItem item)
 		{
 			if (!_security.IsAuthorized(item, _webContext.User, Operations.Change))
+			{
 				throw new PermissionDeniedException(item, _webContext.User, Operations.Change);
+			}
+
 			var user = _webContext.User;
 			if (user != null)
+			{
 				item.SavedBy = user.Identity.Name;
+			}
 			else
+			{
 				item.SavedBy = null;
+			}
 		}
 
 		/// <summary>Is Invoked when an item is moved.</summary>
@@ -106,7 +120,9 @@ namespace Zeus.Security
 		protected virtual void OnItemMoving(ContentItem source, ContentItem destination)
 		{
 			if (!_security.IsAuthorized(source, _webContext.User, Operations.Read) || !_security.IsAuthorized(destination, _webContext.User, Operations.Create))
+			{
 				throw new PermissionDeniedException(source, _webContext.User, Operations.Create);
+			}
 		}
 
 		/// <summary>Is invoked when an item is to be deleted.</summary>
@@ -115,7 +131,9 @@ namespace Zeus.Security
 		{
 			var user = _webContext.User;
 			if (!_security.IsAuthorized(item, user, Operations.Delete))
+			{
 				throw new PermissionDeniedException(item, user, Operations.Delete);
+			}
 		}
 
 		/// <summary>Is invoked when an item is to be copied.</summary>
@@ -124,7 +142,9 @@ namespace Zeus.Security
 		protected virtual void OnItemCopying(ContentItem source, ContentItem destination)
 		{
 			if (!_security.IsAuthorized(source, _webContext.User, Operations.Read) || !_security.IsAuthorized(destination, _webContext.User, Operations.Create))
+			{
 				throw new PermissionDeniedException(source, _webContext.User, Operations.Create);
+			}
 		}
 		#endregion
 

@@ -46,7 +46,10 @@ namespace Zeus.Web.UI.WebControls
 			var contentItems = first.ToArray().Cast<ContentItem>();
 			ddl.Items.AddRange(contentItems.Select(ci => new ListItem(ci.Title, ci.ID.ToString())).ToArray());
 			if (linkDetail != null && linkDetail.LinkValue != null)
+			{
 				ddl.SelectedValue = linkDetail.LinkValue.Value.ToString();
+			}
+
 			return ddl;
 		}
 	}

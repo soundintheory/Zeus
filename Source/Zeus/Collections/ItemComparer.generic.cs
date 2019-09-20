@@ -26,7 +26,9 @@ namespace Zeus.Collections
 			var pair = sortExpression.Split(' ');
 			DetailToCompare = pair[0];
 			if (pair.Length > 1 && string.Compare(pair[1], "DESC", true) == 0)
+			{
 				Inverse = true;
+			}
 		}
 
 		/// <summary>Creates a new instance of the ItemComparer that sorts using sort property and direction.</summary>
@@ -53,9 +55,13 @@ namespace Zeus.Collections
 			var ox = x[detailToCompare];
 			var oy = y[detailToCompare];
 			if (inverse)
+			{
 				return System.Collections.Comparer.Default.Compare(oy, ox);
+			}
 			else
+			{
 				return System.Collections.Comparer.Default.Compare(ox, oy);
+			}
 		}
 
 		#endregion
@@ -69,7 +75,10 @@ namespace Zeus.Collections
 		public int Compare(object x, object y)
 		{
 			if (x is T && y is T)
+			{
 				return Compare((T) x, (T) y);
+			}
+
 			return 0;
 		}
 

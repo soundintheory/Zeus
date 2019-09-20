@@ -117,9 +117,15 @@ namespace Zeus.Web.UI.WebControls
 			tinyMce.Settings.ConvertUrls = true;
 			tinyMce.Settings.BodyID = RootHtmlElementID;
 			if (!string.IsNullOrEmpty(CustomCssUrl))
+			{
 				tinyMce.Settings.ContentCss = CustomCssUrl;
+			}
+
 			if (!string.IsNullOrEmpty(CustomStyleList))
+			{
 				tinyMce.Settings.ThemeAdvancedStyles = CustomStyleList;
+			}
+
 			tinyMce.Width = 600;
 			tinyMce.Height = 400;
 			tinyMce.ReadOnly = ReadOnly;

@@ -51,7 +51,9 @@ namespace Zeus.Web.Hosting
 			// First, take assembly name off the front.
 			var assemblyName = resourceAssembly.GetName().Name;
 			if (!resourcePath.StartsWith(assemblyName))
-				throw new ArgumentException(string.Format("Resource path '{0}' must start with assembly name '{1}'.", resourcePath, assemblyName), "resourcePath");
+			{
+				throw new ArgumentException(string.Format("Resource path '{0}' must start with assembly name '{1}'.", resourcePath, assemblyName), nameof(resourcePath));
+			}
 
 			var relativePath = resourcePath.Substring(assemblyName.Length + 1);
 			if (relativePath.EndsWith(".aspx"))
@@ -71,24 +73,41 @@ namespace Zeus.Web.Hosting
 
 			// Always deal with lower-case URLs for aspx pages.
 			if (testUrl.Extension == ".aspx")
+			{
 				testUrl = testUrl.ToString().ToLower();
+			}
 
 			// First check if we already have a virtual file cached.
 			if (_files.ContainsKey(testUrl))
+			{
 				return _files[testUrl];
+			}
 
 			// Grab the first segment of the path. This will be the assembly prefix.
 			var assemblyPathPrefix = testUrl.SegmentAtIndex(0);
 			if (string.IsNullOrEmpty(assemblyPathPrefix))
+			{
 				if (throwOnError)
-					throw new ArgumentException("URL does not contain an assembly path prefix", "url");
+				{
+					throw new ArgumentException("URL does not contain an assembly path prefix", nameof(url));
+				}
 				else
+				{
 					return null;
+				}
+			}
+
 			if (!_assemblyPathPrefixes.ContainsKey(assemblyPathPrefix))
+			{
 				if (throwOnError)
-					throw new ArgumentException("URL does not contain a valid assembly path prefix", "url");
+				{
+					throw new ArgumentException("URL does not contain a valid assembly path prefix", nameof(url));
+				}
 				else
+				{
 					return null;
+				}
+			}
 
 			var assembly = _assemblyPathPrefixes[assemblyPathPrefix];
 
@@ -109,10 +128,14 @@ namespace Zeus.Web.Hosting
 			if (assembly.GetManifestResourceStream(virtualFile.ResourcePath) == null)
             {
                 if (throwOnError)
-                    throw new ArgumentException(string.Format("Cannot find resource in assembly '{0}' matching resource path '{1}'.", assembly, virtualFile.ResourcePath));
-                else
-                    return null;
-            }
+				{
+					throw new ArgumentException(string.Format("Cannot find resource in assembly '{0}' matching resource path '{1}'.", assembly, virtualFile.ResourcePath));
+				}
+				else
+				{
+					return null;
+				}
+			}
 
 			return virtualFile;
 		}

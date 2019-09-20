@@ -17,11 +17,18 @@ namespace Zeus.Integrity
 		protected virtual bool IsAssignable(Type type)
 		{
 			if (Types == null)
+			{
 				return false;
+			}
 
 			foreach (var t in Types)
+			{
 				if (t.IsAssignableFrom(type))
+				{
 					return true;
+				}
+			}
+
 			return false;
 		}
 	}

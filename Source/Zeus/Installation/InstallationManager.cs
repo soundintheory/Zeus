@@ -78,10 +78,13 @@ namespace Zeus.Installation
             var rootID = _host.CurrentSite.RootItemID;
             var rootItem = _persister.Get(rootID);
             if (rootItem != null)
-                return string.Format("Root node OK, id: {0}, name: {1}, type: {2}, discriminator: {3}, published: {4} - {5}",
+			{
+				return string.Format("Root node OK, id: {0}, name: {1}, type: {2}, discriminator: {3}, published: {4} - {5}",
                     rootItem.ID, rootItem.Name, rootItem.GetType(),
                     _contentTypeManager.GetContentType(rootItem.GetType()), rootItem.Published, rootItem.Expires);
-            return "No root item found with the id: " + rootID;
+			}
+
+			return "No root item found with the id: " + rootID;
         }
 
         /// <summary>Checks the root node in the database. Throws an exception if there is something really wrong with it.</summary>
@@ -91,10 +94,13 @@ namespace Zeus.Installation
             var startID = _host.CurrentSite.StartPageID;
             var startPage = _persister.Get(startID);
             if (startPage != null)
-                return string.Format("Start page OK, id: {0}, name: {1}, type: {2}, discriminator: {3}, published: {4} - {5}",
+			{
+				return string.Format("Start page OK, id: {0}, name: {1}, type: {2}, discriminator: {3}, published: {4} - {5}",
                     startPage.ID, startPage.Name, startPage.GetType(),
                     _contentTypeManager.GetContentType(startPage.GetType()), startPage.Published, startPage.Expires);
-            return "No start page found with the id: " + startID;
+			}
+
+			return "No start page found with the id: " + startID;
         }
 
         public void CreateAdministratorUser(string username, string password)
@@ -103,8 +109,10 @@ namespace Zeus.Installation
             _credentialService.CreateUser(username, password, string.Empty, new[] { _adminConfig.AdministratorRole },
                 true, out createStatus);
             if (createStatus != UserCreateStatus.Success)
-                throw new ZeusException("Could not create user: " + createStatus);
-        }
+			{
+				throw new ZeusException("Could not create user: " + createStatus);
+			}
+		}
 
         public string CreateDatabase(string server, string name)
         {
@@ -243,11 +251,17 @@ namespace Zeus.Installation
         {
             var configSection = ConfigurationManager.GetSection("zeus/database") as DatabaseSection;
             if (configSection == null)
-                throw new ZeusException("Missing <zeus/database> configuration section");
-            var connectionString = ConfigurationManager.ConnectionStrings[configSection.ConnectionStringName];
+			{
+				throw new ZeusException("Missing <zeus/database> configuration section");
+			}
+
+			var connectionString = ConfigurationManager.ConnectionStrings[configSection.ConnectionStringName];
             if (connectionString == null)
-                throw new ZeusException("Missing connection string '" + configSection.ConnectionStringName + "'");
-            return configSection.ConnectionStringName;
+			{
+				throw new ZeusException("Missing connection string '" + configSection.ConnectionStringName + "'");
+			}
+
+			return configSection.ConnectionStringName;
         }
 
         /*public IDbConnection GetConnection()

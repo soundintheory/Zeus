@@ -107,7 +107,9 @@ namespace Zeus.Admin.RecycleBin
 			item.Name = item.ID.ToString();
 
 			foreach (var child in item.Children)
+			{
 				ExpireTrashedItem(child);
+			}
 		}
 
 		/// <summary>Restores an item to the original location.</summary>
@@ -133,7 +135,9 @@ namespace Zeus.Admin.RecycleBin
 			item["DeletedDate"] = null;
 
 			foreach (var child in item.Children)
+			{
 				RestoreValues(child);
+			}
 		}
 
 		/// <summary>Determines wether an item has been thrown away.</summary>
@@ -149,7 +153,10 @@ namespace Zeus.Admin.RecycleBin
 				where T : ItemEventArgs
 		{
 			if (handler != null && args.AffectedItem.VersionOf == null)
+			{
 				handler.Invoke(this, args);
+			}
+
 			return args;
 		}
 	}

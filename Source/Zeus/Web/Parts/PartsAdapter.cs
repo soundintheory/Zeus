@@ -20,7 +20,9 @@ namespace Zeus.Web.Parts
 		public virtual IEnumerable<WidgetContentItem> GetItemsInZones(ContentItem parentItem, params string[] zoneNames)
 		{
 			if (parentItem == null)
+			{
 				return new List<WidgetContentItem>();
+			}
 
 			return Engine.ContentManager.GetWidgets(parentItem, zoneNames);
 		}
@@ -35,8 +37,12 @@ namespace Zeus.Web.Parts
 			var containerDefinition = Engine.ContentTypes.GetContentType(parentItem.GetType());
 
 			foreach (var childDefinition in containerDefinition.AllowedChildren)
+			{
 				if (childDefinition.IsAllowedInZone(zoneName) && childDefinition.Enabled && childDefinition.IsAuthorized(user))
+				{
 					yield return childDefinition;
+				}
+			}
 		}
 
 		/// <summary>Gets the path to the given item's template. This is a way to override the default template provided by the content item.</summary>

@@ -9,7 +9,10 @@ namespace Zeus.BaseLibrary.Drawing
 		{
 			var result = new Rectangle(points[0], Size.Empty);
 			for (int i = 1, length = points.Length; i < length; ++i)
+			{
 				result = Rectangle.Union(result, new Rectangle(points[i], Size.Empty));
+			}
+
 			return result;
 		}
 
@@ -17,7 +20,10 @@ namespace Zeus.BaseLibrary.Drawing
 		{
 			var result = new RectangleF(points[0], Size.Empty);
 			for (int i = 1, length = points.Length; i < length; ++i)
+			{
 				result = RectangleF.Union(result, new RectangleF(points[i], Size.Empty));
+			}
+
 			return result;
 		}
 	}

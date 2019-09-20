@@ -59,10 +59,14 @@ namespace Zeus.Web.UI.WebControls
 		public void Validate()
 		{
 			if (!HasNewOrChangedFile)
+			{
 				return;
+			}
 
 			if (MinimumWidth == null && MinimumHeight == null)
+			{
 				return;
+			}
 
 			using (var bitmap = new Bitmap(FileUploadEditorAttribute.GetUploadedFilePath(this)))
 			{

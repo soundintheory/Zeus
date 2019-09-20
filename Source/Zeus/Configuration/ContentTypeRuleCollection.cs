@@ -31,7 +31,10 @@ namespace Zeus.Configuration
 				if (str != "allow")
 				{
 					if (str == "deny")
+					{
 						rule.Action = ContentTypeRuleAction.Deny;
+					}
+
 					return rule;
 				}
 				rule.Action = ContentTypeRuleAction.Allow;
@@ -54,15 +57,22 @@ namespace Zeus.Configuration
 		internal bool IsContentTypeAllowed(ContentType contentType)
 		{
 			if (Count == 0)
+			{
 				return true;
+			}
 
 			if (contentType != null)
+			{
 				foreach (ContentTypeRule rule in this)
 				{
 					var num = rule.IsContentTypeAllowed(contentType);
 					if (num != 0)
+					{
 						return (num > 0);
+					}
 				}
+			}
+
 			return false;
 		}
 	}

@@ -13,7 +13,9 @@ namespace Zeus.Serialization
 			using (new ElementWriter("properties", writer))
 			{
 				foreach (var detail in GetDetails(item))
+				{
 					WriteDetail(detail, writer);
+				}
 			}
 		}
 
@@ -43,7 +45,9 @@ namespace Zeus.Serialization
 					var value = ((StringProperty) detail).StringValue;
 
 					if (!string.IsNullOrEmpty(value))
+					{
 						detailElement.WriteCData(value);
+					}
 				}
 				else if (detail.ValueType == typeof(DateTime))
 				{

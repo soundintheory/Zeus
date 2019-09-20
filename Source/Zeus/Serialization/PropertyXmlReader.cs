@@ -13,7 +13,9 @@ namespace Zeus.Serialization
 		public void Read(XPathNavigator navigator, ContentItem item, ReadingJournal journal)
 		{
 			foreach (var detailElement in EnumerateChildren(navigator))
+			{
 				ReadDetail(detailElement, item, journal);
+			}
 		}
 
 		protected virtual void ReadDetail(XPathNavigator navigator, ContentItem item, ReadingJournal journal)
@@ -32,13 +34,19 @@ namespace Zeus.Serialization
 				var referencedItemID = int.Parse(navigator.Value);
 				var referencedItem = journal.Find(referencedItemID);
 				if (referencedItem != null)
+				{
 					item[name] = referencedItem;
+				}
 				else
+				{
 					journal.ItemAdded += (sender, e) =>
         	{
         		if (e.AffectedItem.ID == referencedItemID)
-        			item[name] = e.AffectedItem;
-        	};
+				{
+					item[name] = e.AffectedItem;
+				}
+			};
+				}
 			}
 		}
 	}

@@ -29,7 +29,10 @@ namespace Zeus.Design.Editors
 				// Add new file.
 				File newFile = null;
 				if (existingFileProperty != null)
+				{
 					newFile = existingFileProperty.LinkedItem as File;
+				}
+
 				if (newFile == null)
 				{
 					newFile = CreateNewItem();
@@ -55,7 +58,9 @@ namespace Zeus.Design.Editors
 				newDetail = newFile;
 
 				if (existingFileProperty != null)
+				{
 					HandleUpdatedFile(newFile);
+				}
 			}
 			else
 			{

@@ -19,7 +19,9 @@ namespace Zeus.Web
 			lock (Instance)
 			{
 				if (Instance.ContainsKey(itemType))
+				{
 					return Instance[itemType];
+				}
 
 				return Instance[itemType] = FindFinders(itemType);
 			}

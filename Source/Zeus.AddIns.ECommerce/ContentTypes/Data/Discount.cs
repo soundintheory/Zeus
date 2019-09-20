@@ -76,20 +76,29 @@ namespace Zeus.AddIns.ECommerce.ContentTypes.Data
         public decimal DiscountAmount(decimal sourcePrice)
         {
             if (DiscountIsFlatAmount)
-                return FlatDiscountAmount;
-            else
-                return Math.Round(sourcePrice * ((decimal)PercentageDiscountAmount / (decimal)100), 2);            
-        }
+			{
+				return FlatDiscountAmount;
+			}
+			else
+			{
+				return Math.Round(sourcePrice * ((decimal)PercentageDiscountAmount / (decimal)100), 2);
+			}
+		}
 
         public string DescriptionForAdministrators
         {
             get {
                 var res = "Code was " + CouponCode + " which activated Discount named " + Title;
                 if (DiscountIsFlatAmount)
-                    res += ", a flat discount";
-                else
-                    res += ", a % discount of " + PercentageDiscountAmount + "%";
-                return res;
+				{
+					res += ", a flat discount";
+				}
+				else
+				{
+					res += ", a % discount of " + PercentageDiscountAmount + "%";
+				}
+
+				return res;
             }
 
         }

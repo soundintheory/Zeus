@@ -13,7 +13,9 @@ namespace Zeus.Web.Security
 				{
 					var num = rule.IsUserAllowed(user, verb);
 					if (num != 0)
+					{
 						return (num > 0);
+					}
 				}
 			}
 			return false;

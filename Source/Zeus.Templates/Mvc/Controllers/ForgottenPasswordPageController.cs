@@ -29,7 +29,9 @@ namespace Zeus.Templates.Mvc.Controllers
 		public ActionResult RequestReset(ForgottenPasswordPageRequestResetFormViewModel requestResetForm)
 		{
 			if (!ModelState.IsValid)
+			{
 				return Index();
+			}
 
 			var result = _credentialService.SendPasswordResetEmail(requestResetForm.Username,
 				_webContext.GetFullyQualifiedUrl(new Url(CurrentItem.Url).AppendSegment("reset").AppendQuery("n=")),
@@ -63,7 +65,10 @@ namespace Zeus.Templates.Mvc.Controllers
 			var valid = (_credentialService.CheckPasswordResetRequestValidity(n, out resetRequest) == PasswordResetRequestValidity.Valid);
 
 			if (!valid)
+			{
 				return View("ResetError", new ForgottenPasswordPageResetViewModel(CurrentItem));
+			}
+
 			return View("Reset", new ForgottenPasswordPageResetViewModel(CurrentItem));
 		}
 
@@ -72,7 +77,9 @@ namespace Zeus.Templates.Mvc.Controllers
 		{
 			// Get user record.
 			if (!ModelState.IsValid)
+			{
 				return Reset(n);
+			}
 
 			// Reset password.
 			var result = _credentialService.ResetPassword(n, resetForm.Password);

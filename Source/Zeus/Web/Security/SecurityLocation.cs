@@ -16,13 +16,18 @@ namespace Zeus.Web.Security
 		public SecurityLocation GetChild(string path)
 		{
 			if (string.IsNullOrEmpty(path))
+			{
 				return this;
+			}
 
 			var slashIndex = path.IndexOf('/');
 			if (slashIndex == 0) // starts with slash
 			{
 				if (path.Length == 1)
+				{
 					return this;
+				}
+
 				return GetChild(path.Substring(1));
 			}
 
@@ -30,15 +35,24 @@ namespace Zeus.Web.Security
 			{
 				var nameSegment = path.Substring(0, slashIndex);
 				foreach (var child in ChildLocations)
+				{
 					if (LocationPathMatches(child.Path, path))
+					{
 						return child.GetChild(path.Substring(slashIndex));
+					}
+				}
+
 				return this;
 			}
 
 			// no slash, only a name
 			foreach (var child in ChildLocations)
+			{
 				if (LocationPathMatches(child.Path, path))
+				{
 					return child;
+				}
+			}
 
 			return this;
 		}

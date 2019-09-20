@@ -66,31 +66,41 @@ namespace Zeus.Engine
 		protected void Application_BeginRequest(object sender, EventArgs e)
 		{
             if (BeginRequest != null && !IsStaticResource(sender))
+			{
 				BeginRequest(sender, e);
+			}
 		}
 
 		protected void Application_AcquireRequestState(object sender, EventArgs e)
 		{
 			if (AcquireRequestState != null && !IsStaticResource(sender))
+			{
 				AcquireRequestState(sender, e);
+			}
 		}
 
 		protected void Application_AuthorizeRequest(object sender, EventArgs e)
 		{
 			if (AuthorizeRequest != null && !IsStaticResource(sender))
+			{
 				AuthorizeRequest(sender, e);
+			}
 		}
 
 		protected void Application_Error(object sender, EventArgs e)
 		{
 			if (Error != null && !IsStaticResource(sender))
+			{
 				Error(sender, e);
+			}
 		}
 
 		protected void Application_EndRequest(object sender, EventArgs e)
 		{
 			if (EndRequest != null && !IsStaticResource(sender))
+			{
 				EndRequest(sender, e);
+			}
 		}
 
 		/// <summary>Returns true if the requested resource is one of the typical resources that needn't be processed by the cms engine.</summary>
@@ -115,7 +125,10 @@ namespace Zeus.Engine
 				var path = application.Request.Path;
 				var extension = VirtualPathUtility.GetExtension(path);
 
-				if (extension == null) return false;
+				if (extension == null)
+				{
+					return false;
+				}
 
 				switch (extension.ToLower())
 				{

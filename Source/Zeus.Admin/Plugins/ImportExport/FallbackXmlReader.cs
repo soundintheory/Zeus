@@ -69,9 +69,14 @@ namespace Zeus.Admin.Plugins.ImportExport
 		{
 			navigator.MoveToRoot();
 			if (!navigator.MoveToFirstChild())
+			{
 				throw new InvalidXmlException("Expected node zeus not found");
+			}
+
 			if (!navigator.MoveToFirstChild())
+			{
 				throw new InvalidXmlException("Expected node item not found");
+			}
 		}
 
 		protected virtual ContentItem OnReadingItem(XPathNavigator navigator)
@@ -111,14 +116,22 @@ namespace Zeus.Admin.Plugins.ImportExport
 				var t = Type.GetType(typeName);
 				var d = engine.ContentTypes.GetContentType(t);
 				if (d == null)
+				{
 					throw new ContentTypeNotFoundException("No definition found for type: " + typeName);
+				}
+
 				return d;
 			}
 
 			var discriminator = attributes["discriminator"];
 			foreach (var d in engine.ContentTypes.GetContentTypes())
+			{
 				if (d.Discriminator == discriminator)
+				{
 					return d;
+				}
+			}
+
 			throw new ContentTypeNotFoundException("No definition found for discriminator: " + discriminator);
 		}
 
@@ -126,9 +139,15 @@ namespace Zeus.Admin.Plugins.ImportExport
 		{
 			item.Created = Convert.ToDateTime(attributes["created"]);
 			if (!string.IsNullOrEmpty(attributes["expires"]))
+			{
 				item.Expires = Convert.ToDateTime(attributes["expires"]);
+			}
+
 			if (KeepItemID)
+			{
 				item.ID = Convert.ToInt32(attributes["id"]);
+			}
+
 			item.Name = attributes["name"];
 			item.Published = Convert.ToDateTime(attributes["published"]);
 			item.SavedBy = attributes["savedBy"];
@@ -137,15 +156,23 @@ namespace Zeus.Admin.Plugins.ImportExport
 			item.Updated = Convert.ToDateTime(attributes["updated"]);
 			item.Visible = Convert.ToBoolean(attributes["visible"]);
 			if (!string.IsNullOrEmpty(attributes["zoneName"]))
+			{
 				((WidgetContentItem) item).ZoneName = attributes["zoneName"];
+			}
+
 			if (!string.IsNullOrEmpty(attributes["language"]))
+			{
 				item.Language = attributes["language"];
+			}
 		}
 
 		private static Dictionary<string, string> GetAttributes(XPathNavigator navigator)
 		{
 			if (!navigator.MoveToFirstAttribute())
+			{
 				throw new InvalidXmlException("node has no attributes: " + navigator.Name);
+			}
+
 			var attributes = new Dictionary<string, string>();
 			do
 			{
@@ -193,15 +220,21 @@ namespace Zeus.Admin.Plugins.ImportExport
 			var name = attributes["name"];
 			var type = attributes["typeName"].ToType();
 			if (type != typeof(ContentItem))
+			{
 				item[name] = ParseValue(navigator.Value, type);
+			}
 			else
+			{
 				Debug.WriteLine("OnAddingDetail: Ignoring link detail."); //TODO resolve links
+			}
 		}
 
 		protected virtual object ParseValue(string xmlValue, Type type)
 		{
 			if (type == typeof(object))
+			{
 				return xmlValue.Deserialize(type);
+			}
 
 			return Utility.Convert(xmlValue, type);
 		}
@@ -242,9 +275,13 @@ namespace Zeus.Admin.Plugins.ImportExport
 			var name = attributes["name"];
 			var type = attributes["typeName"].ToType();
 			if (type != typeof(ContentItem))
+			{
 				collection.Add(ParseValue(navigator.Value, type));
+			}
 			else
+			{
 				Debug.WriteLine("OnAddingDetail: Ignoring link detail"); //TODO resolve links
+			}
 		}
 
 		#endregion

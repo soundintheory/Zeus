@@ -16,7 +16,10 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Reflection
 		{
 			var attributes = memberInfo.GetCustomAttributes(typeof(T), inherit).Cast<T>();
 			if (throwOnMissing && !attributes.Any())
+			{
 				throw new Exception(string.Format("No attribute implementing '{0}' was found on the member '{1}' of type {2}", typeof(T).Name, memberInfo.Name, memberInfo.DeclaringType));
+			}
+
 			return attributes;
 		}
 
@@ -24,9 +27,16 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Reflection
 		{
 			var attributes = new List<T>();
 			foreach (var t in type.EnumerateParentTypes())
+			{
 				foreach (var attribute in ((MemberInfo) t).GetCustomAttributes<T>(inherit, throwOnMissing))
+				{
 					if (!attributes.Contains(attribute))
+					{
 						attributes.Add(attribute);
+					}
+				}
+			}
+
 			return attributes;
 		}
 	}

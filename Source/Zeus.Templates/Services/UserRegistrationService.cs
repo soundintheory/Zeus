@@ -33,19 +33,25 @@ namespace Zeus.Templates.Services
 				!_templatesConfig.UserRegistration.EmailVerificationRequired,
 				out status);
 			if (status != UserCreateStatus.Success)
+			{
 				return status;
+			}
 
 			// Allow other websites to create profile.
 			if (UserRegistered != null)
+			{
 				UserRegistered(this, new UserRegisteredEventArgs(user, registrationForm));
+			}
 
 			// Send verification email.
 			if (_templatesConfig.UserRegistration.EmailVerificationRequired)
+			{
 				_credentialService.SendVerificationEmail(user,
 					verificationLinkRoot, email,
 					verificationEmailSender,
 					verificationEmailSubject,
 					verificationEmailBody);
+			}
 
 			return status;
 		}

@@ -13,7 +13,9 @@ namespace Zeus.Web.UI.WebControls
 		protected override void OnPreRender(EventArgs e)
 		{
 			if (this.RequiresDataBinding && !this.Page.IsPostBack)
+			{
 				this.DataBind();
+			}
 
 			base.OnPreRender(e);
 		}

@@ -9,8 +9,13 @@ namespace Zeus.BaseLibrary.Drawing.Imaging
 		{
 			var codecs = ImageCodecInfo.GetImageDecoders();
 			foreach (var codec in codecs)
+			{
 				if (codec.FormatID == format.Guid)
+				{
 					return codec;
+				}
+			}
+
 			return null;
 		}
 	}

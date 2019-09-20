@@ -11,7 +11,10 @@ namespace Zeus.BaseLibrary.Collections.Generic
 		{
 			NonPagedItems = items;
 			if (paged)
+			{
 				_pagedItems = items.AsPagination(pageNumber, pageSize);
+			}
+
 			Paged = paged;
 		}
 
@@ -24,7 +27,10 @@ namespace Zeus.BaseLibrary.Collections.Generic
 			get
 			{
 				if (!Paged)
+				{
 					throw new InvalidOperationException("Cannot call PagedItems when Paged is set to false.");
+				}
+
 				return _pagedItems;
 			}
 		}

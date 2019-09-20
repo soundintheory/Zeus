@@ -150,7 +150,9 @@ namespace Zeus.Web.UI.WebControls
 		{
 			base.RenderEndTag(writer);
 			if (!IsValid)
+			{
 				writer.Write("<span style='color:red'>*</span>");
+			}
 		}
 
 		#endregion

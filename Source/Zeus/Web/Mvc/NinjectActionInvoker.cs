@@ -34,16 +34,24 @@ namespace Zeus.Web.Mvc
 			var filterInfo = base.GetFilters(controllerContext, actionDescriptor);
 
 			foreach (var filter in filterInfo.ActionFilters.Where(f => f != null))
+			{
 				Kernel.Inject(filter);
+			}
 
 			foreach (var filter in filterInfo.AuthorizationFilters.Where(f => f != null))
+			{
 				Kernel.Inject(filter);
+			}
 
 			foreach (var filter in filterInfo.ExceptionFilters.Where(f => f != null))
+			{
 				Kernel.Inject(filter);
+			}
 
 			foreach (var filter in filterInfo.ResultFilters.Where(f => f != null))
+			{
 				Kernel.Inject(filter);
+			}
 
 			return filterInfo;
 		}

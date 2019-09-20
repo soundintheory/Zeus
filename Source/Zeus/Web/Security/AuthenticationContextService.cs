@@ -22,11 +22,16 @@ namespace Zeus.Web.Security
 
 			var authSection = WebConfigurationManager.GetSection("zeus/authentication") as AuthenticationSection;
 			if (authSection == null)
-                authSection = new AuthenticationSection(_adminConfig);
+			{
+				authSection = new AuthenticationSection(_adminConfig);
+			}
+
 			_rootLocation = authSection.ToAuthenticationLocation();
 
 			foreach (var initializer in authenticationContextInitializers)
+			{
 				initializer.Initialize(this);
+			}
 		}
 
 		public void AddLocation(AuthenticationLocation location)

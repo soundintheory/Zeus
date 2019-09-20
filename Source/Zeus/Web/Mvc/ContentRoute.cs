@@ -57,11 +57,16 @@ namespace Zeus.Web.Mvc
         {
             var path = httpContext.Request.AppRelativeCurrentExecutionFilePath;
             if (path.StartsWith("~/" + _adminSection + "/", StringComparison.InvariantCultureIgnoreCase))
-                return null;
-            if (path.EndsWith(".axd", StringComparison.InvariantCultureIgnoreCase))
-                return null;
+			{
+				return null;
+			}
 
-            return GetRouteDataForPath(httpContext.Request);
+			if (path.EndsWith(".axd", StringComparison.InvariantCultureIgnoreCase))
+			{
+				return null;
+			}
+
+			return GetRouteDataForPath(httpContext.Request);
         }
 
         public RouteData GetRouteDataForPath(HttpRequestBase request)
@@ -79,19 +84,23 @@ namespace Zeus.Web.Mvc
                 var originalLookUpWas404 = td.Is404;
                 PathData originalPathData = null;
                 if (originalLookUpWas404)
-                    originalPathData = td;
+				{
+					originalPathData = td;
+				}
 
-                //test for extra param being passed in...so /item/myParam - needs to ignore querystring of course
-                var fullPath = request.Url.ToString();
+				//test for extra param being passed in...so /item/myParam - needs to ignore querystring of course
+				var fullPath = request.Url.ToString();
                 if (fullPath.IndexOf('?') > -1)
-                    fullPath = fullPath.Substring(0, fullPath.IndexOf('?'));
+				{
+					fullPath = fullPath.Substring(0, fullPath.IndexOf('?'));
+				}
 
-                var thePath = new Uri(fullPath);
+				var thePath = new Uri(fullPath);
                 var thePathWithOutLastParam = new Uri(thePath.AbsoluteUri.Remove(thePath.AbsoluteUri.Length - (thePath.Segments.Last().Length + 1))).PathAndQuery;
                 td = engine.UrlParser.ResolvePath(thePathWithOutLastParam);
 
                 //check to see if the content item has been and is a page and if so, if it allows the Index(Param) option
-                if (!td.Is404 && td.CurrentItem != null && td.CurrentItem as PageContentItem != null && (td.CurrentItem as PageContentItem).AllowParamsOnIndex)
+                if (!td.Is404 && td.CurrentItem != null && td.CurrentItem is PageContentItem && (td.CurrentItem as PageContentItem).AllowParamsOnIndex)
                 {
                     extraParam = thePath.Segments.Last();
                 }
@@ -110,28 +119,33 @@ namespace Zeus.Web.Mvc
                         System.Web.HttpContext.Current.Response.StatusCode = 404;
                     }
                     else
-                        return null;
-                }
+					{
+						return null;
+					}
+				}
             }
 
             var item = td.CurrentItem;
             var action = td.Action;
 
             if (item == null)
-                return null;
+			{
+				return null;
+			}
 
-            if (td.QueryParameters.ContainsKey("preview"))
-            {
-                int itemId;
-                if (int.TryParse(td.QueryParameters["preview"], out itemId))
-                    item = engine.Persister.Get(itemId);
-            }
-            var controllerName = controllerMapper.GetControllerName(item.GetType());
+			if (td.QueryParameters.ContainsKey("preview") 
+				&& int.TryParse(td.QueryParameters["preview"], out var itemId))
+			{
+				item = engine.Persister.Get(itemId);
+			}
+			var controllerName = controllerMapper.GetControllerName(item.GetType());
 
             if (controllerName == null)
-                return null;
+			{
+				return null;
+			}
 
-            var areaName = controllerMapper.GetAreaName(item.GetType());
+			var areaName = controllerMapper.GetAreaName(item.GetType());
 
             var data = new RouteData(this, routeHandler);
             data.Values[ContentItemKey] = item;
@@ -140,14 +154,18 @@ namespace Zeus.Web.Mvc
             data.Values[ActionKey] = action;
             data.Values[AreaKey] = areaName;
             if (!string.IsNullOrEmpty(extraParam))
-                data.Values["param"] = extraParam;
-            // trigger ASP.net areas
-            data.DataTokens["area"] = areaName;
+			{
+				data.Values["param"] = extraParam;
+			}
+			// trigger ASP.net areas
+			data.DataTokens["area"] = areaName;
 
             if (DataTokens.ContainsKey("Namespaces"))
-                data.DataTokens["Namespaces"] = DataTokens["Namespaces"];
+			{
+				data.DataTokens["Namespaces"] = DataTokens["Namespaces"];
+			}
 
-            return data;
+			return data;
         }
 
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
@@ -159,17 +177,23 @@ namespace Zeus.Web.Mvc
                 //values.Remove(ContentItemKey);
             }
             else
-                item = requestContext.RouteData.Values[ContentItemKey] as ContentItem;
+			{
+				item = requestContext.RouteData.Values[ContentItemKey] as ContentItem;
+			}
 
-            if (item == null)
-                return null;
+			if (item == null)
+			{
+				return null;
+			}
 
-            var requestedController = values[ControllerKey] as string;
+			var requestedController = values[ControllerKey] as string;
             var itemController = controllerMapper.GetControllerName(item.GetType());
             if (!string.Equals(requestedController, itemController, StringComparison.InvariantCultureIgnoreCase))
-                return null;
+			{
+				return null;
+			}
 
-            var pathData = base.GetVirtualPath(requestContext, values);
+			var pathData = base.GetVirtualPath(requestContext, values);
             Url itemUrl = item.Url;
             Url pathUrl = pathData.VirtualPath;
 

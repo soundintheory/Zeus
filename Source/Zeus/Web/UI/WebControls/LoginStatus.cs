@@ -95,10 +95,15 @@ namespace Zeus.Web.UI.WebControls
 						{
 							var logoutPageUrl = this.LogoutPageUrl;
 							if (string.IsNullOrEmpty(logoutPageUrl))
-								logoutPageUrl = CurrentAuthenticationService.LoginUrl;
-							else
-								logoutPageUrl = base.ResolveClientUrl(logoutPageUrl);
-							this.Page.Response.Redirect(logoutPageUrl, false);
+						{
+							logoutPageUrl = CurrentAuthenticationService.LoginUrl;
+						}
+						else
+						{
+							logoutPageUrl = base.ResolveClientUrl(logoutPageUrl);
+						}
+
+						this.Page.Response.Redirect(logoutPageUrl, false);
 							return;
 						}
 					case System.Web.UI.WebControls.LogoutAction.RedirectToLoginPage:
@@ -111,13 +116,17 @@ namespace Zeus.Web.UI.WebControls
 		protected virtual void OnLoggedOut(EventArgs e)
 		{
 			if (LoggedOut != null)
+			{
 				LoggedOut(this, e);
+			}
 		}
 
 		protected virtual void OnLoggingOut(LoginCancelEventArgs e)
 		{
 			if (LoggingOut != null)
+			{
 				LoggingOut(this, e);
+			}
 		}
 
 		protected override void OnPreRender(EventArgs e)
@@ -139,7 +148,10 @@ namespace Zeus.Web.UI.WebControls
 			}
 			SetChildProperties();
 			if (!string.IsNullOrEmpty(ID))
+			{
 				writer.AddAttribute(HtmlTextWriterAttribute.Id, ClientID);
+			}
+
 			base.RenderContents(writer);
 		}
 
@@ -222,7 +234,10 @@ namespace Zeus.Web.UI.WebControls
 			set
 			{
 				if ((value < System.Web.UI.WebControls.LogoutAction.Refresh) || (value > System.Web.UI.WebControls.LogoutAction.RedirectToLoginPage))
+				{
 					throw new ArgumentOutOfRangeException("value");
+				}
+
 				ViewState["LoginText"] = value;
 			}
 		}
@@ -253,7 +268,10 @@ namespace Zeus.Web.UI.WebControls
 			get
 			{
 				if (!base.DesignMode)
+				{
 					return CurrentAuthenticationService.GetLoginPage(null, true);
+				}
+
 				return "url";
 			}
 		}

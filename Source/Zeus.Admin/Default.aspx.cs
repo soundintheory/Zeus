@@ -37,7 +37,9 @@ namespace Zeus.Admin
 			{
 				var requiredUserControls = plugin.RequiredUserControls;
 				if (requiredUserControls != null)
+				{
 					LoadUserControls(requiredUserControls);
+				}
 
 				plugin.ModifyInterface(this);
 			}
@@ -87,7 +89,9 @@ namespace Zeus.Admin
 		public void LoadUserControls(string[] virtualPaths)
 		{
 			foreach (var virtualPath in virtualPaths)
+			{
 				Controls.Add(LoadControl(virtualPath));
+			}
 		}
 
 		public void AddControl(Control control)

@@ -25,9 +25,11 @@ namespace Zeus.Configuration
             var output = new List<string>();
 
             foreach (NamespaceElement element in this)
-                output.Add(element.Namespace + ".*");
+			{
+				output.Add(element.Namespace + ".*");
+			}
 
-            return output.ToArray();
+			return output.ToArray();
         }
     }
 }

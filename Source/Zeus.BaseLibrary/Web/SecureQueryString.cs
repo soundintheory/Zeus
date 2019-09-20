@@ -146,9 +146,13 @@ namespace Zeus.BaseLibrary.Web
 			var value = this[key];
 
 			if (value == null || value.Length == 0)
+			{
 				throw new InvalidOperationException("QueryString is invalid");
+			}
 			else
+			{
 				return value;
+			}
 		}
 
 		protected string GetOptionalString(string key)
@@ -156,9 +160,13 @@ namespace Zeus.BaseLibrary.Web
 			var value = this[key];
 
 			if (value == null || value.Length == 0)
+			{
 				return null;
+			}
 			else
+			{
 				return value;
+			}
 		}
 
 		public int GetRequiredInt(string key)

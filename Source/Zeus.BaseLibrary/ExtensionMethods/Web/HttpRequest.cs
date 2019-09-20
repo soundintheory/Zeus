@@ -11,18 +11,26 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web
 			var value = request[key];
 
 			if (string.IsNullOrEmpty(value))
+			{
 				return null;
+			}
 			else
+			{
 				return value;
+			}
 		}
 
 		public static string GetRequiredString(this HttpRequest request, string key)
 		{
 			var value = GetOptionalString(request, key);
 			if (value == null)
+			{
 				throw new InvalidOperationException("QueryString is invalid");
+			}
 			else
+			{
 				return value;
+			}
 		}
 
 		public static int? GetOptionalInt(this HttpRequest request, string key)
@@ -32,9 +40,13 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web
 			{
 				int result;
 				if (int.TryParse(value, out result))
+				{
 					return result;
+				}
 				else
+				{
 					throw new InvalidOperationException("Requested value is not an integer");
+				}
 			}
 			else
 			{
@@ -69,18 +81,26 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web
 		{
 			var value = GetOptionalEnum<T>(request, key);
 			if (value == null)
+			{
 				throw new InvalidOperationException("QueryString is invalid");
+			}
 			else
+			{
 				return value.Value;
+			}
 		}
 
 		public static int GetRequiredInt(this HttpRequest request, string key)
 		{
 			var value = GetOptionalInt(request, key);
 			if (value == null)
+			{
 				throw new InvalidOperationException("QueryString is invalid");
+			}
 			else
+			{
 				return value.Value;
+			}
 		}
 
 		public static bool? GetOptionalBool(this HttpRequest request, string key)
@@ -90,9 +110,13 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web
 			{
 				bool result;
 				if (bool.TryParse(value, out result))
+				{
 					return result;
+				}
 				else
+				{
 					throw new InvalidOperationException("Requested value is not a boolean");
+				}
 			}
 			else
 			{
@@ -104,9 +128,13 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web
 		{
 			var value = GetOptionalBool(request, key);
 			if (value == null)
+			{
 				throw new InvalidOperationException("QueryString is invalid");
+			}
 			else
+			{
 				return value.Value;
+			}
 		}
 
 		public static SecureQueryString GetSecureQueryString(this HttpRequest request)

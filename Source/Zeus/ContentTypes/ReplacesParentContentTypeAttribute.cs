@@ -14,11 +14,13 @@ namespace Zeus.ContentTypes
 		{
 			var t = currentContentType.ItemType;
 			foreach (var contentType in allContentTypes)
+			{
 				if (contentType.ItemType == t.BaseType)
 				{
 					contentType.Enabled = false;
 					return;
 				}
+			}
 		}
 	}
 }

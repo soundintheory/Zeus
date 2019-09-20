@@ -15,7 +15,9 @@ namespace Zeus.Web.Mvc.ActionFilters
 		public override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
 			if (!filterContext.Controller.ViewData.ModelState.IsValid)
+			{
 				filterContext.Controller.ViewData[ValidationExtensions.FormNameKey] = Name;
+			}
 
 			base.OnActionExecuted(filterContext);
 		}

@@ -66,10 +66,15 @@ namespace Zeus
             set
             {
                 if (string.IsNullOrEmpty(value))
-                    _name = null;
-                else
-                    _name = value;
-                _url = null;
+				{
+					_name = null;
+				}
+				else
+				{
+					_name = value;
+				}
+
+				_url = null;
             }
         }
 
@@ -106,10 +111,14 @@ namespace Zeus
             get
             {
                 if (this.TranslationOf == null)
-                    return _visible;
-                else
-                    return this.TranslationOf.Visible;
-            }
+				{
+					return _visible;
+				}
+				else
+				{
+					return this.TranslationOf.Visible;
+				}
+			}
             set
             {
                 _visible = value;
@@ -226,10 +235,14 @@ namespace Zeus
                 if (_url == null)
                 {
                     if (_urlParser != null)
-                        _url = GetUrl(LanguageSelector.Fallback(ContentLanguage.PreferredCulture.Name, false));
-                    else
-                        _url = FindPath(PathData.DefaultAction).RewrittenUrl;
-                }
+					{
+						_url = GetUrl(LanguageSelector.Fallback(ContentLanguage.PreferredCulture.Name, false));
+					}
+					else
+					{
+						_url = FindPath(PathData.DefaultAction).RewrittenUrl;
+					}
+				}
                 return _url;
             }
         }
@@ -244,8 +257,11 @@ namespace Zeus
         public virtual string GetUrl(string languageCode)
         {
             if (_urlParser != null)
-                return _urlParser.BuildUrl(this, languageCode);
-            return FindPath(PathData.DefaultAction).RewrittenUrl;
+			{
+				return _urlParser.BuildUrl(this, languageCode);
+			}
+
+			return FindPath(PathData.DefaultAction).RewrittenUrl;
         }
 
         public virtual string GetUrl(ILanguageSelector languageSelector)
@@ -254,8 +270,11 @@ namespace Zeus
             languageSelector.LoadLanguage(args);
 
             if (_urlParser != null)
-                return _urlParser.BuildUrl(this, args.SelectedLanguage);
-            return FindPath(PathData.DefaultAction).RewrittenUrl;
+			{
+				return _urlParser.BuildUrl(this, args.SelectedLanguage);
+			}
+
+			return FindPath(PathData.DefaultAction).RewrittenUrl;
         }
 
         public string HierarchicalTitle
@@ -264,8 +283,11 @@ namespace Zeus
             {
                 var result = this.Title;
                 if (Parent != null)
-                    result = Parent.HierarchicalTitle + " - " + result;
-                return result;
+				{
+					result = Parent.HierarchicalTitle + " - " + result;
+				}
+
+				return result;
             }
         }
 
@@ -288,10 +310,16 @@ namespace Zeus
                 var path = "/";
                 var startingParent = (TranslationOf != null) ? TranslationOf.Parent : Parent;
                 if (startingParent != null)
-                    path += Name;
-                for (var item = startingParent; item != null && item.Parent != null; item = item.Parent)
-                    path = "/" + item.Name + path;
-                return path;
+				{
+					path += Name;
+				}
+
+				for (var item = startingParent; item != null && item.Parent != null; item = item.Parent)
+				{
+					path = "/" + item.Name + path;
+				}
+
+				return path;
             }
         }
 
@@ -304,8 +332,11 @@ namespace Zeus
             get
             {
                 if (_authorizationRules == null)
-                    _authorizationRules = new List<AuthorizationRule>();
-                return _authorizationRules;
+				{
+					_authorizationRules = new List<AuthorizationRule>();
+				}
+
+				return _authorizationRules;
             }
             set { _authorizationRules = value; }
         }
@@ -317,8 +348,11 @@ namespace Zeus
             get
             {
                 if (_languageSettings == null)
-                    _languageSettings = new List<LanguageSetting>();
-                return _languageSettings;
+				{
+					_languageSettings = new List<LanguageSetting>();
+				}
+
+				return _languageSettings;
             }
             set { _languageSettings = value; }
         }
@@ -334,9 +368,11 @@ namespace Zeus
             get
             {
                 if (detailName == null)
-                    throw new ArgumentNullException("detailName");
+				{
+					throw new ArgumentNullException(nameof(detailName));
+				}
 
-                switch (detailName)
+				switch (detailName)
                 {
                     case "ID":
                         return ID;
@@ -355,14 +391,19 @@ namespace Zeus
             set
             {
                 if (string.IsNullOrEmpty(detailName))
-                    throw new ArgumentNullException("detailName", "Parameter 'detailName' cannot be null or empty.");
+				{
+					throw new ArgumentNullException(nameof(detailName), "Parameter 'detailName' cannot be null or empty.");
+				}
 
-                var info = GetType().GetProperty(detailName);
+				var info = GetType().GetProperty(detailName);
                 if (info != null && info.CanWrite)
                 {
                     if (value != null && info.PropertyType != value.GetType())
-                        value = Utility.Convert(value, info.PropertyType);
-                    info.SetValue(this, value, null);
+					{
+						value = Utility.Convert(value, info.PropertyType);
+					}
+
+					info.SetValue(this, value, null);
                 }
                 else if (value is PropertyCollection)
                 {
@@ -417,9 +458,11 @@ namespace Zeus
                 IDictionary<string, PropertyData> details = new Dictionary<string, PropertyData>(source);
 
                 if (details.ContainsKey(detailName))
-                    return Utility.Convert<T>(details[detailName].Value);
+				{
+					return Utility.Convert<T>(details[detailName].Value);
+				}
 
-                return defaultValue;
+				return defaultValue;
             }
         }
 
@@ -431,8 +474,10 @@ namespace Zeus
             {
                 var currentItem = VersionOf ?? this;
                 if (currentItem.TranslationOf != null)
-                    return currentItem.TranslationOf.Details;
-            }
+				{
+					return currentItem.TranslationOf.Details;
+				}
+			}
             return Details;
         }
 
@@ -441,9 +486,11 @@ namespace Zeus
             // TODO: Throw exception if this is a shared property and this is not the master language version.
 
             if (string.IsNullOrEmpty(detailName))
-                throw new ArgumentNullException("detailName");
-            
-            lock (Details)
+			{
+				throw new ArgumentNullException(nameof(detailName));
+			}
+
+			lock (Details)
             {
                 var detail = Details.ContainsKey(detailName) ? Details[detailName] : null;
 
@@ -455,9 +502,12 @@ namespace Zeus
                 else
                 {
                     if (detail != null)
-                        // delete detail or remove detail of wrong type
-                        Details.Remove(detailName);
-                    if (value != null)
+					{
+						// delete detail or remove detail of wrong type
+						Details.Remove(detailName);
+					}
+
+					if (value != null)
                     {
                         // add new detail
                         var propertyData = Context.ContentTypes.GetContentType(GetType()).GetProperty(detailName, value).CreatePropertyData(this, value);
@@ -474,10 +524,14 @@ namespace Zeus
         protected virtual void SetDetail<T>(string detailName, T value, T defaultValue)
         {
             if (value == null || !value.Equals(defaultValue))
-                SetDetail(detailName, value);
-            else if (Details.ContainsKey(detailName))
-                Details.Remove(detailName);
-        }
+			{
+				SetDetail(detailName, value);
+			}
+			else if (Details.ContainsKey(detailName))
+			{
+				Details.Remove(detailName);
+			}
+		}
 
         /// <summary>Set a value into the <see cref="Details"/> bag. If a value with the same name already exists it is overwritten.</summary>
         /// <param name="detailName">The name of the item to set.</param>
@@ -498,16 +552,20 @@ namespace Zeus
         public virtual PropertyCollection GetDetailCollection(string collectionName, bool createWhenEmpty)
         {
             if (DetailCollections.ContainsKey(collectionName))
-                return DetailCollections[collectionName];
-            else if (createWhenEmpty)
+			{
+				return DetailCollections[collectionName];
+			}
+			else if (createWhenEmpty)
             {
                 var collection = new PropertyCollection(this, collectionName);
                 DetailCollections.Add(collectionName, collection);
                 return collection;
             }
             else
-                return null;
-        }
+			{
+				return null;
+			}
+		}
 
         #endregion
 
@@ -520,9 +578,11 @@ namespace Zeus
         public virtual void AddTo(ContentItem newParent)
         {
             if (Parent != null && Parent != newParent && Parent.Children.Contains(this))
-                Parent.Children.Remove(this);
+			{
+				Parent.Children.Remove(this);
+			}
 
-            Parent = newParent;
+			Parent = newParent;
 
             //see if we care about ordering...
             if (newParent != null && !newParent.Children.Contains(this))
@@ -611,31 +671,37 @@ namespace Zeus
         {
             cloned.Children = new List<ContentItem>();
             if (includeChildren)
-                foreach (var child in Children)
+			{
+				foreach (var child in Children)
                 {
                     var clonedChild = child.Clone(true);
                     clonedChild.AddTo(cloned);
                 }
-        }
+			}
+		}
 
         private void CloneTranslations(bool includeTranslations, ContentItem cloned)
         {
             cloned.Translations = new List<ContentItem>();
             if (includeTranslations)
-                foreach (var translation in Translations)
+			{
+				foreach (var translation in Translations)
                 {
                     var clonedTranslation = translation.Clone(true);
                     clonedTranslation.AddTo(cloned);
                 }
-        }
+			}
+		}
 
         private void CloneDetails(ContentItem cloned)
         {
             cloned.Details = new Dictionary<string, PropertyData>();
             foreach (var detail in Details.Values)
-                cloned[detail.Name] = detail.Value;
+			{
+				cloned[detail.Name] = detail.Value;
+			}
 
-            cloned.DetailCollections = new Dictionary<string, PropertyCollection>();
+			cloned.DetailCollections = new Dictionary<string, PropertyCollection>();
             foreach (var collection in DetailCollections.Values)
             {
                 var clonedCollection = collection.Clone();
@@ -656,12 +722,16 @@ namespace Zeus
             where TAncestor : ContentItem
         {
             if (contentItem == null)
-                return null;
+			{
+				return null;
+			}
 
-            if (contentItem is TAncestor)
-                return (TAncestor)contentItem;
+			if (contentItem is TAncestor)
+			{
+				return (TAncestor)contentItem;
+			}
 
-            return FindFirstAncestorRecursive<TAncestor>(contentItem.Parent);
+			return FindFirstAncestorRecursive<TAncestor>(contentItem.Parent);
         }
 
         /// <summary>
@@ -715,11 +785,16 @@ namespace Zeus
             // Get the actual item this item represents.
             var realItem = this;
             if (VersionOf != null)
-                realItem = realItem.VersionOf;
-            if (TranslationOf != null)
-                realItem = realItem.TranslationOf;
+			{
+				realItem = realItem.VersionOf;
+			}
 
-            return realItem.Children;
+			if (TranslationOf != null)
+			{
+				realItem = realItem.TranslationOf;
+			}
+
+			return realItem.Children;
         }
 
         private static IEnumerable<ContentItem> FilterLanguage(IEnumerable<ContentItem> pages, ILanguageSelector langSelector)
@@ -729,8 +804,10 @@ namespace Zeus
             {
                 var translation = SelectLanguageBranch(page, langSelector);
                 if (translation != null)
-                    datas.Add(translation);
-            }
+				{
+					datas.Add(translation);
+				}
+			}
             return datas;
         }
 
@@ -739,8 +816,11 @@ namespace Zeus
             var args = new LanguageSelectorContext(page);
             selector.SelectPageLanguage(args);
             if (string.IsNullOrEmpty(args.SelectedLanguage))
-                return null;
-            return Context.Current.LanguageManager.GetTranslationDirect(page, args.SelectedLanguage);
+			{
+				return null;
+			}
+
+			return Context.Current.LanguageManager.GetTranslationDirect(page, args.SelectedLanguage);
         }
 
         /// <summary>Finds children based on the given url segments. The method supports convering the last segments into action and parameter.</summary>
@@ -757,14 +837,18 @@ namespace Zeus
             var translation = Context.Current.LanguageManager.GetTranslation(this, languageCode) ?? this;
 
             if (remainingUrl == null)
-                return translation.GetTemplate(string.Empty);
+			{
+				return translation.GetTemplate(string.Empty);
+			}
 
-            remainingUrl = remainingUrl.TrimStart('/');
+			remainingUrl = remainingUrl.TrimStart('/');
 
             if (remainingUrl.Length == 0)
-                return translation.GetTemplate(string.Empty);
+			{
+				return translation.GetTemplate(string.Empty);
+			}
 
-            var slashIndex = remainingUrl.IndexOf('/');
+			var slashIndex = remainingUrl.IndexOf('/');
             var nameSegment = slashIndex < 0 ? remainingUrl : remainingUrl.Substring(0, slashIndex);
             foreach (var child in translation.GetChildrenInternal())
             {
@@ -788,8 +872,10 @@ namespace Zeus
             {
                 var data = finder.GetPath(this, remainingUrl);
                 if (data != null)
-                    return data;
-            }
+				{
+					return data;
+				}
+			}
 
             return PathData.Empty;
         }
@@ -824,9 +910,11 @@ namespace Zeus
             var parent = realItem.Parent;
 
             if (parent == null)
-                return null;
+			{
+				return null;
+			}
 
-            return (Context.Current.LanguageManager.Enabled)
+			return (Context.Current.LanguageManager.Enabled)
                 ? (Context.Current.LanguageManager.GetTranslation(parent, languageName) ?? parent)
                 : parent;
         }
@@ -842,44 +930,75 @@ namespace Zeus
         public virtual ContentItem GetChild(string childName)
         {
             if (string.IsNullOrEmpty(childName))
-                return null;
+			{
+				return null;
+			}
 
-            var slashIndex = childName.IndexOf('/');
+			var slashIndex = childName.IndexOf('/');
             if (slashIndex == 0) // starts with slash
             {
                 if (childName.Length == 1)
-                    return this;
-                return GetChild(childName.Substring(1));
+				{
+					return this;
+				}
+
+				return GetChild(childName.Substring(1));
             }
 
             if (slashIndex > 0) // contains a slash further down
             {
                 var nameSegment = childName.Substring(0, slashIndex);
                 foreach (var child in GetChildrenInternal())
-                    foreach (var translation in Context.Current.LanguageManager.GetTranslationsOf(child, true))
-                        if (translation.Equals(nameSegment))
-                            return translation.GetChild(childName.Substring(slashIndex));
-                return null;
+				{
+					foreach (var translation in Context.Current.LanguageManager.GetTranslationsOf(child, true))
+					{
+						if (translation.Equals(nameSegment))
+						{
+							return translation.GetChild(childName.Substring(slashIndex));
+						}
+					}
+				}
+
+				return null;
             }
 
             // no slash, only a name
             foreach (var child in GetChildrenInternal())
-                foreach (var translation in Context.Current.LanguageManager.GetTranslationsOf(child, true))
-                    if (translation.Equals(childName))
-                        return translation;
-            return null;
+			{
+				foreach (var translation in Context.Current.LanguageManager.GetTranslationsOf(child, true))
+				{
+					if (translation.Equals(childName))
+					{
+						return translation;
+					}
+				}
+			}
+
+			return null;
         }
 
         public override bool Equals(object obj)
         {
-            if (this == obj) return true;
-            if ((obj == null) || (obj.GetType() != GetType())) return false;
-            var item = obj as ContentItem;
+            if (this == obj)
+			{
+				return true;
+			}
+
+			if ((obj == null) || (obj.GetType() != GetType()))
+			{
+				return false;
+			}
+
+			var item = obj as ContentItem;
             if (ID != 0 && item.ID != 0)
-                return ID == item.ID;
-            else
-                return ReferenceEquals(this, item);
-        }
+			{
+				return ID == item.ID;
+			}
+			else
+			{
+				return ReferenceEquals(this, item);
+			}
+		}
 
         /// <summary>Gets a hash code based on the item's id.</summary>
         /// <returns>A hash code.</returns>
@@ -891,8 +1010,11 @@ namespace Zeus
         protected virtual bool Equals(string name)
         {
             if (Name == null)
-                return false;
-            return Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)
+			{
+				return false;
+			}
+
+			return Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)
                 || HttpUtility.UrlDecode(Name).Equals(name, StringComparison.InvariantCultureIgnoreCase);
         }
 
@@ -903,14 +1025,20 @@ namespace Zeus
         public virtual bool IsAuthorized(IPrincipal user, string operation)
         {
             if (AuthorizationRules == null || AuthorizationRules.Count == 0)
-                return true;
+			{
+				return true;
+			}
 
-            // Iterate rules to find a rule that matches
-            foreach (var auth in AuthorizationRules)
-                if (auth.IsAuthorized(user, operation))
-                    return true;
+			// Iterate rules to find a rule that matches
+			foreach (var auth in AuthorizationRules)
+			{
+				if (auth.IsAuthorized(user, operation))
+				{
+					return true;
+				}
+			}
 
-            return false;
+			return false;
         }
 
         public virtual bool IsPublished()
@@ -947,8 +1075,11 @@ namespace Zeus
             get
             {
                 if (IsPage)
-                    return Url;
-                return Context.Current.Resolve<IEmbeddedResourceManager>().GetServerResourceUrl(Context.Current.Resolve<IAdminAssemblyManager>().Assembly, "Zeus.Admin.View.aspx") + "?selected=" + Path;
+				{
+					return Url;
+				}
+
+				return Context.Current.Resolve<IEmbeddedResourceManager>().GetServerResourceUrl(Context.Current.Resolve<IAdminAssemblyManager>().Assembly, "Zeus.Admin.View.aspx") + "?selected=" + Path;
             }
         }
 
@@ -959,24 +1090,38 @@ namespace Zeus
                 var className = new StringBuilder();
 
                 if (!Published.HasValue || Published > DateTime.Now)
-                    className.Append("unpublished ");
-                else if (Published > DateTime.Now.AddDays(-1))
-                    className.Append("day ");
-                else if (Published > DateTime.Now.AddDays(-7))
-                    className.Append("week ");
-                else if (Published > DateTime.Now.AddMonths(-1))
-                    className.Append("month ");
+				{
+					className.Append("unpublished ");
+				}
+				else if (Published > DateTime.Now.AddDays(-1))
+				{
+					className.Append("day ");
+				}
+				else if (Published > DateTime.Now.AddDays(-7))
+				{
+					className.Append("week ");
+				}
+				else if (Published > DateTime.Now.AddMonths(-1))
+				{
+					className.Append("month ");
+				}
 
-                if (Expires.HasValue && Expires <= DateTime.Now)
-                    className.Append("expired ");
+				if (Expires.HasValue && Expires <= DateTime.Now)
+				{
+					className.Append("expired ");
+				}
 
-                if (!Visible)
-                    className.Append("invisible ");
+				if (!Visible)
+				{
+					className.Append("invisible ");
+				}
 
-                if (AuthorizationRules != null && AuthorizationRules.Count > 0)
-                    className.Append("locked ");
+				if (AuthorizationRules != null && AuthorizationRules.Count > 0)
+				{
+					className.Append("locked ");
+				}
 
-                return className.ToString();
+				return className.ToString();
             }
         }
 

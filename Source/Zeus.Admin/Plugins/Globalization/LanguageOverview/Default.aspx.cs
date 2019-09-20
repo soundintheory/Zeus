@@ -38,7 +38,10 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageOverview
 			var headerRow = new TableHeaderRow { CssClass = "titles" };
 			headerRow.Cells.Add(new TableHeaderCell { Text = "Page" });
 			foreach (var language in languages)
+			{
 				headerRow.Cells.Add(new TableHeaderCell { Text = "<img src=\"" + language.IconUrl + "\" /> " + language.Title });
+			}
+
 			tblPageTranslations.Rows.Add(headerRow);
 		}
 
@@ -46,7 +49,9 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageOverview
 		{
 			CreateRow(SelectedItem, languages, 5);
 			foreach (var child in SelectedItem.GetChildren().Where(ci => Engine.LanguageManager.CanBeTranslated(ci)))
+			{
 				CreateRow(child, languages, 15);
+			}
 		}
 
 		private void CreateRow(ContentItem item, IEnumerable<Language> languages, int paddingLeft)
@@ -59,9 +64,14 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageOverview
 			{
 				string text;
 				if (Engine.LanguageManager.TranslationExists(item, language.Name))
+				{
 					text = string.Format("<img src=\"{0}\" />", Utility.GetCooliteIconUrl(Ext.Net.Icon.Tick));
+				}
 				else
+				{
 					text = "Create";
+				}
+
 				var link = string.Format("<a href=\"{0}\">{1}</a>", Engine.AdminManager.GetEditExistingItemUrl(item, language.Name), text);
 				row.Cells.Add(new TableCell { Text = link });
 			}

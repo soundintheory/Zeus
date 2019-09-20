@@ -41,8 +41,10 @@ namespace Zeus.Web.Mvc.ViewModels
                     //the signal doesn't exist, so add it to the list
                     _allDataSignal = new CacheSignal();
                     if (!_allDataSignals.ContainsKey(currentItem.CacheID))
-                        _allDataSignals.Add(currentItem.CacheID, _allDataSignal);
-                }
+					{
+						_allDataSignals.Add(currentItem.CacheID, _allDataSignal);
+					}
+				}
 
                 //fire changed signal if needed
                 ChangeSignalFired = false;
@@ -67,16 +69,20 @@ namespace Zeus.Web.Mvc.ViewModels
                 //check itself
                 var itemChanged = false;
                 if (CurrentItem.CheckItselfForCaching)
-                    itemChanged = (SessionVal == null) || (SessionVal != null && (System.DateTime)SessionVal != currentItem.Updated);
+				{
+					itemChanged = (SessionVal == null) || (SessionVal != null && (System.DateTime)SessionVal != currentItem.Updated);
+				}
 
-                if (bWatcherChanged || itemChanged)
+				if (bWatcherChanged || itemChanged)
                 {
                     _allDataSignal.FireChanged();
                     ChangeSignalFired = true;
                     
                     if (itemChanged)
-                        System.Web.HttpContext.Current.Cache["zeusChange_" + ActionForCache + "_" + currentItem.CacheID] = currentItem.Updated;
-                }
+					{
+						System.Web.HttpContext.Current.Cache["zeusChange_" + ActionForCache + "_" + currentItem.CacheID] = currentItem.Updated;
+					}
+				}
             }
 		}
 
@@ -131,8 +137,10 @@ namespace Zeus.Web.Mvc.ViewModels
                     res.FireChanged();
                     
                     if (itemChanged)
-                        System.Web.HttpContext.Current.Cache["zeusChange_" + ActionForCache + "_" + item.CacheID] = item.Updated;
-                }
+					{
+						System.Web.HttpContext.Current.Cache["zeusChange_" + ActionForCache + "_" + item.CacheID] = item.Updated;
+					}
+				}
             }
             return res;
         }

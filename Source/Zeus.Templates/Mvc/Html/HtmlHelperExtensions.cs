@@ -10,7 +10,10 @@ namespace Zeus.Templates.Mvc.Html
 		{
 			var format = @"<label for=""{0}"">{1}";
 			if (required)
+			{
 				format += "<span>*</span>";
+			}
+
 			format += "</label>";
 
 			return string.Format(format, @for.Replace(".", "_"), text);
@@ -19,10 +22,14 @@ namespace Zeus.Templates.Mvc.Html
 		public static string PropertyOrDefault(this HtmlHelper html, ContentItem contentItem, string propertyName, string fallbackPropertyName)
 		{
 			if (contentItem == null)
+			{
 				return string.Empty;
+			}
 
 			if (!contentItem.Details.ContainsKey(propertyName))
+			{
 				return contentItem[fallbackPropertyName].ToString();
+			}
 
 			return contentItem[propertyName].ToString();
 		}
@@ -33,8 +40,10 @@ namespace Zeus.Templates.Mvc.Html
             {
                 var thePage = contentItem as PageContentItem;
                 if (thePage.UseProgrammableSEOAssets)
-                    return thePage.ProgrammableHtmlTitle;
-            }
+				{
+					return thePage.ProgrammableHtmlTitle;
+				}
+			}
             return html.PropertyOrDefault(contentItem, SeoUtility.HTML_TITLE, "Title");        
 		}
 
@@ -44,8 +53,10 @@ namespace Zeus.Templates.Mvc.Html
             {
                 var thePage = contentItem as PageContentItem;
                 if (thePage.UseProgrammableSEOAssets)
-                    return thePage.ProgrammableMetaKeywords;
-            }
+				{
+					return thePage.ProgrammableMetaKeywords;
+				}
+			}
 			return html.PropertyOrDefault(contentItem, SeoUtility.META_KEYWORDS, "Title");
 		}
 
@@ -55,31 +66,45 @@ namespace Zeus.Templates.Mvc.Html
             {
                 var thePage = contentItem as PageContentItem;
                 if (thePage.UseProgrammableSEOAssets)
-                    return thePage.ProgrammableMetaDescription;
-            }
+				{
+					return thePage.ProgrammableMetaDescription;
+				}
+			}
 			return html.PropertyOrDefault(contentItem, SeoUtility.META_DESCRIPTION, "Title");
 		}
 
 		public static string Pluralize(this HtmlHelper html, string word, int count)
 		{
 			if (count != 1)
+			{
 				word = word + "s";
+			}
+
 			return word;
 		}
 
 		public static string Pluralize(this HtmlHelper html, string zeroItems, string oneItem, string multipleItems, int count)
 		{
 			if (count < 1)
+			{
 				return zeroItems;
+			}
+
 			if (count == 1)
+			{
 				return oneItem;
+			}
+
 			return string.Format(multipleItems, count);
 		}
 
 		public static string IsAre(this HtmlHelper html, int count)
 		{
 			if (count != 1)
+			{
 				return "are";
+			}
+
 			return "is";
 		}
 	}

@@ -95,7 +95,9 @@ namespace Coolite.Ext.UX
 			get
 			{
 				if (_settings == null)
+				{
 					_settings = new TinyMCESettings();
+				}
 
 				return _settings;
 			}
@@ -137,7 +139,9 @@ namespace Coolite.Ext.UX
 		{
 			var handler = (EventHandler) Events[EventTextChanged];
 			if (handler != null)
+			{
 				handler(this, e);
+			}
 		}
 
 		protected override void RaisePostDataChangedEvent()

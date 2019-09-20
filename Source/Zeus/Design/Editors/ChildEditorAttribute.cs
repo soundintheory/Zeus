@@ -78,8 +78,10 @@ namespace Zeus.Design.Editors
                 if (!((ContentItem)itemEditor.CurrentItem).IsEmpty() || (((ContentItem)itemEditor.CurrentItem) is File && ((FancyFileUpload)editor.Controls[0].Controls[1]).HasNewOrChangedFile))
                 {
                     if ((child = (ContentItem)itemEditor.Save()).IsEmpty())
-                        Context.Persister.Delete(child);
-                }
+					{
+						Context.Persister.Delete(child);
+					}
+				}
 			});
 
 			return true;
@@ -103,10 +105,12 @@ namespace Zeus.Design.Editors
 
 		protected override Control AddEditor(Control panel)
 		{
-			var editor = new ItemEditView();
-			editor.ID = Name;
-            //editor.ZoneName = DefaultChildZoneName;
-            editor.Init += OnChildEditorInit;
+			var editor = new ItemEditView
+			{
+				ID = Name
+			};
+			//editor.ZoneName = DefaultChildZoneName;
+			editor.Init += OnChildEditorInit;
 
 			panel.Controls.Add(editor);
 
@@ -124,7 +128,7 @@ namespace Zeus.Design.Editors
 		{
 			var childItem = Utility.GetProperty(item, Name) as ContentItem;
 
-            if (childItem as AcceptArgsFromChildEditor != null)
+            if (childItem is AcceptArgsFromChildEditor)
             {
                 if (((AcceptArgsFromChildEditor)childItem).arg1 != this.arg1 || ((AcceptArgsFromChildEditor)childItem).arg2 != this.arg2)
                 {
@@ -141,7 +145,10 @@ namespace Zeus.Design.Editors
 				var pi = item.GetType().GetProperty(Name);
 
 				if (pi == null)
+				{
 					throw new ZeusException("The item should have had a property named '{0}'", Name);
+				}
+
 				childItem = CreateChild(item, pi.PropertyType);
 
 				pi.SetValue(item, childItem, null);
@@ -155,7 +162,7 @@ namespace Zeus.Design.Editors
 			try
 			{
 				child = Definitions.CreateInstance(childItemType, item);
-                if (child as AcceptArgsFromChildEditor != null)
+                if (child is AcceptArgsFromChildEditor)
                 {
                     ((AcceptArgsFromChildEditor)child).arg1 = this.arg1;
                     ((AcceptArgsFromChildEditor)child).arg2 = this.arg2;

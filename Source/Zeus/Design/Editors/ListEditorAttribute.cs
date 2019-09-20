@@ -48,7 +48,9 @@ namespace Zeus.Design.Editors
 			var ddl = (ListControl) editor;
 			ddl.Items.AddRange(GetListItems(item));
 			if (item[Name] != null)
+			{
 				SetValue(ddl, GetValue(item));
+			}
 		}
 
 		protected virtual void SetValue(ListControl editor, object value)
@@ -70,7 +72,9 @@ namespace Zeus.Design.Editors
 			container.Controls.Add(ddl);
 			ddl.ID = Name;
 			if (!Required)
+			{
 				ddl.Items.Add(new ListItem());
+			}
 
 			ModifyEditor(ddl);
 

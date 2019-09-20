@@ -15,7 +15,10 @@ namespace Zeus.Serialization
 			get
 			{
 				if (ReadItems.Count == 0)
+				{
 					return null;
+				}
+
 				return ReadItems[ReadItems.Count - 1];
 			}
 		}
@@ -25,7 +28,10 @@ namespace Zeus.Serialization
 			get
 			{
 				if (ReadItems.Count == 0)
+				{
 					return null;
+				}
+
 				return ReadItems[0];
 			}
 		}
@@ -39,14 +45,21 @@ namespace Zeus.Serialization
 		{
 			ReadItems.Add(item);
 			if (ItemAdded != null)
+			{
 				ItemAdded.Invoke(this, new ItemEventArgs(item));
+			}
 		}
 
 		public ContentItem Find(int itemiD)
 		{
 			foreach (var previousItem in ReadItems)
+			{
 				if (previousItem.ID == itemiD)
+				{
 					return previousItem;
+				}
+			}
+
 			return null;
 		}
 

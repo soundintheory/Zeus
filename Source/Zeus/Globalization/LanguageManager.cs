@@ -51,7 +51,10 @@ namespace Zeus.Globalization
 		{
 			var container = GetLanguageContainer(create);
 			if (container != null)
+			{
 				return container.GetChildren<Language>().Where(l => l.Enabled);
+			}
+
 			return new List<Language>();
 		}
 
@@ -70,16 +73,22 @@ namespace Zeus.Globalization
 		{
 			// If item can't be translated, return it immediately.
 			if (!CanBeTranslated(contentItem))
+			{
 				return contentItem;
+			}
 
 			// Get original item.
 			if (contentItem.TranslationOf != null)
+			{
 				contentItem = contentItem.TranslationOf;
+			}
 
 			// 1. If the content item is available in the requested language, return that translation.
 			var translatedItem = GetTranslationDirect(contentItem, languageCode);
 			if (translatedItem != null)
+			{
 				return translatedItem;
+			}
 
 			// 2. If the language settings for the current item indicate that we can fallback
 			// to another language, check if a translation for that fallback language exists.
@@ -88,14 +97,18 @@ namespace Zeus.Globalization
 			{
 				translatedItem = GetTranslationDirect(contentItem, languageSetting.FallbackLanguage);
 				if (translatedItem != null)
+				{
 					return translatedItem;
+				}
 			}
 
 			// 3. TODO - replacements languages.
 
 			// 4. If content item has not been localised, just return it.
 			if (string.IsNullOrEmpty(contentItem.Language))
+			{
 				return contentItem;
+			}
 
 			// 5. We don't have anything to show to the user.
 			return null;
@@ -107,11 +120,17 @@ namespace Zeus.Globalization
 			while (contentItem != null)
 			{
 				if (contentItem.LanguageSettings != null && contentItem.LanguageSettings.Any())
+				{
 					break;
+				}
+
 				contentItem = contentItem.Parent;
 			}
 			if (contentItem == null)
+			{
 				return null;
+			}
+
 			return contentItem.LanguageSettings.SingleOrDefault(ls => ls.Language == languageCode);
 		}
 
@@ -133,10 +152,14 @@ namespace Zeus.Globalization
 		{
 			var result = new List<ContentItem>();
 			if (originalLanguageItem.ID == 0)
+			{
 				return result;
+			}
 
 			if (includeOriginal)
+			{
 				result.Add(originalLanguageItem);
+			}
 
 			result.AddRange(originalLanguageItem.Translations);
 			return result;
@@ -176,7 +199,10 @@ namespace Zeus.Globalization
 			var parent = _persister.Get(LanguageContainerParentID);
 			var languageContainer = parent.GetChild("languages") as LanguageContainer;
 			if (languageContainer == null && create)
+			{
 				languageContainer = CreateLanguageContainer(parent);
+			}
+
 			return languageContainer;
 		}
 

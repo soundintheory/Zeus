@@ -15,7 +15,10 @@ namespace Zeus.Serialization
 		public override IImportRecord Read(Stream input, string filename)
 		{
 			if (filename.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase))
+			{
 				return base.Read(new GZipStream(input, CompressionMode.Decompress), filename);
+			}
+
 			return base.Read(input, filename);
 		}
 	}

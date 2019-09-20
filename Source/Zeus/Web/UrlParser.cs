@@ -31,7 +31,7 @@ namespace Zeus.Web
         {
         }
 
-        public UrlParser(IPersister persister, IHost host, IWebContext webContext, IItemNotifier notifier, HostSection config, ILanguageManager languageManager, CustomUrlsSection urls, GlobalizationSection globalizationConfig)
+        public UrlParser(IPersister persister, IHost host, IWebContext webContext, IItemNotifier notifier, HostSection config, ILanguageManager languageManager, CustomUrlsSection urls)
         {
             Persister = persister;
             Host = host;
@@ -222,7 +222,7 @@ namespace Zeus.Web
         {
             if (current == null)
 			{
-				throw new ArgumentNullException("current");
+				throw new ArgumentNullException(nameof(current));
 			}
 
 			url = CleanUrl(url);
@@ -241,9 +241,7 @@ namespace Zeus.Web
 				}
 			}
 
-			var notFound = NotFoundPage(url);
-
-            return current.GetChild(url) ?? NotFoundPage(url);
+			return current.GetChild(url) ?? NotFoundPage(url);
         }
 
         /// <summary>May be overridden to provide custom start page depending on authority.</summary>
@@ -261,7 +259,7 @@ namespace Zeus.Web
         {
             if (string.IsNullOrEmpty(url))
 			{
-				throw new ArgumentNullException("url");
+				throw new ArgumentNullException(nameof(url));
 			}
 
 			var startingPoint = GetStartPage(url);
@@ -290,14 +288,11 @@ namespace Zeus.Web
 			}
 
 			var args = new PageNotFoundEventArgs(url);
-            if (PageNotFound != null)
-			{
-				PageNotFound(this, args);
-			}
+			PageNotFound?.Invoke(this, args);
 
-			if (System.Web.HttpContext.Current != null)
+			if (HttpContext.Current != null)
 			{
-				System.Web.HttpContext.Current.Response.StatusCode = 404;
+				HttpContext.Current.Response.StatusCode = 404;
 			}
 
 			return args.AffectedItem;

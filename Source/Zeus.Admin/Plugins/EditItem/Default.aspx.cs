@@ -94,12 +94,16 @@ namespace Zeus.Admin.Plugins.EditItem
 		{
 			Validate();
 			if (!IsValid)
+			{
 				return;
+			}
 
 			try
 			{
                 if (((ContentItem)zeusItemEditView.CurrentItem).HasMinRequirementsForSaving() || ((ContentItem)zeusItemEditView.CurrentItem).ID == 0)
-                    SaveChanges();
+				{
+					SaveChanges();
+				}
 			}
 			catch (Exception ex)
 			{
@@ -117,7 +121,10 @@ namespace Zeus.Admin.Plugins.EditItem
 		{
 			var mode = (((ContentItem) zeusItemEditView.CurrentItem).VersionOf == null) ? ItemEditorVersioningMode.VersionAndSave : ItemEditorVersioningMode.SaveAsMaster;
 			if (!Engine.Resolve<AdminSection>().Versioning.Enabled)
+			{
 				mode = ItemEditorVersioningMode.SaveOnly;
+			}
+
 			var currentItem = (ContentItem) zeusItemEditView.Save((ContentItem) zeusItemEditView.CurrentItem, mode);
 
 			if (Request["before"] != null)
@@ -155,7 +162,9 @@ namespace Zeus.Admin.Plugins.EditItem
 		protected void btnSaveUnpublished_Click(object sender, EventArgs e)
 		{
 			if (!IsValid)
+			{
 				return;
+			}
 
 			var savedVersion = SaveVersion();
 			var redirectUrl = Engine.AdminManager.GetEditExistingItemUrl(savedVersion, SelectedLanguageCode);
@@ -165,7 +174,9 @@ namespace Zeus.Admin.Plugins.EditItem
 		protected void btnPreview_Click(object sender, EventArgs e)
 		{
 			if (!IsValid)
+			{
 				return;
+			}
 
 			var savedVersion = SaveVersion();
 
@@ -173,9 +184,14 @@ namespace Zeus.Admin.Plugins.EditItem
 
 			redirectTo = redirectTo.AppendQuery("preview", savedVersion.ID);
 			if (savedVersion.VersionOf != null)
+			{
 				redirectTo = redirectTo.AppendQuery("original", savedVersion.VersionOf.ID);
+			}
+
 			if (!string.IsNullOrEmpty(Request["returnUrl"]))
+			{
 				redirectTo = redirectTo.AppendQuery("returnUrl", Request["returnUrl"]);
+			}
 
 			Response.Redirect(redirectTo);
 		}
@@ -205,7 +221,9 @@ namespace Zeus.Admin.Plugins.EditItem
 					.Take(1);
 
 				if (unpublishedVersions.Any() && unpublishedVersions.First().Updated > item.Updated)
+				{
 					DisplayThisHasNewerVersionInfo(unpublishedVersions.First());
+				}
 			}
 		}
 
@@ -233,7 +251,10 @@ namespace Zeus.Admin.Plugins.EditItem
 			{
 				ITypeDefinition contentType = TypeDefinition;
 				if (contentType != null)
+				{
 					return contentType.ItemType;
+				}
+
 				return null;
 			}
 		}
@@ -246,7 +267,10 @@ namespace Zeus.Admin.Plugins.EditItem
 				var contentItem = Zeus.Context.Current.ContentTypes.CreateInstance(CurrentItemType, parentItem);
 				contentItem.Language = SelectedLanguageCode;
 				if (contentItem is WidgetContentItem)
+				{
 					((WidgetContentItem) contentItem).ZoneName = Page.Request["zoneName"];
+				}
+
 				e.AffectedItem = contentItem;
 			}
 		}
@@ -256,9 +280,15 @@ namespace Zeus.Admin.Plugins.EditItem
 			get
 			{
 				if (!string.IsNullOrEmpty(Discriminator))
+				{
 					return Zeus.Context.Current.ContentTypes[Discriminator];
+				}
+
 				if (SelectedItem != null)
+				{
 					return Zeus.Context.Current.ContentTypes[SelectedItem.GetType()];
+				}
+
 				return null;
 			}
 		}

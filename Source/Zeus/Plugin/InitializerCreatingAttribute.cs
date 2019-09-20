@@ -13,7 +13,11 @@ namespace Zeus.Plugin
 
 		public virtual void Initialize(ContentEngine engine)
 		{
-			if (InitializerType == null) throw new ArgumentNullException("InitializerType");
+			if (InitializerType == null)
+			{
+				throw new ArgumentNullException("InitializerType");
+			}
+
 			CreateInitializer().Initialize(engine);
 		}
 

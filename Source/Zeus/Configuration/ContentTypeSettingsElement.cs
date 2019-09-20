@@ -28,7 +28,10 @@ namespace Zeus.Configuration
 		{
 			var type = System.Type.GetType(Type);
 			if (type == null)
+			{
 				throw new ArgumentException("Could not load type: '" + Type + "'", "Type");
+			}
+
 			return type;
 		}
 	}

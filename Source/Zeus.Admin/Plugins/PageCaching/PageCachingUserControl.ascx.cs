@@ -73,7 +73,9 @@ namespace Zeus.Admin.Plugins.PageCaching
 		public void DeleteCachedPage(string id)
 		{
 			if (string.IsNullOrEmpty(id))
+			{
 				return;
+			}
 
 			var contentItem = Engine.Persister.Get(Convert.ToInt32(id));
 			Engine.Resolve<ICachingService>().DeleteCachedPage(contentItem);

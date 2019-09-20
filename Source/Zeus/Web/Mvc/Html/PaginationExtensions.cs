@@ -127,37 +127,56 @@ namespace Zeus.Web.Mvc.Html
 			public override string ToString()
 			{
 				if (_pagination.TotalItems == 0)
+				{
 					return null;
+				}
 
 				var builder = new StringBuilder();
 
 				if (!_linksOnly)
+				{
 					if (_pagination.PageSize == 1)
+					{
 						builder.AppendFormat(_paginationSingleFormat, _pagination.FirstItem, _pagination.TotalItems);
+					}
 					else
+					{
 						builder.AppendFormat(_paginationFormat, _pagination.FirstItem, _pagination.LastItem, _pagination.TotalItems);
+					}
+				}
 
 				if (!_showingOnly)
 				{
 					builder.Append("<ul class=\"clearfix\">");
 
 					if (_pagination.HasPreviousPage)
+					{
 						builder.Append("<li class=\"pagePrev\">" + CreatePageLink(_pagination.PageNumber - 1, "previous") + "</li>");
+					}
 					else
+					{
 						builder.Append(""); //builder.Append("<li class=\"pagePrev\">previous</li>");
+					}
 
 					for (var i = 1; i <= _pagination.TotalPages; ++i)
 					{
 						builder.Append("<li");
 						if (_pagination.PageNumber == i)
+						{
 							builder.Append(" class=\"on\"");
+						}
+
 						builder.Append(">" + CreatePageLink(i, i.ToString()) + "</li>");
 					}
 
 					if (_pagination.HasNextPage)
+					{
 						builder.Append("<li class=\"pageNext\">" + CreatePageLink(_pagination.PageNumber + 1, "next") + "</li>");
+					}
 					else
+					{
 						builder.Append(""); //builder.Append("<li class=\"pageNext\">next</li>");
+					}
 
 					builder.Append("</ul>");
 				}
@@ -185,7 +204,9 @@ namespace Zeus.Web.Mvc.Html
 					}
 
 					foreach (var value in values.GetValues(key))
+					{
 						builder.AppendFormat("&amp;{0}={1}", key, value);
+					}
 				}
 
 				return builder.ToString();

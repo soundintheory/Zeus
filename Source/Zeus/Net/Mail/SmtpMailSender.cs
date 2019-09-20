@@ -24,12 +24,18 @@ namespace Zeus.Net.Mail
 			SmtpClient client;
 
 			if (string.IsNullOrEmpty(host))
+			{
 				client = new SmtpClient();
+			}
 			else
+			{
 				client = new SmtpClient(host, port);
+			}
 
 			if (!string.IsNullOrEmpty(user))
+			{
 				client.Credentials = new NetworkCredential(user, password);
+			}
 
 			return client;
 		}

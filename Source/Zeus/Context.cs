@@ -15,7 +15,10 @@ namespace Zeus
 			get
 			{
 				if (Singleton<ContentEngine>.Instance == null)
+				{
 					Initialize(false);
+				}
+
 				return Singleton<ContentEngine>.Instance;
 			}
 		}

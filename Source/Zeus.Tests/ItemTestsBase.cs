@@ -53,7 +53,10 @@ namespace Zeus.Tests
 			Expect.On(context).Call(context.RequestItems).Return(requestItems).Repeat.Any();
 
 			if (replay)
+			{
 				mocks.Replay(context);
+			}
+
 			return context;
 		}
 	}

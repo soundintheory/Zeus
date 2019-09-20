@@ -18,26 +18,36 @@ namespace Zeus.BaseLibrary.Navigation
         public bool IsCurrentPage(string url)
         {
             if (url == Url)
-                return true;
-            else if (this.SubNav != null)
+			{
+				return true;
+			}
+			else if (this.SubNav != null)
             {
                 foreach (var subNavItem in this.SubNav)
                 {
                     if (subNavItem.Url == url)
-                        return true;
-                    if (subNavItem.SubNav != null)
+					{
+						return true;
+					}
+
+					if (subNavItem.SubNav != null)
                     {
                         foreach (var tertiaryNavItem in subNavItem.SubNav)
                         {
                             if (tertiaryNavItem.Url == url)
-                                return true;
-                            if (tertiaryNavItem.SubNav != null)
+							{
+								return true;
+							}
+
+							if (tertiaryNavItem.SubNav != null)
                             {
                                 foreach (var fourthLevelNavItem in tertiaryNavItem.SubNav)
                                 {
                                     if (fourthLevelNavItem.Url == url)
-                                        return true;
-                                }
+									{
+										return true;
+									}
+								}
                             }
                         }
 

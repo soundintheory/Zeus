@@ -62,18 +62,26 @@ jQuery(document).ready(function() {{
                 
                 //added code to stop the start page being returned if the url accessed is tampered with or data changed during edit, else home page was getting edited!!
                 if (selectedItem == null && !string.IsNullOrEmpty(Request["selected"]))
-                    throw new Exception("Url Doesn't Exist!! Content Item has been moved or changed");
-                else if (selectedItem == null)
-                    selectedItem = Zeus.Context.UrlParser.StartPage;
-                
-                return selectedItem;
+				{
+					throw new Exception("Url Doesn't Exist!! Content Item has been moved or changed");
+				}
+				else if (selectedItem == null)
+				{
+					selectedItem = Zeus.Context.UrlParser.StartPage;
+				}
+
+				return selectedItem;
 			}
 			set
 			{
 				if (value != null)
+				{
 					SelectedItemID = value.ID;
+				}
 				else
+				{
 					SelectedItemID = 0;
+				}
 			}
 		}
 
@@ -118,13 +126,17 @@ jQuery(document).ready(function() {{
             }});", contentItem.ID);
 
             if (ExtNet.IsAjaxRequest)
-                ExtNet.ResourceManager.RegisterOnReadyScript(script);
-            else
-                ClientScript.RegisterStartupScript(
+			{
+				ExtNet.ResourceManager.RegisterOnReadyScript(script);
+			}
+			else
+			{
+				ClientScript.RegisterStartupScript(
                     typeof(AdminPage),
                     "AddRefreshEditPreviewScript",
                     script, true);
-        }
+			}
+		}
 
         public void RefreshEditPanel(ContentItem contentItem)
         {
@@ -134,13 +146,17 @@ jQuery(document).ready(function() {{
             }});", GetEditUrl(contentItem));
 
             if (ExtNet.IsAjaxRequest)
-                ExtNet.ResourceManager.RegisterOnReadyScript(script);
-            else
-                ClientScript.RegisterStartupScript(
+			{
+				ExtNet.ResourceManager.RegisterOnReadyScript(script);
+			}
+			else
+			{
+				ClientScript.RegisterStartupScript(
                     typeof(AdminPage),
                     "AddRefreshEditContentScript",
                     script, true);
-        }
+			}
+		}
 
         public void Refresh(ContentItem contentItem, AdminFrame frame, bool insideUpdatePanel)
 		{
@@ -174,17 +190,23 @@ jQuery(document).ready(function() {{
 			);
 
 			if (ExtNet.IsAjaxRequest)
+			{
 				ExtNet.ResourceManager.RegisterOnReadyScript(script);
+			}
 			else if (insideUpdatePanel)
+			{
 				System.Web.UI.ScriptManager.RegisterStartupScript(
 					this, typeof(AdminPage),
 					"AddRefreshEditScript",
 					script, true);
+			}
 			else
+			{
 				ClientScript.RegisterStartupScript(
 					typeof(AdminPage),
 					"AddRefreshEditScript",
 					script, true);
+			}
 		}
 
         protected virtual string GetEditUrl(ContentItem contentItem)
@@ -204,7 +226,10 @@ jQuery(document).ready(function() {{
 		private ContentItem GetFromViewState()
 		{
 			if (SelectedItemID != 0)
+			{
 				return Zeus.Context.Persister.Get(SelectedItemID);
+			}
+
 			return null;
 		}
 
@@ -212,15 +237,21 @@ jQuery(document).ready(function() {{
 		{
 			var selected = GetSelectedPath();
 			if (!string.IsNullOrEmpty(selected))
+			{
 				return Engine.Resolve<Navigator>().Navigate(selected);
+			}
 
 			var selectedUrl = Request["selectedUrl"];
 			if (!string.IsNullOrEmpty(selectedUrl))
+			{
 				return Engine.UrlParser.Parse(selectedUrl);
+			}
 
 			var itemId = Request[PathData.ItemQueryKey];
 			if (!string.IsNullOrEmpty(itemId))
+			{
 				return Engine.Persister.Get(int.Parse(itemId));
+			}
 
 			return null;
 		}

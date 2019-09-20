@@ -72,9 +72,13 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		{
 			var paragraphs = value.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 			if (paragraphs.Length > paragraphIndex)
+			{
 				return string.Join(Environment.NewLine, paragraphs, paragraphIndex, paragraphs.Length - paragraphIndex);
+			}
 			else
+			{
 				return string.Empty;
+			}
 		}
 
 		public static string Right(this string value, int length)
@@ -103,7 +107,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		public static string ToPascalCase(this string value)
 		{
 			if (string.IsNullOrEmpty(value))
+			{
 				return value;
+			}
 
 			return char.ToLower(value[0]) + value.Substring(1);
 		}
@@ -116,9 +122,11 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		public static string ToSafeUrl(this string value)
 		{
 			if (string.IsNullOrEmpty(value))
+			{
 				return string.Empty;
+			}
 
-            var temp = value.ToLower().Trim();
+			var temp = value.ToLower().Trim();
             //temp = temp.Replace("  ", " ").Replace("  ", " ").Trim();
 			temp = Regex.Replace(temp, "[ ]+", "-");
 
@@ -156,11 +164,15 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		public static Type ToType(this string typeName)
 		{
 			if (typeName == null)
+			{
 				throw new ArgumentNullException("name");
+			}
 
 			var t = Type.GetType(typeName);
 			if (t == null)
+			{
 				throw new Exception(string.Format("Couldn't find any type with the name '{0}'", typeName));
+			}
 
 			return t;
 		}
@@ -173,10 +185,14 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		public static string Truncate(this string value, int length, bool preserveWordBoundaries)
 		{
 			if (string.IsNullOrEmpty(value))
+			{
 				return value;
+			}
 
 			if (value.Length <= length)
+			{
 				return value;
+			}
 
 			var words = value.Split(' ');
 			var currentLength = 0;
@@ -229,19 +245,27 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		public static string LeftBefore(this string original, string search, StringComparison comparisonType)
 		{
 			if (original == null)
-				throw new ArgumentNullException("original", "The original string may not be null.");
+			{
+				throw new ArgumentNullException(nameof(original), "The original string may not be null.");
+			}
 
 			if (search == null)
-				throw new ArgumentNullException("search", "Search string may not be null.");
+			{
+				throw new ArgumentNullException(nameof(search), "Search string may not be null.");
+			}
 
 			//Shortcut.
 			if (search.Length > original.Length || search.Length == 0)
+			{
 				return original;
+			}
 
 			var searchIndex = original.IndexOf(search, 0, comparisonType);
 
 			if (searchIndex < 0)
+			{
 				return original;
+			}
 
 			return Left(original, searchIndex);
 		}
@@ -275,18 +299,27 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		public static string RightAfter(this string original, string search, StringComparison comparisonType)
 		{
 			if (original == null)
-				throw new ArgumentNullException("original", "The original string may not be null.");
+			{
+				throw new ArgumentNullException(nameof(original), "The original string may not be null.");
+			}
+
 			if (search == null)
-				throw new ArgumentNullException("search", "The searchString string may not be null.");
+			{
+				throw new ArgumentNullException(nameof(search), "The searchString string may not be null.");
+			}
 
 			//Shortcut.
 			if (search.Length > original.Length || search.Length == 0)
+			{
 				return original;
+			}
 
 			var searchIndex = original.IndexOf(search, 0, comparisonType);
 
 			if (searchIndex < 0)
+			{
 				return original;
+			}
 
 			return Right(original, original.Length - (searchIndex + search.Length));
 		}
@@ -321,18 +354,27 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		public static string RightAfterLast(this string original, string search, int startIndex, StringComparison comparisonType)
 		{
 			if (original == null)
-				throw new ArgumentNullException("original", "The original string may not be null.");
+			{
+				throw new ArgumentNullException(nameof(original), "The original string may not be null.");
+			}
+
 			if (search == null)
-				throw new ArgumentNullException("search", "The searchString string may not be null.");
+			{
+				throw new ArgumentNullException(nameof(search), "The searchString string may not be null.");
+			}
 
 			//Shortcut.
 			if (search.Length > original.Length || search.Length == 0)
+			{
 				return original;
+			}
 
 			var searchIndex = original.LastIndexOf(search, startIndex, comparisonType);
 
 			if (searchIndex < 0)
+			{
 				return original;
+			}
 
 			return Right(original, original.Length - (searchIndex + search.Length));
 		}
@@ -340,9 +382,11 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		public static bool IsValidEmail(this string original)
 		{
 			if (string.IsNullOrEmpty(original))
+			{
 				return false;
+			}
 
-            try
+			try
             {
                 var match = Regex.Match(original, @"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
                 return ((match.Success && (match.Index == 0)) && (match.Length == original.Length));
@@ -356,7 +400,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		public static bool IsValidUKTelephoneNumber(this string original)
 		{
 			if (string.IsNullOrEmpty(original))
+			{
 				return false;
+			}
 
 			return Regex.IsMatch(original, @"^\s*\(?(020[7,8]{1}\)?[ ]?[1-9]{1}[0-9{2}[ ]?[0-9]{4})|(0[1-8]{1}[0-9]{3}\)?[ ]?[1-9]{1}[0-9]{2}[ ]?[0-9]{3})\s*$");
 		}

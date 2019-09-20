@@ -32,11 +32,16 @@ namespace Zeus.Web.UI.WebControls
 							{
 								result = true;
 								if (deleteCheckBox.Checked)
+								{
 									DeleteItem(listViewDataItem.DisplayIndex);
+								}
 							}
 						}
 						if (result)
+						{
 							return true;
+						}
+
 						break;
 					case "Sort":
 						_sortButton = source as LinkButton;
@@ -59,8 +64,12 @@ namespace Zeus.Web.UI.WebControls
 
 					// reset other column headers
 					foreach (Control control in sortableColumnHeader.Parent.Controls)
+					{
 						if (control is SortableColumnHeader && control != sortableColumnHeader)
+						{
 							((SortableColumnHeader) control).IncludedInSort = false;
+						}
+					}
 				}
 			}
 		}

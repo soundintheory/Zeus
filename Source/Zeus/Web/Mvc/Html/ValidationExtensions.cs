@@ -17,7 +17,9 @@ namespace Zeus.Web.Mvc.Html
 		public static string ValidationSummaryBox(this HtmlHelper htmlHelper, string message)
 		{
 			if (htmlHelper.ViewData.ModelState.IsValid)
+			{
 				return null;
+			}
 
 			var divBuilder = new TagBuilder("div");
 			divBuilder.Attributes["id"] = "errors";
@@ -52,10 +54,14 @@ namespace Zeus.Web.Mvc.Html
 		private static string GetUserErrorMessageOrDefault(HttpContextBase httpContext, ModelError error, ModelState modelState)
 		{
 			if (!string.IsNullOrEmpty(error.ErrorMessage))
+			{
 				return error.ErrorMessage;
+			}
 
 			if (modelState == null)
+			{
 				return null;
+			}
 
 			var value = (modelState.Value != null) ? modelState.Value.AttemptedValue : null;
 			return string.Format(CultureInfo.CurrentCulture, "The value '{0}' is invalid.", value);
@@ -68,7 +74,10 @@ namespace Zeus.Web.Mvc.Html
 			if (htmlHelper.ViewData[FormNameKey] != null
 				&& !string.IsNullOrEmpty(htmlHelper.ViewData[FormNameKey].ToString())
 				&& (htmlHelper.ViewData[FormNameKey].ToString() == name))
+			{
 				return ValidationSummaryBox(htmlHelper, message);
+			}
+
 			return string.Empty;
 		}
 	}

@@ -18,7 +18,9 @@ namespace Zeus.Web.UI.WebControls
 			var info = base.GetPropertyImpl(name, bindingAttr, binder, returnType, types, modifiers);
 
 			if (name == "ItemTemplate")
+			{
 				info = new FakePropertyInfo(info, this.formViewType);
+			}
 
 			return info;
 		}

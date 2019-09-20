@@ -32,9 +32,11 @@ namespace Zeus.Templates.Mvc.Html
 
 			var result = string.Empty;
 			foreach (var contentItem in navigationItems)
+			{
 				result += string.Format("<li class=\"{0}\"><span><a href=\"{1}\">{2}</a></span></li>",
 					cssClassCallback(contentItem, contentItem == navigationItems.First(), contentItem == navigationItems.Last()),
 					contentItem.Url, contentItem.Title);
+			}
 
 			result = layoutCallback(result);
 			return result;
@@ -49,9 +51,15 @@ namespace Zeus.Templates.Mvc.Html
 				{
 					var result = string.Empty;
 					if (IsCurrentBranch(html, ci, currentPage))
+					{
 						result += "on";
+					}
+
 					if (isLast)
+					{
 						result += " last";
+					}
+
 					return result;
 				});
 		}
@@ -65,9 +73,15 @@ namespace Zeus.Templates.Mvc.Html
 				{
 					var result = string.Empty;
 					if (IsCurrentBranch(html, ci, currentPage))
+					{
 						result += "on";
+					}
+
 					if (isLast)
+					{
 						result += " last";
+					}
+
 					return result;
 				});
 		}
@@ -89,12 +103,20 @@ namespace Zeus.Templates.Mvc.Html
 			{
 				var redirect = (Redirect) itemToCheck;
 				if (redirect.RedirectItem == currentPage)
+				{
 					return true;
+				}
+
 				if (redirect.CheckChildrenForNavigationState && Find.IsAccessibleChildOrSelf(((Redirect)itemToCheck).RedirectItem, currentPage))
+				{
 					return true;
+				}
 			}
 			if (Find.IsAccessibleChildOrSelf(itemToCheck, currentPage))
+			{
 				return true;
+			}
+
 			return false;
 		}
 
@@ -113,7 +135,10 @@ namespace Zeus.Templates.Mvc.Html
 			var added = 0;
 			var parents = Find.EnumerateParents(currentPage, Find.StartPage, true);
 			if (startLevel != 1 && parents.Count() >= startLevel)
+			{
 				parents = parents.Take(parents.Count() - startLevel);
+			}
+
 			foreach (var page in parents)
 			{
 				var appearance = page as IBreadcrumbAppearance;
@@ -138,7 +163,9 @@ namespace Zeus.Templates.Mvc.Html
 			result = prefix + result;
 
 			if (added < visibilityLevel)
+			{
 				result = string.Empty;
+			}
 
 			return result;
 		}
@@ -202,7 +229,9 @@ namespace Zeus.Templates.Mvc.Html
 
 						//only add this level if something was found!
 						if (foundSomething)
+						{
 							sbInner.Append(sbInnerFurther.ToString() + "</li>");
+						}
 					}
 				}
 				sbInner.Append("</ul>");
@@ -210,7 +239,9 @@ namespace Zeus.Templates.Mvc.Html
 
 			//only append to the final string, if at somepoint a link has been hit, otherwise, you'll end up with loads of titles for no reason
 			if (foundSomething)
+			{
 				sb.Append(sbInner.ToString());
+			}
 
 			return foundSomething;
 		}
@@ -248,8 +279,12 @@ namespace Zeus.Templates.Mvc.Html
                     {
                         foreach (var subNavItem in html.NavigationPages(theItem))
                         {
-                            if (item.SubNav == null) item.SubNav = new List<NavigationItem>();
-                            item.SubNav.Add(new NavigationItem { Title = subNavItem.Title, Url = subNavItem.Url, ID = subNavItem.ID, ParentUrl = item.Url, SubNav = GetTertiaryNav(html, subNavItem, true) });
+                            if (item.SubNav == null)
+							{
+								item.SubNav = new List<NavigationItem>();
+							}
+
+							item.SubNav.Add(new NavigationItem { Title = subNavItem.Title, Url = subNavItem.Url, ID = subNavItem.ID, ParentUrl = item.Url, SubNav = GetTertiaryNav(html, subNavItem, true) });
                         }
                     }
                 }
@@ -279,9 +314,11 @@ namespace Zeus.Templates.Mvc.Html
             var LangCode = "";
 
             if (Lang)
-                LangCode = Zeus.Globalization.ContentLanguage.PreferredCulture.TwoLetterISOLanguageName;
+			{
+				LangCode = Zeus.Globalization.ContentLanguage.PreferredCulture.TwoLetterISOLanguageName;
+			}
 
-            return "ZeusCache_" + ContentID.ToString() + "_" + Key + (Lang ? "_" + LangCode : "");
+			return "ZeusCache_" + ContentID.ToString() + "_" + Key + (Lang ? "_" + LangCode : "");
         }
 
         public static string GetCacheKey(this HtmlHelper html, string ContentID, string Key, bool Lang)
@@ -289,9 +326,11 @@ namespace Zeus.Templates.Mvc.Html
             var LangCode = "";
 
             if (Lang)
-                LangCode = Zeus.Globalization.ContentLanguage.PreferredCulture.TwoLetterISOLanguageName;
+			{
+				LangCode = Zeus.Globalization.ContentLanguage.PreferredCulture.TwoLetterISOLanguageName;
+			}
 
-            return "ZeusCache_" + ContentID + "_" + Key + (Lang ? "_" + LangCode : "");
+			return "ZeusCache_" + ContentID + "_" + Key + (Lang ? "_" + LangCode : "");
         }
 	}
 }

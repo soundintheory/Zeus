@@ -22,7 +22,10 @@ namespace Zeus.Web.UI.WebControls
 			get
 			{
 				if (_currentItem == null)
+				{
 					_currentItem = this.FindCurrentItem();
+				}
+
 				return _currentItem;
 			}
 			set
@@ -56,7 +59,9 @@ namespace Zeus.Web.UI.WebControls
 			var contentType = Zeus.Context.Current.ContentTypes[contentItem.GetType()];
 			var displayer = contentType.Displayers.SingleOrDefault(d => d.Name == this.PropertyName);
 			if (displayer == null)
+			{
 				throw new ZeusException("Could not find Displayer on property '{0}' on content type '{1}'.", this.PropertyName, contentType.Discriminator);
+			}
 			//displayer.AddTo(this, contentItem, this.PropertyName);
 			displayer.InstantiateIn(this);
 			displayer.SetValue(this, contentItem, this.PropertyName);

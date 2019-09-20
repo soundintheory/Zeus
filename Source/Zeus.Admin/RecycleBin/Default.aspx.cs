@@ -23,7 +23,10 @@ namespace Zeus.Admin.RecycleBin
 		{
 			hlCancel.NavigateUrl = CancelUrl();
 			if (!IsPostBack)
+			{
 				ReBind();
+			}
+
 			cvRestore.IsValid = true;
 			btnEmpty.Enabled = SelectedItem.GetChildren().Any();
 
@@ -33,7 +36,10 @@ namespace Zeus.Admin.RecycleBin
 		protected void btnEmpty_Click(object sender, EventArgs e)
 		{
 			foreach (var child in SelectedItem.GetChildren())
+			{
 				Zeus.Context.Persister.Delete(child);
+			}
+
 			ReBind();
 
 			Refresh(SelectedItem, AdminFrame.Navigation, false);

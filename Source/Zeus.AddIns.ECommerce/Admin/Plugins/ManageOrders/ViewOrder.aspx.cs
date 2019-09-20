@@ -23,11 +23,15 @@ namespace Zeus.AddIns.ECommerce.Plugins
         protected void Page_Load(object sender, EventArgs e)
         {
             if (SelectedOrder.Status != OrderStatus.Paid)
-                btnProcess.Visible = false;
+			{
+				btnProcess.Visible = false;
+			}
 
-            if (SelectedOrder.Status != OrderStatus.Paid)
-                btnCancel.Visible = false;
-        }
+			if (SelectedOrder.Status != OrderStatus.Paid)
+			{
+				btnCancel.Visible = false;
+			}
+		}
 
 		#endregion
 

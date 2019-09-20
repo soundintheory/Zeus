@@ -57,11 +57,15 @@ namespace Zeus.Web.Security
 			}
 
 			if (!CurrentAuthenticationService.Enabled)
+			{
 				return;
+			}
 
 			OnAuthenticate(new AuthenticationEventArgs(context));
 			if (CurrentAuthenticationService.AccessingLoginPage())
+			{
 				context.SkipAuthorization = true;
+			}
 
 			//if (!context.SkipAuthorization)
 			//	context.SkipAuthorization = AssemblyResourceLoader.IsValidWebResourceRequest(context);
@@ -72,10 +76,14 @@ namespace Zeus.Web.Security
 		protected virtual void OnAuthenticate(AuthenticationEventArgs e)
 		{
 			if (Authenticate != null)
+			{
 				Authenticate(this, e);
+			}
 
 			if (e.Context.User != null)
+			{
 				return;
+			}
 
 			if (e.User != null)
 			{
@@ -94,11 +102,15 @@ namespace Zeus.Web.Security
 			}
 
 			if (tOld == null || tOld.Expired)
+			{
 				return;
+			}
 
 			var ticket = tOld;
 			if (CurrentAuthenticationService.Config.SlidingExpiration)
+			{
 				ticket = CurrentAuthenticationService.RenewTicketIfOld(tOld);
+			}
 
 			User membershipUser = null;
 			try
@@ -109,7 +121,9 @@ namespace Zeus.Web.Security
 			{
 			}
 			if (membershipUser == null)
+			{
 				return;
+			}
 
 			e.Context.User = new WebPrincipal(membershipUser, ticket);
 
@@ -134,14 +148,18 @@ namespace Zeus.Web.Security
 		protected virtual void OnEndRequest(object source, EventArgs eventArgs)
 		{
 			if (!_onEnterCalled)
+			{
 				return;
+			}
 
 			_onEnterCalled = false;
 
 			var application = (HttpApplication) source;
 			var context = application.Context;
 			if (context.Response.StatusCode != 0x191)
+			{
 				return;
+			}
 
 			// Add new ReturnUrl parameter, which will remove any existing parameter of this name.
 			var redirectUrl = new Url(CurrentAuthenticationService.LoginUrl);

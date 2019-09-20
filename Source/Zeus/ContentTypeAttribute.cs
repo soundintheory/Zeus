@@ -115,7 +115,9 @@ namespace Zeus
 		public override void Refine(ContentType currentContentType, IList<ContentType> allContentTypes)
 		{
 			if (string.IsNullOrEmpty(this.Title))
+			{
 				Title = currentContentType.ItemType.Name;
+			}
 
 			currentContentType.ContentTypeAttribute = this;
 			currentContentType.IsDefined = true;

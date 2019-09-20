@@ -104,10 +104,14 @@ namespace Zeus.AddIns.ECommerce.ContentTypes.Data
             get {
                 var amountPreDiscount = Items.Where(p => !p.Product.OutOfStock).Sum(i => ((i.VariationPermutation != null && i.VariationPermutation.PriceOverride != null) ? i.VariationPermutation.PriceOverride.Value : i.Product.CurrentPrice) * i.Quantity); 
                 if (DiscountApplied)
-                    return Discount.ProcessPrice(amountPreDiscount);
-                else
-                    return amountPreDiscount;
-            }
+				{
+					return Discount.ProcessPrice(amountPreDiscount);
+				}
+				else
+				{
+					return amountPreDiscount;
+				}
+			}
         }
 
         public virtual decimal SubTotalPriceForVatCalculation
@@ -115,10 +119,14 @@ namespace Zeus.AddIns.ECommerce.ContentTypes.Data
             get { 
                 var amountPreDiscount = Items.Where(p => !p.Product.OutOfStock && !p.Product.VatZeroRated).Sum(i => ((i.VariationPermutation != null && i.VariationPermutation.PriceOverride != null) ? i.VariationPermutation.PriceOverride.Value : i.Product.CurrentPrice) * i.Quantity);
                 if (DiscountApplied)
-                    return Discount.ProcessPrice(amountPreDiscount);
-                else
-                    return amountPreDiscount;
-            }
+				{
+					return Discount.ProcessPrice(amountPreDiscount);
+				}
+				else
+				{
+					return amountPreDiscount;
+				}
+			}
         }
 
         public virtual decimal TotalDeliveryPrice

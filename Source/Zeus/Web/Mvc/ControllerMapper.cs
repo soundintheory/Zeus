@@ -26,9 +26,11 @@ namespace Zeus.Web.Mvc
 					AreaMap[id.ItemType] = controllerDefinition.AreaName;
 
 					if (!kernel.GetBindings(typeof(IController)).Any(b => b.Metadata.Name == controllerName))
+					{
 						kernel.Bind<IController>().To(controllerDefinition.AdapterType)
 							.InTransientScope()
 							.Named(controllerName);
+					}
 
 					IList<IPathFinder> finders = PathDictionary.GetFinders(id.ItemType);
 					if (0 == finders.Where(f => f is ActionResolver).Count())
@@ -47,10 +49,14 @@ namespace Zeus.Web.Mvc
 			var name = type.Name.ToLowerInvariant();
 
 			if (name.EndsWith("controller"))
+			{
 				name = name.Substring(0, name.IndexOf("controller"));
+			}
 
 			if (!string.IsNullOrEmpty(areaName))
+			{
 				name = areaName.ToLowerInvariant() + "." + name;
+			}
 
 			return name;
 		}
@@ -80,8 +86,13 @@ namespace Zeus.Web.Mvc
 		{
 			var controllers = new List<ControlsAttribute>();
 			foreach (var controllerDefinition in controllerDefinitions)
+			{
 				if (controllerDefinition.ItemType.IsAssignableFrom(itemType))
+				{
 					controllers.Add(controllerDefinition);
+				}
+			}
+
 			return controllers.OrderByDescending(c => c.Priority).FirstOrDefault();
 		}
 

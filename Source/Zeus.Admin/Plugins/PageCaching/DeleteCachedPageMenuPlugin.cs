@@ -34,7 +34,9 @@ namespace Zeus.Admin.Plugins.PageCaching
 		public override bool IsApplicable(ContentItem contentItem)
 		{
 			if (!contentItem.IsPage)
+			{
 				return false;
+			}
 
 			return base.IsApplicable(contentItem);
 		}
@@ -42,7 +44,9 @@ namespace Zeus.Admin.Plugins.PageCaching
 		public override bool IsEnabled(ContentItem contentItem)
 		{
 			if (!Context.Current.Resolve<ICachingService>().IsPageCached(contentItem))
+			{
 				return false;
+			}
 
 			return base.IsEnabled(contentItem);
 		}

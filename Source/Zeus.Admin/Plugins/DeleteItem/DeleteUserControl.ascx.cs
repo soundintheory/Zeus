@@ -134,12 +134,16 @@ namespace Zeus.Admin.Plugins.DeleteItem
 		public void DeleteItems(string ids)
 		{
 			if (string.IsNullOrEmpty(ids))
+			{
 				return;
+			}
 
 			var nodeIDsTemp = ids.Split(',');
 			var nodeIDs = nodeIDsTemp.Select(s => Convert.ToInt32(s));
 			if (!nodeIDs.Any())
+			{
 				return;
+			}
 
 			var parent = Engine.Persister.Get(nodeIDs.First()).Parent;
 			foreach (var id in nodeIDs)
@@ -162,9 +166,13 @@ namespace Zeus.Admin.Plugins.DeleteItem
             }
 
 			if (parent != null)
+			{
 				Refresh(parent);
+			}
 			else
+			{
 				Refresh(Zeus.Context.UrlParser.StartPage);
+			}
 		}
 	}
 }

@@ -28,15 +28,19 @@ namespace Zeus.Web.Mvc
 				var areaControllerKey = Convert.ToString(area).ToLowerInvariant() + "." + controllerKey;
 				var areaController = InstantiateController(areaControllerKey);
 				if (areaController != null)
+				{
 					return areaController;
+				}
 			}
 
 			var controller = InstantiateController(controllerKey);
 
 			if (controller != null)
-                return controller;
+			{
+				return controller;
+			}
 
-            return base.CreateController(requestContext, controllerName);
+			return base.CreateController(requestContext, controllerName);
 		}
 
 		public SessionStateBehavior GetControllerSessionBehavior(RequestContext requestContext, string controllerName)
@@ -55,7 +59,9 @@ namespace Zeus.Web.Mvc
 			var standardController = controller as Controller;
 
 			if (standardController != null)
+			{
 				standardController.ActionInvoker = new NinjectActionInvoker(_kernel);
+			}
 
 			return controller;
 		}

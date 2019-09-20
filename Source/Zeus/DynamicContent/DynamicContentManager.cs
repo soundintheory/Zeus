@@ -16,10 +16,14 @@ namespace Zeus.DynamicContent
 			_configSection = configSection;
 
 			foreach (DynamicContentControl control in configSection.Controls)
+			{
 				NameToTypeMap.Add(control.Name, Type.GetType(control.Type));
+			}
 
 			foreach (DynamicContentControl control in configSection.Controls)
+			{
 				TypeToNameMap.Add(Type.GetType(control.Type), control.Name);
+			}
 		}
 
 		public DynamicContentManager()

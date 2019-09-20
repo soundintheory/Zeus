@@ -17,9 +17,13 @@ namespace Zeus.Web.Compilation
 		{
 			var item = Zeus.Context.CurrentPage;
 			if (item != null)
+			{
 				return item[expression];
+			}
 			else
+			{
 				return null;
+			}
 		}
 
 		protected override string ExpressionFormat

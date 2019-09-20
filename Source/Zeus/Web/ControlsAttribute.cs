@@ -51,7 +51,9 @@ namespace Zeus.Web
 		public bool IsAdapterFor(PathData path, Type requiredType)
 		{
 			if (path.IsEmpty())
+			{
 				return false;
+			}
 
 			return ItemType.IsAssignableFrom(path.CurrentItem.GetType()) && requiredType.IsAssignableFrom(AdapterType);
 		}
@@ -66,7 +68,10 @@ namespace Zeus.Web
 		private static int InheritanceDepth(Type type)
 		{
 			if (type == null || type == typeof(object))
+			{
 				return 0;
+			}
+
 			return 1 + InheritanceDepth(type.BaseType);
 		}
 

@@ -17,13 +17,20 @@ namespace Zeus.Templates.Services
 			var items = base.GetItemsInZones(parentItem, zoneNames).ToList();
 			var grandParentItem = parentItem;
 			foreach (var zoneName in zoneNames)
+			{
 				if (zoneName.StartsWith("Recursive") && grandParentItem is PageContentItem)
 				{
 					if (parentItem.VersionOf == null)
+					{
 						items.AddRange(GetItemsInZones(parentItem.Parent, zoneName));
+					}
 					else
+					{
 						items.AddRange(GetItemsInZones(parentItem.VersionOf.Parent, zoneName));
+					}
 				}
+			}
+
 			return items;
 		}
 	}

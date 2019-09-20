@@ -37,10 +37,16 @@ namespace Zeus.Engine
 		/// <returns>A suitable controller for the given Url.</returns>
 		public virtual T ResolveAdapter<T>(PathData path) where T : class, IContentAdapter
 		{
-			if (path == null || path.IsEmpty()) return null;
+			if (path == null || path.IsEmpty())
+			{
+				return null;
+			}
 
 			var controller = CreateAdapterInstance<T>(path);
-			if (controller == null) return null;
+			if (controller == null)
+			{
+				return null;
+			}
 
 			controller.Path = path;
 			controller.Engine = engine;
@@ -67,8 +73,12 @@ namespace Zeus.Engine
 			var requestedType = typeof(T);
 
 			foreach (var reference in adapterDescriptors)
+			{
 				if (requestedType.IsAssignableFrom(reference.AdapterType) && reference.IsAdapterFor(path, requestedType))
+				{
 					return Activator.CreateInstance(reference.AdapterType) as T;
+				}
+			}
 
 			throw new ZeusException("Couldn't find an aspect controller '{0}' for the item '{1}' on the path '{2}'.",
 				typeof(T).FullName, path.CurrentItem, path.Path);
@@ -93,8 +103,15 @@ namespace Zeus.Engine
 			{
 				foreach (IAdapterDescriptor reference in assembly.GetCustomAttributes(typeof(IAdapterDescriptor), false))
 				{
-					if (null == reference.ItemType) throw new ZeusException("The assembly '{0}' defines a [assembly: Controls(null)] attribute with no ItemType specified. Please specify this property: [assembly: Controls(typeof(MyItem), AdapterType = typeof(MyAdapter)]", assembly);
-					if (null == reference.AdapterType) throw new ZeusException("The assembly '{0}' defines a [assembly: Controls(typeof({1})] attribute with no AdapterType specified. Please specify this property: [assembly: Controls(typeof({1}), AdapterType = typeof(MyAdapter)]", assembly, reference.ItemType.Name);
+					if (null == reference.ItemType)
+					{
+						throw new ZeusException("The assembly '{0}' defines a [assembly: Controls(null)] attribute with no ItemType specified. Please specify this property: [assembly: Controls(typeof(MyItem), AdapterType = typeof(MyAdapter)]", assembly);
+					}
+
+					if (null == reference.AdapterType)
+					{
+						throw new ZeusException("The assembly '{0}' defines a [assembly: Controls(typeof({1})] attribute with no AdapterType specified. Please specify this property: [assembly: Controls(typeof({1}), AdapterType = typeof(MyAdapter)]", assembly, reference.ItemType.Name);
+					}
 
 					references.Add(reference);
 				}

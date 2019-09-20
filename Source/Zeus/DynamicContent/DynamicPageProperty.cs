@@ -48,7 +48,10 @@ namespace Zeus.DynamicContent
 			var contentItem = Context.Persister.Get(_contentID);
 			var value = contentItem[_detailName];
 			if (value != null)
+			{
 				return value.ToString();
+			}
+
 			return string.Empty;
 		}
 

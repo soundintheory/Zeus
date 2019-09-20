@@ -23,7 +23,9 @@ namespace Zeus.Web.Mvc.Html
 		protected override IEnumerable<WidgetContentItem> GetItems()
 		{
 			if (PartsAdapter == null)
+			{
 				return Engine.ContentManager.GetWidgets(CurrentItem, ZoneName);
+			}
 
 			return PartsAdapter.GetItemsInZones(CurrentItem, ZoneName);
 		}

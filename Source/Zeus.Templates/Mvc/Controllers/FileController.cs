@@ -20,9 +20,11 @@ namespace Zeus.Templates.Mvc.Controllers
                 httpContext.Response.Headers["Last-Modified"] = modDate.ToString("ddd, dd MMM yyyy HH:mm:ss 'GMT'");
 
                 if (CurrentItem.Size.HasValue)
-                    httpContext.Response.Headers["Content-Length"] = CurrentItem.Size.Value.ToString();
+				{
+					httpContext.Response.Headers["Content-Length"] = CurrentItem.Size.Value.ToString();
+				}
 
-                httpContext.Response.Headers["Content-Type"] = CurrentItem.ContentType;
+				httpContext.Response.Headers["Content-Type"] = CurrentItem.ContentType;
                 DateTime dateOnRequest;
                 if (DateTime.TryParse(httpContext.Request.Headers["If-Modified-Since"], out dateOnRequest) && (dateOnRequest == modDate))
                 {

@@ -83,11 +83,20 @@ namespace Zeus.Design.Editors
 			var fileUpload = CreateEditor();
 			fileUpload.ID = Name;
 			if (!string.IsNullOrEmpty(TypeFilterDescription))
+			{
 				fileUpload.TypeFilterDescription = TypeFilterDescription;
+			}
+
 			if (TypeFilter != null)
+			{
 				fileUpload.TypeFilter = TypeFilter;
+			}
+
 			if (MaximumFileSize > 0)
+			{
 				fileUpload.MaximumFileSize = MaximumFileSize;
+			}
+
 			container.Controls.Add(fileUpload);
 
 			return fileUpload;

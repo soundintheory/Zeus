@@ -22,7 +22,10 @@ namespace Zeus.Web.Mvc
 		public PathData GetPath(ContentItem item, string remainingUrl)
 		{
 			if (string.IsNullOrEmpty(remainingUrl) || string.Equals(remainingUrl, "default", StringComparison.InvariantCultureIgnoreCase))
+			{
 				remainingUrl = DefaultAction;
+			}
+
 			var slashIndex = remainingUrl.IndexOf('/');
 
 			var action = remainingUrl;
@@ -37,8 +40,12 @@ namespace Zeus.Web.Mvc
 			var controllerName = _controllerMapper.GetControllerName(item.GetType());
 
 			foreach (var method in _methods)
+			{
 				if (method.Equals(action, StringComparison.InvariantCultureIgnoreCase))
+				{
 					return new MvcPathData(item, templateUrl, action, arguments, controllerName);
+				}
+			}
 
 			return null;
 		}
@@ -52,7 +59,10 @@ namespace Zeus.Web.Mvc
 				.FirstOrDefault(path => path != null && !path.IsEmpty());
 
 			if (pathData != null)
+			{
 				templateUrl = pathData.TemplateUrl;
+			}
+
 			return templateUrl;
 		}
 	}
@@ -71,8 +81,10 @@ namespace Zeus.Web.Mvc
 		{
 			get
 			{
-				if (Action.ToLowerInvariant() == "index")
+				if (string.Equals(Action, "index", StringComparison.InvariantCultureIgnoreCase))
+				{
 					return "~/" + _controllerName;
+				}
 
 				return string.Format("~/{0}/{1}", _controllerName, Action);
 			}

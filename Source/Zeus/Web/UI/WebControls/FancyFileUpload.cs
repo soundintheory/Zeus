@@ -98,7 +98,9 @@ namespace Zeus.Web.UI.WebControls
 
 			base.OnLoad(e);
 			if (Page.IsPostBack)
+			{
 				EnsureChildControls();
+			}
 		}
 
 		protected override void CreateChildControls()
@@ -211,9 +213,13 @@ if (window.addEvent) window.addEvent('domready', prepare{8});
 		 ClientID,
 		 VirtualPathUtility.ToAbsolute("~/PostedFileUpload.axd"));
 			if (ExtNet.IsAjaxRequest && justCreated)
+			{
 				ExtNet.ResourceManager.RegisterOnReadyScript(script + string.Format(" prepare{0}();", ClientID));
+			}
 			else
+			{
 				ScriptManager.RegisterStartupScript(this, GetType(), ClientID + "FancyFileUpload", script, true);
+			}
 
 			if (!string.IsNullOrEmpty(_currentFileName))
 			{

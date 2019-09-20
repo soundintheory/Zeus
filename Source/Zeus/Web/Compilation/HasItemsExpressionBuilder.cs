@@ -22,9 +22,13 @@ namespace Zeus.Web.Compilation
 		{
 			var item = Zeus.Context.CurrentPage;
 			if (item != null)
+			{
 				return HasItems(item, expression);
+			}
 			else
+			{
 				return HasItems(Context.CurrentPage, expression);
+			}
 		}
 
 		private static bool HasItems(ContentItem item, string propertyName)

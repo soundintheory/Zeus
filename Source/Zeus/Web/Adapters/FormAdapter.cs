@@ -26,18 +26,27 @@ namespace Zeus.Web.Adapters
 		private void WriteAttributes(HtmlTextWriter writer, HtmlForm form)
 		{
 			if (form.ID != null)
+			{
 				writer.WriteAttribute("id", form.ClientID);
+			}
+
 			writer.WriteAttribute("name", form.Name);
 			writer.WriteAttribute("method", form.Method);
 
 			foreach (string key in form.Attributes.Keys)
+			{
 				writer.WriteAttribute(key, form.Attributes[key]);
+			}
 
 			var url = Page.Request.QueryString["postback"];
 			if (string.IsNullOrEmpty(url))
+			{
 				writer.WriteAttribute("action", Page.Request.RawUrl);
+			}
 			else
+			{
 				writer.WriteAttribute("action", url);
+			}
 		}
 	}
 }

@@ -13,7 +13,10 @@ namespace Zeus.Web.UI
 			where T : class
 		{
 			if (parentControl == null || parentControl is T)
+			{
 				return parentControl as T;
+			}
+
 			return FindInParents<T>(parentControl.Parent);
 		}
 
@@ -32,7 +35,10 @@ namespace Zeus.Web.UI
 			{
 				var templateItem = container.Page.LoadControl(path.TemplateUrl);
 				if (templateItem is IContentTemplate)
+				{
 					(templateItem as IContentTemplate).CurrentItem = item;
+				}
+
 				container.Controls.Add(templateItem);
 				return templateItem;
 			}
@@ -108,11 +114,17 @@ namespace Zeus.Web.UI
 			foreach (var name in names)
 			{
 				if (item == null)
+				{
 					break;
+				}
 				else if (name == "..")
+				{
 					item = item.Parent;
+				}
 				else if (name != "." && !string.IsNullOrEmpty(name))
+				{
 					item = item.GetChild(name);
+				}
 			}
 			return item;
 		}

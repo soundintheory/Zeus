@@ -41,7 +41,10 @@ namespace Zeus.Collections
 			get
 			{
 				if (CurrentNode.Parent != null)
+				{
 					return new ItemHierarchyNavigator(CurrentNode.Parent);
+				}
+
 				return null;
 			}
 		}
@@ -51,7 +54,9 @@ namespace Zeus.Collections
 			get
 			{
 				foreach (var childNode in CurrentNode.Children)
+				{
 					yield return new ItemHierarchyNavigator(childNode);
+				}
 			}
 		}
 
@@ -78,7 +83,10 @@ namespace Zeus.Collections
 		{
 			var last = CurrentNode;
 			while (last.Parent != null)
+			{
 				last = last.Parent;
+			}
+
 			return last;
 		}
 
@@ -97,8 +105,12 @@ namespace Zeus.Collections
 		{
 			yield return node.Current;
 			foreach (var childNode in node.Children)
+			{
 				foreach (var childItem in EnumerateItemsRecursive(childNode))
+				{
 					yield return childItem;
+				}
+			}
 		}
 
 		#endregion

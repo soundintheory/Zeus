@@ -34,11 +34,15 @@ namespace Zeus.Admin.Plugins.FileManager
 			filesStore.DirectEventConfig.Url = Engine.AdminManager.GetAdminDefaultUrl();
 
 			if (ExtNet.IsAjaxRequest)
+			{
 				return;
+			}
 
 			var fileManagerRootFolder = Find.StartPage;
 			if (fileManagerRootFolder == null)
+			{
 				return;
+			}
 
 			var treeNode = SiteTree.Between(fileManagerRootFolder, fileManagerRootFolder, true)
 				.OpenTo(fileManagerRootFolder)
@@ -70,14 +74,20 @@ namespace Zeus.Admin.Plugins.FileManager
 		private static string GetUrl(FileType fileType, ContentItem ci)
 		{
 			if (fileType == FileType.Image)
+			{
 				return ci.Url;
+			}
+
 			return "~/link/" + ci.ID;
 		}
 
 		private static string GetImageUrl(ContentItem ci)
 		{
 			if (ci is FileSystem.Images.Image)
+			{
 				return ((FileSystem.Images.Image) ci).GetUrl(80, 60, true);
+			}
+
 			return ci.IconUrl;
 		}
 

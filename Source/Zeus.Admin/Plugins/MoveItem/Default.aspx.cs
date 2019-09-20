@@ -22,14 +22,18 @@ namespace Zeus.Admin.Plugins.MoveItem
 
 			// Change parent if necessary.
 			if (sourceContentItem.Parent.ID != destinationContentItem.ID)
+			{
 				Zeus.Context.Persister.Move(sourceContentItem, destinationContentItem);
+			}
 
 			// Update sort order based on new pos.
 			var pos = Request.GetRequiredInt("pos");
 			var siblings = sourceContentItem.Parent.Children;
 			Utility.MoveToIndex(siblings, sourceContentItem, pos);
 			foreach (var updatedItem in Utility.UpdateSortOrder(siblings))
+			{
 				Zeus.Context.Persister.Save(updatedItem);
+			}
 
 			Refresh(sourceContentItem, AdminFrame.Both, false);
 		}

@@ -41,7 +41,9 @@ namespace Zeus.Web.UI
 				{
 					currentItem = this.FindCurrentItem();
 					if (Path.Length > 0)
+					{
 						currentItem = ItemUtility.WalkPath(currentItem, Path);
+					}
 				}
 				return currentItem;
 			}

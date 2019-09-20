@@ -94,13 +94,25 @@ namespace Zeus.Design.Editors
 		{
 			var propertyType = PropertyType.GetTypeOrUnderlyingType();
 			if (propertyType == typeof(int))
+			{
 				return "integer";
+			}
+
 			if (propertyType == typeof(decimal) || propertyType == typeof(double) || propertyType == typeof(float))
+			{
 				return "number";
+			}
+
 			if (propertyType == typeof(DateTime))
+			{
 				return "date";
+			}
+
 			if (throwException)
+			{
 				throw new NotSupportedException();
+			}
+
 			return string.Empty;
 		}
 
@@ -111,7 +123,9 @@ namespace Zeus.Design.Editors
 			// If data type is not string, we need to add a validator for data type
 			var propertyType = PropertyType.GetTypeOrUnderlyingType();
 			if (propertyType == typeof(int) || propertyType == typeof(decimal) || propertyType == typeof(double) || propertyType == typeof(float) || propertyType == typeof(DateTime))
+			{
 				AddCompareValidator(panel, editor);
+			}
 		}
 
 		protected virtual IValidator AddCompareValidator(Control container, Control editor)
@@ -135,11 +149,20 @@ namespace Zeus.Design.Editors
 		{
 			var propertyType = PropertyType.GetTypeOrUnderlyingType();
 			if (propertyType == typeof(int))
+			{
 				return ValidationDataType.Integer;
+			}
+
 			if (propertyType == typeof(decimal) || propertyType == typeof(double) || propertyType == typeof(float))
+			{
 				return ValidationDataType.Double;
+			}
+
 			if (propertyType == typeof(DateTime))
+			{
 				return ValidationDataType.Date;
+			}
+
 			throw new NotSupportedException();
 		}
 
@@ -171,14 +194,21 @@ namespace Zeus.Design.Editors
 			textField.Width = 500;
 
 			if (MaxLength > 0)
+			{
 				textField.MaxLength = MaxLength;
+			}
 
 			//ModifyEditor(textField);
 
 			if (container is FormPanel)
+			{
 				((FormPanel)container).Items.Add(textField);
+			}
 			else
+			{
 				container.Controls.Add(textField);
+			}
+
 			return textField;
 		}
 
@@ -191,10 +221,15 @@ namespace Zeus.Design.Editors
 			tb.ID = Name;
 			tb.CssClass += " textEditor " + TextBoxCssClass;
 			if (Required)
+			{
 				tb.CssClass += " required";
+			}
+
 			tb.CssClass += " " + GetDataTypeName(false);
 			if (ReadOnly)
+			{
 				tb.ReadOnly = true;
+			}
 			//ModifyEditor(tb);
 			container.Controls.Add(tb);
 

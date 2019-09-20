@@ -39,17 +39,25 @@ namespace Zeus.Admin.Plugins
 		{
 			// Hide, if this plugin is hidden by default and no overrides exist in web.config
 			if (AvailableByDefault)
+			{
 				return true;
+			}
 
 			// Now check if any overrides are present in web.config. If this plugin is
 			// not specifically enabled, then don't show it.
 			var adminSection = Context.Current.Resolve<AdminSection>();
 			if (adminSection == null || adminSection.MenuPlugins == null)
+			{
 				return false;
+			}
 
 			foreach (MenuPluginElement menuPluginElement in adminSection.MenuPlugins)
+			{
 				if (menuPluginElement.Name == Name && menuPluginElement.RolesArray.Any(r => Context.Current.WebContext.User.IsInRole(r)))
+				{
 					return true;
+				}
+			}
 
 			return false;
 		}
@@ -65,7 +73,9 @@ namespace Zeus.Admin.Plugins
 			{
 				// Check if user has permission to use this plugin.
 				if (!Context.SecurityManager.IsAuthorized(contentItem, Context.Current.WebContext.User, RequiredSecurityOperation))
+				{
 					return false;
+				}
 			}
 
 			return true;

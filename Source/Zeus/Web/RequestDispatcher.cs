@@ -46,14 +46,19 @@ namespace Zeus.Web
 		public virtual T ResolveAdapter<T>() where T : class, IContentAdapter
 		{
 			var controller = RequestItem<T>.Instance;
-			if (controller != null) return controller;
+			if (controller != null)
+			{
+				return controller;
+			}
 
 			var url = webContext.Url;
 			var path = url.Path;
 			foreach (var nonRewritablePath in nonRewritablePaths)
 			{
 				if (path.StartsWith(VirtualPathUtility.ToAbsolute(nonRewritablePath)))
+				{
 					return null;
+				}
 			}
 
 			var data = ResolveUrl(url);
@@ -67,7 +72,10 @@ namespace Zeus.Web
 		{
 			try
 			{
-				if (IsObservable(url)) return parser.ResolvePath(url);
+				if (IsObservable(url))
+				{
+					return parser.ResolvePath(url);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -79,19 +87,33 @@ namespace Zeus.Web
 		private bool IsObservable(Url url)
 		{
 			if (observeAllExtensions)
+			{
 				return true;
+			}
 
 			if (url.LocalUrl == Url.ApplicationPath)
+			{
 				return true;
+			}
 
 			var extension = url.Extension;
 			if (rewriteEmptyExtension && string.IsNullOrEmpty(extension))
+			{
 				return true;
+			}
+
 			foreach (var observed in observedExtensions)
+			{
 				if (string.Equals(observed, extension, StringComparison.InvariantCultureIgnoreCase))
+				{
 					return true;
+				}
+			}
+
 			if (url.GetQuery(PathData.PageQueryKey) != null)
+			{
 				return true;
+			}
 
 			return false;
 		}

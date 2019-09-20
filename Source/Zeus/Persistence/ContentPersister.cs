@@ -80,7 +80,9 @@ namespace Zeus.Persistence
 			return Utility.InvokeEvent(ItemCopying, this, source, destination, (copiedItem, destinationItem) =>
 			{
 				if (source is ISelfPersister)
+				{
 					return (source as ISelfPersister).CopyTo(destination);
+				}
 
 				var cloned = source.Clone(includeChildren);
 
@@ -119,7 +121,9 @@ namespace Zeus.Persistence
 		{
 			var children = new List<ContentItem>(contentItem.Children);
 			foreach (var child in children)
+			{
 				DeleteRecursive(child);
+			}
 
 			contentItem.AddTo(null);
 
@@ -133,7 +137,10 @@ namespace Zeus.Persistence
 			foreach (var detail in _linkFinder.QueryDetails<LinkProperty>().Where(ld => ld.LinkedItem == itemNoMore))
 			{
 				if (detail.EnclosingCollection != null)
+				{
 					detail.EnclosingCollection.Remove(detail);
+				}
+
 				var test = detail.EnclosingItem.Details; // TODO: Investigate why this is necessary, on a PersistentGenericMap
 				var count = test.Count;
 				detail.EnclosingItem.Details.Remove(detail.Name);
@@ -194,14 +201,21 @@ namespace Zeus.Persistence
 
 			var currentSortOrder = 0;
 			foreach (var sibling in previousSiblings)
+			{
 				sibling.SortOrder = currentSortOrder++;
+			}
+
 			contentItem.SortOrder = currentSortOrder++;
 			foreach (var sibling in nextSiblings)
+			{
 				sibling.SortOrder = currentSortOrder++;
+			}
 
 			foreach (var item in siblings)
+			{
 				Save(item);
-        }
+			}
+		}
 
 		public void Save(ContentItem unsavedItem)
 		{
@@ -245,7 +259,9 @@ namespace Zeus.Persistence
 			{
 				var updatedItems = Utility.UpdateSortOrder(unsavedItem.Parent.Children);
 				foreach (var updatedItem in updatedItems)
+				{
 					Repository.SaveOrUpdate(updatedItem);
+				}
 			}
 		}
 
@@ -253,7 +269,10 @@ namespace Zeus.Persistence
 						where T : ItemEventArgs
 		{
 			if (handler != null && args.AffectedItem.VersionOf == null)
+			{
 				handler.Invoke(this, args);
+			}
+
 			return args;
 		}
 

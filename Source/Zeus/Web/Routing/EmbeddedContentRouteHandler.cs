@@ -90,14 +90,19 @@ namespace Zeus.Web.Routing
 				using (var stream = _routeHandler.GetStream(resource))
 				{
 					if (stream == null)
+					{
 						throw new ZeusException("Could not find embedded resource with name '" + resource + "'.");
+					}
 
 					var buffer = new byte[1024];
 					for (; ; )
 					{
 						var size = stream.Read(buffer, 0, buffer.Length);
 						if (size == 0)
+						{
 							break;
+						}
+
 						context.Response.OutputStream.Write(buffer, 0, size);
 					}
 				}

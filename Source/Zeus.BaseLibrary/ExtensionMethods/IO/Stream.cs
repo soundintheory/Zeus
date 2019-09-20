@@ -24,7 +24,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods.IO
 			var bytes = new byte[4096];
 			int numBytes;
 			while ((numBytes = input.Read(bytes, 0, size)) > 0)
+			{
 				output.Write(bytes, 0, numBytes);
+			}
 		}
 	}
 }

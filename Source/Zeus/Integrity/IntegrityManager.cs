@@ -34,7 +34,9 @@ namespace Zeus.Integrity
 		public virtual ZeusException GetDeleteException(ContentItem item)
 		{
 			if (_urlParser.IsRootOrStartPage(item))
+			{
 				return new CannotDeleteRootException();
+			}
 
 			return null;
 		}
@@ -45,10 +47,14 @@ namespace Zeus.Integrity
 		public virtual ZeusException GetCopyException(ContentItem source, ContentItem destination)
 		{
 			if (IsNameOccupiedOnDestination(source, destination))
+			{
 				return new NameOccupiedException(source, destination);
+			}
 
 			if (!IsTypeAllowedBelowDestination(source, destination))
+			{
 				return new NotAllowedParentException(_contentTypeManager.GetContentType(source.GetType()), destination.GetType());
+			}
 
 			return null;
 		}
@@ -60,13 +66,19 @@ namespace Zeus.Integrity
 		public virtual ZeusException GetMoveException(ContentItem source, ContentItem destination)
 		{
 			if (IsDestinationBelowSource(source, destination))
+			{
 				return new DestinationOnOrBelowItselfException(source, destination);
+			}
 
 			if (IsNameOccupiedOnDestination(source, destination))
+			{
 				return new NameOccupiedException(source, destination);
+			}
 
 			if (!IsTypeAllowedBelowDestination(source, destination))
+			{
 				return new NotAllowedParentException(_contentTypeManager.GetContentType(source.GetType()), destination.GetType());
+			}
 
 			return null;
 		}
@@ -77,10 +89,14 @@ namespace Zeus.Integrity
 		public virtual ZeusException GetSaveException(ContentItem item)
 		{
 			if (!IsLocallyUnique(item.Name, item))
+			{
 				return new NameOccupiedException(item, item.GetParent());
+			}
 
 			if (!IsTypeAllowedBelowDestination(item, item.Parent))
+			{
 				return new NotAllowedParentException(_contentTypeManager.GetContentType(item.GetType()), item.GetParent().GetType());
+			}
 
 			return null;
 		}
@@ -97,12 +113,22 @@ namespace Zeus.Integrity
             {
 			    var parentItem = item.GetParent();
 			    if (parentItem != null)
-				    foreach (var potentiallyClashingItem in parentItem.Children)
-					    if (!potentiallyClashingItem.Equals(item) && potentiallyClashingItem != item.TranslationOf)
-						    foreach (var translation in _languageManager.GetTranslationsOf(potentiallyClashingItem, true))
-							    if (!translation.Equals(item) && translation.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))
-								    return false;
-            }
+				{
+					foreach (var potentiallyClashingItem in parentItem.Children)
+					{
+						if (!potentiallyClashingItem.Equals(item) && potentiallyClashingItem != item.TranslationOf)
+						{
+							foreach (var translation in _languageManager.GetTranslationsOf(potentiallyClashingItem, true))
+							{
+								if (!translation.Equals(item) && translation.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))
+								{
+									return false;
+								}
+							}
+						}
+					}
+				}
+			}
 
 			return true;
 		}
@@ -116,18 +142,27 @@ namespace Zeus.Integrity
 		{
 			var parentItem = item.Parent;
 			if (parentItem != null)
+			{
 				foreach (var potentiallyClashingItem in parentItem.Children)
+				{
 					if (!potentiallyClashingItem.Equals(item))
 					{
 						if (potentiallyClashingItem[propertyName] is string)
 						{
 							var potentiallyClashingValue = (string) potentiallyClashingItem[propertyName];
 							if (potentiallyClashingValue.Equals(value as string, StringComparison.InvariantCultureIgnoreCase))
+							{
 								return false;
+							}
 						}
 						else if (potentiallyClashingItem[propertyName].Equals(value))
+						{
 							return false;
+						}
 					}
+				}
+			}
+
 			return true;
 		}
 
@@ -170,8 +205,15 @@ namespace Zeus.Integrity
 		/// <summary>Checks that destination have no child item with the same name.</summary>
 		private static bool IsNameOccupiedOnDestination(ContentItem source, ContentItem destination)
 		{
-			if (source == null) throw new ArgumentNullException("source");
-			if (destination == null) throw new ArgumentNullException("destination");
+			if (source == null)
+			{
+				throw new ArgumentNullException(nameof(source));
+			}
+
+			if (destination == null)
+			{
+				throw new ArgumentNullException(nameof(destination));
+			}
 
 			var existingItem = destination.GetChild(source.Name);
 			return existingItem != null && existingItem != source;
@@ -181,8 +223,13 @@ namespace Zeus.Integrity
 		private static bool IsDestinationBelowSource(ContentItem source, ContentItem destination)
 		{
 			for (var parent = destination; parent != null; parent = parent.Parent)
+			{
 				if (parent == source)
+				{
 					return true;
+				}
+			}
+
 			return false;
 		}
 

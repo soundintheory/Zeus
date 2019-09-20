@@ -98,7 +98,9 @@ namespace Zeus.Templates.Mvc.Controllers
 				items.Add(syndicatable);
 
 				if (syndicatable.Published > latestPublishDate)
+				{
 					latestPublishDate = syndicatable.Published;
+				}
 
 				clientHasAllFeedItems = false;
 			}

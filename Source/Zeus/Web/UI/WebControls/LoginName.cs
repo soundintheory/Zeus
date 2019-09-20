@@ -12,13 +12,17 @@ namespace Zeus.Web.UI.WebControls
 		protected override void Render(HtmlTextWriter writer)
 		{
 			if (!string.IsNullOrEmpty(UserName))
+			{
 				base.Render(writer);
+			}
 		}
 
 		public override void RenderBeginTag(HtmlTextWriter writer)
 		{
 			if (!string.IsNullOrEmpty(UserName))
+			{
 				base.RenderBeginTag(writer);
+			}
 		}
 
 		protected override void RenderContents(HtmlTextWriter writer)
@@ -49,7 +53,9 @@ namespace Zeus.Web.UI.WebControls
 		public override void RenderEndTag(HtmlTextWriter writer)
 		{
 			if (!string.IsNullOrEmpty(UserName))
+			{
 				base.RenderEndTag(writer);
+			}
 		}
 
 		[Localizable(true), DefaultValue("{0}")]

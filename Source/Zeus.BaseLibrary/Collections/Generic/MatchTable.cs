@@ -51,9 +51,13 @@ namespace Zeus.BaseLibrary.Collections.Generic
 					items[i] = new KeyValuePair<T, Pair<int, int>>(item.Key, newCounters);
 
 					if (newCounters.First == newCounters.Second)
+					{
 						NonEqualCount -= 1;
+					}
 					else if (oldCounters.First == oldCounters.Second)
+					{
 						NonEqualCount += 1;
+					}
 
 					return;
 				}

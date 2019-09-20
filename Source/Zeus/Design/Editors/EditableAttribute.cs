@@ -62,7 +62,9 @@ namespace Zeus.Design.Editors
 			editor.ID = Name;
 			container.Controls.Add(editor);
 			if (DataBind || Focus)
+			{
 				editor.PreRender += editor_PreRender;
+			}
 
 			return editor;
 		}
@@ -73,7 +75,9 @@ namespace Zeus.Design.Editors
 		{
 			var c = sender as Control;
 			if (!c.Page.IsPostBack)
+			{
 				Modify(c);
+			}
 		}
 
 		/// <summary>Creates an editor of the type defined by the ControlType property.</summary>
@@ -128,14 +132,23 @@ namespace Zeus.Design.Editors
 		/// <param name="value">The value to load the editor with.</param>
 		protected virtual void SetEditorValue(Control editor, object value)
 		{
-			if (editor == null) throw new ArgumentNullException("editor");
+			if (editor == null)
+			{
+				throw new ArgumentNullException(nameof(editor));
+			}
 
 			var pi = editor.GetType().GetProperty(ControlPropertyName);
 			if (pi == null)
+			{
 				throw new ZeusException("No property '{0}' found on the editor control '{1}'.", ControlPropertyName,
 				                        editor.GetType());
+			}
+
 			if (value != null && !value.GetType().IsAssignableFrom(pi.PropertyType))
+			{
 				value = Utility.Convert(value, pi.PropertyType);
+			}
+
 			pi.SetValue(editor, value, null);
 		}
 
@@ -146,9 +159,14 @@ namespace Zeus.Design.Editors
 		public virtual void Modify(Control editor)
 		{
 			if (DataBind)
+			{
 				editor.DataBind();
+			}
+
 			if (Focus)
+			{
 				editor.Focus();
+			}
 		}
 
 		#endregion

@@ -17,7 +17,10 @@ namespace Zeus.Admin.Plugins.Tree
 			var fromRootTemp = context.Request["fromRoot"];
 			var fromRoot = false;
 			if (!string.IsNullOrEmpty(fromRootTemp))
+			{
 				fromRoot = Convert.ToBoolean(fromRootTemp);
+			}
+
 			var sync = (context.Request["sync"] == "true");
 			var nodeId = !string.IsNullOrEmpty(context.Request["node"]) ? Convert.ToInt32(context.Request["node"]) as int? : null;
 			var overrideNodeId = !string.IsNullOrEmpty(context.Request["overrideNode"]) ? Convert.ToInt32(context.Request["overrideNode"]) as int? : null;
@@ -29,15 +32,23 @@ namespace Zeus.Admin.Plugins.Tree
 
 				SiteTree tree;
 				if (sync)
+				{
 					tree = SiteTree.From(selectedItem, int.MaxValue);
+				}
 				else if (fromRoot)
+				{
 					tree = SiteTree.Between(selectedItem, Find.RootItem, true)
 						.OpenTo(selectedItem);
+				}
 				else
+				{
 					tree = SiteTree.From(selectedItem.TranslationOf ?? selectedItem, 2);
+				}
 
 				if (sync)
+				{
 					tree = tree.ForceSync();
+				}
 
 				//if (context.User.Identity.Name != "administrator")
 				//	filter = new CompositeSpecification<ContentItem>(new PageSpecification<ContentItem>(), filter);

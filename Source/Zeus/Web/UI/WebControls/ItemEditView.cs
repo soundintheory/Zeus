@@ -31,7 +31,9 @@ namespace Zeus.Web.UI.WebControls
 			{
 				base.CurrentItem = value;
 				if (value != null && ((ContentItem) value).VersionOf != null && ((ContentItem) value).ID == 0)
+				{
 					VersioningMode = ItemEditorVersioningMode.SaveOnly;
+				}
 			}
 		}
 
@@ -56,7 +58,9 @@ namespace Zeus.Web.UI.WebControls
 				AddPropertyControlsRecursive(this, CurrentItemDefinition.RootContainer);
 
 				if (!_postedBack)
+				{
 					UpdateEditors();
+				}
 			}
 		}
 
@@ -69,7 +73,9 @@ namespace Zeus.Web.UI.WebControls
 		private void OnPageInitComplete(object sender, EventArgs e)
 		{
 			if (_postedBack)
+			{
 				EnsureChildControls();
+			}
 		}
 
 		private void AddPropertyControlsRecursive(Control control, IContainable contained)
@@ -77,10 +83,17 @@ namespace Zeus.Web.UI.WebControls
             var addedControl = contained.AddTo(control);
             
             if (contained is IEditor)
+			{
 				PropertyControls.Add(contained.Name, addedControl);
+			}
+
 			if (contained is IEditorContainer)
+			{
 				foreach (var subContained in ((IEditorContainer) contained).GetContained(Page.User))
+				{
 					AddPropertyControlsRecursive(addedControl, subContained);
+				}
+			}
 		}
 
 		protected override void LoadViewState(object savedState)
@@ -127,13 +140,17 @@ namespace Zeus.Web.UI.WebControls
 		protected virtual void OnSaving(ItemViewEditableObjectEventArgs args)
 		{
 			if (Saving != null)
+			{
 				Saving(this, args);
+			}
 		}
 
 		protected virtual void OnSaved(ItemViewEditableObjectEventArgs args)
 		{
 			if (Saved != null)
+			{
 				Saved(this, args);
+			}
 		}
 	}
 }

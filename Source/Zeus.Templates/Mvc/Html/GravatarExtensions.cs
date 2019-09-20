@@ -19,7 +19,9 @@ namespace Zeus.Templates.Mvc.Html
 		public static string GravatarImageUrl(this HtmlHelper helper, int size, string email, GravatarDefaultType defaultImage)
 		{
 			if (string.IsNullOrEmpty(email))
+			{
 				email = "None";
+			}
 
 			var emailForUrl = email.ToLowerInvariant().Replace(" ", string.Empty);
 			emailForUrl = (FormsAuthentication.HashPasswordForStoringInConfigFile(emailForUrl, "md5") ?? string.Empty)

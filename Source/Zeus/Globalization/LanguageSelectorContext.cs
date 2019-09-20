@@ -17,11 +17,15 @@ namespace Zeus.Globalization
 		public bool IsLanguagePublished(string language)
 		{
 			if (Page == null)
+			{
 				throw new ZeusException("IsLanguagePublished is only supported in SelectPageLanguage where a page must exist");
+			}
 
 			var pageLanguage = Context.Current.LanguageManager.GetTranslationDirect(Page, language);
 			if (pageLanguage == null)
+			{
 				return false;
+			}
 
 			return pageLanguage.IsPublished();
 		}
@@ -32,7 +36,10 @@ namespace Zeus.Globalization
 			get
 			{
 				if (Page != null && Page.TranslationOf != null && !string.IsNullOrEmpty(Page.TranslationOf.Language))
+				{
 					return CultureInfo.GetCultureInfo(Page.TranslationOf.Language).Name;
+				}
+
 				return null;
 			}
 		}
@@ -42,7 +49,10 @@ namespace Zeus.Globalization
 			get
 			{
 				if (Page != null && !string.IsNullOrEmpty(Page.Language))
+				{
 					return CultureInfo.GetCultureInfo(Page.Language).Name;
+				}
+
 				return null;
 			}
 		}
@@ -54,7 +64,10 @@ namespace Zeus.Globalization
 			get
 			{
 				if (Page != null)
+				{
 					return Page.Parent;
+				}
+
 				return null;
 			}
 		}
@@ -80,7 +93,9 @@ namespace Zeus.Globalization
 				{
 					_selectedLanguageBranch = Context.Current.LanguageManager.GetLanguage(_selectedLanguage);
 					if (_selectedLanguageBranch == null)
+					{
 						throw new ZeusException("Invalid language '" + _selectedLanguage + "' selected.");
+					}
 				}
 				return _selectedLanguageBranch;
 			}

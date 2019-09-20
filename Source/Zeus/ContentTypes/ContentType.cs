@@ -65,19 +65,27 @@ namespace Zeus.ContentTypes
             get
             {
                 if (Activator.CreateInstance(ItemType) is PageContentItem)
-                    return ((PageContentItem)Activator.CreateInstance(ItemType)).UseProgrammableSEOAssets;
-                else
-                    return false;
-            }
+				{
+					return ((PageContentItem)Activator.CreateInstance(ItemType)).UseProgrammableSEOAssets;
+				}
+				else
+				{
+					return false;
+				}
+			}
         }
         public string IgnoreSEOExplanation {
             get
             {
                 if (Activator.CreateInstance(ItemType) is PageContentItem)
-                    return ((PageContentItem)Activator.CreateInstance(ItemType)).UseProgrammableSEOAssetsExplanation;
-                else
-                    return string.Empty;
-            }
+				{
+					return ((PageContentItem)Activator.CreateInstance(ItemType)).UseProgrammableSEOAssetsExplanation;
+				}
+				else
+				{
+					return string.Empty;
+				}
+			}
         }
 
 		/// <summary>Gets or sets whether this content type has been defined. Weirdly enough a content type
@@ -143,7 +151,10 @@ namespace Zeus.ContentTypes
 			{
 				// Create a property, based on the type of value.
 				if (value == null)
-					throw new ArgumentNullException("value", "Cannot create a property for name '" + name + "' if 'value' is null");
+				{
+					throw new ArgumentNullException(nameof(value), "Cannot create a property for name '" + name + "' if 'value' is null");
+				}
+
 				return Context.Current.Resolve<IContentPropertyManager>().CreateProperty(name, value.GetType());
 			}
 			return property;
@@ -153,11 +164,15 @@ namespace Zeus.ContentTypes
 		{
 			var displayer = Displayers.SingleOrDefault(d => d.Name == propertyName);
 			if (displayer != null)
+			{
 				return displayer;
+			}
 
 			var property = Properties.SingleOrDefault(p => p.Name == propertyName);
 			if (property != null)
+			{
 				return property.GetDefaultDisplayer();
+			}
 
 			return null;
 		}
@@ -174,7 +189,9 @@ namespace Zeus.ContentTypes
 		public void AddAllowedChild(ContentType definition)
 		{
 			if (!AllowedChildren.Contains(definition))
+			{
 				AllowedChildren.Add(definition);
+			}
 		}
 
 		/// <summary>Adds an available zone to the list of available zones.</summary>
@@ -183,17 +200,29 @@ namespace Zeus.ContentTypes
 		public void AddAvailableZone(string zoneName, string title)
 		{
 			if (!AvailableZones.Any(az => az.ZoneName == zoneName))
+			{
 				AvailableZones.Add(new AvailableZoneAttribute(title, zoneName));
+			}
 		}
 
 		public bool HasZone(string zone)
 		{
 			if (string.IsNullOrEmpty(zone))
+			{
 				return true;
+			}
+
 			if (AvailableZones != null)
+			{
 				foreach (var a in AvailableZones)
+				{
 					if (a.ZoneName == zone)
+					{
 						return true;
+					}
+				}
+			}
+
 			return false;
 		}
 
@@ -201,17 +230,29 @@ namespace Zeus.ContentTypes
 		public bool IsAllowedInZone(string zoneName)
 		{
 			if (AllowedIn == AllowedZones.All)
+			{
 				return true;
+			}
+
 			if (AllowedIn == AllowedZones.AllNamed && !string.IsNullOrEmpty(zoneName))
+			{
 				return true;
+			}
+
 			if (AllowedIn == AllowedZones.None)
+			{
 				return false;
+			}
 
 			if (AllowedZoneNames == null)
+			{
 				return true;
+			}
 
 			if (string.IsNullOrEmpty(zoneName) && AllowedZoneNames.Count == 0 && AllowedIn != AllowedZones.AllNamed)
+			{
 				return true;
+			}
 
 			return AllowedZoneNames.Contains(zoneName);
 		}
@@ -219,10 +260,18 @@ namespace Zeus.ContentTypes
 		public bool IsAuthorized(IPrincipal user)
 		{
 			if (user == null || AuthorizedRoles == null)
+			{
 				return true;
+			}
+
 			foreach (var role in AuthorizedRoles)
+			{
 				if (string.Equals(user.Identity.Name, role, StringComparison.OrdinalIgnoreCase) || user.IsInRole(role))
+				{
 					return true;
+				}
+			}
+
 			return false;
 		}
 
@@ -265,16 +314,22 @@ namespace Zeus.ContentTypes
 		private void AddToCollection(IContainable containable)
 		{
 			if (containable is IEditor)
+			{
 				Editors.Add(containable as IEditor);
+			}
 			else if (containable is IEditorContainer)
+			{
 				Containers.Add(containable as IEditorContainer);
+			}
 		}
 
 		public void ReplaceEditor(string name, IEditor newEditor)
 		{
 			var editor = Editors.SingleOrDefault(e => e.Name == name);
 			if (editor == null)
+			{
 				return;
+			}
 
 			newEditor.Name = editor.Name;
 			newEditor.SortOrder = editor.SortOrder;
@@ -299,7 +354,9 @@ namespace Zeus.ContentTypes
 		public void RemoveAllowedChild(ContentType definition)
 		{
 			if (AllowedChildren.Contains(definition))
+			{
 				AllowedChildren.Remove(definition);
+			}
 		}
 
 		#region IComparable

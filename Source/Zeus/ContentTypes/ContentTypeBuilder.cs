@@ -68,21 +68,31 @@ namespace Zeus.ContentTypes
 						overrideEditor.SortOrder = property.SortOrder;
 						overrideEditor.Shared = property.Shared;
 						if (overrideEditor is AbstractEditorAttribute && property is BaseContentPropertyAttribute)
+						{
 							((AbstractEditorAttribute) overrideEditor).Description = ((BaseContentPropertyAttribute) property).Description;
+						}
+
 						if (overrideEditor is AbstractEditorAttribute && property is ContentPropertyAttribute && !string.IsNullOrEmpty(((ContentPropertyAttribute)property).EditorContainerName))
+						{
 							((AbstractEditorAttribute)overrideEditor).ContainerName = ((ContentPropertyAttribute)property).EditorContainerName;
+						}
+
 						editors.Add(overrideEditor);
 					}
 					else
 					{
 						var editor = property.GetDefaultEditor();
 						if (editor != null)
+						{
 							editors.Add(editor);
+						}
 					}
 				}
 
 				foreach (var editor in tempEditors.Where(e => !editors.Any(oe => e.Name == oe.Name)))
+				{
 					editors.Add(editor);
+				}
 
 				editors.Sort();
 				itemDefinition.Editors = editors;
@@ -101,11 +111,20 @@ namespace Zeus.ContentTypes
 		protected void ExecuteRefiners(IList<ContentType> definitions)
 		{
 			foreach (var definition in definitions)
+			{
 				foreach (IDefinitionRefiner refiner in definition.ItemType.GetCustomAttributes(typeof(IDefinitionRefiner), false))
+				{
 					refiner.Refine(definition, definitions);
+				}
+			}
+
 			foreach (var definition in definitions)
+			{
 				foreach (IInheritableDefinitionRefiner refiner in definition.ItemType.GetCustomAttributes(typeof(IInheritableDefinitionRefiner), true))
+				{
 					refiner.Refine(definition, definitions);
+				}
+			}
 		}
 
 		private IEnumerable<Type> EnumerateTypes()

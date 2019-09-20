@@ -30,16 +30,24 @@ namespace Zeus.Admin.Plugins
 		{
 			var requiredScripts = RequiredScripts;
 			if (requiredScripts != null)
+			{
 				foreach (var requiredScript in requiredScripts)
+				{
 					scriptManager.RegisterClientScriptInclude(GetType().FullName, requiredScript);
+				}
+			}
 		}
 
 		public virtual void RegisterStyles(ResourceManager scriptManager)
 		{
 			var requiredStyles = RequiredStyles;
 			if (requiredStyles != null)
+			{
 				foreach (var requiredStyle in requiredStyles)
+				{
 					scriptManager.RegisterClientStyleInclude(GetType().FullName, requiredStyle);
+				}
+			}
 		}
 
 		protected string GetPageUrl(Type type, string resourcePath)

@@ -232,7 +232,9 @@ namespace Zeus.BaseLibrary.Reflection
 			lock (_localFilteredAssemblyCacheLocker)
 			{
 				if (_localFilteredAssemblyCache != null)
+				{
 					return _localFilteredAssemblyCache;
+				}
 
 				var assemblies = GetFilteredAssemblies(excludeFromResults, KnownAssemblyExclusionFilter);
 				_localFilteredAssemblyCache = new HashSet<Assembly>(assemblies);

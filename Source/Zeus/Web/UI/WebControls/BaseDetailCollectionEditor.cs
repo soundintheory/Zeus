@@ -51,7 +51,10 @@ namespace Zeus.Web.UI.WebControls
 			{
 				var result = ViewState["DeletedIndexes"] as IList<int>;
 				if (result == null)
+				{
 					ViewState["DeletedIndexes"] = result = new List<int>();
+				}
+
 				return result;
 			}
 		}
@@ -117,9 +120,14 @@ namespace Zeus.Web.UI.WebControls
 			Controls.Add(_container);
 
 			foreach (var linkDetail in _initialValues)
+			{
 				CreateLinkedItemEditor(linkDetail);
+			}
+
 			for (var i = 0; i < AddedEditorCount; ++i)
+			{
 				CreateLinkedItemEditor(null);
+			}
 
 			AddNewItemButton();
 			Controls.Add(new LiteralControl("<br style=\"clear:both\" />") { ID = ID + "_literalControl" });

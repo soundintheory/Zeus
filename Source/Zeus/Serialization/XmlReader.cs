@@ -11,7 +11,9 @@ namespace Zeus.Serialization
 		public static Dictionary<string, string> GetAttributes(XPathNavigator navigator)
 		{
 			if (!navigator.MoveToFirstAttribute())
+			{
 				throw new DeserializationException("Node has no attributes: " + navigator.Name);
+			}
 
 			var attributes = new Dictionary<string, string>();
 			do
@@ -27,10 +29,14 @@ namespace Zeus.Serialization
 		public static object Parse(string value, Type type)
 		{
 			if (Context.Current.Resolve<IContentPropertyManager>().CreatePropertyDataObject(type) is ObjectProperty)
+			{
 				return value.Deserialize(type);
-			
+			}
+
 			if (type == typeof(DateTime))
+			{
 				return ToNullableDateTime(value);
+			}
 
 			return Utility.Convert(value, type);
 		}
@@ -51,7 +57,9 @@ namespace Zeus.Serialization
 		public static DateTime? ToNullableDateTime(string value)
 		{
 			if (string.IsNullOrEmpty(value))
+			{
 				return null;
+			}
 
 			return DateTime.Parse(value, System.Globalization.CultureInfo.InvariantCulture).ToLocalTime();
 		}

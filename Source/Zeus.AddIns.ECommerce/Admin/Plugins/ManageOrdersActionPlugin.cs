@@ -22,7 +22,9 @@ namespace Zeus.AddIns.ECommerce.ActionPlugins
 		{
 			// Hide if this is not the OrderContainer node
 			if (!(contentItem is OrderContainer))
+			{
 				return false;
+			}
 
 			return base.IsApplicable(contentItem);
 		}

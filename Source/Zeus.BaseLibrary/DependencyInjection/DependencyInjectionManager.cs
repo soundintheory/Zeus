@@ -175,7 +175,9 @@ namespace Zeus.BaseLibrary.DependencyInjection
 		public void BindInstance(object instance)
 		{
 			if (instance == null)
+			{
 				return;
+			}
 
 			_kernel.Bind(instance.GetType()).ToConstant(instance);
 		}

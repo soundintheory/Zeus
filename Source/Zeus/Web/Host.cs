@@ -30,9 +30,14 @@ namespace Zeus.Web
 			_hostToSites = new Dictionary<string, Site>(StringComparer.OrdinalIgnoreCase);
 			Sites = new List<Site>();
 			foreach (SiteElement element in config.Sites)
+			{
 				AddSite(config, element);
+			}
+
 			if (!_hostToSites.ContainsKey("*"))
+			{
 				throw new ConfigurationErrorsException("At least one <site> section must omit the <siteHosts> section, or <add name=\"*\"> to the <siteHosts> section.");
+			}
 		}
 
 		#endregion
@@ -40,10 +45,16 @@ namespace Zeus.Web
 		public string GetLanguageFromHostName()
 		{
 			if (!_context.Request.Url.IsAbsoluteUri)
+			{
 				return null;
+			}
+
 			var host = _context.Request.Url.Host;
 			if (string.IsNullOrEmpty(host))
+			{
 				return null;
+			}
+
 			return CurrentSite.GetHostLanguageMappings()[host];
 		}
 
@@ -54,24 +65,37 @@ namespace Zeus.Web
 			Sites.Add(site);
 
 			if (element.SiteHosts == null || element.SiteHosts.Count == 0)
+			{
 				SetFallbackSettings(site);
+			}
 			else
+			{
 				foreach (HostNameElement hostName in element.SiteHosts)
 				{
 					if (_hostToSites.ContainsKey(hostName.Name))
+					{
 						throw new ConfigurationErrorsException("A host name can occur only once. " + hostName.Name + "in <siteHosts> has already been defined.");
+					}
 
 					if (hostName.Name == "*")
+					{
 						SetFallbackSettings(site);
+					}
 					else
+					{
 						_hostToSites.Add(hostName.Name, site);
+					}
 				}
+			}
 		}
 
 		private void SetFallbackSettings(Site site)
 		{
 			if (_hostToSites.ContainsKey("*"))
+			{
 				throw new ConfigurationErrorsException("Only one <site> section without a <siteHosts> element is allowed. A <siteHosts> <add name=\"*\" /> </siteHosts> is the same as not defining a siteHosts element.");
+			}
+
 			_hostToSites.Add("*", site);
 		}
 
@@ -85,9 +109,14 @@ namespace Zeus.Web
 		public Site GetSite(Url url)
 		{
 			if (url == null)
-				throw new ArgumentNullException("url", "An initialized Url instance is required.");
+			{
+				throw new ArgumentNullException(nameof(url), "An initialized Url instance is required.");
+			}
+
 			if (!url.IsAbsolute)
-				throw new ArgumentException("The url must be absolute to use for mapping.", "url");
+			{
+				throw new ArgumentException("The url must be absolute to use for mapping.", nameof(url));
+			}
 
 			return MapHostToSite(url.Authority, true);
 		}
@@ -96,9 +125,15 @@ namespace Zeus.Web
 		{
 			Site site;
 			if (_hostToSites.TryGetValue(hostName, out site))
+			{
 				return site;
+			}
+
 			if (!fallback)
+			{
 				return null;
+			}
+
 			return _hostToSites["*"];
 		}
 	}

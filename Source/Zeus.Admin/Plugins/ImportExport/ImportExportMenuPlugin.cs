@@ -30,7 +30,9 @@ namespace Zeus.Admin.Plugins.ImportExport
 		{
 			// Hide, if import / export is disabled.
 			if (!Context.Current.Resolve<AdminSection>().ImportExportEnabled)
+			{
 				return false;
+			}
 
 			return base.IsEnabled(contentItem);
 		}

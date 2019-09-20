@@ -13,8 +13,15 @@ namespace Zeus.Design.Editors
 		public EnumEditorAttribute(string title, int sortOrder, Type enumType)
 			: base(title, sortOrder)
 		{
-			if (enumType == null) throw new ArgumentNullException("enumType");
-			if (!enumType.IsEnum) throw new ArgumentException("The parameter 'enumType' is not a type of enum.", "enumType");
+			if (enumType == null)
+			{
+				throw new ArgumentNullException(nameof(enumType));
+			}
+
+			if (!enumType.IsEnum)
+			{
+				throw new ArgumentException("The parameter 'enumType' is not a type of enum.", nameof(enumType));
+			}
 
 			Required = true;
 			_enumType = enumType;
@@ -22,8 +29,15 @@ namespace Zeus.Design.Editors
 
 		public EnumEditorAttribute(Type enumType)
 		{
-			if (enumType == null) throw new ArgumentNullException("enumType");
-			if (!enumType.IsEnum) throw new ArgumentException("The parameter 'enumType' is not a type of enum.", "enumType");
+			if (enumType == null)
+			{
+				throw new ArgumentNullException(nameof(enumType));
+			}
+
+			if (!enumType.IsEnum)
+			{
+				throw new ArgumentException("The parameter 'enumType' is not a type of enum.", nameof(enumType));
+			}
 
 			Required = true;
 			_enumType = enumType;
@@ -47,15 +61,21 @@ namespace Zeus.Design.Editors
 			var value = item[Name];
 
 			if (value == null)
+			{
 				return null;
+			}
 
 			if (value is string)
+			{
 				// an enum as string we assume
 				return ((int) Enum.Parse(_enumType, (string) value)).ToString();
+			}
 
 			if (value is int)
+			{
 				// an enum as int we hope
 				return value.ToString();
+			}
 
 			// hopefully an enum type;
 			return ((int) value).ToString();
@@ -64,15 +84,23 @@ namespace Zeus.Design.Editors
 		protected override object GetValue(ListControl ddl)
 		{
 			if (!string.IsNullOrEmpty(ddl.SelectedValue))
+			{
 				return GetEnumValue(int.Parse(ddl.SelectedValue));
+			}
+
 			return null;
 		}
 
 		private object GetEnumValue(int value)
 		{
 			foreach (var e in Enum.GetValues(_enumType))
+			{
 				if ((int) e == value)
+				{
 					return e;
+				}
+			}
+
 			return null;
 		}
 
@@ -81,9 +109,11 @@ namespace Zeus.Design.Editors
             var ddl = (ListControl)editor;
             var selectedText = "";
             if (!string.IsNullOrEmpty(ddl.SelectedValue))
-                selectedText = Enum.GetName(_enumType, Convert.ToInt32(ddl.SelectedValue));
+			{
+				selectedText = Enum.GetName(_enumType, Convert.ToInt32(ddl.SelectedValue));
+			}
 
-            if (selectedText != (item[Name] == null ? string.Empty : item[Name].ToString()))
+			if (selectedText != (item[Name] == null ? string.Empty : item[Name].ToString()))
             {
                 item[Name] = GetValue(ddl);
                 return true;

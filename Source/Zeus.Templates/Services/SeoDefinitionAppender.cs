@@ -35,7 +35,9 @@ namespace Zeus.Templates.Services
 		public void Initialize()
 		{
 			if (_templatesConfig.Seo == null || !_templatesConfig.Seo.Enabled)
+			{
 				return;
+			}
 
 			foreach (var contentType in _contentTypeManager.GetContentTypes())
 			{
@@ -81,7 +83,10 @@ namespace Zeus.Templates.Services
 				PropertyType = typeof(string)
 			};
 			if (multiline)
+			{
 				editor.TextMode = System.Web.UI.WebControls.TextBoxMode.MultiLine;
+			}
+
 			contentType.Add(editor);
 			contentType.AddProperty(new ContentPropertyAttribute(typeof(StringProperty), title, sortOrder) { Name = name, Description = description, EditorContainerName = "SEO", Shared = false });
 		}

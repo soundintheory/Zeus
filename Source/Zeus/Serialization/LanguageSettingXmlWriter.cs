@@ -10,8 +10,12 @@ namespace Zeus.Serialization
 			using (new ElementWriter("languageSettings", writer))
 			{
 				if (item.LanguageSettings != null)
+				{
 					foreach (var ar in item.LanguageSettings)
+					{
 						WriteRule(writer, ar);
+					}
+				}
 			}
 		}
 

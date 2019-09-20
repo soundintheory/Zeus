@@ -30,10 +30,16 @@ namespace Zeus.Design.Editors
 					object newDetail;
 					CreateOrUpdateDetailCollectionItem((ContentItem) item, existingDetail, detailCollectionEditor.Editors[i], out newDetail);
 					if (newDetail != null)
+					{
 						if (existingDetail != null)
+						{
 							existingDetail.Value = newDetail;
+						}
 						else
+						{
 							detailCollection.Add(newDetail);
+						}
+					}
 				}
 				else
 				{
@@ -43,7 +49,9 @@ namespace Zeus.Design.Editors
 
 			// Do a second pass to delete the items, this is so we don't mess with the indices on the first pass.
 			foreach (var propertyData in propertyDataToDelete)
+			{
 				detailCollection.Remove(propertyData);
+			}
 
 			return detailCollectionEditor.DeletedIndexes.Count > 0 || detailCollectionEditor.AddedEditors;
 		}

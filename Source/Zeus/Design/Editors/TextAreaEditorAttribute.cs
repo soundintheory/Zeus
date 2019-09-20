@@ -21,7 +21,7 @@ namespace Zeus.Design.Editors
 	[AttributeUsage(AttributeTargets.Property)]
 	public class TextAreaEditorAttribute : TextEditorAttributeBase
 	{
-		public TextAreaEditorAttribute()
+		public TextAreaEditorAttribute() : base()
 		{
 		}
 
@@ -73,7 +73,10 @@ namespace Zeus.Design.Editors
 			var tb = CreateEditor();
 			tb.ID = Name;
 			if (ReadOnly)
+			{
 				tb.ReadOnly = true;
+			}
+
 			ModifyEditor(tb);
 			container.Controls.Add(tb);
 
@@ -89,9 +92,20 @@ namespace Zeus.Design.Editors
 
 		protected virtual void ModifyEditor(TextFieldBase tb)
 		{
-			if (MaxLength > 0) tb.MaxLength = MaxLength;
-			if (Width > 0) tb.Width = Width;
-			if (Height > 0) tb.Height = Height;
+			if (MaxLength > 0)
+			{
+				tb.MaxLength = MaxLength;
+			}
+
+			if (Width > 0)
+			{
+				tb.Width = Width;
+			}
+
+			if (Height > 0)
+			{
+				tb.Height = Height;
+			}
 		}
 	}
 }

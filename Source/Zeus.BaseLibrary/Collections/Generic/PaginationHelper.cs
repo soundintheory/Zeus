@@ -33,7 +33,7 @@ namespace Zeus.BaseLibrary.Collections.Generic
 		{
 			if (pageNumber < 1)
 			{
-				throw new ArgumentOutOfRangeException("pageNumber", "The page number should be greater than or equal to 1.");
+				throw new ArgumentOutOfRangeException(nameof(pageNumber), "The page number should be greater than or equal to 1.");
 			}
 
 			return new LazyPagination<T>(source.AsQueryable(), pageNumber, pageSize);

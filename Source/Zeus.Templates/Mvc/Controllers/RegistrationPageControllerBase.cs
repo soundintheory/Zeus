@@ -53,11 +53,15 @@ namespace Zeus.Templates.Mvc.Controllers
 		public virtual ActionResult Register(TFormViewModel registrationForm, DataContentItem membershipDetails)
 		{
 			if (!ModelState.IsValid)
+			{
 				return Index();
+			}
 
 			string captchaError;
 			if (!_captchaService.Check(HttpContext, out captchaError))
+			{
 				return View("Index", new RegistrationPageViewModel(CurrentItem) { CaptchaError = captchaError });
+			}
 
 			// Create user.
 			var status = _userRegistrationService.CreateUser(registrationForm.Username,
@@ -100,13 +104,18 @@ namespace Zeus.Templates.Mvc.Controllers
 		public ActionResult Verify(string n)
 		{
 			if (!_templatesConfig.UserRegistration.EmailVerificationRequired)
+			{
 				throw new InvalidOperationException("Email verification is not enabled.");
+			}
 
 			User user;
 			var result = _credentialService.Verify(n, out user);
 			if (result != UserVerificationResult.Verified)
+			{
 				return View(new RegistrationPageVerifyViewModel(
 					CurrentItem, false, result.GetDescription()));
+			}
+
 			return View(new RegistrationPageVerifyViewModel(
 				CurrentItem, true, null));
 		}

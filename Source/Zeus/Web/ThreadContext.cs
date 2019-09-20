@@ -31,9 +31,13 @@ namespace Zeus.Web
 			baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 			var binIndex = baseDirectory.IndexOf("\\bin\\");
 			if (binIndex >= 0)
+			{
 				baseDirectory = baseDirectory.Substring(0, binIndex);
+			}
 			else if (baseDirectory.EndsWith("\\bin"))
+			{
 				baseDirectory = baseDirectory.Substring(0, baseDirectory.Length - 4);
+			}
 		}
 
 		public PathData CurrentPath
@@ -43,9 +47,13 @@ namespace Zeus.Web
 			{
 				currentPath = value;
 				if (value != null)
+				{
 					CurrentPage = value.CurrentItem as ContentItem;
+				}
 				else
+				{
 					currentPath = null;
+				}
 			}
 		}
 

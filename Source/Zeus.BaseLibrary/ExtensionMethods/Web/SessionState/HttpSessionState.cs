@@ -8,9 +8,13 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web.SessionState
 		{
 			var value = session[name];
 			if (value == null)
+			{
 				return default(T);
+			}
 			else
+			{
 				return (T) value;
+			}
 		}
 	}
 }

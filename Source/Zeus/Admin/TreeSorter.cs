@@ -31,7 +31,9 @@ namespace Zeus.Admin
 
 				var index = filtered.IndexOf(item);
 				if (index > 0)
+				{
 					MoveTo(item, NodePosition.Before, filtered[index - 1]);
+				}
 			}
 		}
 
@@ -45,7 +47,9 @@ namespace Zeus.Admin
 
 				var index = filtered.IndexOf(item);
 				if (index + 1 < filtered.Count)
+				{
 					MoveTo(item, NodePosition.After, filtered[index + 1]);
+				}
 			}
 		}
 
@@ -56,19 +60,35 @@ namespace Zeus.Admin
 			foreach (var updatedItem in Utility.UpdateSortOrder(siblings))
 			{
                 if (item.ID == updatedItem.ID)
-                    updatedItem.ReorderAction();
+				{
+					updatedItem.ReorderAction();
+				}
+
 				persister.Save(updatedItem);
 			}
 		}
 
 		public void MoveTo(ContentItem item, NodePosition position, ContentItem relativeTo)
 		{
-			if (relativeTo == null) throw new ArgumentNullException("item");
-			if (relativeTo == null) throw new ArgumentNullException("relativeTo");
-			if (relativeTo.Parent == null) throw new ArgumentException("The supplied item '" + relativeTo + "' has no parent to add to.", "relativeTo");
+			if (relativeTo == null)
+			{
+				throw new ArgumentNullException(nameof(item));
+			}
+
+			if (relativeTo == null)
+			{
+				throw new ArgumentNullException(nameof(relativeTo));
+			}
+
+			if (relativeTo.Parent == null)
+			{
+				throw new ArgumentException("The supplied item '" + relativeTo + "' has no parent to add to.", nameof(relativeTo));
+			}
 
 			if (item.Parent != relativeTo.Parent)
+			{
 				item.AddTo(relativeTo.Parent);
+			}
 
 			var siblings = item.Parent.Children;
 
@@ -78,16 +98,26 @@ namespace Zeus.Admin
 			if (itemIndex < 0)
 			{
 				if (position == NodePosition.Before)
+				{
 					siblings.Insert(relativeToIndex, item);
+				}
 				else
+				{
 					siblings.Insert(relativeToIndex + 1, item);
+				}
 			}
 			else if (itemIndex < relativeToIndex && position == NodePosition.Before)
+			{
 				MoveTo(item, relativeToIndex - 1);
+			}
 			else if (itemIndex > relativeToIndex && position == NodePosition.After)
+			{
 				MoveTo(item, relativeToIndex + 1);
+			}
 			else
+			{
 				MoveTo(item, relativeToIndex);
+			}
 		}
 
 		#endregion

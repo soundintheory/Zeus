@@ -40,9 +40,11 @@ namespace Zeus.Templates.Mvc.Html
         {
             var url = ImageUrl(helper, image, width, height, fill, defaultImage, format);
             if (string.IsNullOrEmpty(url))
-                return string.Empty;
+			{
+				return string.Empty;
+			}
 
-            return ImageTag(helper, image, url);
+			return ImageTag(helper, image, url);
         }
 
         /// <summary>

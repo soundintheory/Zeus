@@ -14,7 +14,9 @@ namespace Zeus.Admin.Plugins.ContextMenu
 			{
 				var requiredUserControls = plugin.RequiredUserControls;
 				if (requiredUserControls != null)
+				{
 					mainInterface.LoadUserControls(requiredUserControls);
+				}
 			}
 		}
 
@@ -28,8 +30,12 @@ namespace Zeus.Admin.Plugins.ContextMenu
 			{
 				var requiredScripts = plugin.RequiredScripts;
 				if (requiredScripts != null)
+				{
 					foreach (var requiredScript in requiredScripts)
+					{
 						scriptManager.RegisterClientScriptInclude(plugin.GetType().FullName, requiredScript);
+					}
+				}
 			}
 		}
 	}

@@ -45,7 +45,9 @@ namespace Zeus.Net
 			var request = (HttpWebRequest)WebRequest.Create(url);
 
 			if (proxy != null)
+			{
 				request.Proxy = proxy;
+			}
 
 			request.UserAgent = userAgent;
 			request.Timeout = timeout;

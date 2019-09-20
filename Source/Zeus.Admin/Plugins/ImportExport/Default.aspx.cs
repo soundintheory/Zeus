@@ -28,7 +28,9 @@ namespace Zeus.Admin.Plugins.ImportExport
 		{
 			var options = ExportOptions.Default;
 			if (chkDefinedDetails.Checked)
+			{
 				options |= ExportOptions.OnlyDefinedProperties;
+			}
 
 			Engine.Resolve<Exporter>().Export(SelectedItem, options, Response);
 		}
@@ -129,7 +131,9 @@ namespace Zeus.Admin.Plugins.ImportExport
 			finally
 			{
 				if (File.Exists(UploadedFilePath))
+				{
 					File.Delete(UploadedFilePath);
+				}
 			}
 		}
 
@@ -139,7 +143,10 @@ namespace Zeus.Admin.Plugins.ImportExport
 			{
 				var errorText = new StringBuilder("<ul>");
 				foreach (var ex in record.Errors)
+				{
 					errorText.Append("<li>").Append(ex.Message).Append("</li>");
+				}
+
 				errorText.Append("</ul>");
 
 				cvImport.IsValid = false;

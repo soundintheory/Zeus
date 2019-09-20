@@ -15,10 +15,14 @@ namespace Zeus.Web.Mvc.Html
 		{
 			var username = GetUsername(html);
 			if (string.IsNullOrEmpty(username))
+			{
 				return string.Empty;
+			}
 
 			if (formatString.Length == 0)
+			{
 				return username;
+			}
 
 			try
 			{

@@ -88,18 +88,28 @@ namespace Zeus.Web
 			get
 			{
 				if (IsEmpty())
+				{
 					return null;
+				}
 
 				var templateUrl = !string.IsNullOrEmpty(TemplateUrl) ? TemplateUrl : "/";
 				if (CurrentItem.IsPage)
+				{
 					return Url.Parse(templateUrl).UpdateQuery(QueryParameters).SetQueryParameter(PageQueryKey, CurrentItem.ID);
+				}
 
 				for (var ancestor = CurrentItem.Parent; ancestor != null; ancestor = ancestor.Parent)
+				{
 					if (ancestor.IsPage)
+					{
 						return ancestor.FindPath(DefaultAction).RewrittenUrl.UpdateQuery(QueryParameters).SetQueryParameter(ItemQueryKey, CurrentItem.ID);
+					}
+				}
 
 				if (CurrentItem.VersionOf != null)
+				{
 					return CurrentItem.VersionOf.FindPath(DefaultAction).RewrittenUrl.UpdateQuery(QueryParameters).SetQueryParameter(ItemQueryKey, CurrentItem.ID);
+				}
 
 				throw new TemplateNotFoundException(CurrentItem);
 			}
@@ -111,9 +121,15 @@ namespace Zeus.Web
 			{
 				var result = new Url(CurrentItem.Url);
 				if (SslSecured)
+				{
 					result = result.SetScheme("https").SetAuthority(new Url(Url.ServerUrl).Authority);
+				}
+
 				if (!string.IsNullOrEmpty(Action))
+				{
 					result = result.AppendSegment(Action);
+				}
+
 				return result;
 			}
 		}
@@ -125,7 +141,10 @@ namespace Zeus.Web
 		public virtual PathData UpdateParameters(IDictionary<string, string> queryString)
 		{
 			foreach (var pair in queryString)
+			{
 				QueryParameters[pair.Key] = pair.Value;
+			}
+
 			return this;
 		}
 

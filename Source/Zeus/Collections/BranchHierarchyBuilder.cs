@@ -29,14 +29,18 @@ namespace Zeus.Collections
 		public override HierarchyNode<ContentItem> Build()
 		{
 			if (_initialItem == _lastAncestor && !_appendAdditionalLevel)
+			{
 				return new HierarchyNode<ContentItem>(_initialItem);
+			}
 
 			HierarchyNode<ContentItem> previousNode = null;
 			foreach (var currentItem in Find.EnumerateParents(_initialItem, _lastAncestor, _appendAdditionalLevel))
 			{
 				var currentNode = new HierarchyNode<ContentItem>(currentItem);
 				if (previousNode != null)
+				{
 					previousNode.Parent = currentNode;
+				}
 
 				foreach (var childItem in GetChildren(currentItem))
 				{

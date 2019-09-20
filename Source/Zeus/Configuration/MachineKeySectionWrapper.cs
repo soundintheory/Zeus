@@ -40,7 +40,9 @@ namespace Zeus.Configuration
 			_byteArrayToHexString = machineKeyType.GetMethod("ByteArrayToHexString", bf);
 
 			if (_encOrDecData == null || _hexStringToByteArray == null || _byteArrayToHexString == null)
+			{
 				throw new InvalidOperationException("Unable to get the methods to invoke.");
+			}
 		}
 
 		public static byte[] HashData(byte[] buf, byte[] modifier, int start, int length)

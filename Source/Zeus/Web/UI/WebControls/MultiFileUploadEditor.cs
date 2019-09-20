@@ -23,7 +23,9 @@ namespace Zeus.Web.UI.WebControls
 			fileUpload.ID = ID + "_upl_" + id;
 
 			if (linkDetail != null)
+			{
 				fileUpload.CurrentFileName = ((File) linkDetail.LinkedItem).FileName;
+			}
 
 			return fileUpload;
 		}

@@ -11,9 +11,13 @@ namespace Zeus.Net.Mail
 		protected override SmtpClient GetSmtpClient()
 		{
             if (ConfigurationManager.AppSettings["MailServer"] != null)
-                return CreateSmtpClient(ConfigurationManager.AppSettings["MailServer"], -1, null, null);
-            else
-                return CreateSmtpClient(null, -1, null, null);
+			{
+				return CreateSmtpClient(ConfigurationManager.AppSettings["MailServer"], -1, null, null);
+			}
+			else
+			{
+				return CreateSmtpClient(null, -1, null, null);
+			}
 		}
 	}
 }

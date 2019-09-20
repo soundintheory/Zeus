@@ -14,7 +14,9 @@ namespace Zeus.Admin.Plugins.CopyItem
 				{
 					// Check user has permission to create items under the SelectedItem
 					if (!Engine.SecurityManager.IsAuthorized(SelectedItem, User, Operations.Create))
+					{
 						throw new ZeusException("You are not authorised to copy an item to this location");
+					}
 
 					var newItem = Engine.Persister.Copy(MemorizedItem, SelectedItem);
 					Refresh(newItem, AdminFrame.Both, false);

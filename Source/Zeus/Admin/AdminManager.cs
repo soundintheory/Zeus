@@ -34,8 +34,6 @@ namespace Zeus.Admin
 		private readonly AdminSection _configSection;
 		private readonly ISecurityManager _securityManager;
 		private readonly IAdminAssemblyManager _adminAssembly;
-		private readonly IAuthorizationService _authorizationService;
-		private readonly IAuthenticationContextService _authenticationContextService;
 		private readonly IPersister _persister;
 		private readonly IVersionManager _versionManager;
 		private readonly IContentTypeManager _contentTypeManager;
@@ -53,7 +51,7 @@ namespace Zeus.Admin
 			IPersister persister, IVersionManager versionManager, IContentTypeManager contentTypeManager,
 			Web.IWebContext webContext, ILanguageManager languageManager,
 			IPluginFinder<ActionPluginGroupAttribute> actionPluginGroupFinder,
-			ITypeFinder typeFinder, IEmbeddedResourceManager embeddedResourceManager)
+			IEmbeddedResourceManager embeddedResourceManager)
 		{
 			_configSection = configSection;
 			_securityManager = securityManager;
@@ -62,8 +60,6 @@ namespace Zeus.Admin
 			EditItemUrl = embeddedResourceManager.GetServerResourceUrl(adminAssembly.Assembly, "Zeus.Admin.Plugins.EditItem.Default.aspx");
 			NewItemUrl = embeddedResourceManager.GetServerResourceUrl(adminAssembly.Assembly, "Zeus.Admin.New.aspx");
 			EnableVersioning = configSection.Versioning.Enabled;
-			_authorizationService = authorizationService;
-			_authenticationContextService = authenticationContextService;
 			_persister = persister;
 			_versionManager = versionManager;
 			_contentTypeManager = contentTypeManager;
@@ -143,7 +139,10 @@ namespace Zeus.Admin
 		{
 			var url = new Url(path);
 			if (selectedItem != null)
+			{
 				url = url.AppendQuery("selected=" + selectedItem.Path);
+			}
+
 			return url.ToString();
 		}
 
@@ -155,13 +154,22 @@ namespace Zeus.Admin
 		/// <returns>The url to the edit page.</returns>
 		public string GetEditNewPageUrl(ContentItem selected, ContentType definition, string zoneName, CreationPosition position)
 		{
-			if (selected == null) throw new ArgumentNullException("selected");
-			if (definition == null) throw new ArgumentNullException("definition");
+			if (selected == null)
+			{
+				throw new ArgumentNullException(nameof(selected));
+			}
+
+			if (definition == null)
+			{
+				throw new ArgumentNullException(nameof(definition));
+			}
 
 			var parent = (position != CreationPosition.Below) ? selected.Parent : selected;
 
 			if (selected == null)
+			{
 				throw new ZeusException("Cannot insert item before or after the root page.");
+			}
 
 			var url = new Url(EditItemUrl);
 			url = url.AppendQuery("selected", parent.Path);
@@ -206,13 +214,19 @@ namespace Zeus.Admin
 		public string GetEditExistingItemUrl(ContentItem item, string languageCode)
 		{
 			if (item == null)
+			{
 				return null;
+			}
 
 			if (string.IsNullOrEmpty(languageCode))
+			{
 				languageCode = item.Language;
+			}
 
 			if (item.VersionOf != null)
+			{
 				return string.Format("{0}?selectedUrl={1}&language={2}", EditItemUrl, HttpUtility.UrlEncode(item.FindPath(PathData.DefaultAction).RewrittenUrl), languageCode);
+			}
 
 			return string.Format("{0}?selected={1}&language={2}", EditItemUrl, item.Path, languageCode);
 		}
@@ -248,10 +262,15 @@ namespace Zeus.Admin
 				using (var tx = _persister.Repository.BeginTransaction())
 				{
 					var itemToUpdate = item.VersionOf;
-					if (itemToUpdate == null) throw new ArgumentException("Expected the current item to be a version of another item.", "item");
+					if (itemToUpdate == null)
+					{
+						throw new ArgumentException("Expected the current item to be a version of another item.", nameof(item));
+					}
 
 					if (ShouldStoreVersion(item))
+					{
 						SaveVersion(itemToUpdate);
+					}
 
 					var published = itemToUpdate.Published;
 					var wasUpdated = UpdateItem(itemToUpdate, addedEditors, user);
@@ -262,8 +281,10 @@ namespace Zeus.Admin
                         foreach (var child in item.Children.ToList())
                         {
                             if (!child.HasMinRequirementsForSaving())
-                                item.Children.Remove(child);
-                        }
+							{
+								item.Children.Remove(child);
+							}
+						}
 						itemToUpdate.Published = published ?? Utility.CurrentTime();
 						_persister.Save(itemToUpdate);
 
@@ -292,8 +313,10 @@ namespace Zeus.Admin
                     foreach (var child in item.Children.ToList())
                     {
                         if (!child.HasMinRequirementsForSaving())
-                            item.Children.Remove(child);
-                    }
+						{
+							item.Children.Remove(child);
+						}
+					}
                     _persister.Save(item);
 
                     var theParent = item.Parent;
@@ -315,7 +338,9 @@ namespace Zeus.Admin
 				using (var tx = _persister.Repository.BeginTransaction())
 				{
 					if (ShouldStoreVersion(item))
+					{
 						SaveVersion(item);
+					}
 
 					var initialPublished = item.Published;
 					var wasUpdated = UpdateItem(item, addedEditors, user);
@@ -347,7 +372,9 @@ namespace Zeus.Admin
 				using (var tx = _persister.Repository.BeginTransaction())
 				{
 					if (ShouldStoreVersion(item))
+					{
 						item = SaveVersion(item);
+					}
 
 					var wasUpdated = UpdateItem(item, addedEditors, user);
 					if (wasUpdated || IsNew(item))
@@ -364,7 +391,7 @@ namespace Zeus.Admin
 				}
 			}
 
-			throw new ArgumentException("Unexpected versioning mode.", "versioningMode");
+			throw new ArgumentException("Unexpected versioning mode.", nameof(versioningMode));
 		}
 
 		private void IncrementVersion(ContentItem item)
@@ -385,8 +412,15 @@ namespace Zeus.Admin
 		/// <returns>Whether any property on the item was updated.</returns>
 		public bool UpdateItem(ContentItem item, IDictionary<string, Control> addedEditors, IPrincipal user)
 		{
-			if (item == null) throw new ArgumentNullException("item");
-			if (addedEditors == null) throw new ArgumentNullException("addedEditors");
+			if (item == null)
+			{
+				throw new ArgumentNullException(nameof(item));
+			}
+
+			if (addedEditors == null)
+			{
+				throw new ArgumentNullException(nameof(addedEditors));
+			}
 
 			var updated = false;
 			var contentType = _contentTypeManager.GetContentType(item.GetType());

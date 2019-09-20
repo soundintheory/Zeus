@@ -17,7 +17,9 @@ namespace Zeus.Admin.Plugins.Globalization
 		public override void ModifyTree(TreePanel treePanel, IMainInterface mainInterface)
 		{
 			if (!Context.Current.Resolve<GlobalizationSection>().Enabled)
+			{
 				return;
+			}
 
 			// Setup tree bottom toolbar.
 			var bottomToolbar = new Toolbar();

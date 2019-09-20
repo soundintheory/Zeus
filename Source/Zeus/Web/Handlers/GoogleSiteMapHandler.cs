@@ -46,7 +46,9 @@ namespace Zeus.Web.Handlers
 		{
 			// As this is a heavy operation, use the cache
 			if (context.Cache["GoogleSitemap"] != null)
+			{
 				return context.Cache["GoogleSitemap"].ToString();
+			}
 
 			var domain = "http://" + context.Request.Url.Authority;
 			IList<ContentItem> list = new List<ContentItem>();

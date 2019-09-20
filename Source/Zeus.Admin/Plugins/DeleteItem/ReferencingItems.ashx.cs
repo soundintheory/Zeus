@@ -53,7 +53,9 @@ namespace Zeus.Admin.Plugins.DeleteItem
 		{
 			//referrers.AddRange(Context.Finder.QueryItems().Where(ci => ci.Details.OfType<LinkProperty>().Any(ld => ld.LinkedItem == current)));
 			foreach (var child in current.GetChildren())
+			{
 				AddReferencesRecursive(child, referrers);
+			}
 		}
 
 		public bool IsReusable

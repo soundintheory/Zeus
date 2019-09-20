@@ -10,6 +10,22 @@ namespace Zeus.Serialization
 			this.Attributes = attributes;
 		}
 
+		public ContentTypeNotFoundException(string message) : base(message)
+		{
+		}
+
+		public ContentTypeNotFoundException(string messageFormat, params object[] args) : base(messageFormat, args)
+		{
+		}
+
+		public ContentTypeNotFoundException(string message, System.Exception innerException) : base(message, innerException)
+		{
+		}
+
+		public ContentTypeNotFoundException() : base()
+		{
+		}
+
 		public Dictionary<string, string> Attributes { get; }
 	}
 }

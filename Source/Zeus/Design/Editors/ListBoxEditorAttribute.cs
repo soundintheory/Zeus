@@ -50,7 +50,9 @@ namespace Zeus.Design.Editors
 			{
 				var listItem = listEditor.Items.FindByValue(forEachValue);
 				if (listItem != null)
+				{
 					listItem.Selected = true;
+				}
 			}
 		}
 
@@ -58,8 +60,10 @@ namespace Zeus.Design.Editors
         {
             //check if there's a value yet...
             if (item[Name] == null)
-                return true;
-            else
+			{
+				return true;
+			}
+			else
             {
                 var ddl = (ListControl)editor;
 
@@ -67,8 +71,10 @@ namespace Zeus.Design.Editors
                 foreach (ListItem listItem in ddl.Items)
                 {
                     if (listItem.Selected)
-                        selectedInEditor += "_" + listItem.Value;
-                }
+					{
+						selectedInEditor += "_" + listItem.Value;
+					}
+				}
 
                 var orig_ddl = (System.Collections.Generic.List<int>)item[Name];
                 var selectedInObject = "";

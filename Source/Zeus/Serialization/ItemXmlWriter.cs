@@ -25,7 +25,9 @@ namespace Zeus.Serialization
 			WriteSingleItem(item, options, writer);
 
 			foreach (var child in item.Children)
+			{
 				Write(child, options, writer);
+			}
 		}
 
 		public virtual void WriteSingleItem(ContentItem item, ExportOptions options, XmlTextWriter writer)
@@ -35,16 +37,23 @@ namespace Zeus.Serialization
 				WriteDefaultAttributes(itemElement, item);
 
 				foreach (var xmlWriter in GetWriters(options))
+				{
 					xmlWriter.Write(item, writer);
+				}
 			}
 		}
 
 		private IEnumerable<IXmlWriter> GetWriters(ExportOptions options)
 		{
 			if ((options & ExportOptions.OnlyDefinedProperties) == ExportOptions.OnlyDefinedProperties)
+			{
 				yield return new DefinedPropertyXmlWriter(definitions);
+			}
 			else
+			{
 				yield return new PropertyXmlWriter();
+			}
+
 			yield return new PropertyCollectionXmlWriter();
 			yield return new ChildXmlWriter();
 			yield return new AuthorizationRuleXmlWriter();
@@ -58,7 +67,10 @@ namespace Zeus.Serialization
 			itemElement.WriteAttribute("parent", item.Parent != null ? item.Parent.ID.ToString() : string.Empty);
 			itemElement.WriteAttribute("title", item.Title);
 			if (item is WidgetContentItem)
+			{
 				itemElement.WriteAttribute("zoneName", ((WidgetContentItem) item).ZoneName);
+			}
+
 			itemElement.WriteAttribute("created", item.Created);
 			itemElement.WriteAttribute("updated", item.Updated);
 			itemElement.WriteAttribute("published", item.Published);

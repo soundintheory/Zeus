@@ -32,12 +32,19 @@ namespace Zeus.Globalization
                 foreach (var branch in availableLanguages)
 				{
 					if (string.Compare(languageCode, branch.Name, StringComparison.OrdinalIgnoreCase) == 0)
+					{
 						return branch.Culture;
+					}
+
 					if (culture == null && LanguageSelection.IsCandidateMatch(languageCode, branch.Name))
+					{
 						culture = branch.Culture;
+					}
 				}
 				if (culture != null)
+				{
 					return culture;
+				}
 			}
 			return FinalFallbackCulture;
 		}
@@ -51,13 +58,18 @@ namespace Zeus.Globalization
 				var request = Context.Current.WebContext.Request;
 				list.ConditionalAdd(request.QueryString["zeuslanguage"]);
 				if (HttpRequestSupport.IsRequestSystemDirectory)
+				{
 					list.ConditionalAddCookie(request.Cookies["editlanguagebranch"]);
+				}
+
 				list.ConditionalAdd(Context.Current.Resolve<IHost>().GetLanguageFromHostName());
 				list.ConditionalAddCookie(request.Cookies["zeuslanguage"]);
 
 				var globalizationConfig = ConfigurationManager.GetSection("zeus/globalization") as GlobalizationSection;
 				if (globalizationConfig != null && globalizationConfig.UseBrowserLanguagePreferences)
+				{
 					list.ConditionalAddRange(request.UserLanguages);
+				}
 
 				list.ConditionalAdd(CultureInfo.CurrentUICulture.Name);
 			}
@@ -88,7 +100,10 @@ namespace Zeus.Globalization
 			{
 				var info = Context.Current.WebContext.RequestItems["Zeus:ContentLanguage"] as CultureInfo;
 				if (info == null)
+				{
 					info = Instance.SetCulture();
+				}
+
 				return info;
 			}
 			set

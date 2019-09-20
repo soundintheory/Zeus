@@ -11,7 +11,10 @@ namespace Zeus.Templates.Mvc.Html
 		{
 			var result = new StringBuilder();
 			if (ensureJQuery)
+			{
 				result.Append(helper.RegisterJQuery());
+			}
+
 			result.Append(helper.Javascript("/assets/templates/typewatch/jquery.typewatch.js"));
 			result.Append(helper.Javascript("/assets/templates/markitup/jquery.markitup.js"));
 			result.Append(helper.Javascript("/assets/templates/markitup/sets/bbcode/set.js"));

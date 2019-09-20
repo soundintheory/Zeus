@@ -72,9 +72,13 @@ namespace Zeus.Web.UI.WebControls
 			if (Controls.Count > 0)
 			{
 				if (string.IsNullOrEmpty(UlClass))
+				{
 					writer.Write("<ul>");
+				}
 				else
+				{
 					writer.Write("<ul class=\"{0}\">", UlClass);
+				}
 
 				base.RenderChildren(writer);
 
@@ -85,14 +89,22 @@ namespace Zeus.Web.UI.WebControls
 		protected void RenderBeginTag(HtmlTextWriter writer, bool isRoot)
 		{
 			if (isRoot)
+			{
 				writer.Write("<ul class=\"simpleTree\">");
+			}
 
 			if (isRoot)
+			{
 				writer.Write("<li id=\"{0}\" class=\"root\">", this.Node.ID);
+			}
 			else if (string.IsNullOrEmpty(LiClass))
+			{
 				writer.Write("<li id=\"{0}\">", this.Node.ID);
+			}
 			else
+			{
 				writer.Write("<li id=\"{0}\" class=\"{1}\">", this.Node.ID, LiClass);
+			}
 
 			this.LinkControl.RenderControl(writer);
 		}
@@ -101,7 +113,9 @@ namespace Zeus.Web.UI.WebControls
 		{
 			writer.Write("</li>");
 			if (isRoot)
+			{
 				writer.Write("</ul>");
+			}
 		}
 	}
 }

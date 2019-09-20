@@ -24,7 +24,9 @@ namespace Zeus.Design.Editors
 				if (childrenEditor.DeletedIndexes.Contains(i))
 				{
 					if (((ContentItem) childrenEditor.ItemEditors[i].CurrentItem).ID != 0)
+					{
 						Context.Persister.Delete((ContentItem) childrenEditor.ItemEditors[i].CurrentItem);
+					}
 				}
 				else
 				{
@@ -50,7 +52,10 @@ namespace Zeus.Design.Editors
 				ParentItem = (ContentItem) container.FindParent<IEditableObjectEditor>().CurrentItem,
 			};
 			if (TypeFilter != null)
+			{
 				childrenEditor.TypeFilter = TypeFilter.ToString();
+			}
+
 			container.Controls.Add(childrenEditor);
 			return childrenEditor;
 		}

@@ -27,7 +27,9 @@ namespace Zeus.Web.Hosting
 			DependencyInjectionUtility.RegisterAllComponents<IEmbeddedResourcePackage>(_kernel, filenames);
 
 			foreach (var package in _kernel.GetAll<IEmbeddedResourcePackage>())
+			{
 				package.Register(RouteTable.Routes, ResourceSettings);
+			}
 		}
 	}
 }

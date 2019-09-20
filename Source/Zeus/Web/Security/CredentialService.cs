@@ -76,7 +76,9 @@ namespace Zeus.Web.Security
 		private static bool ValidateParameter(string value)
 		{
 			if (string.IsNullOrEmpty(value))
+			{
 				return false;
+			}
 
 			return Regex.IsMatch(value, "[a-z0-9]+", RegexOptions.IgnoreCase);
 		}
@@ -116,7 +118,7 @@ namespace Zeus.Web.Security
 		public string EncryptPassword(string password)
 		{
 			return FormsAuthentication.HashPasswordForStoringInConfigFile(password,
-				FormsAuthPasswordFormat.SHA1.ToString());
+				nameof(FormsAuthPasswordFormat.SHA1));
 		}
 
 		public void SendVerificationEmail(User user, string linkRoot, string recipientEmail,
@@ -124,7 +126,9 @@ namespace Zeus.Web.Security
 		{
 			// Check that emailBody contains {VERIFICATIONLINK}.
 			if (!emailBody.Contains(VerificationLinkName))
-				throw new ArgumentException("Email body must contain " + VerificationLinkName, "emailBody");
+			{
+				throw new ArgumentException("Email body must contain " + VerificationLinkName, nameof(emailBody));
+			}
 
 			// Construct nonce.
 			var nonce = NonceUtility.GenerateNonce();
@@ -149,15 +153,21 @@ namespace Zeus.Web.Security
 		public UserVerificationResult Verify(string nonce, out User user)
 		{
 			if (string.IsNullOrEmpty(nonce))
-				throw new ArgumentNullException("nonce");
+			{
+				throw new ArgumentNullException(nameof(nonce));
+			}
 
 			// Get user from store matching nonce.
 			user = _store.GetUserByNonce(nonce);
 			if (user == null)
+			{
 				return UserVerificationResult.NoMatchingUser;
+			}
 
 			if (user.Verified)
+			{
 				return UserVerificationResult.AlreadyVerified;
+			}
 
 			_store.VerifyUser(user);
 			return UserVerificationResult.Verified;
@@ -168,21 +178,29 @@ namespace Zeus.Web.Security
 		{
 			// Check that emailBody contains {PASSWORDRESETLINK}.
 			if (!emailBody.Contains(PasswordResetLinkName))
-				throw new ArgumentException("Email body must contain " + PasswordResetLinkName, "emailBody");
+			{
+				throw new ArgumentException("Email body must contain " + PasswordResetLinkName, nameof(emailBody));
+			}
 
 			// Check that user exists.
 			var user = GetUser(username);
 			if (user == null)
+			{
 				return PasswordResetRequestResult.UserNotFound;
+			}
 
 			// Check that there isn't an existing password reset request.
 			var existingRequests = user.GetChildren<PasswordResetRequest>();
 			if (existingRequests.Any(prr => !prr.Used && prr.Created.Add(_passwordResetRequestTimeout) > DateTime.Now))
+			{
 				return PasswordResetRequestResult.RequestExists;
+			}
 
 			// Check that there aren't too many existing reset requests.
 			if (existingRequests.Count(prr => prr.Created > DateTime.Now.AddHours(-1)) > 3)
+			{
 				return PasswordResetRequestResult.TooManyRequests;
+			}
 
 			// Construct nonce.
 			var nonce = NonceUtility.GenerateNonce();
@@ -211,18 +229,26 @@ namespace Zeus.Web.Security
 		{
 			resetRequest = null;
 			if (string.IsNullOrEmpty(nonce))
+			{
 				return PasswordResetRequestValidity.NoMatchingRequest;
+			}
 
 			// Get user from store matching password reset request nonce.
 			resetRequest = _store.GetPasswordResetRequestByNonce(nonce);
 			if (resetRequest == null)
+			{
 				return PasswordResetRequestValidity.NoMatchingRequest;
+			}
 
 			if (resetRequest.Used)
+			{
 				return PasswordResetRequestValidity.AlreadyUsed;
+			}
 
 			if (resetRequest.Created.Add(_passwordResetRequestTimeout) < DateTime.Now)
+			{
 				return PasswordResetRequestValidity.Expired;
+			}
 
 			return PasswordResetRequestValidity.Valid;
 		}
@@ -231,7 +257,9 @@ namespace Zeus.Web.Security
 		{
 			PasswordResetRequest resetRequest;
 			if (CheckPasswordResetRequestValidity(nonce, out resetRequest) != PasswordResetRequestValidity.Valid)
+			{
 				return PasswordResetResult.Failed;
+			}
 
 			var user = (User) resetRequest.Parent;
 			user.Password = EncryptPassword(newPassword);

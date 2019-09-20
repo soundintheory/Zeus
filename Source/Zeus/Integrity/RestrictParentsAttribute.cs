@@ -22,9 +22,13 @@ namespace Zeus.Integrity
 			: this()
 		{
 			if (allowedTypes == AllowedTypes.All)
+			{
 				Types = null;
+			}
 			else
+			{
 				Types = new Type[0];
+			}
 		}
 
 		/// <summary>Initializes a new instance of the RestrictParentsAttribute which is used to restrict which types of items may be added below which.</summary>
@@ -44,7 +48,9 @@ namespace Zeus.Integrity
 			{
 				var assignable = IsAssignable(definition.ItemType);
 				if (assignable)
+				{
 					definition.AddAllowedChild(currentDefinition);
+				}
 			}
 		}
 	}

@@ -22,7 +22,9 @@ namespace Zeus.Templates.Services
 		public void Initialize()
 		{
 			if (_templatesConfig.Tagging == null || !_templatesConfig.Tagging.Enabled)
+			{
 				return;
+			}
 
 			foreach (var contentType in _contentTypeManager.GetContentTypes())
 			{

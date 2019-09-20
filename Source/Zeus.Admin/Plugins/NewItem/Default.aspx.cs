@@ -20,7 +20,10 @@ namespace Zeus.Admin.Plugins.NewItem
 			get
 			{
 				if (rblPosition.SelectedIndex == 1)
+				{
 					return base.SelectedItem;
+				}
+
 				return base.SelectedItem.Parent;
 			}
 		}
@@ -40,7 +43,10 @@ namespace Zeus.Admin.Plugins.NewItem
 
 			ParentItemDefinition = Engine.ContentTypes.GetContentType(ActualItem.GetType());
 			if (!IsPostBack)
+			{
 				LoadZones();
+			}
+
 			ZoneName = rblZone.SelectedValue;
 		}
 
@@ -56,11 +62,17 @@ namespace Zeus.Admin.Plugins.NewItem
 		protected CreationPosition GetCreationPosition()
 		{
 			if (rblPosition.SelectedIndex == 0)
+			{
 				return CreationPosition.Before;
+			}
 			else if (rblPosition.SelectedIndex == 2)
+			{
 				return CreationPosition.After;
+			}
 			else
+			{
 				return CreationPosition.Below;
+			}
 		}
 
 		protected string GetEditUrl(ContentType contentType)
@@ -124,7 +136,9 @@ namespace Zeus.Admin.Plugins.NewItem
 
 			var z = IsPostBack ? selectedZone : Request.QueryString["zoneName"];
 			if (rblZone.Items.FindByValue(z) != null)
+			{
 				rblZone.SelectedValue = z;
+			}
 		}
 	}
 }

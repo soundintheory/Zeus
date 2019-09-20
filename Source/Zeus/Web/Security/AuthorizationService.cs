@@ -18,7 +18,9 @@ namespace Zeus.Web.Security
 			_rootLocation.Rules.Add(allowRule);
 
 			foreach (var initializer in authorizationInitializers)
+			{
 				initializer.Initialize(this);
+			}
 		}
 
 		public void AddRule(string locationPath, IList<string> allowUsers, IList<string> allowRoles, IList<string> denyUsers, IList<string> denyRoles)
@@ -27,16 +29,28 @@ namespace Zeus.Web.Security
 
 			var allowRule = new AuthorizationRule { Action = AuthorizationRuleAction.Allow };
 			if (allowUsers != null)
+			{
 				allowRule.Users.AddRange(allowUsers);
+			}
+
 			if (allowRoles != null)
+			{
 				allowRule.Roles.AddRange(allowRoles);
+			}
+
 			location.Rules.Add(allowRule);
 
 			var denyRule = new AuthorizationRule { Action = AuthorizationRuleAction.Deny };
 			if (denyUsers != null)
+			{
 				denyRule.Users.AddRange(denyUsers);
+			}
+
 			if (denyRoles != null)
+			{
 				denyRule.Roles.AddRange(denyRoles);
+			}
+
 			location.Rules.Add(denyRule);
 
 			_rootLocation.ChildLocations.Add(location);
@@ -52,17 +66,27 @@ namespace Zeus.Web.Security
 		public bool CheckUrlAccessForPrincipal(string virtualPath, IPrincipal user, string verb)
 		{
 			if (virtualPath == null)
-				throw new ArgumentNullException("virtualPath");
+			{
+				throw new ArgumentNullException(nameof(virtualPath));
+			}
+
 			if (user == null)
-				throw new ArgumentNullException("user");
+			{
+				throw new ArgumentNullException(nameof(user));
+			}
+
 			if (verb == null)
-				throw new ArgumentNullException("verb");
+			{
+				throw new ArgumentNullException(nameof(verb));
+			}
 
 			// Check rules which pertain to this location.
 			var location = (AuthorizationLocation) _rootLocation.GetChild(
 				VirtualPathUtility.ToAppRelative(virtualPath).TrimStart('~'));
 			if (!location.EveryoneAllowed)
+			{
 				return location.IsUserAllowed(user, verb);
+			}
 
 			return true;
 		}

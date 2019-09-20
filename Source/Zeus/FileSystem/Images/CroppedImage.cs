@@ -75,11 +75,13 @@ namespace Zeus.FileSystem.Images
             var isStandard = width == 800 & height == 600;
 
             if (this.Data == null)
-                return "";
+			{
+				return "";
+			}
 
-            // generate resized image url
-            // set image format
-            var dynamicImage = new SoundInTheory.DynamicImage.Composition();
+			// generate resized image url
+			// set image format
+			var dynamicImage = new SoundInTheory.DynamicImage.Composition();
             dynamicImage.ImageFormat = format;
 
             //create the background
@@ -140,8 +142,10 @@ namespace Zeus.FileSystem.Images
                     Height = this.CropHeight
                 };
                 if (!isResize)
-                    imageLayer.Filters.Add(cropFilter);
-            }
+				{
+					imageLayer.Filters.Add(cropFilter);
+				}
+			}
 
             if (width > 0 && height > 0)
             {
@@ -254,11 +258,13 @@ namespace Zeus.FileSystem.Images
             imageSource.ContentID = this.ID;
 
             if (this.Data == null)
-                return "";
+			{
+				return "";
+			}
 
-            // generate resized image url
-            // set image format
-            var dynamicImage = new SoundInTheory.DynamicImage.Composition();
+			// generate resized image url
+			// set image format
+			var dynamicImage = new SoundInTheory.DynamicImage.Composition();
             dynamicImage.ImageFormat = format;
 
             var imageLayer = new ImageLayer();
@@ -355,10 +361,12 @@ namespace Zeus.FileSystem.Images
                     Height = this.CropHeight
                 };
                 if (!isResize)
-                    HalfwayImageSource.Filters.Add(cropFilter);
+				{
+					HalfwayImageSource.Filters.Add(cropFilter);
+				}
 
-                //finally resize both image and bg (if added)
-                if (width > 0 && height > 0)
+				//finally resize both image and bg (if added)
+				if (width > 0 && height > 0)
                 {
                     var resizeFilter = new ResizeFilter
                     {

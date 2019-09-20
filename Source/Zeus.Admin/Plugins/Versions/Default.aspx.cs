@@ -51,7 +51,10 @@ namespace Zeus.Admin.Plugins.Versions
 			{
 				var translatedItem = Engine.LanguageManager.GetTranslationDirect(publishedItem, SelectedLanguageCode);
 				if (translatedItem != null)
+				{
 					publishedItem = translatedItem;
+				}
+
 				_publishedItems = new List<ContentItem>(new[] { publishedItem });
 			}
 		}
@@ -97,7 +100,9 @@ namespace Zeus.Admin.Plugins.Versions
 		protected override string GetPreviewUrl(ContentItem item)
 		{
 			if (item.VersionOf == null)
+			{
 				return item.Url;
+			}
 
 			return Url.Parse(Engine.AdminManager.GetPreviewUrl(item))
 				.AppendQuery("preview", item.ID)
@@ -116,16 +121,24 @@ namespace Zeus.Admin.Plugins.Versions
 		protected string GetStatus(ContentItem contentItem)
 		{
 			if (IsPublished(contentItem))
+			{
 				return "Published version";
+			}
 
 			if (contentItem.Published == null)
+			{
 				return "Not ready";
+			}
 
 			if (contentItem.Published != null && contentItem.Published.Value < DateTime.Now)
+			{
 				return "Previously published";
+			}
 
 			if (contentItem.Published != null && contentItem.Published.Value >= DateTime.Now)
+			{
 				return "Scheduled publishing";
+			}
 
 			return "Unknown";
 		}

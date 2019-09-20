@@ -50,11 +50,20 @@ namespace Zeus.Design.Displayers
 		public int CompareTo(IDisplayer other)
 		{
 			if (Title != null && other.Title != null)
+			{
 				return Title.CompareTo(other.Title);
+			}
+
 			if (Title != null)
+			{
 				return -1;
+			}
+
 			if (other.Title != null)
+			{
 				return 1;
+			}
+
 			return 0;
 		}
 
@@ -67,7 +76,10 @@ namespace Zeus.Design.Displayers
 		{
 			var other = obj as DisplayerAttribute;
 			if (other == null)
+			{
 				return false;
+			}
+
 			return (Name == other.Name);
 		}
 

@@ -41,7 +41,10 @@ namespace Zeus.Integrity
 		public override bool Equals(object obj)
 		{
 			if (obj is AvailableZoneAttribute)
+			{
 				return ZoneName.Equals(((AvailableZoneAttribute) obj).ZoneName);
+			}
+
 			return base.Equals(obj);
 		}
 

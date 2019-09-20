@@ -19,13 +19,18 @@ namespace Zeus.ContentTypes
 			var hierarchyBuilder = Context.Current.Resolve<IEditableHierarchyBuilder<IEditor>>();
 			var updated = false;
 			foreach (var editor in currentDefinition.Editors)
+			{
 				if (string.IsNullOrEmpty(editor.ContainerName))
 				{
 					editor.ContainerName = Name;
 					updated = true;
 				}
+			}
+
 			if (updated)
+			{
 				currentDefinition.RootContainer = hierarchyBuilder.Build(currentDefinition.Containers, currentDefinition.Editors);
+			}
 		}
 	}
 }

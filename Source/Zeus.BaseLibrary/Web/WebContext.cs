@@ -13,7 +13,10 @@ namespace Zeus.BaseLibrary.Web
 			get
 			{
 				if (HttpContext.Current == null)
+				{
 					throw new Exception("Tried to retrieve HttpContext.Current but it's null. This may happen when working outside a request or when doing stuff after the context has been recycled.");
+				}
+
 				return HttpContext.Current;
 			}
 		}

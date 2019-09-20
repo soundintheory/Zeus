@@ -30,7 +30,9 @@ namespace Zeus.Admin
 			{
 				// Check if user has permission to use this plugin.
 				if (!Context.SecurityManager.IsAuthorized(contentItem, Context.Current.WebContext.User, RequiredSecurityOperation))
+				{
 					return false;
+				}
 			}
 
 			return true;

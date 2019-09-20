@@ -40,7 +40,9 @@ namespace Zeus.Serialization
 		public virtual IImportRecord Read(XPathNavigator navigator)
 		{
 			if (navigator == null)
-				throw new ArgumentNullException("navigator");
+			{
+				throw new ArgumentNullException(nameof(navigator));
+			}
 
 			var journal = new ReadingJournal();
 			foreach (var itemElement in EnumerateChildren(navigator))
@@ -54,7 +56,9 @@ namespace Zeus.Serialization
 				{
 					journal.Error(ex);
 					if (!IgnoreMissingTypes)
+					{
 						throw;
+					}
 				}
 			}
 			return journal;
@@ -62,15 +66,22 @@ namespace Zeus.Serialization
 
 		public virtual ContentItem ReadSingleItem(XPathNavigator navigator, ReadingJournal journal)
 		{
-			if (navigator.LocalName != "item") throw new DeserializationException("Expected element 'item' but was '" + navigator.LocalName + "'");
+			if (navigator.LocalName != "item")
+			{
+				throw new DeserializationException("Expected element 'item' but was '" + navigator.LocalName + "'");
+			}
 
 			var attributes = GetAttributes(navigator);
 			var item = CreateInstance(attributes);
 			ReadDefaultAttributes(attributes, item, journal);
 
 			foreach (var current in EnumerateChildren(navigator))
+			{
 				if (readers.ContainsKey(current.LocalName))
+				{
 					readers[current.LocalName].Read(current, item, journal);
+				}
+			}
 
 			return item;
 		}
@@ -88,10 +99,16 @@ namespace Zeus.Serialization
 			item.Updated = ToNullableDateTime(attributes["updated"]).Value;
 			item.Visible = Convert.ToBoolean(attributes["visible"]);
 			if (attributes.ContainsKey("zoneName"))
+			{
 				((WidgetContentItem) item).ZoneName = attributes["zoneName"];
+			}
+
 			HandleTranslationRelation(item, attributes["translationOf"], journal);
 			if (!string.IsNullOrEmpty(attributes["language"]))
+			{
 				item.Language = attributes["language"];
+			}
+
 			HandleParentRelation(item, attributes["parent"], journal);
 		}
 
@@ -125,8 +142,12 @@ namespace Zeus.Serialization
 		{
 			var discriminator = attributes["discriminator"];
 			foreach (var d in definitions.GetContentTypes())
+			{
 				if (d.Discriminator == discriminator)
+				{
 					return d;
+				}
+			}
 
 			var title = attributes["title"];
 			var name = attributes["name"];

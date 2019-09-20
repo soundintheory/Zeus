@@ -55,10 +55,14 @@ namespace Zeus.Security
 		public virtual bool IsAuthorized(ContentItem item, IPrincipal user, string operation)
 		{
 			if (user != null && IsAdmin(user))
+			{
 				return true;
+			}
 
 			if (!IsPublished(item) && operation == Operations.Read)
+			{
 				operation = Operations.ReadUnpublished;
+			}
 
 			return item.IsAuthorized(user, operation);
 		}

@@ -81,7 +81,10 @@ namespace Zeus.Admin.Plugins.Tree
 
 			var itemChildren = item.GetChildren();
 			if (filter != null)
+			{
 				itemChildren = filter(itemChildren);
+			}
+
 			var hasAsyncChildren = ((!navigator.Children.Any() && itemChildren.Any()) || rootOnly);
 			var node = (hasAsyncChildren) ? new AsyncTreeNode() as TreeNodeBase : new TreeNode();
 			node.Text = ((INode) translatedItem).Contents;
@@ -105,13 +108,18 @@ namespace Zeus.Admin.Plugins.Tree
 			node.IconCls = "zeus-tree-icon";
 			node.Cls = "zeus-tree-node";
 			if (translationStatus == TranslationStatus.NotAvailableInSelectedLanguage)
+			{
 				node.Cls += " notAvailableInSelectedLanguage";
+			}
+
 			node.NodeID = item.ID.ToString();
 			if (withLinks)
 			{
 				// Allow plugin to set the href (it will be based on whatever is the default context menu plugin).
 				foreach (var treePlugin in Context.Current.ResolveAll<ITreePlugin>())
+				{
 					treePlugin.ModifyTreeNode(node, item);
+				}
 			}
 
 			if (!hasAsyncChildren)
@@ -156,7 +164,10 @@ namespace Zeus.Admin.Plugins.Tree
 				node.Expanded = true;
 			}
 			else if (navigator.Children.Any())
+			{
 				node.Expanded = true;
+			}
+
 			return node;
 		}
 
@@ -165,27 +176,41 @@ namespace Zeus.Admin.Plugins.Tree
 			translatedItem = contentItem;
 
 			if (contentItem == null)
+			{
 				return TranslationStatus.Available;
+			}
 
 			if (!Zeus.Context.Current.LanguageManager.CanBeTranslated(contentItem))
+			{
 				return TranslationStatus.Available;
+			}
 
 			if (string.IsNullOrEmpty(contentItem.Language))
+			{
 				return TranslationStatus.Available;
+			}
 
 			var languageCode = Zeus.Context.AdminManager.CurrentAdminLanguageBranch;
 			var testTranslatedItem = Zeus.Context.Current.LanguageManager.GetTranslation(contentItem, languageCode);
 			if (testTranslatedItem != null)
+			{
 				translatedItem = testTranslatedItem;
+			}
 
 			if (Zeus.Context.Current.LanguageManager.TranslationExists(contentItem, languageCode))
+			{
 				return TranslationStatus.Available;
+			}
 
 			if (testTranslatedItem == null)
+			{
 				return TranslationStatus.NotAvailableInSelectedLanguage;
+			}
 
 			if (translatedItem.Language != languageCode)
+			{
 				return TranslationStatus.DisplayedInAnotherLanguage;
+			}
 
 			return TranslationStatus.Available;
 		}

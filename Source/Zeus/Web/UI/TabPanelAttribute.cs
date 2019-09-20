@@ -22,9 +22,13 @@ namespace Zeus.Web.UI
 			{
 				tabControl = new CustomTabPanel { ID = "TabControl" };
 				if (container is Component)
+				{
 					((Component) container).ContentControls.Add(tabControl);
+				}
 				else
+				{
 					container.Controls.Add(tabControl);
+				}
 			}
 
 			var tabItem = new Panel

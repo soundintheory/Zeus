@@ -9,7 +9,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 		public static IQueryable OfType(this IQueryable source, Type resultType)
 		{
 			if (source == null)
-				throw new ArgumentNullException("source");
+			{
+				throw new ArgumentNullException(nameof(source));
+			}
 
 			return source.Provider.CreateQuery(
 				Expression.Call(null, (typeof(Queryable).GetMethod("OfType")).MakeGenericMethod(resultType), source.Expression));

@@ -105,7 +105,9 @@ namespace Zeus.Admin.Plugins.Tree
 			{
 				var requiredUserControls = treePlugin.RequiredUserControls;
 				if (requiredUserControls != null)
+				{
 					mainInterface.LoadUserControls(requiredUserControls);
+				}
 
 				treePlugin.ModifyTree(treePanel, mainInterface);
 			}
@@ -130,8 +132,12 @@ namespace Zeus.Admin.Plugins.Tree
 			{
 				var requiredScripts = treePlugin.RequiredScripts;
 				if (requiredScripts != null)
+				{
 					foreach (var requiredScript in requiredScripts)
+					{
 						scriptManager.RegisterClientScriptInclude(treePlugin.GetType().FullName, requiredScript);
+					}
+				}
 			}
 		}
 

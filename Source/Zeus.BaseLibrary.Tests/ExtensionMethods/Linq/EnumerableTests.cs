@@ -20,7 +20,9 @@ namespace Zeus.BaseLibrary.Tests.ExtensionMethods.Linq
 		private static IEnumerable<string> Spaces()
 		{
 			while (true)
+			{
 				yield return " ";
+			}
 		}
 
 		[Test]

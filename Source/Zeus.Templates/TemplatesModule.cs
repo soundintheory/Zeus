@@ -18,12 +18,18 @@ namespace Zeus.Templates
 
 			var configSection = ConfigurationManager.GetSection("zeus/templates") as TemplatesSection;
 			if (configSection != null)
+			{
 				Bind(typeof(TemplatesSection)).ToConstant(configSection);
+			}
 
 			if (configSection == null || configSection.MailConfiguration == MailConfigSource.SystemNet)
+			{
 				Bind<IMailSender>().To<MailSender>();
+			}
 			else
+			{
 				Bind<IMailSender>().To<FakeMailSender>();
+			}
 
 			Bind<SeoDefinitionAppender>().ToSelf();
 			Bind<SyndicatableDefinitionAppender>().ToSelf();

@@ -26,8 +26,13 @@
 		{
 			var node = new HierarchyNode<ContentItem>(currentItem);
 			if (remainingDepth > 1)
+			{
 				foreach (var childItem in GetChildren(currentItem))
+				{
 					node.Children.Add(BuildTree(childItem, remainingDepth - 1));
+				}
+			}
+
 			return node;
 		}
 	}

@@ -148,7 +148,9 @@ namespace Zeus.Web.UI.WebControls
 		protected override void CreateChildControls()
 		{
 			foreach (var item in GetItems())
+			{
 				CreateItemEditor(item);
+			}
 
 			IEnumerable<ContentType> allowedChildren = CurrentItemDefinition.AllowedChildren;
 			if (TypeFilter != null)
@@ -188,14 +190,19 @@ namespace Zeus.Web.UI.WebControls
 				return items;
 			}
 			else
+			{
 				return new ContentItem[0];
+			}
 		}
 
 		private ContentItem CreateItem(Type itemType)
 		{
 			var item = Zeus.Context.Current.ContentTypes.CreateInstance(itemType, ParentItem);
 			if (item is WidgetContentItem)
+			{
 				((WidgetContentItem) item).ZoneName = ZoneName;
+			}
+
 			return item;
 		}
 
@@ -289,7 +296,9 @@ namespace Zeus.Web.UI.WebControls
 			set
 			{
 				if (value == null)
+				{
 					throw new ArgumentNullException("value");
+				}
 
 				parentItem = value;
 				ParentItemID = value.ID;

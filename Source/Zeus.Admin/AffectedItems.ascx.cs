@@ -29,7 +29,9 @@ namespace Zeus.Admin
 				li.Controls.Add(ul);
 
 				foreach (var child in item.Children)
+				{
 					AddChildrenRecursive(child, ul);
+				}
 			}
 		}
 

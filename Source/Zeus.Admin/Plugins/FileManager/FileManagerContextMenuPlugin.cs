@@ -24,7 +24,9 @@ namespace Zeus.Admin.Plugins.FileManager
 		public override bool IsApplicable(ContentItem contentItem)
 		{
 			if (!(contentItem is Folder))
+			{
 				return false;
+			}
 
 			return base.IsApplicable(contentItem);
 		}

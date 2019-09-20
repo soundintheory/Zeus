@@ -26,9 +26,15 @@ namespace Zeus.ContentTypes
 		public override void Refine(ContentType currentContentType, IList<ContentType> allContentTypes)
 		{
 			foreach (var contentType in allContentTypes)
+			{
 				foreach (var t in _replacedContentTypes)
+				{
 					if (contentType.ItemType == t)
+					{
 						contentType.Enabled = false;
+					}
+				}
+			}
 		}
 	}
 }

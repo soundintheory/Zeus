@@ -15,7 +15,9 @@ namespace Zeus.ContentTypes
 		{
 			// Clear existing containers, in case this is a rebuild.
 			foreach (var container in containers)
+			{
 				container.Contained.Clear();
+			}
 
 			IEditorContainer rootContainer = new RootEditorContainer();
 			AddContainersToRootContainer(rootContainer, containers);
@@ -32,12 +34,16 @@ namespace Zeus.ContentTypes
 				if (container.ContainerName != null)
 				{
 					if (container.ContainerName == container.Name)
+					{
 						throw new ZeusException("The container '{0}' cannot reference itself as containing container. Change the ContainerName property.", container.Name);
+					}
 
 					var parentContainer = FindContainer(container.ContainerName, containers);
 
 					if (parentContainer == null)
+					{
 						throw new ZeusException("The container '{0}' references another containing container '{1}' that doesn't seem to be defined. Either add a container with this name or remove the reference to that container.", container.Name, container.ContainerName);
+					}
 
 					parentContainer.AddContained(container);
 				}
@@ -61,7 +67,10 @@ namespace Zeus.ContentTypes
 				{
 					var container = FindContainer(editable.ContainerName, containers);
 					if (container == null)
+					{
 						throw new ZeusException("The editor '{0}' references a container '{1}' that doesn't seem to be defined. Either add a container with this name or remove the reference to that container.", editable.Name, editable.ContainerName);
+					}
+
 					container.AddContained(editable);
 				}
 				else

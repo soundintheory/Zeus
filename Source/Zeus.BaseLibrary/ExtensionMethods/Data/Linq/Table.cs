@@ -156,7 +156,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Data.Linq
 				//					I assume it has something to do with fact we can't just access the parameters of assignment.Expression?
 				//					Also, any concerns of whether or not if there are two params of type entity type?
 				ParameterExpression entityParam = null;
-				assignment.Expression.Visit<ParameterExpression>(delegate(ParameterExpression p) { if (p.Type == entityType) entityParam = p; return p; });
+				assignment.Expression.Visit<ParameterExpression>(delegate(ParameterExpression p) { if (p.Type == entityType) { entityParam = p; } return p; });
 
 				// Get the real database field name.
 				var name = binding.Member.Name;

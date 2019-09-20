@@ -14,11 +14,13 @@ namespace Zeus.Web.Security.Details
 			var cbl = editor as CheckBoxList;
 			var roles = new List<Items.Role>();
 			foreach (ListItem li in cbl.Items)
+			{
 				if (li.Selected)
 				{
 					var role = Context.Current.Resolve<IWebSecurityManager>().GetRole(li.Value);
 					roles.Add(role);
 				}
+			}
 
 			var dc = item.GetDetailCollection(Name, true);
 			dc.Replace(roles);
@@ -54,7 +56,10 @@ namespace Zeus.Web.Security.Details
 		{
 			var cbl = new CheckBoxList();
 			foreach (var role in Context.Current.Resolve<IWebSecurityManager>().GetRoles(container.Page.User))
+			{
 				cbl.Items.Add(role.Name);
+			}
+
 			container.Controls.Add(cbl);
 			return cbl;
 		}

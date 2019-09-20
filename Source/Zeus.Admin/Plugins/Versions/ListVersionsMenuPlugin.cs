@@ -25,7 +25,9 @@ namespace Zeus.Admin.Plugins.Versions
 		{
 			// Hide, if versioning is disabled.
 			if (!Context.Current.Resolve<AdminSection>().Versioning.Enabled)
+			{
 				return false;
+			}
 
 			return base.IsApplicable(contentItem);
 		}

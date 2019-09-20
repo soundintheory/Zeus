@@ -10,5 +10,17 @@ namespace Zeus.Serialization
 			: base(message)
 		{
 		}
+
+		public DeserializationException(string messageFormat, params object[] args) : base(messageFormat, args)
+		{
+		}
+
+		public DeserializationException(string message, System.Exception innerException) : base(message, innerException)
+		{
+		}
+
+		public DeserializationException() : base()
+		{
+		}
 	}
 }

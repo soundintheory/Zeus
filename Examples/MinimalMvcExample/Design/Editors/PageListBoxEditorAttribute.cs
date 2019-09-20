@@ -59,9 +59,11 @@ namespace Zeus.Examples.MinimalMvcExample.Design.Editors
 
             var linkedItems = item[Name] as IList<int>;
             if (linkedItems != null)
-                result = linkedItems.Select(p => p.ToString()).ToArray();
+			{
+				result = linkedItems.Select(p => p.ToString()).ToArray();
+			}
 
-            return result;
+			return result;
         }
 
         protected override ListItem[] GetListItems(IEditableObject item)

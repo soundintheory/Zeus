@@ -20,7 +20,9 @@ namespace Zeus.Web.Mvc.Html
 		public static string RegisterJQuery(this HtmlHelper htmlHelper)
 		{
 			if (htmlHelper.ViewContext.HttpContext.Items["RegisterJQuery"] != null)
+			{
 				return string.Empty;
+			}
 
 			htmlHelper.ViewContext.HttpContext.Items["RegisterJQuery"] = true;
 			return htmlHelper.IncludeJavascriptResource(typeof(HtmlTextBox), "Zeus.Web.Resources.jQuery.jquery.js");
@@ -52,7 +54,9 @@ namespace Zeus.Web.Mvc.Html
 			var memberExpression = (MemberExpression) expression.Body;
 
 			if (!contentItem.Details.ContainsKey(memberExpression.Member.Name))
+			{
 				return string.Empty;
+			}
 
 			var propertyData = contentItem.Details[memberExpression.Member.Name];
 			return propertyData.GetXhtmlValue();
@@ -67,7 +71,9 @@ namespace Zeus.Web.Mvc.Html
 			var memberExpression = (MemberExpression)expression.Body;
 
 			if (!contentItem.Details.ContainsKey(memberExpression.Member.Name))
+			{
 				return string.Empty;
+			}
 
 			var propertyData = contentItem.Details[memberExpression.Member.Name];
 			return propertyData.GetXhtmlValue();
@@ -110,7 +116,10 @@ namespace Zeus.Web.Mvc.Html
 			var virtualPath = html.RouteCollection.GetVirtualPath(html.ViewContext.RequestContext, routeValuesFromExpression);
 
 			if (virtualPath != null)
+			{
 				return virtualPath.VirtualPath;
+			}
+
 			return null;
 		}
 

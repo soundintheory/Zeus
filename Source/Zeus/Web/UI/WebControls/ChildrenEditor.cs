@@ -53,7 +53,9 @@ namespace Zeus.Web.UI.WebControls
 			set
 			{
 				if (value == null)
+				{
 					throw new ArgumentNullException("value");
+				}
 
 				_parentItem = value;
 				ParentItemID = value.ID;
@@ -135,7 +137,9 @@ namespace Zeus.Web.UI.WebControls
 			// Editor Windows
 
 			foreach (var contentItem in items)
+			{
 				AddEditorWindow(contentItem);
+			}
 
 			base.CreateChildControls();
 		}

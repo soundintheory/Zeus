@@ -79,13 +79,18 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 			[Bind(Prefix="")] CheckoutPageFormModel checkoutDetails)
 		{
 			if (!ModelState.IsValid)
+			{
 				return GetIndexView();
+			}
 
 			// Map from form model to shopping basket.
 			var shoppingBasket = GetShoppingBasket();
 			var billingAddress = shoppingBasket.BillingAddress;
 			if (billingAddress == null)
+			{
 				shoppingBasket.BillingAddress = billingAddress = new Address();
+			}
+
 			billingAddress.PersonTitle = checkoutDetails.BillingTitle;
 			billingAddress.FirstName = checkoutDetails.BillingFirstName;
 			billingAddress.Surname = checkoutDetails.BillingSurname;
@@ -97,7 +102,10 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 			{
 				var shippingAddress = shoppingBasket.ShippingAddress;
 				if (shippingAddress == null)
+				{
 					shoppingBasket.ShippingAddress = shippingAddress = new Address();
+				}
+
 				shippingAddress.PersonTitle = checkoutDetails.ShippingTitle;
 				shippingAddress.FirstName = checkoutDetails.ShippingFirstName;
 				shippingAddress.Surname = checkoutDetails.ShippingSurname;
@@ -109,11 +117,16 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 			else
 			{
 				if (shoppingBasket.ShippingAddress != null)
+				{
 					Engine.Persister.Delete(shoppingBasket.ShippingAddress);
+				}
 			}
 			var paymentCard = shoppingBasket.PaymentCard;
 			if (paymentCard == null)
+			{
 				shoppingBasket.PaymentCard = paymentCard = new PaymentCard();
+			}
+
 			paymentCard.CardType = checkoutDetails.CardType;
 			paymentCard.NameOnCard = checkoutDetails.CardHolderName;
 			paymentCard.MaskedCardNumber = _orderService.GetMaskedCardNumber(checkoutDetails.CardNumber);

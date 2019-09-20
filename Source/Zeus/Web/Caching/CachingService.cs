@@ -32,7 +32,9 @@ namespace Zeus.Web.Caching
 		{
 			var cachedPage = _webContext.HttpContext.Cache[GetCacheKey(contentItem)];
 			if (cachedPage == null)
+			{
 				throw new InvalidOperationException("Page is not cached.");
+			}
 
 			return (string) cachedPage;
 		}
@@ -47,9 +49,13 @@ namespace Zeus.Web.Caching
 			//return "ZeusPageCache_" + contentItem.ID;
 			//changed to make sure that the querystring is considered
 			if (_webContext.HttpContext.Request.QueryString == null)
+			{
 				return "ZeusPageCache_" + contentItem.ID;
+			}
 			else
+			{
 				return "ZeusPageCache_" + contentItem.ID + "_" + _webContext.HttpContext.Request.QueryString;
+			}
 		}
 
 		#region IStartable methods
@@ -62,7 +68,9 @@ namespace Zeus.Web.Caching
 		private void OnPersisterItemSaving(object sender, CancelItemEventArgs e)
 		{
 			if (IsPageCached(e.AffectedItem))
+			{
 				DeleteCachedPage(e.AffectedItem);
+			}
 		}
 
 		public void Stop()

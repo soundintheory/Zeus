@@ -50,13 +50,17 @@ namespace Zeus.Web.UI.WebControls
 		protected virtual void OnItemCreating(ItemViewEditableObjectEventArgs args)
 		{
 			if (ItemCreating != null)
+			{
 				ItemCreating(this, args);
+			}
 		}
 
 		protected virtual void OnDefinitionCreating(ItemViewTypeDefinitionEventArgs args)
 		{
 			if (DefinitionCreating != null)
+			{
 				DefinitionCreating(this, args);
+			}
 		}
 
 		protected virtual void OnCurrentItemChanged(EventArgs eventArgs)

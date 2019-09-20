@@ -134,13 +134,18 @@ namespace Zeus.Security
             get
             {
                 if (Roles.Count() > 1)
-                    return "Multiple Roles";
-                else if (Roles.Count() ==1)
-                    return Roles.First();
-                else
-                    return "No Roles Defined";
-
-            }
+				{
+					return "Multiple Roles";
+				}
+				else if (Roles.Count() ==1)
+				{
+					return Roles.First();
+				}
+				else
+				{
+					return "No Roles Defined";
+				}
+			}
         }
 	}
 }

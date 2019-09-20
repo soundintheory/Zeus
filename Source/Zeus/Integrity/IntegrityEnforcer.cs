@@ -44,28 +44,36 @@ namespace Zeus.Integrity
 		{
 			var ex = _integrityManager.GetCopyException(source, destination);
 			if (ex != null)
+			{
 				throw ex;
+			}
 		}
 
 		protected virtual void OnItemDeleting(ContentItem item)
 		{
 			var ex = _integrityManager.GetDeleteException(item);
 			if (ex != null)
+			{
 				throw ex;
+			}
 		}
 
 		protected virtual void OnItemMoving(ContentItem source, ContentItem destination)
 		{
 			var ex = _integrityManager.GetMoveException(source, destination);
 			if (ex != null)
+			{
 				throw ex;
+			}
 		}
 
 		protected virtual void OnItemSaving(ContentItem item)
 		{
 			var ex = _integrityManager.GetSaveException(item);
 			if (ex != null)
+			{
 				throw ex;
+			}
 		}
 
 		#endregion

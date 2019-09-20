@@ -20,8 +20,6 @@ namespace Zeus.Design.Editors
 	[AttributeUsage(AttributeTargets.Property)]
 	public abstract class TextEditorAttributeBase : AbstractEditorAttribute
 	{
-		private string _dataTypeText, _dataTypeErrorMessage;
-
 		public TextEditorAttributeBase()
 		{
 		}

@@ -71,7 +71,9 @@ namespace Zeus.Design.Editors
 			{
 				tb.SelectedDate = (DateTime) item[Name];
 				if (IncludeTime)
+				{
 					((TimeField)placeHolder.Items[1]).SelectedTime = ((DateTime)item[Name]).TimeOfDay;
+				}
 			}
 		}
 

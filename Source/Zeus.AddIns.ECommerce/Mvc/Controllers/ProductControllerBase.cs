@@ -58,7 +58,10 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 			// Redirect to shopping basket page, if one exists.
 			var shoppingBasketPage = shop.ShoppingBasketPage;
 			if (shoppingBasketPage != null)
+			{
 				return Redirect(shoppingBasketPage.Url);
+			}
+
 			return Redirect(CurrentItem.Url);
 		}
 	}

@@ -16,7 +16,10 @@ namespace Zeus.Design.Editors
 			var tb = editor as TextBox;
 			var value = (tb.Text == DefaultValue) ? null : tb.Text;
 			if (string.IsNullOrEmpty(value))
+			{
 				return false;
+			}
+
 			value = Context.Current.Resolve<ICredentialService>().EncryptPassword(value);
 			if (!AreEqual(value, item[Name]))
 			{

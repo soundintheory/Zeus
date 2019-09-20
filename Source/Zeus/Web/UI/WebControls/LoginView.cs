@@ -130,13 +130,17 @@ namespace Zeus.Web.UI.WebControls
 		protected virtual void OnViewChanged(EventArgs e)
 		{
 			if (ViewChanged != null)
+			{
 				ViewChanged(this, e);
+			}
 		}
 
 		protected virtual void OnViewChanging(EventArgs e)
 		{
 			if (ViewChanging != null)
+			{
 				ViewChanging(this, e);
+			}
 		}
 
 		protected override void Render(HtmlTextWriter writer)

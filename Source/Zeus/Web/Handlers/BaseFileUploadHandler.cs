@@ -16,7 +16,9 @@ namespace Zeus.Web.Handlers
 		{
 			var uploadFolderPath = GetUploadFolder(identifier.ToString());
 			if (firstChunk)
+			{
 				Directory.CreateDirectory(uploadFolderPath);
+			}
 
 			return uploadFolderPath;
 		}
@@ -39,9 +41,11 @@ namespace Zeus.Web.Handlers
             }
 
             if (!Directory.Exists(uploadRootFolderPath))
-                Directory.CreateDirectory(uploadRootFolderPath);
+			{
+				Directory.CreateDirectory(uploadRootFolderPath);
+			}
 
-            var uploadFolderPath = Path.Combine(uploadRootFolderPath, identifier);
+			var uploadFolderPath = Path.Combine(uploadRootFolderPath, identifier);
 
             return uploadFolderPath;
             

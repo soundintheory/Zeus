@@ -69,7 +69,10 @@ namespace Zeus.BaseLibrary.Linq
 
 		protected override Expression Visit(Expression exp)
 		{
-			if (exp is T && visitor != null) exp = visitor((T) exp);
+			if (exp is T && visitor != null)
+			{
+				exp = visitor((T) exp);
+			}
 
 			return base.Visit(exp);
 		}
@@ -88,7 +91,10 @@ namespace Zeus.BaseLibrary.Linq
 		protected virtual Expression Visit(Expression exp)
 		{
 			if (exp == null)
+			{
 				return exp;
+			}
+
 			switch (exp.NodeType)
 			{
 				case ExpressionType.Negate:
@@ -197,9 +203,13 @@ namespace Zeus.BaseLibrary.Linq
 			if (left != b.Left || right != b.Right || conversion != b.Conversion)
 			{
 				if (b.NodeType == ExpressionType.Coalesce && b.Conversion != null)
+				{
 					return Expression.Coalesce(left, right, conversion as LambdaExpression);
+				}
 				else
+				{
 					return Expression.MakeBinary(b.NodeType, left, right, b.IsLiftedToNull, b.Method);
+				}
 			}
 			return b;
 		}
@@ -335,7 +345,10 @@ namespace Zeus.BaseLibrary.Linq
 				}
 			}
 			if (list != null)
+			{
 				return list;
+			}
+
 			return original;
 		}
 
@@ -360,7 +373,10 @@ namespace Zeus.BaseLibrary.Linq
 				}
 			}
 			if (list != null)
+			{
 				return list;
+			}
+
 			return original;
 		}
 
@@ -380,9 +396,13 @@ namespace Zeus.BaseLibrary.Linq
 			if (args != nex.Arguments)
 			{
 				if (nex.Members != null)
+				{
 					return Expression.New(nex.Constructor, args, nex.Members);
+				}
 				else
+				{
 					return Expression.New(nex.Constructor, args);
+				}
 			}
 			return nex;
 		}

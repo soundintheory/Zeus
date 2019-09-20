@@ -66,7 +66,9 @@ namespace Zeus.Templates.Services.AntiSpam
 			var result = _httpClient.PostRequest(_verifyUrl, _userAgent, _configuration.Timeout, parameters);
 
 			if (string.IsNullOrEmpty(result))
+			{
 				throw new InvalidResponseException("Akismet returned an empty response");
+			}
 
 			return string.Equals("valid", result, StringComparison.OrdinalIgnoreCase);
 		}
@@ -82,12 +84,16 @@ namespace Zeus.Templates.Services.AntiSpam
 			var result = SubmitComment(currentStartPage, comment, _checkUrl);
 
 			if (string.IsNullOrEmpty(result))
+			{
 				throw new InvalidResponseException("Akismet returned an empty response");
+			}
 
 			if (result != "true" && result != "false")
+			{
 				throw new InvalidResponseException(string.Format(CultureInfo.InvariantCulture,
 					"Received the response '{0}' from Akismet. Probably a bad API key.",
 					result));
+			}
 
 			return bool.Parse(result);
 		}
@@ -124,29 +130,47 @@ namespace Zeus.Templates.Services.AntiSpam
 				+ "&user_agent=" + HttpUtility.UrlEncode(comment.UserAgent);
 
 			if (!string.IsNullOrEmpty(comment.Referrer))
+			{
 				parameters += "&referer=" + HttpUtility.UrlEncode(comment.Referrer);
+			}
 
 			if (comment.Permalink != null)
+			{
 				parameters += "&permalink=" + HttpUtility.UrlEncode(comment.Permalink.ToString());
+			}
 
 			if (!string.IsNullOrEmpty(comment.CommentType))
+			{
 				parameters += "&comment_type=" + HttpUtility.UrlEncode(comment.CommentType);
+			}
 
 			if (!string.IsNullOrEmpty(comment.Author))
+			{
 				parameters += "&comment_author=" + HttpUtility.UrlEncode(comment.Author);
+			}
 
 			if (!string.IsNullOrEmpty(comment.AuthorEmail))
+			{
 				parameters += "&comment_author_email=" + HttpUtility.UrlEncode(comment.AuthorEmail);
+			}
 
 			if (comment.AuthorUrl != null)
+			{
 				parameters += "&comment_author_url=" + HttpUtility.UrlEncode(comment.AuthorUrl.ToString());
+			}
 
 			if (!string.IsNullOrEmpty(comment.Content))
+			{
 				parameters += "&comment_content=" + HttpUtility.UrlEncode(comment.Content);
+			}
 
 			if (comment.ServerEnvironmentVariables != null)
+			{
 				foreach (string key in comment.ServerEnvironmentVariables)
+				{
 					parameters += "&" + key + "=" + HttpUtility.UrlEncode(comment.ServerEnvironmentVariables[key]);
+				}
+			}
 
 			return _httpClient.PostRequest(url, _userAgent, _configuration.Timeout, parameters).ToLowerInvariant();
 		}

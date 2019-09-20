@@ -53,7 +53,9 @@ namespace Zeus.Web.Mvc
 			{
 				ContentItem page = CurrentItem;
 				while (page != null && !page.IsPage)
+				{
 					page = page.Parent;
+				}
 
 				return page;
 			}
@@ -63,7 +65,9 @@ namespace Zeus.Web.Mvc
 		{
 			int itemId;
 			if (Int32.TryParse(ControllerContext.RouteData.Values[ContentRoute.ContentItemIdKey] as string, out itemId))
+			{
 				return Engine.Persister.Get(itemId) as T;
+			}
 
 			return null;
 		}
@@ -75,7 +79,9 @@ namespace Zeus.Web.Mvc
 				var securityManager = Engine.Resolve<ISecurityManager>();
 
 				if (!securityManager.IsAuthorized(CurrentItem, User, Operations.Read))
+				{
 					filterContext.Result = new HttpUnauthorizedResult();
+				}
 			}
 
 			base.OnActionExecuting(filterContext);
@@ -120,15 +126,21 @@ namespace Zeus.Web.Mvc
 		protected internal virtual ViewPageResult ViewPage(ContentItem thePage)
 		{
 			if (thePage == null)
-				throw new ArgumentNullException("thePage");
+			{
+				throw new ArgumentNullException(nameof(thePage));
+			}
 
 			if (!thePage.IsPage)
+			{
 				throw new InvalidOperationException("Item " + thePage.GetType().Name +
 				                                    " is not a page type and cannot be rendered on its own.");
+			}
 
 			if (thePage == CurrentItem)
+			{
 				throw new InvalidOperationException(
 					"The page passed into ViewPage was the current page. This would cause an infinite loop.");
+			}
 
 			return new ViewPageResult(thePage, Engine.Resolve<IControllerMapper>(), Engine.Resolve<IWebContext>(),
 				ActionInvoker);

@@ -10,7 +10,9 @@ namespace Zeus.Serialization
 			using (new ElementWriter("propertyCollections", writer))
 			{
 				foreach (var collection in item.DetailCollections.Values)
+				{
 					WriteDetailCollection(writer, collection);
+				}
 			}
 		}
 
@@ -20,7 +22,9 @@ namespace Zeus.Serialization
 			{
 				collectionElement.WriteAttribute("name", collection.Name);
 				foreach (var detail in collection.Details)
+				{
 					WriteDetail(detail, writer);
+				}
 			}
 		}
 	}

@@ -27,7 +27,9 @@ namespace Zeus.AddIns.ECommerce.Services
         public virtual bool IsValidVariationPermutation(Product product, IEnumerable<Variation> variations)
 		{
 			if ((variations == null || !variations.Any()) && (product.VariationConfigurations == null || !product.VariationConfigurations.Any()))
+			{
 				return true;
+			}
 
 			return product.VariationConfigurations.Any(vc => vc.Available
 				&& EnumerableUtility.EqualsIgnoringOrder(vc.Permutation.Variations.Cast<Variation>(), variations));
@@ -46,9 +48,11 @@ namespace Zeus.AddIns.ECommerce.Services
 				{
 					variationPermutation = new VariationPermutation();
 					foreach (var variation in variations)
+					{
 						variationPermutation.Variations.Add(variation);
-                
-                    variationPermutation.PriceOverride = GetPriceOverride(variationPermutation, product);				
+					}
+
+					variationPermutation.PriceOverride = GetPriceOverride(variationPermutation, product);				
 				}
                 item = new ShoppingBasketItem { Product = product, VariationPermutation = variationPermutation, Quantity = 1 };
 				item.AddTo(shoppingBasket);
@@ -75,21 +79,27 @@ namespace Zeus.AddIns.ECommerce.Services
         public virtual void UpdateQuantity(Shop shop, Product product, VariationPermutation variationPermutation, int newQuantity)
 		{
 			if (newQuantity < 0)
-				throw new ArgumentOutOfRangeException("newQuantity", "Quantity must be greater than or equal to 0.");
+			{
+				throw new ArgumentOutOfRangeException(nameof(newQuantity), "Quantity must be greater than or equal to 0.");
+			}
 
 			var shoppingBasket = GetCurrentShoppingBasketInternal(shop, true);
 			var item = shoppingBasket.GetChildren<ShoppingBasketItem>().SingleOrDefault(i => i.Product == product && i.VariationPermutation == variationPermutation);
 
 			if (item == null)
+			{
 				return;
+			}
 
-            if (newQuantity == 0)
+			if (newQuantity == 0)
             {
                 shoppingBasket.Children.Remove(item);
                 _persister.Delete(item);
             }
             else
-                item.Quantity = newQuantity;
+			{
+				item.Quantity = newQuantity;
+			}
 
 			_persister.Save(shoppingBasket);
 		}
@@ -174,10 +184,12 @@ namespace Zeus.AddIns.ECommerce.Services
 
                 // set delivery price
                 if (basket.DeliveryMethod != null)
-                    basket.TotalDeliveryPrice = basket.DeliveryMethod.Price;
+				{
+					basket.TotalDeliveryPrice = basket.DeliveryMethod.Price;
+				}
 
-                // set VAT price
-                basket.TotalVatPrice = 0m;
+				// set VAT price
+				basket.TotalVatPrice = 0m;
 
                 // set final total
                 basket.TotalPrice = basket.SubTotalPrice + basket.TotalDeliveryPrice + basket.TotalVatPrice;
@@ -193,7 +205,9 @@ namespace Zeus.AddIns.ECommerce.Services
 		{
 			var cookie = _webContext.Request.Cookies[GetCookieKey(shop)];
 			if (cookie == null)
+			{
 				return null;
+			}
 
 			var shopperID = cookie.Value;
 			return _finder.QueryItems<ShoppingBasket>().SingleOrDefault(sb => sb.Name == shopperID);
@@ -208,29 +222,42 @@ namespace Zeus.AddIns.ECommerce.Services
 				// Check that products in shopping cart still exist, and if not remove those shopping cart items.
 				var itemsToRemove = new List<ShoppingBasketItem>();
 				foreach (var item in shoppingBasket.GetChildren<ShoppingBasketItem>())
+				{
 					if (item.Product == null)
+					{
 						itemsToRemove.Add(item);
+					}
+				}
+
 				foreach (var item in itemsToRemove)
+				{
 					shoppingBasket.Children.Remove(item);
+				}
+
 				_persister.Save(shoppingBasket);
 			}
 			else
 			{
 				shoppingBasket = new ShoppingBasket { Name = Guid.NewGuid().ToString() };
                 if (shop.DeliveryMethods != null)
-                    shoppingBasket.DeliveryMethod = DefaultDeliveryMethod(shop);
+				{
+					shoppingBasket.DeliveryMethod = DefaultDeliveryMethod(shop);
+				}
 
-                // don't always save basket to database
-                // this will only happen when we add items to it
-                if (createBasket)
+				// don't always save basket to database
+				// this will only happen when we add items to it
+				if (createBasket)
                 {
                     shoppingBasket.AddTo(shop.ShoppingBaskets);
                     _persister.Save(shoppingBasket);
 
                     var cookie = new HttpCookie(GetCookieKey(shop), shoppingBasket.Name);
                     if (shop.PersistentShoppingBaskets)
-                        cookie.Expires = DateTime.Now.AddYears(1);
-                    _webContext.Response.Cookies.Add(cookie);
+					{
+						cookie.Expires = DateTime.Now.AddYears(1);
+					}
+
+					_webContext.Response.Cookies.Add(cookie);
                 }
 			}
 

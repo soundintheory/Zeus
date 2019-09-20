@@ -8,7 +8,10 @@ namespace Zeus.Templates.Mvc.ViewModels
 		{
 			var typedValue = (IConfirmPassword) value;
 			if (typedValue.Password != typedValue.ConfirmPassword)
+			{
 				return false;
+			}
+
 			return true;
 		}
 

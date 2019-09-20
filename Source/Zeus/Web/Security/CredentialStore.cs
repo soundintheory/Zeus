@@ -69,7 +69,10 @@ namespace Zeus.Web.Security
 				Verified = verified
 			};
 			foreach (var role in roles)
+			{
 				user.RolesInternal.Add(roleContainer.GetRole(role));
+			}
+
 			user.AddTo(userContainer);
 
 			Context.Persister.Save(user);
@@ -84,7 +87,10 @@ namespace Zeus.Web.Security
 		{
 			var users = GetUserContainer(false);
 			if (users == null)
+			{
 				return null;
+			}
+
 			return users.GetChildren<User>().SingleOrDefault(u => u.Nonce == nonce);
 		}
 
@@ -92,10 +98,16 @@ namespace Zeus.Web.Security
 		{
 			var users = GetUserContainer(false);
 			if (users == null)
+			{
 				return null;
+			}
+
 			var user = users.GetChildren<User>().SingleOrDefault(u => u.GetChildren<PasswordResetRequest>().Any(prr => prr.Nonce == nonce));
 			if (user == null)
+			{
 				return null;
+			}
+
 			return user.GetChildren<PasswordResetRequest>().First(prr => prr.Nonce == nonce);
 		}
 
@@ -103,7 +115,10 @@ namespace Zeus.Web.Security
 		{
 			var users = GetUserContainer(false);
 			if (users == null)
+			{
 				return null;
+			}
+
 			return users.GetChildren<User>().SingleOrDefault(u => u.Email == email);
 		}
 
@@ -154,7 +169,9 @@ namespace Zeus.Web.Security
 		{
 			var users = GetUserContainer(false);
 			if (users == null)
+			{
 				return null;
+			}
 
 			return users.GetChild(username) as User;
 		}
@@ -163,7 +180,10 @@ namespace Zeus.Web.Security
 		{
 			var security = GetSecurityContainer(create);
 			if (security != null)
+			{
 				return (UserContainer) security.GetChild(UserContainer.ContainerName);
+			}
+
 			return null;
 		}
 
@@ -171,7 +191,10 @@ namespace Zeus.Web.Security
 		{
 			var security = GetSecurityContainer(create);
 			if (security != null)
+			{
 				return (RoleContainer) security.GetChild(RoleContainer.ContainerName);
+			}
+
 			return null;
 		}
 
@@ -180,12 +203,21 @@ namespace Zeus.Web.Security
 			var root = _persister.Get(RootItemID);
 			var systemNode = root.GetChildren<SystemNode>().FirstOrDefault();
 			if (systemNode == null && create)
+			{
 				systemNode = CreateSystemNode(root);
+			}
+
 			if (systemNode == null)
+			{
 				return null;
+			}
+
 			var m = systemNode.GetChild(SecurityContainer.ContainerName) as SecurityContainer;
 			if (m == null && create)
+			{
 				m = CreateSecurityContainer(systemNode);
+			}
+
 			return m;
 		}
 
@@ -204,7 +236,9 @@ namespace Zeus.Web.Security
 			roles.AddTo(security);
 
 			foreach (var role in DefaultRoles)
+			{
 				roles.AddRole(role);
+			}
 
 			var users = Context.ContentTypes.CreateInstance<UserContainer>(security);
 			users.AddTo(security);

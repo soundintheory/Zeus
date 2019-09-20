@@ -31,10 +31,15 @@ namespace Zeus.ContentProperties
 			set
 			{
 				if (value == null)
+				{
 					throw new ArgumentNullException("value");
+				}
+
 				_enclosingItem = value;
 				foreach (var detail in Details)
+				{
 					detail.EnclosingItem = value;
+				}
 			}
 		}
 
@@ -56,7 +61,9 @@ namespace Zeus.ContentProperties
 			EnclosingItem = item;
 			Name = name;
 			foreach (var value in values)
+			{
 				Add(value);
+			}
 		}
 
 		#endregion
@@ -67,9 +74,14 @@ namespace Zeus.ContentProperties
 		{
 			PropertyData detail;
 			if (val is PropertyData)
+			{
 				detail = (PropertyData) val;
+			}
 			else
+			{
 				detail = Context.Current.Resolve<IContentPropertyManager>().CreatePropertyDataObject(val.GetType());
+			}
+
 			detail.Name = Name;
 			detail.EnclosingItem = EnclosingItem;
 			detail.EnclosingCollection = this;
@@ -86,16 +98,22 @@ namespace Zeus.ContentProperties
 			{
 				var i = IndexOf(value);
 				if (i < 0)
+				{
 					Add(value);
+				}
 				else
+				{
 					valuesToKeep[i] = true;
+				}
 			}
 
 			// Remove items that are not present in the supplied collection
 			for (var i = valuesToKeep.Length - 1; i >= 0; i--)
 			{
 				if (!valuesToKeep[i])
+				{
 					RemoveAt(i);
+				}
 			}
 		}
 
@@ -109,8 +127,13 @@ namespace Zeus.ContentProperties
 		public int IndexOf(object value)
 		{
 			for (var i = 0; i < Details.Count; i++)
+			{
 				if (Details[i] == value || Details[i].Value == value)
+				{
 					return i;
+				}
+			}
+
 			return -1;
 		}
 
@@ -171,11 +194,18 @@ namespace Zeus.ContentProperties
 		public bool Contains(object value)
 		{
 			if (value == null)
+			{
 				return false;
+			}
 
 			foreach (var detail in Details)
+			{
 				if (value.Equals(detail.Value))
+				{
 					return true;
+				}
+			}
+
 			return false;
 		}
 
@@ -185,7 +215,9 @@ namespace Zeus.ContentProperties
 		public void CopyTo(Array array, int index)
 		{
 			for (var i = index; i < array.Length; i++)
+			{
 				array.SetValue(Details[i], i);
+			}
 		}
 
 		/// <summary>Gets the number of values in the collection.</summary>
@@ -206,7 +238,9 @@ namespace Zeus.ContentProperties
 		{
 			var index = IndexOf(value);
 			if (index >= 0)
+			{
 				RemoveAt(index);
+			}
 		}
 
 		/// <summary>Gets true.</summary>

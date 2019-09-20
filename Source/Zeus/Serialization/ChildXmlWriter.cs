@@ -9,7 +9,9 @@ namespace Zeus.Serialization
 			using (new ElementWriter("children", writer))
 			{
 				foreach (var child in item.Children)
+				{
 					WriteChild(writer, child);
+				}
 			}
 		}
 

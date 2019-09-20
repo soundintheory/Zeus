@@ -44,13 +44,17 @@ namespace Zeus.Admin.Plugins.NewItem
 		public override bool IsEnabled(ContentItem contentItem)
 		{
 			if (!base.IsEnabled(contentItem))
+			{
 				return false;
+			}
 
 			// Check that this content item has allowed children
 			var contentTypeManager = Context.ContentTypes;
 			var contentType = contentTypeManager.GetContentType(contentItem.GetType());
 			if (!contentTypeManager.GetAllowedChildren(contentType, null, Context.Current.WebContext.User).Any())
+			{
 				return false;
+			}
 
 			return true;
 		}

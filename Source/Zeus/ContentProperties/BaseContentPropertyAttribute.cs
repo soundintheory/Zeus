@@ -47,7 +47,9 @@ namespace Zeus.ContentProperties
 
 			// TODO - clean this up.
 			if (editor is AbstractEditorAttribute)
+			{
 				((AbstractEditorAttribute) editor).Description = Description;
+			}
 
 			return editor;
 		}
@@ -80,7 +82,9 @@ namespace Zeus.ContentProperties
 		{
 			var other = obj as BaseContentPropertyAttribute;
 			if (other == null)
+			{
 				return false;
+			}
 
 			return Title == other.Title
 				&& SortOrder == other.SortOrder

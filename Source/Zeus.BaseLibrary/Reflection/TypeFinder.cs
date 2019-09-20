@@ -25,8 +25,12 @@ namespace Zeus.BaseLibrary.Reflection
 				try
 				{
 					foreach (var type in assembly.GetTypes())
+					{
 						if (requestedType.IsAssignableFrom(type))
+						{
 							types.Add(type);
+						}
+					}
 				}
 				catch (ReflectionTypeLoadException ex)
 				{

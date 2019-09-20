@@ -44,7 +44,10 @@ namespace Zeus.BaseLibrary.IO
 			this.length = file.Length;
 			this.bytesRead = 0;
 			_fileName = fileName;
-			if (ProgressChanged != null) ProgressChanged(this, new ProgressChangedEventArgs(bytesRead, length, _fileName));
+			if (ProgressChanged != null)
+			{
+				ProgressChanged(this, new ProgressChangedEventArgs(bytesRead, length, _fileName));
+			}
 		}
 
 		public double GetProgress()
@@ -59,7 +62,10 @@ namespace Zeus.BaseLibrary.IO
 			var result = file.Read(buffer, offset, count);
 			bytesRead += result;
 			if (ProgressChanged != null)
+			{
 				ProgressChanged(this, new ProgressChangedEventArgs(bytesRead, length, _fileName));
+			}
+
 			return result;
 		}
 

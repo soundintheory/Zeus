@@ -37,11 +37,15 @@ namespace Zeus.Serialization
 
 			navigator.MoveToRoot();
 			if (!navigator.MoveToFirstChild())
+			{
 				throw new DeserializationException("Expected root node 'zeus' not found");
+			}
 
 			var version = ReadExportVersion(navigator);
 			if (version != 1)
+			{
 				throw new WrongVersionException("Invalid export version, expected 1 but was '" + version + "'");
+			}
 
 			return reader.Read(navigator);
 		}
@@ -96,27 +100,39 @@ namespace Zeus.Serialization
 			{
 				var detail = item.Details[key];
 				if (detail.ValueType == typeof(ContentItem))
+				{
 					if (((LinkProperty) detail).LinkedItem == referenceToRemove)
+					{
 						item.Details.Remove(key);
+					}
+				}
 			}
 		}
 
 		protected virtual void RemoveReferencesInCollections(ContentItem referenceToRemove, ContentItem item)
 		{
 			foreach (var collection in item.DetailCollections.Values)
+			{
 				for (var i = collection.Details.Count - 1; i >= 0; --i)
 				{
 					var detail = collection.Details[i];
 					if (detail.ValueType == typeof(ContentItem))
+					{
 						if (((LinkProperty) detail).LinkedItem == referenceToRemove)
+						{
 							collection.Remove(referenceToRemove);
+						}
+					}
 				}
+			}
 		}
 
 		protected virtual void ResetIDs(IEnumerable<ContentItem> items)
 		{
 			foreach (var item in items)
+			{
 				item.ID = 0;
+			}
 		}
 	}
 }

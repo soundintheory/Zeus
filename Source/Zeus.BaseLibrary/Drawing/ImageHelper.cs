@@ -15,7 +15,9 @@ namespace Zeus.BaseLibrary.Drawing
 		public static Image FromBytes(byte[] bytes)
 		{
 			if (bytes == null || bytes.Length == 0)
+			{
 				return null;
+			}
 
 			MemoryStream stream = null;
 			try
@@ -27,7 +29,9 @@ namespace Zeus.BaseLibrary.Drawing
 			catch
 			{
 				if (stream != null)
+				{
 					stream.Close();
+				}
 
 				throw;
 			}
@@ -36,7 +40,9 @@ namespace Zeus.BaseLibrary.Drawing
 		public static byte[] ToBytes(Image image, ImageFormat format)
 		{
 			if (image == null)
+			{
 				return null;
+			}
 
 			MemoryStream stream = null;
 			try
@@ -49,7 +55,9 @@ namespace Zeus.BaseLibrary.Drawing
 			finally
 			{
 				if (stream != null)
+				{
 					stream.Close();
+				}
 			}
 		}
 	}

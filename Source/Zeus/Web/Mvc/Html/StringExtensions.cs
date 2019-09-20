@@ -17,10 +17,14 @@ namespace Zeus.Web.Mvc.Html
 		public static string ConvertUrlsToHyperLinks(this HtmlHelper htmlHelper, string html)
 		{
 			if (html == null)
-				throw new ArgumentNullException("html");
+			{
+				throw new ArgumentNullException(nameof(html));
+			}
 
 			if (html.Length == 0)
+			{
 				return string.Empty;
+			}
 
 			const string pattern = @"((https?|ftp)://|www\.)[\w]+(.[\w]+)([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])";
 			var matches = Regex.Matches(html, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -50,45 +54,63 @@ namespace Zeus.Web.Mvc.Html
 		public static string ShortenUrl(this HtmlHelper htmlHelper, string url, int max)
 		{
 			if (url == null)
-				throw new ArgumentNullException("url");
+			{
+				throw new ArgumentNullException(nameof(url));
+			}
 
 			if (max < 5)
-				throw new ArgumentException("We will not shorten a URL to less than 5 characters. Come on now!", "max");
+			{
+				throw new ArgumentException("We will not shorten a URL to less than 5 characters. Come on now!", nameof(max));
+			}
 
 			if (url.Length <= max)
+			{
 				return url;
+			}
 
 			// Remove the protocal
 			url = url.RightAfter("://");
 
 			if (url.Length <= max)
+			{
 				return url;
+			}
 
 			// Remove the folder structure, except for the last folder.
 			var firstIndex = url.IndexOf("/") + 1;
 			var startIndexForLastSlash = url.Length - 1;
 			if (url.EndsWith("/"))
+			{
 				startIndexForLastSlash--;
+			}
 
 			var lastIndex = url.LastIndexOf("/", startIndexForLastSlash);
 
 			if (firstIndex < lastIndex)
+			{
 				url = url.LeftBefore("/") + "/.../" + url.RightAfterLast("/", startIndexForLastSlash, StringComparison.Ordinal);
+			}
 
 			if (url.Length <= max)
+			{
 				return url;
+			}
 
 			// Remove URL parameters
 			url = url.LeftBefore("?");
 
 			if (url.Length <= max)
+			{
 				return url;
+			}
 
 			// Remove URL fragment
 			url = url.LeftBefore("#");
 
 			if (url.Length <= max)
+			{
 				return url;
+			}
 
 			// Shorten page
 			firstIndex = url.LastIndexOf("/") + 1;
@@ -101,17 +123,25 @@ namespace Zeus.Web.Mvc.Html
 			}
 
 			if (url.Length <= max)
+			{
 				return url;
+			}
 
 			//Trim of trailing slash if any.
 			if (url.Length > max && url.EndsWith("/"))
+			{
 				url = url.Substring(0, url.Length - 1);
+			}
 
 			if (url.Length <= max)
+			{
 				return url;
+			}
 
 			if (url.Length > max)
+			{
 				url = url.Substring(0, max - 3) + "...";
+			}
 
 			return url;
 		}

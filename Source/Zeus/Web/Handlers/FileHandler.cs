@@ -16,7 +16,9 @@ namespace Zeus.Web.Handlers
 		{
 			var file = Context.Current.Resolve<Navigator>().Navigate(context.Request.QueryString["Path"]) as File;
 			if (file == null)
+			{
 				return;
+			}
 
 			context.Response.ContentType = file.ContentType;
 			context.Response.OutputStream.Write(file.Data, 0, file.Data.Length);

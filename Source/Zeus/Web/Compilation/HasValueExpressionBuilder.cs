@@ -21,9 +21,13 @@ namespace Zeus.Web.Compilation
 		{
 			var item = Zeus.Context.CurrentPage;
 			if (item != null)
+			{
 				return HasValue(item, expression);
+			}
 			else
+			{
 				return HasValue(Context.CurrentPage, expression);
+			}
 		}
 
 		private static bool HasValue(ContentItem item, string propertyName)

@@ -60,7 +60,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 			{
 				// No hashing capabilities. Default to Equals(x, y).
 				if (this.Hasher == null)
+				{
 					return 0;
+				}
 
 				return this.Hasher(obj);
 			}
@@ -81,11 +83,15 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 		{
 			// Check to see that enumeration is not null
 			if (enumeration == null)
-				throw new ArgumentNullException("enumeration");
+			{
+				throw new ArgumentNullException(nameof(enumeration));
+			}
 
 			// Check to see that comparer is not null
 			if (comparer == null)
-				throw new ArgumentNullException("comparer");
+			{
+				throw new ArgumentNullException(nameof(comparer));
+			}
 
 			return enumeration.Distinct(new EqualityComparer<T> { Comparer = comparer, Hasher = hasher });
 		}
@@ -99,7 +105,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 			{
 				var sourceValue = selector(sourceItem);
 				if (sourceValue.Equals(value))
+				{
 					return true;
+				}
 			}
 			return false;
 		}
@@ -128,11 +136,14 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 					var dataRow = dataTable.NewRow();
 					dataRow.BeginEdit();
 					foreach (var pi in properties)
+					{
 						if (pi.GetIndexParameters() == null || pi.GetIndexParameters().Length == 0) // exclude indexers
 						{
 							var propertyValue = pi.GetValue(item, null);
 							dataRow[pi.Name] = propertyValue ?? DBNull.Value;
 						}
+					}
+
 					dataRow.EndEdit();
 					dataTable.Rows.Add(dataRow);
 				}
@@ -150,7 +161,10 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 		{
 			var values = source.ToArray();
 			for (int i = 0, length = values.Length; i < length; i++)
+			{
 				values[i] = prefix + values[i] + suffix;
+			}
+
 			return string.Join(separator, values);
 		}
 
@@ -158,7 +172,10 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 		{
 			var values = source.ToArray();
 			for (int i = 0, length = values.Length; i < length; i++)
+			{
 				values[i] = string.Format(format, values[i]);
+			}
+
 			return string.Join(separator, values);
 		}
 
@@ -170,7 +187,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 			{
 				sb.Append(valueCallback(values[i]));
 				if (i < length - 1)
+				{
 					sb.Append(separator);
+				}
 			}
 			return sb.ToString();
 		}
@@ -178,19 +197,25 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 		public static IEnumerable<T> OfType<T>(this IEnumerable<T> source, Type type)
 		{
 			foreach (var element in source)
+			{
 				if (element != null && type.IsAssignableFrom(element.GetType()))
+				{
 					yield return element;
+				}
+			}
 		}
 
 		public static IEnumerable<TSource> Alternate<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
 		{
 			using (var e1 = first.GetEnumerator())
 			using (var e2 = second.GetEnumerator())
+			{
 				while (e1.MoveNext() && e2.MoveNext())
 				{
 					yield return e1.Current;
 					yield return e2.Current;
 				}
+			}
 		}
 			   
 		public static IEnumerable<SelectListItem> ToSelectListItems<TSource>(this IEnumerable<TSource> source, object defaultValue)
@@ -218,10 +243,14 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 			foreach (var item in source)
 			{
 				if (found)
+				{
 					return item;
+				}
 
 				if (item.Equals(currentItem))
+				{
 					found = true;
+				}
 			}
 
 			return null;
@@ -241,7 +270,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 			foreach (var item in source)
 			{
 				if (item.Equals(currentItem))
+				{
 					return holder;
+				}
 
 				holder = item;
 			}

@@ -44,7 +44,10 @@ namespace Zeus.Admin.Install
 			get
 			{
 				if (status == null)
+				{
 					status = CurrentInstallationManager.GetStatus();
+				}
+
 				return status;
 			}
 		}
@@ -65,21 +68,40 @@ namespace Zeus.Admin.Install
 					var hint = d.ContentTypeAttribute.Installer;
 
 					if (Is(hint, InstallerHints.PreferredRootPage))
+					{
 						preferredRoots.Add(d);
+					}
+
 					if (Is(hint, InstallerHints.PreferredStartPage))
+					{
 						preferredStartPages.Add(d);
+					}
+
 					if (Is(hint, InstallerHints.PreferredRootPage) || Is(hint, InstallerHints.PreferredStartPage))
+					{
 						preferredRootAndStartPages.Add(d);
+					}
+
 					if (!Is(hint, InstallerHints.NeverRootPage))
+					{
 						fallbackRoots.Add(d);
+					}
+
 					if (!Is(hint, InstallerHints.NeverStartPage))
+					{
 						fallbackStartPages.Add(d);
+					}
 				}
 
 				if (preferredRoots.Count == 0)
+				{
 					preferredRoots = fallbackRoots;
+				}
+
 				if (preferredStartPages.Count == 0)
+				{
 					preferredStartPages = fallbackStartPages;
+				}
 
 				LoadRootTypes(ddlRoot, preferredRoots, "[root node]");
 				LoadStartTypes(ddlStartPage, preferredStartPages, "[start node]");
@@ -124,7 +146,9 @@ namespace Zeus.Admin.Install
 			lc.Items.Clear();
 			lc.Items.Add(initialText);
 			foreach (var d in startPageDefinitions)
+			{
 				lc.Items.Add(new ListItem(d.Title, d.ItemType.AssemblyQualifiedName));
+			}
 		}
 
 		private static void LoadRootTypes(ListControl lc, IEnumerable<ContentType> rootDefinitions, string initialText)
@@ -132,7 +156,9 @@ namespace Zeus.Admin.Install
 			lc.Items.Clear();
 			lc.Items.Add(initialText);
 			foreach (var d in rootDefinitions)
+			{
 				lc.Items.Add(new ListItem(d.Title, d.ItemType.AssemblyQualifiedName));
+			}
 		}
 
 		protected void btnTest_Click(object sender, EventArgs e)
@@ -161,8 +187,12 @@ namespace Zeus.Admin.Install
 		{
 			var im = CurrentInstallationManager;
 			if (ExecuteWithErrorHandling(im.Install) != null)
+			{
 				if (ExecuteWithErrorHandling(im.Install) == null)
+				{
 					lblInstall.Text = "Database created, now insert root items.";
+				}
+			}
 		}
 
 		/*protected void btnExportSchema_Click(object sender, EventArgs e)
@@ -185,7 +215,9 @@ namespace Zeus.Admin.Install
 				cvRootAndStart.IsValid = ddlRoot.SelectedIndex > 0 && ddlStartPage.SelectedIndex > 0;
 				cvRoot.IsValid = true;
 				if (!cvRootAndStart.IsValid)
+				{
 					return;
+				}
 
 				var root = im.InsertRootNode(Type.GetType(ddlRoot.SelectedValue), "root", "Root Node");
 				var startPage = im.InsertStartPage(Type.GetType(ddlStartPage.SelectedValue), root, "start", "Start Page", Zeus.Context.Current.LanguageManager.GetDefaultLanguage());
@@ -219,7 +251,9 @@ namespace Zeus.Admin.Install
 				cvRootAndStart.IsValid = true;
 				cvRoot.IsValid = ddlRootAndStart.SelectedIndex > 0;
 				if (!cvRoot.IsValid)
+				{
 					return;
+				}
 
 				var root = im.InsertRootNode(Type.GetType(ddlRootAndStart.SelectedValue), "start", "Start Page");
 
@@ -280,7 +314,9 @@ namespace Zeus.Admin.Install
 		protected void btnUpdateWebConfig_Click(object sender, EventArgs e)
 		{
 			if (ExecuteWithErrorHandling(SaveConfiguration) == null)
+			{
 				lblWebConfigUpdated.Text = "Configuration updated.";
+			}
 		}
 
 		private void SaveConfiguration()
@@ -325,11 +361,20 @@ namespace Zeus.Admin.Install
 		protected string GetStatusText()
 		{
 			if (Status.IsInstalled)
+			{
 				return "You're all set (just check step 6).";
+			}
+
 			if (Status.HasSchema)
+			{
 				return "Jump to step 4.";
+			}
+
 			if (Status.IsConnected)
+			{
 				return "Skip to step 3.";
+			}
+
 			return "Continue to step 2.";
 		}
 
@@ -411,7 +456,10 @@ namespace Zeus.Admin.Install
 		private static string FormatException(Exception ex)
 		{
 			if (ex == null)
+			{
 				return "Unknown error";
+			}
+
 			return "<b>" + ex.Message + "</b>" + ex.StackTrace;
 		}
 
@@ -470,7 +518,9 @@ namespace Zeus.Admin.Install
 		{
 			rfvUpload.IsValid = fileUpload.PostedFile != null && fileUpload.PostedFile.FileName.Length > 0;
 			if (!rfvUpload.IsValid)
+			{
 				return;
+			}
 
 			ExecuteWithErrorHandling(InstallFromUpload);
 		}

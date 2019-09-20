@@ -30,16 +30,28 @@ namespace Zeus
 			{
 				var converter = TypeDescriptor.GetConverter(destinationType);
 				if (converter != null && converter.CanConvertFrom(value.GetType()))
+				{
 					return converter.ConvertFrom(value);
+				}
+
 				converter = TypeDescriptor.GetConverter(value.GetType());
 				if (converter != null && converter.CanConvertTo(destinationType))
+				{
 					return converter.ConvertTo(value, destinationType);
+				}
+
 				if (destinationType.IsEnum && value is int)
+				{
 					return Enum.ToObject(destinationType, (int) value);
+				}
+
 				if (!destinationType.IsAssignableFrom(value.GetType()))
 				{
 					if (!(value is IConvertible))
+					{
 						throw new ZeusException("Cannot convert object of type '{0}' because it does not implement IConvertible", value.GetType());
+					}
+
 					if (destinationType.IsNullable())
 					{
 						var nullableConverter = new NullableConverter(destinationType);
@@ -86,14 +98,23 @@ namespace Zeus
 		/// <returns>The value of the property.</returns>
 		public static object GetProperty(object instance, string propertyName)
 		{
-			if (instance == null) throw new ArgumentNullException("instance");
-			if (propertyName == null) throw new ArgumentNullException("propertyName");
+			if (instance == null)
+			{
+				throw new ArgumentNullException(nameof(instance));
+			}
+
+			if (propertyName == null)
+			{
+				throw new ArgumentNullException(nameof(propertyName));
+			}
 
 			var instanceType = instance.GetType();
 			var pi = instanceType.GetProperty(propertyName);
 
 			if (pi == null)
+			{
 				throw new ZeusException("No property '{0}' found on the instance of type '{1}'.", propertyName, instanceType);
+			}
 
 			return pi.GetValue(instance, null);
 		}
@@ -107,10 +128,18 @@ namespace Zeus
 		private static bool IsDestinationBelowSource(ContentItem source, ContentItem destination)
 		{
 			if (source == destination)
+			{
 				return true;
+			}
+
 			foreach (var ancestor in Find.EnumerateParents(destination))
+			{
 				if (ancestor == source)
+				{
 					return true;
+				}
+			}
+
 			return false;
 		}
 
@@ -132,13 +161,17 @@ namespace Zeus
 		public static int Insert(ContentItem item, ContentItem newParent, IComparer<ContentItem> comparer)
 		{
 			if (item.Parent != null && item.Parent.Children.Contains(item))
+			{
 				item.Parent.Children.Remove(item);
+			}
 
 			item.Parent = newParent;
 			if (newParent != null)
 			{
 				if (IsDestinationBelowSource(item, newParent))
+				{
 					throw new DestinationOnOrBelowItselfException(item, newParent);
+				}
 
 				var siblings = newParent.Children;
 				for (var i = 0; i < siblings.Count; i++)
@@ -181,7 +214,9 @@ namespace Zeus
 					updatedItems.Add(sibling);
 				}
 				else
+				{
 					lastSortOrder = sibling.SortOrder;
+				}
 			}
 			return updatedItems;
 		}
@@ -200,10 +235,14 @@ namespace Zeus
 				handler.Invoke(sender, args);
 
 				if (!args.Cancel)
+				{
 					args.FinalAction(args.AffectedItem);
+				}
 			}
 			else
+			{
 				finalAction(item);
+			}
 		}
 
 		/// <summary>Invokes an event and and executes an action unless the event is cancelled.</summary>
@@ -222,7 +261,9 @@ namespace Zeus
 				handler.Invoke(sender, args);
 
 				if (args.Cancel)
+				{
 					return null;
+				}
 
 				return args.FinalAction(args.AffectedItem, args.Destination);
 			}

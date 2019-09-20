@@ -58,7 +58,9 @@ namespace Zeus.BaseLibrary.Collections.Generic
 		{
 			//Results is not null, means query has already been executed.
 			if (results != null)
+			{
 				return;
+			}
 
 			totalItems = Query.Count();
 			results = ExecuteQuery();

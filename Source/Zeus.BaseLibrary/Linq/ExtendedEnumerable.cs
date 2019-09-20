@@ -19,7 +19,9 @@ namespace Zeus.BaseLibrary.Linq
 		public static IEnumerable<int> RangeDescending(int start, int count)
 		{
 			for (var i = 0; i < count; ++i)
+			{
 				yield return start - i;
+			}
 		}
 
 		private static IEnumerable<MonthName> GetMonthNames(IEnumerable<string> monthNames)

@@ -22,12 +22,19 @@ namespace Zeus.Admin
 
 		public ContentItem Navigate(string path)
 		{
-			if (path == null) throw new ArgumentNullException("path");
+			if (path == null)
+			{
+				throw new ArgumentNullException(nameof(path));
+			}
+
 			if (!path.StartsWith("/"))
 			{
 				if (path.StartsWith("~"))
+				{
 					return Navigate(_persister.Get(_host.CurrentSite.StartPageID), path.Substring(1));
-				throw new ArgumentException("The path must start with a slash '/', was '" + path + "'", "path");
+				}
+
+				throw new ArgumentException("The path must start with a slash '/', was '" + path + "'", nameof(path));
 			}
 
 			return Navigate(_persister.Get(_host.CurrentSite.RootItemID), path);

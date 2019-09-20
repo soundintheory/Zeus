@@ -29,8 +29,13 @@ namespace Zeus.Configuration
 		{
 			var dictionary = new StringDictionary();
 			foreach (HostNameElement element in this)
+			{
 				if (!(element.Name == "*"))
+				{
 					dictionary.Add(element.Name, element.Language);
+				}
+			}
+
 			return dictionary;
 		}
 	}

@@ -19,12 +19,17 @@ namespace Zeus.Admin
 		{
 			// If site is currently in Install mode, don't do anything.
 			if (_adminConfig.Installer.Mode == InstallationMode.Install)
+			{
 				return;
+			}
 
 			// Dynamically add authorization rule for admin site.
 			var authorizedRoles = new List<string>();
 			foreach (AuthorizedRoleElement authorizedRoleElement in _adminConfig.AuthorizedRoles)
+			{
 				authorizedRoles.Add(authorizedRoleElement.Role);
+			}
+
 			authorizationService.AddRule(_adminConfig.Path,
 				null, authorizedRoles, new[] { "*" }, null);
 		}

@@ -13,7 +13,10 @@ namespace Zeus.Templates.Services
 			var toCurrency = currencyList.GetChildren<Currency>().Single(c => c.IsoCode == toIsoCode);
 
 			if (baseCurrency == toCurrency)
+			{
 				return amount;
+			}
+
 			return toCurrency.ExchangeRate * amount;
 		}
 	}

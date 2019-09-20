@@ -109,9 +109,13 @@ namespace Zeus.Templates.Mvc
 
 			context.HttpContext.Response.AddHeader("IM", "feed");
 			if (Feed.UseDeltaEncoding)
+			{
 				HttpContext.Response.StatusCode = HttpImUsed; //IM Used
+			}
 			else
+			{
 				HttpContext.Response.StatusCode = (int) HttpStatusCode.OK;
+			}
 
 			WriteXml(context);
 		}

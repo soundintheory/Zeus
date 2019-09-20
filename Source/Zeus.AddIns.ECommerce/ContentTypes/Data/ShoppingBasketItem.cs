@@ -48,7 +48,10 @@ namespace Zeus.AddIns.ECommerce.ContentTypes.Data
 			get
 			{
 				if (VariationPermutation != null)
+				{
 					return VariationPermutation.Variations.Cast<Variation>();
+				}
+
 				return null;
 			}
 		}

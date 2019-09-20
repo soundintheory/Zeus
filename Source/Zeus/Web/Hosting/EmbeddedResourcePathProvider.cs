@@ -17,21 +17,35 @@ namespace Zeus.Web.Hosting
 		public override bool FileExists(string virtualPath)
 		{
 			if (virtualPath == null)
-				throw new ArgumentNullException("virtualPath");
+			{
+				throw new ArgumentNullException(nameof(virtualPath));
+			}
+
 			if (virtualPath.Length == 0)
-				throw new ArgumentOutOfRangeException("virtualPath");
+			{
+				throw new ArgumentOutOfRangeException(nameof(virtualPath));
+			}
+
 			var absolutePath = System.Web.VirtualPathUtility.ToAbsolute(virtualPath);
 			if (_manager.FileExists(absolutePath))
+			{
 				return true;
+			}
+
 			return base.FileExists(absolutePath);
 		}
 
 		public override CacheDependency GetCacheDependency(string virtualPath, IEnumerable virtualPathDependencies, DateTime utcStart)
 		{
 			if (virtualPath == null)
-				throw new ArgumentNullException("virtualPath");
+			{
+				throw new ArgumentNullException(nameof(virtualPath));
+			}
+
 			if (virtualPath.Length == 0)
-				throw new ArgumentOutOfRangeException("virtualPath");
+			{
+				throw new ArgumentOutOfRangeException(nameof(virtualPath));
+			}
 
 			var absolutePath = System.Web.VirtualPathUtility.ToAbsolute(virtualPath);
 
@@ -40,16 +54,23 @@ namespace Zeus.Web.Hosting
 
 			// Handle chained dependencies
 			if (virtualPathDependencies != null)
+			{
 				foreach (string virtualPathDependency in virtualPathDependencies)
 				{
 					var dependencyToAdd = GetCacheDependency(virtualPathDependency, null, utcStart);
 					if (dependencyToAdd == null) // Ignore items that have no dependency
+					{
 						continue;
+					}
 
 					if (retVal == null)
+					{
 						retVal = new AggregateCacheDependency();
+					}
+
 					retVal.Add(dependencyToAdd);
 				}
+			}
 
 			// Handle the primary file
 			CacheDependency primaryDependency = null;
@@ -60,7 +81,10 @@ namespace Zeus.Web.Hosting
 			if (primaryDependency != null)
 			{
 				if (retVal == null)
+				{
 					retVal = new AggregateCacheDependency();
+				}
+
 				retVal.Add(primaryDependency);
 			}
 
@@ -73,13 +97,21 @@ namespace Zeus.Web.Hosting
 			// * ToAppRelative: ~/Subfolder/OtherFolder/Control.ascx
 			// * ToAbsolute: /MyApplication/Subfolder/OtherFolder/Control.ascx
 			if (virtualPath == null)
-				throw new ArgumentNullException("virtualPath");
+			{
+				throw new ArgumentNullException(nameof(virtualPath));
+			}
+
 			if (virtualPath.Length == 0)
-				throw new ArgumentOutOfRangeException("virtualPath");
+			{
+				throw new ArgumentOutOfRangeException(nameof(virtualPath));
+			}
 
 			var absolutePath = System.Web.VirtualPathUtility.ToAbsolute(virtualPath);
 			if (FileHandledByBaseProvider(absolutePath))
+			{
 				return base.GetFile(absolutePath);
+			}
+
 			return _manager.GetFile(absolutePath);
 		}
 

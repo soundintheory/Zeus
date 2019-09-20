@@ -7,6 +7,7 @@ using Zeus.Web.UI.WebControls;
 
 namespace Zeus.Design.Editors
 {
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
 	public class NameEditorAttribute : AbstractEditorAttribute
 	{
 		public NameEditorAttribute(string title, int sortOrder)
@@ -19,7 +20,10 @@ namespace Zeus.Design.Editors
 		{
 			var nameEditor = new NameEditor { ID = "txtNameEditor" };
 			if (Required)
+			{
 				nameEditor.CssClass += " required";
+			}
+
 			container.Controls.Add(nameEditor);
 			return nameEditor;
 		}
@@ -68,12 +72,15 @@ namespace Zeus.Design.Editors
 						}
 						prefix += "/";
 						if (prefix.Length > 60)
+						{
 							prefix = prefix.Substring(0, 50) + ".../";
+						}
+
 						ne.Prefix = prefix;
 					}
 				}
 			}
-			catch (Exception)
+			catch
 			{
 			}
 		}

@@ -46,14 +46,19 @@ namespace Zeus.Web.Mvc.Descriptors
 		private string RetrieveDeviceFolderName(string browser)
 		{
 			if (DeviceFolders.ContainsKey(browser))
+			{
 				return DeviceFolders[browser.Trim()];
+			}
+
 			return "unknown";
 		}
 
 		public override IEnumerable<string> PotentialLocations(IEnumerable<string> locations, IDictionary<string, object> extra)
 		{
 			if (!extra.ContainsKey("mobile") || !((bool)extra["mobile"]))
+			{
 				return locations;
+			}
 
 			// The locations collection contains items of this form:
 			// Home/Index.spark
@@ -67,7 +72,9 @@ namespace Zeus.Web.Mvc.Descriptors
 		private static string InsertMobileStuffInViewLocation(string location, string mobileStuff)
 		{
 			if (!location.Contains("\\"))
+			{
 				return location;
+			}
 
 			return location.Substring(0, location.LastIndexOf('\\') + 1)
 			       + mobileStuff

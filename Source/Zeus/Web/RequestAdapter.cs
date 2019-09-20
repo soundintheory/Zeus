@@ -20,13 +20,19 @@ namespace Zeus.Web
 		public virtual void RewriteRequest(RewriteMethod rewriteMethod)
 		{
 			if (Path == null || Path.IsEmpty())
+			{
 				return;
+			}
 
 			var templateUrl = GetHandlerPath();
 			if (rewriteMethod == RewriteMethod.RewriteRequest)
+			{
 				Engine.Resolve<IWebContext>().RewritePath(templateUrl);
+			}
 			else if (rewriteMethod == RewriteMethod.TransferRequest)
+			{
 				Engine.Resolve<IWebContext>().TransferRequest(templateUrl);
+			}
 		}
 
 		/// <summary>Gets the path to the handler (aspx template) to rewrite to.</summary>

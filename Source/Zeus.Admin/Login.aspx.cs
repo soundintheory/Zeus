@@ -17,7 +17,9 @@ namespace Zeus.Admin
 		protected void loginButton_Click(object sender, EventArgs e)
 		{
 			if (!IsValid)
+			{
 				return;
+			}
 
 			try
 			{
@@ -27,7 +29,9 @@ namespace Zeus.Admin
 					WebSecurityEngine.Get<IAuthenticationContextService>().GetCurrentService().RedirectFromLoginPage(username, false);
 				}
 				else
+				{
 					FailureText.Text = "Invalid username or password";
+				}
 			}
 			catch (Exception ex)
 			{

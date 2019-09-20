@@ -27,5 +27,9 @@ namespace Zeus
 			: base(message, innerException)
 		{
 		}
+
+		public ZeusException() : base()
+		{
+		}
 	}
 }

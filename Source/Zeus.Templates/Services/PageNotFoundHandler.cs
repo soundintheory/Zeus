@@ -25,7 +25,9 @@ namespace Zeus.Templates.Services
 		{
 			var websiteNode = _urlParser.StartPage as WebsiteNode;
 			if (websiteNode != null && websiteNode.PageNotFoundPage != null && !e.Url.StartsWith(_adminConfig.Path + "/", StringComparison.InvariantCultureIgnoreCase))
+			{
 				e.AffectedItem = websiteNode.PageNotFoundPage;
+			}
 		}
 
 		public void Start()

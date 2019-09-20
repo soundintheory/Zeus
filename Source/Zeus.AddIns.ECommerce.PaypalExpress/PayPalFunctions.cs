@@ -47,8 +47,11 @@ public class NVPAPICaller
         get
         {
         if (_startPage == null)
-            _startPage = Global.StartPage;
-        return _startPage;
+			{
+				_startPage = Global.StartPage;
+			}
+
+			return _startPage;
     } }
 
     private string Subject = "";
@@ -196,9 +199,11 @@ public class NVPAPICaller
         encoder["CANCELURL"] = cancelURL;
         
         if (!StartPage.UseShipping)
-            encoder["NOSHIPPING"] = "1";
+		{
+			encoder["NOSHIPPING"] = "1";
+		}
 
-        encoder["PAYMENTREQUEST_0_AMT"] = amt;
+		encoder["PAYMENTREQUEST_0_AMT"] = amt;
         encoder["PAYMENTREQUEST_0_PAYMENTACTION"] = "Sale";
         //as uk only
         encoder["PAYMENTREQUEST_0_CURRENCYCODE"] = string.IsNullOrEmpty(currency) ? "GBP" : currency;
@@ -408,18 +413,26 @@ public class NVPAPICaller
         var codec = new NVPCodec();
 
         if (!IsEmpty(APIUsername))
-            codec["USER"] = APIUsername;
+		{
+			codec["USER"] = APIUsername;
+		}
 
-        if (!IsEmpty(APIPassword))
-            codec[PWD] = APIPassword;
+		if (!IsEmpty(APIPassword))
+		{
+			codec[PWD] = APIPassword;
+		}
 
-        if (!IsEmpty(APISignature))
-            codec[SIGNATURE] = APISignature;
+		if (!IsEmpty(APISignature))
+		{
+			codec[SIGNATURE] = APISignature;
+		}
 
-        if (!IsEmpty(Subject))
-            codec["SUBJECT"] = Subject;
+		if (!IsEmpty(Subject))
+		{
+			codec["SUBJECT"] = Subject;
+		}
 
-        codec["VERSION"] = "63.0";
+		codec["VERSION"] = "63.0";
 
         return codec.Encode();
     }
@@ -517,7 +530,7 @@ public sealed class NVPCodec : NameValueCollection
     {
         if (index < 0)
         {
-            throw new ArgumentOutOfRangeException("index", "index can not be negative : " + index);
+            throw new ArgumentOutOfRangeException(nameof(index), "index can not be negative : " + index);
         }
         return name + index;
     }

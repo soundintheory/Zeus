@@ -29,7 +29,10 @@ namespace Zeus.DynamicContent
 			var current = DateTime.Now;
 			var result = current.ToShortDateString();
 			if (IncludeTime)
+			{
 				result += " " + current.ToShortTimeString();
+			}
+
 			return result;
 		}
 

@@ -26,16 +26,28 @@ namespace Zeus.Installation
 		public string ToStatusString()
 		{
 			if (StartPage != null && RootItem != null)
+			{
 				return string.Format("Everything looks fine, Start page: {0}, Root item: {1}, # of items: {2}",
 					 StartPage.Title, RootItem.Title, Items);
+			}
+
 			if (RootItem != null)
+			{
 				return string.Format("There is a root item but couldn't find a start page with the id: {0}", RootItemID);
+			}
+
 			if (HasSchema)
+			{
 				return string.Format("The database is installed but there is no root item with the id: {0}", RootItemID);
+			}
+
 			if (IsConnected)
+			{
 				return string.Format(
 					"The connection to the database seems fine but the database tables might not be created (error message: {0})",
 					SchemaError);
+			}
+
 			return string.Format(
 				"No database or not properly configured connection string (error message: {0}",
 				ConnectionError);

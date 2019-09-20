@@ -45,16 +45,26 @@ namespace Zeus.Engine
 		private static IEnumerable<TPlugin> FindPluginsIn(Assembly a)
 		{
 			foreach (TPlugin attribute in a.GetCustomAttributes(typeof(TPlugin), false))
+			{
 				yield return ApplyContext(a, attribute);
+			}
+
 			foreach (var t in a.GetTypes())
+			{
 				foreach (TPlugin attribute in t.GetCustomAttributes(typeof(TPlugin), false))
+				{
 					yield return ApplyContext(t, attribute);
+				}
+			}
 		}
 
 		private static TPlugin ApplyContext(object context, TPlugin pluginAttribute)
 		{
 			if (pluginAttribute is IContextAwareAttribute)
+			{
 				((IContextAwareAttribute) pluginAttribute).SetContext(context);
+			}
+
 			return pluginAttribute;
 		}
 	}

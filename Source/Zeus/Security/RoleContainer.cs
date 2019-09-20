@@ -34,7 +34,9 @@ namespace Zeus.Web.Security.Items
 		{
 			var existingRole = Children.Cast<Role>().SingleOrDefault(ci => ci.Name == roleName);
 			if (existingRole != null)
+			{
 				return;
+			}
 
 			var role = new Role { Name = roleName };
 			role.AddTo(this);
@@ -46,14 +48,19 @@ namespace Zeus.Web.Security.Items
 		{
 			var role = Children.Cast<Role>().SingleOrDefault(ci => ci.Name == roleName);
 			if (role != null)
+			{
 				Children.Remove(role);
+			}
 		}
 
 		public virtual Role GetRole(string roleName)
 		{
 			var role = GetChild(roleName) as Role;
 			if (role == null)
+			{
 				throw new ZeusException("Role '{0}' does not exist.", roleName);
+			}
+
 			return role;
 		}
 	}

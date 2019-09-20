@@ -22,6 +22,7 @@ namespace Zeus.Web
 	/// Provides global access to the request item accessor. This can 
 	/// be exchanged for a fake for testing.
 	/// </summary>
+	#pragma warning disable RSC1102
 	public class RequestItem
 	{
 		static RequestItem()
@@ -38,4 +39,6 @@ namespace Zeus.Web
 			set { Singleton<IRequestContextAccessor>.Instance = value; }
 		}
 	}
+
+#pragma warning restore RSC1102
 }

@@ -73,7 +73,9 @@ namespace Zeus.Web.UI.WebControls
 			Page.ClientScript.RegisterStartupScript(typeof(TabControl), ClientID, script, true);
 
 			foreach (var tabItem in Controls.OfType<TabItem>())
+			{
 				_tabItemAnchorDictionary[tabItem].HRef = "#" + tabItem.ClientID;
+			}
 
 			Visible = Controls.OfType<TabItem>().Any(ti => ti.Controls.Count > 0);
 		}

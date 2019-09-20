@@ -17,12 +17,16 @@ namespace Zeus.Serialization
 		{
 			var definition = definitions.GetContentType(item.GetType());
 			foreach (var detail in item.Details.Values)
+			{
 				foreach (var property in definition.Properties)
+				{
 					if (detail.Name == property.Name)
 					{
 						yield return detail;
 						break;
 					}
+				}
+			}
 		}
 	}
 }

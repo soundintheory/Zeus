@@ -32,8 +32,10 @@ namespace Zeus.Templates.Mvc.Controllers
             {
                 ModelState.AddModelError("Login.Failed", "Invalid username or password");
                 if (!string.IsNullOrEmpty(loginForm.Target))
-                    return RedirectToParentPage("?target=" + loginForm.Target + "#loginBox");
-            }
+				{
+					return RedirectToParentPage("?target=" + loginForm.Target + "#loginBox");
+				}
+			}
             else
             {
                 _webSecurityService.SetAuthCookie(loginForm.Username, false);
@@ -42,8 +44,10 @@ namespace Zeus.Templates.Mvc.Controllers
                 if (!string.IsNullOrEmpty(loginForm.Target))
                 {
                     if (TestFor500(loginForm.Target))
-                        Response.Redirect(loginForm.Target);
-                }
+					{
+						Response.Redirect(loginForm.Target);
+					}
+				}
             }
 
             return RedirectToParentPage();
@@ -63,8 +67,10 @@ namespace Zeus.Templates.Mvc.Controllers
                         return true;
                     }
                     else
-                        return false;
-                }
+					{
+						return false;
+					}
+				}
             }
             catch (WebException)
             {

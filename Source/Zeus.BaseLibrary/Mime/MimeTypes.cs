@@ -226,15 +226,19 @@ namespace Zeus.BaseLibrary.Mime
         private static FileType getFileType(IReadOnlyList<byte> fileHeader, Stream stream = null, byte[] data = null)
         {
             if (stream == null && data == null)
-                throw new ArgumentNullException($"{nameof(stream)} : {nameof(data)}", "both file data arguments are null");
+			{
+				throw new ArgumentNullException($"{nameof(stream)} : {nameof(data)}", "both file data arguments are null");
+			}
 
-            // checking if it's binary (not really exact, but should do the job)
-            // shouldn't work with UTF-16 OR UTF-32 files
-            if (!fileHeader.Any(b => b == 0))
-                return TXT;
+			// checking if it's binary (not really exact, but should do the job)
+			// shouldn't work with UTF-16 OR UTF-32 files
+			if (!fileHeader.Any(b => b == 0))
+			{
+				return TXT;
+			}
 
-            // compare the file header to the stored file headers
-            foreach (var type in Types)
+			// compare the file header to the stored file headers
+			foreach (var type in Types)
             {
                 var matchingCount = GetFileMatchingCount(fileHeader, type);
 
@@ -247,22 +251,28 @@ namespace Zeus.BaseLibrary.Mime
                         using (var fileData = stream != null ? stream : new MemoryStream(data))
                         {
                             if (fileData.Position > 0)
-                                fileData.Seek(0, SeekOrigin.Begin);
+							{
+								fileData.Seek(0, SeekOrigin.Begin);
+							}
 
-                            using (var zipData = new ZipArchive(fileData))
+							using (var zipData = new ZipArchive(fileData))
                             {
                                 //check for office xml formats
                                 var officeXml = CheckForDocxAndXlsxStream(zipData);
 
                                 if (officeXml != null)
-                                    return officeXml.Value;
+								{
+									return officeXml.Value;
+								}
 
-                                //check for open office formats
-                                var openOffice = CheckForOdtAndOds(zipData);
+								//check for open office formats
+								var openOffice = CheckForOdtAndOds(zipData);
 
                                 if (openOffice != null)
-                                    return openOffice.Value;
-                            }
+								{
+									return openOffice.Value;
+								}
+							}
                         }
                     }
                     else
@@ -289,22 +299,32 @@ namespace Zeus.BaseLibrary.Mime
             foreach (var type in Types)
             {
                 if (extensions.Contains(type.Extension.ToUpper()))
-                    result.Add(type);
-            }
+				{
+					result.Add(type);
+				}
+			}
             return result;
         }
 
         private static FileType? CheckForDocxAndXlsxStream(ZipArchive zipData)
         {
             if (zipData.Entries.Any(e => e.FullName.StartsWith("word/")))
-                return WORDX;
-            else if (zipData.Entries.Any(e => e.FullName.StartsWith("xl/")))
-                return EXCELX;
-            else if (zipData.Entries.Any(e => e.FullName.StartsWith("ppt/")))
-                return PPTX;
-            else
-                return null;
-        }
+			{
+				return WORDX;
+			}
+			else if (zipData.Entries.Any(e => e.FullName.StartsWith("xl/")))
+			{
+				return EXCELX;
+			}
+			else if (zipData.Entries.Any(e => e.FullName.StartsWith("ppt/")))
+			{
+				return PPTX;
+			}
+			else
+			{
+				return null;
+			}
+		}
 
         /*
 		private static FileType CheckForDocxAndXlsx(FileType type, FileInfo fileInfo)
@@ -331,19 +351,27 @@ namespace Zeus.BaseLibrary.Mime
             var ooMimeType = zipFile.Entries.FirstOrDefault(e => e.FullName == "mimetype");
 
             if (ooMimeType == null)
-                return null;
+			{
+				return null;
+			}
 
-            using (var textReader = new StreamReader(ooMimeType.Open()))
+			using (var textReader = new StreamReader(ooMimeType.Open()))
             {
                 var mimeType = textReader.ReadToEnd();
 
                 if (mimeType == ODT.Mime)
-                    return ODT;
-                else if (mimeType == ODS.Mime)
-                    return ODS;
-                else
-                    return null;
-            }
+				{
+					return ODT;
+				}
+				else if (mimeType == ODS.Mime)
+				{
+					return ODS;
+				}
+				else
+				{
+					return null;
+				}
+			}
         }
 
         private static int GetFileMatchingCount(IReadOnlyList<byte> fileHeader, FileType type)
@@ -411,12 +439,16 @@ namespace Zeus.BaseLibrary.Mime
             try  // read stream
             {
                 if (!stream.CanRead)
-                    throw new System.IO.IOException("Could not read from Stream");
+				{
+					throw new System.IO.IOException("Could not read from Stream");
+				}
 
-                if (stream.Position > 0)
-                    stream.Seek(0, SeekOrigin.Begin);
+				if (stream.Position > 0)
+				{
+					stream.Seek(0, SeekOrigin.Begin);
+				}
 
-                stream.Read(header, 0, MaxHeaderSize);
+				stream.Read(header, 0, MaxHeaderSize);
             }
             catch (Exception e) // file could not be found/read
             {
@@ -429,9 +461,11 @@ namespace Zeus.BaseLibrary.Mime
         internal static IReadOnlyList<byte> ReadHeaderFromByteArray(byte[] byteArray, ushort MaxHeaderSize)
         {
             if (byteArray.Length < MaxHeaderSize)
-                throw new ArgumentException($"{nameof(byteArray)}:{byteArray} Is smaller than {nameof(MaxHeaderSize)}:{MaxHeaderSize}", nameof(byteArray));
+			{
+				throw new ArgumentException($"{nameof(byteArray)}:{byteArray} Is smaller than {nameof(MaxHeaderSize)}:{MaxHeaderSize}", nameof(byteArray));
+			}
 
-            var header = new byte[MaxHeaderSize];
+			var header = new byte[MaxHeaderSize];
 
             Array.Copy(byteArray, header, MaxHeaderSize);
 

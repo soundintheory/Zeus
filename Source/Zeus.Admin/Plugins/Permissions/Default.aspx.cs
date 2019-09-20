@@ -32,7 +32,10 @@ namespace Zeus.Admin.Plugins.Permissions
 			{
 				var addedRoles = ViewState["AddedRoles"] as IList<string>;
 				if (addedRoles == null)
+				{
 					ViewState["AddedRoles"] = addedRoles = new List<string>();
+				}
+
 				return addedRoles;
 			}
 		}
@@ -43,7 +46,10 @@ namespace Zeus.Admin.Plugins.Permissions
 			{
 				var addedUsers = ViewState["AddedUsers"] as IList<string>;
 				if (addedUsers == null)
+				{
 					ViewState["AddedUsers"] = addedUsers = new List<string>();
+				}
+
 				return addedUsers;
 			}
 		}
@@ -73,8 +79,13 @@ namespace Zeus.Admin.Plugins.Permissions
 			// Get all available operations.
 			var allowedOperations = new List<string>();
 			foreach (var operation in Engine.SecurityManager.GetAvailableOperations())
+			{
 				if (Engine.SecurityManager.IsAuthorized(SelectedItem, User, operation))
+				{
 					allowedOperations.Add(operation);
+				}
+			}
+
 			return allowedOperations;
 		}
 
@@ -92,7 +103,10 @@ namespace Zeus.Admin.Plugins.Permissions
 			headerRow.Cells.Add(new TableHeaderCell());
 			headerRow.Cells.Add(new TableHeaderCell());
 			foreach (var operation in allowedOperations)
+			{
 				headerRow.Cells.Add(new TableHeaderCell { Text = operation });
+			}
+
 			headerRow.Cells.Add(new TableHeaderCell());
 			tblPermissions.Rows.Add(headerRow);
 		}
@@ -100,13 +114,24 @@ namespace Zeus.Admin.Plugins.Permissions
 		private void CreateRows(IEnumerable<string> allowedOperations)
 		{
 			foreach (var role in Engine.SecurityManager.GetAuthorizedRoles(SelectedItem))
+			{
 				CreateRow(role, AuthorizationType.Role, allowedOperations);
+			}
+
 			foreach (var user in Engine.SecurityManager.GetAuthorizedUsers(SelectedItem))
+			{
 				CreateRow(user, AuthorizationType.User, allowedOperations);
+			}
+
 			foreach (var role in AddedRoles)
+			{
 				CreateRow(role, AuthorizationType.Role, allowedOperations);
+			}
+
 			foreach (var user in AddedUsers)
+			{
 				CreateRow(user, AuthorizationType.User, allowedOperations);
+			}
 		}
 
 		private void CreateRow(string roleOrUser, AuthorizationType type, IEnumerable<string> allowedOperations)
@@ -163,12 +188,16 @@ namespace Zeus.Admin.Plugins.Permissions
 		{
 			// Only apply the rules if the current user has permission to administer this item.
 			if (Engine.SecurityManager.IsAuthorized(item, User, Operations.Administer))
+			{
 				ApplyRules(item, allowedOperations);
+			}
 
 			// Apply recursively.
 			var children = item.GetChildren().ToArray();
 			foreach (var child in children)
+			{
 				ApplyRulesRecursive(child, allowedOperations);
+			}
 		}
 
 		private void ApplyRules(ContentItem item, IEnumerable<string> allowedOperations)
@@ -181,7 +210,9 @@ namespace Zeus.Admin.Plugins.Permissions
 			{
 				var row = tblPermissions.Rows[i];
 				if (!row.Visible)
+				{
 					continue;
+				}
 
 				// Get user or role for this row.
 				var roleOrUser = ((HiddenField) row.FindControl("hdn" + i + "RoleOrUser")).Value;

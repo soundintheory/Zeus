@@ -23,11 +23,13 @@ namespace Zeus.Plugin
 		public IEnumerable<IPluginDefinition> GetPluginDefinitions()
 		{
 			foreach (var type in _typeFinder.Find(typeof(IPluginInitializer)))
+			{
 				foreach (AutoInitializeAttribute plugin in type.GetCustomAttributes(typeof(AutoInitializeAttribute), true))
 				{
 					plugin.InitializerType = type;
 					yield return plugin;
 				}
+			}
 		}
 
 		/// <summary>Invokes the initialize method on the supplied plugins.</summary>
@@ -51,7 +53,9 @@ namespace Zeus.Plugin
 				message = string.Format(message, exceptions.Count);
 
 				foreach (var ex in exceptions)
+				{
 					message += Environment.NewLine + Environment.NewLine + "- " + ex.Message;
+				}
 
 				throw new PluginInitializationException(message, exceptions.ToArray());
 			}

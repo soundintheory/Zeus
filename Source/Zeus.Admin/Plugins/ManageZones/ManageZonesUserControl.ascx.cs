@@ -181,7 +181,9 @@ namespace Zeus.Admin.Plugins.ManageZones
 			Utility.MoveToIndex(siblings, contentItem, index);
 
 			foreach (var updatedItem in Utility.UpdateSortOrder(siblings))
+			{
 				Zeus.Context.Persister.Save(updatedItem);
+			}
 
 			Engine.Persister.Save(contentItem);
 		}

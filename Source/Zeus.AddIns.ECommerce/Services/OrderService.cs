@@ -74,7 +74,10 @@ namespace Zeus.AddIns.ECommerce.Services
                 TotalPrice = totalPrice
 			};
 			foreach (var orderItem in items)
+			{
 				orderItem.AddTo(order);
+			}
+
 			order.AddTo(configuration.Orders);
 			_persister.Save(order);
 
@@ -141,7 +144,9 @@ namespace Zeus.AddIns.ECommerce.Services
                     TotalPrice = totalPrice
 				};
 				foreach (var orderItem in items)
+				{
 					orderItem.AddTo(order);
+				}
 
 				order.AddTo(configuration.Orders);
 
@@ -182,8 +187,13 @@ namespace Zeus.AddIns.ECommerce.Services
                     VATable = !(shoppingBasketItem.Product.VatZeroRated)
 				};
 				if (shoppingBasketItem.Variations != null)
+				{
 					foreach (var variation in shoppingBasketItem.Variations)
+					{
 						orderItem.Variations.Add(variation.VariationSet.Title + ": " + variation.Title);
+					}
+				}
+
 				items.Add(orderItem);
 			}
 

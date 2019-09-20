@@ -81,9 +81,13 @@ namespace Zeus.BaseLibrary.Web
 				LoadFragment(url, hashIndex);
 				LoadQuery(url, queryIndex, hashIndex);
 				if (authorityIndex >= 0)
+				{
 					LoadBasedUrl(url, queryIndex, hashIndex, authorityIndex);
+				}
 				else
+				{
 					LoadSiteRelativeUrl(url, queryIndex, hashIndex);
+				}
 			}
 		}
 
@@ -107,9 +111,14 @@ namespace Zeus.BaseLibrary.Web
 				var index = Path.LastIndexOfAny(_dotsAndSlashes);
 
 				if (index < 0)
+				{
 					return null;
+				}
+
 				if (Path[index] == '/')
+				{
 					return null;
+				}
 
 				return Path.Substring(index);
 			}
@@ -167,13 +176,21 @@ namespace Zeus.BaseLibrary.Web
 			Scheme = null;
 			Authority = null;
 			if (queryIndex >= 0)
+			{
 				Path = url.Substring(0, queryIndex);
+			}
 			else if (hashIndex >= 0)
+			{
 				Path = url.Substring(0, hashIndex);
+			}
 			else if (url.Length > 0)
+			{
 				Path = url;
+			}
 			else
+			{
 				Path = "";
+			}
 		}
 
 		private void LoadBasedUrl(string url, int queryIndex, int hashIndex, int authorityIndex)
@@ -184,11 +201,17 @@ namespace Zeus.BaseLibrary.Web
 			{
 				Authority = url.Substring(authorityIndex + 3, slashIndex - authorityIndex - 3);
 				if (queryIndex >= slashIndex)
+				{
 					Path = url.Substring(slashIndex, queryIndex - slashIndex);
+				}
 				else if (hashIndex >= 0)
+				{
 					Path = url.Substring(slashIndex, hashIndex - slashIndex);
+				}
 				else
+				{
 					Path = url.Substring(slashIndex);
+				}
 			}
 			else
 			{
@@ -201,19 +224,29 @@ namespace Zeus.BaseLibrary.Web
 		private void LoadQuery(string url, int queryIndex, int hashIndex)
 		{
 			if (hashIndex >= 0 && queryIndex >= 0)
+			{
 				Querystring = EmptyToNull(url.Substring(queryIndex + 1, hashIndex - queryIndex - 1));
+			}
 			else if (queryIndex >= 0)
+			{
 				Querystring = EmptyToNull(url.Substring(queryIndex + 1));
+			}
 			else
+			{
 				Querystring = null;
+			}
 		}
 
 		private void LoadFragment(string url, int hashIndex)
 		{
 			if (hashIndex >= 0)
+			{
 				Fragment = EmptyToNull(url.Substring(hashIndex + 1));
+			}
 			else
+			{
 				Fragment = null;
+			}
 		}
 
 		private static string EmptyToNull(string text)
@@ -234,7 +267,9 @@ namespace Zeus.BaseLibrary.Web
 		public Url AppendQuery(string key, object value)
 		{
 			if (value == null)
+			{
 				return this;
+			}
 
 			return AppendQuery(key + "=" + value);
 		}
@@ -243,20 +278,29 @@ namespace Zeus.BaseLibrary.Web
 		{
 			var clone = new Url(this);
 			if (string.IsNullOrEmpty(Querystring))
+			{
 				clone.Querystring = keyValue;
+			}
 			else if (!string.IsNullOrEmpty(keyValue))
+			{
 				clone.Querystring += Amp + keyValue;
+			}
+
 			return clone;
 		}
 
 		public string SegmentAtIndex(int index)
 		{
 			if (string.IsNullOrEmpty(Path) || Path == "/" || index < 0)
+			{
 				return string.Empty;
+			}
 
 			var segments = PathWithoutExtension.Split(_slashes, StringSplitOptions.RemoveEmptyEntries);
 			if (index >= segments.Length)
+			{
 				return string.Empty;
+			}
 
 			return segments[index];
 		}
@@ -267,22 +311,31 @@ namespace Zeus.BaseLibrary.Web
 		public Url RemoveSegment(int index)
 		{
 			if (string.IsNullOrEmpty(Path) || Path == "/" || index < 0)
+			{
 				return this;
+			}
 
 			if (index == 0)
 			{
 				var slashIndex = Path.IndexOf('/', 1);
 				if (slashIndex < 0)
+				{
 					return new Url(Scheme, Authority, "/", Querystring, Fragment);
+				}
+
 				return new Url(Scheme, Authority, Path.Substring(slashIndex), Querystring, Fragment);
 			}
 
 			var segments = PathWithoutExtension.Split(_slashes, StringSplitOptions.RemoveEmptyEntries);
 			if (index >= segments.Length)
+			{
 				return this;
+			}
 
 			if (index == segments.Length - 1)
+			{
 				return RemoveTrailingSegment();
+			}
 
 			var newPath = "/" + string.Join("/", segments, 0, index) + "/" + string.Join("/", segments, index + 1, segments.Length - index - 1) + Extension;
 			return new Url(Scheme, Authority, newPath, Querystring, Fragment);
@@ -293,15 +346,22 @@ namespace Zeus.BaseLibrary.Web
 		public Url RemoveTrailingSegment(bool maintainExtension)
 		{
 			if (string.IsNullOrEmpty(Path) || Path == "/")
+			{
 				return this;
+			}
 
 			var newPath = "/";
 
 			var lastSlashIndex = Path.LastIndexOf('/');
 			if (lastSlashIndex == Path.Length - 1)
+			{
 				lastSlashIndex = Path.TrimEnd(_slashes).LastIndexOf('/');
+			}
+
 			if (lastSlashIndex > 0)
+			{
 				newPath = Path.Substring(0, lastSlashIndex) + (maintainExtension ? Extension : "");
+			}
 
 			return new Url(Scheme, Authority, newPath, Querystring, Fragment);
 		}
@@ -345,10 +405,16 @@ namespace Zeus.BaseLibrary.Web
 		public Url SetQueryParameter(string key, string value)
 		{
 			if (Querystring == null)
+			{
 				if (value != null)
+				{
 					return AppendQuery(key, value);
+				}
 				else
+				{
 					return this;
+				}
+			}
 
 			var clone = new Url(this);
 			var queries = Querystring.Split(_querySplitter, StringSplitOptions.RemoveEmptyEntries);
@@ -364,32 +430,50 @@ namespace Zeus.BaseLibrary.Web
 					}
 
 					if (queries.Length == 1)
+					{
 						clone.Querystring = null;
+					}
 					else if (Querystring.Length == 2)
+					{
 						clone.Querystring = queries[i == 0 ? 1 : 0];
+					}
 					else if (i == 0)
+					{
 						clone.Querystring = string.Join(Amp, queries, 1, queries.Length - 1);
+					}
 					else if (i == queries.Length - 1)
+					{
 						clone.Querystring = string.Join(Amp, queries, 0, queries.Length - 1);
+					}
 					else
+					{
 						clone.Querystring = string.Join(Amp, queries, 0, i) + Amp +
 						                    string.Join(Amp, queries, i + 1, queries.Length - i - 1);
+					}
+
 					return clone;
 				}
 			}
 			if (value != null)
+			{
 				return AppendQuery(key, value);
+			}
+
 			return this;
 		}
 
 		public Url SetQueryParameter(string keyValue)
 		{
 			if (Querystring == null)
+			{
 				return AppendQuery(keyValue);
+			}
 
 			var eqIndex = keyValue.IndexOf('=');
 			if (eqIndex >= 0)
+			{
 				return SetQueryParameter(keyValue.Substring(0, eqIndex), keyValue.Substring(eqIndex + 1));
+			}
 
 			return SetQueryParameter(keyValue, string.Empty);
 		}
@@ -402,7 +486,9 @@ namespace Zeus.BaseLibrary.Web
 		public Url AppendSegment(string segment)
 		{
 			if (string.IsNullOrEmpty(Path) || Path == "/")
+			{
 				return AppendSegment(segment, ".aspx");
+			}
 
 			return AppendSegment(segment, Extension);
 		}
@@ -411,21 +497,33 @@ namespace Zeus.BaseLibrary.Web
 		{
 			string newPath;
 			if (string.IsNullOrEmpty(Path) || Path == "/")
+			{
 				newPath = "/" + segment + extension;
+			}
 			else if (!string.IsNullOrEmpty(extension))
 			{
 				var extensionIndex = Path.LastIndexOf(extension);
 				if (extensionIndex >= 0)
+				{
 					newPath = Path.Insert(extensionIndex, "/" + segment);
+				}
 				else if (Path.EndsWith("/"))
+				{
 					newPath = Path + segment + extension;
+				}
 				else
+				{
 					newPath = Path + "/" + segment + extension;
+				}
 			}
 			else if (Path.EndsWith("/"))
+			{
 				newPath = Path + segment;
+			}
 			else
+			{
 				newPath = Path + "/" + segment;
+			}
 
 			return new Url(Scheme, Authority, newPath, Querystring, Fragment);
 		}
@@ -433,10 +531,14 @@ namespace Zeus.BaseLibrary.Web
 		public static Url Parse(string url)
 		{
 			if (url == null)
+			{
 				return null;
+			}
 
 			if (url.StartsWith("~"))
+			{
 				url = ToAbsolute(url);
+			}
 
 			return new Url(url);
 		}
@@ -469,20 +571,28 @@ namespace Zeus.BaseLibrary.Web
         public Url PrependSegment(string segment, bool ignoreExtension)
         {
             if (string.IsNullOrEmpty(Path) || Path == "/")
-                return PrependSegment(segment, DefaultExtension);
+			{
+				return PrependSegment(segment, DefaultExtension);
+			}
 
-            return PrependSegment(segment, ignoreExtension ? "" : Extension);
+			return PrependSegment(segment, ignoreExtension ? "" : Extension);
         }
 
 		public Url PrependSegment(string segment, string extension)
 		{
 			string newPath;
 			if (string.IsNullOrEmpty(Path) || Path == "/")
+			{
 				newPath = "/" + segment + extension;
+			}
 			else if (extension != Extension && !string.IsNullOrEmpty(extension))
+			{
 				newPath = "/" + segment + PathWithoutExtension + extension;
+			}
 			else
+			{
 				newPath = "/" + segment + Path + extension;
+			}
 
 			return new Url(Scheme, Authority, newPath, Querystring, Fragment);
 		}
@@ -495,9 +605,14 @@ namespace Zeus.BaseLibrary.Web
 			var index = path.LastIndexOfAny(_dotsAndSlashes);
 
 			if (index < 0)
+			{
 				return path;
+			}
+
 			if (path[index] == '/')
+			{
 				return path;
+			}
 
 			return path.Substring(0, index);
 		}
@@ -515,7 +630,10 @@ namespace Zeus.BaseLibrary.Web
 		public Url SetPath(string path)
 		{
 			if (path.StartsWith("~"))
+			{
 				path = ToAbsolute(path);
+			}
+
 			var queryIndex = QueryIndex(path);
 			return new Url(Scheme, Authority, queryIndex < 0 ? path : path.Substring(0, queryIndex), Querystring, Fragment);
 		}
@@ -524,7 +642,10 @@ namespace Zeus.BaseLibrary.Web
 		{
 			var u = new Url(this);
 			foreach (var key in queryString.AllKeys)
+			{
 				u = u.SetQueryParameter(key, queryString[key]);
+			}
+
 			return u;
 		}
 
@@ -532,7 +653,10 @@ namespace Zeus.BaseLibrary.Web
 		{
 			var u = new Url(this);
 			foreach (var pair in queryString)
+			{
 				u = u.SetQueryParameter(pair.Key, pair.Value);
+			}
+
 			return u;
 		}
 
@@ -542,16 +666,24 @@ namespace Zeus.BaseLibrary.Web
 		public static string ToRelative(string path)
 		{
 			if (!string.IsNullOrEmpty(path) && path.StartsWith(ApplicationPath, StringComparison.OrdinalIgnoreCase))
+			{
 				return "~/" + path.Substring(ApplicationPath.Length);
+			}
+
 			return path;
 		}
 
 		public static string ToAbsolute(string path)
 		{
 			if (!string.IsNullOrEmpty(path) && path[0] == '~' && path.Length > 1)
+			{
 				return ApplicationPath + path.Substring(2);
+			}
 			else if (path == "~")
+			{
 				return ApplicationPath;
+			}
+
 			return path;
 		}
 
@@ -559,13 +691,24 @@ namespace Zeus.BaseLibrary.Web
 		{
 			string url;
 			if (Authority != null)
+			{
 				url = Scheme + "://" + Authority + Path;
+			}
 			else
+			{
 				url = Path;
+			}
+
 			if (Querystring != null)
+			{
 				url += "?" + Querystring;
+			}
+
 			if (Fragment != null)
+			{
 				url += "#" + Fragment;
+			}
+
 			return url;
 		}
 
@@ -575,7 +718,9 @@ namespace Zeus.BaseLibrary.Web
 
 			var queryIndex = QueryIndex(url);
 			if (queryIndex >= 0)
+			{
 				url = url.Substring(0, queryIndex);
+			}
 
 			return url;
 		}
@@ -592,7 +737,10 @@ namespace Zeus.BaseLibrary.Web
 		{
 			var hashIndex = url.IndexOf('#');
 			if (hashIndex >= 0)
+			{
 				url = url.Substring(0, hashIndex);
+			}
+
 			return url;
 		}
 
@@ -600,7 +748,9 @@ namespace Zeus.BaseLibrary.Web
 		{
 			var queries = GetQueries();
 			if (queries.ContainsKey(key))
+			{
 				return queries[key];
+			}
 
 			return null;
 		}
@@ -614,7 +764,9 @@ namespace Zeus.BaseLibrary.Web
 		{
 			var dictionary = new Dictionary<string, string>();
 			if (Querystring == null)
+			{
 				return dictionary;
+			}
 
 			var queries = Querystring.Split(_querySplitter, StringSplitOptions.RemoveEmptyEntries);
 			for (var i = 0; i < queries.Length; i++)
@@ -622,7 +774,9 @@ namespace Zeus.BaseLibrary.Web
 				var q = queries[i];
 				var eqIndex = q.IndexOf("=");
 				if (eqIndex >= 0)
+				{
 					dictionary[q.Substring(0, eqIndex)] = q.Substring(eqIndex + 1);
+				}
 			}
 			return dictionary;
 		}
@@ -634,7 +788,10 @@ namespace Zeus.BaseLibrary.Web
 
 			var queryIndex = QueryIndex(url);
 			if (queryIndex >= 0)
+			{
 				return url.Substring(queryIndex + 1);
+			}
+
 			return string.Empty;
 		}
 
@@ -643,7 +800,10 @@ namespace Zeus.BaseLibrary.Web
 		public static implicit operator string(Url u)
 		{
 			if (u == null)
+			{
 				return null;
+			}
+
 			return u.ToString();
 		}
 

@@ -130,13 +130,23 @@ namespace Zeus.Design.Editors
 		public virtual bool IsAuthorized(IPrincipal user)
 		{
 			if (AuthorizedRoles == null)
+			{
 				return true;
+			}
+
 			if (user == null)
+			{
 				return false;
+			}
 
 			foreach (var role in AuthorizedRoles)
+			{
 				if (string.Equals(user.Identity.Name, role, StringComparison.OrdinalIgnoreCase) || user.IsInRole(role))
+				{
 					return true;
+				}
+			}
+
 			return false;
 		}
 
@@ -145,15 +155,27 @@ namespace Zeus.Design.Editors
 			var panel = AddPanel(container);
 			_label = AddLabel(panel);
 			if (!string.IsNullOrEmpty(EditorPrefixText))
+			{
 				panel.Controls.Add(new LiteralControl("<span class=\"prefix\">" + EditorPrefixText + "</span>"));
+			}
+
 			var editor = AddEditor(panel);
 			if (!string.IsNullOrEmpty(EditorPostfixText))
+			{
 				panel.Controls.Add(new LiteralControl("<span class=\"postfix\">" + EditorPostfixText + "</span>"));
+			}
+
 			if (_label != null && editor != null && !string.IsNullOrEmpty(editor.ID))
+			{
 				_label.AssociatedControlID = editor.ID;
+			}
+
 			AddValidators(panel, editor);
 			if (!string.IsNullOrEmpty(Description))
+			{
 				panel.Controls.Add(new LiteralControl("<br style=\"clear:both\" /><span class=\"description\">" + Description.Replace("\n", "<br />") + "</span><br style=\"clear:both\" />"));
+			}
+
 			return editor;
 		}
 
@@ -162,14 +184,24 @@ namespace Zeus.Design.Editors
 		protected virtual void AddValidators(Control panel, Control editor)
 		{
 			if (BaseValidator.GetValidationProperty(editor) == null)
+			{
 				return;
+			}
 
 			if (Required)
+			{
 				AddRequiredFieldValidator(panel, editor);
+			}
+
 			if (ValidateRegularExpression)
+			{
 				AddRegularExpressionValidator(panel, editor);
+			}
+
 			if (IsLocallyUnique)
+			{
 				AddLocallyUniqueValidator(panel, editor);
+			}
 		}
 
 		/// <summary>Adds the panel to the container. Creating this panel and adding labels and editors to it will help to avoid web controls from interfering with each other.</summary>
@@ -182,9 +214,14 @@ namespace Zeus.Design.Editors
 			detailContainer.Attributes["class"] = "editDetail";
 
 			if (container is Component)
+			{
 				((Component) container).ContentControls.Add(detailContainer);
+			}
 			else
+			{
 				container.Controls.Add(detailContainer);
+			}
+
 			return detailContainer;
 		}
 
@@ -284,7 +321,9 @@ namespace Zeus.Design.Editors
 				}
 
 				if (_label != null && globeTooltip != null)
+				{
 					_label.Text += " <img src=\"" + Utility.GetCooliteIconUrl(Icon.WorldLink) + "\" title=\"" + globeTooltip + "\" />";
+				}
 			}
 		}
 
@@ -300,13 +339,25 @@ namespace Zeus.Design.Editors
 		public int CompareTo(IEditor other)
 		{
 			if (SortOrder != other.SortOrder)
+			{
 				return SortOrder - other.SortOrder;
+			}
+
 			if (Title != null && other.Title != null)
+			{
 				return Title.CompareTo(other.Title);
+			}
+
 			if (Title != null)
+			{
 				return -1;
+			}
+
 			if (other.Title != null)
+			{
 				return 1;
+			}
+
 			return 0;
 		}
 
@@ -321,7 +372,10 @@ namespace Zeus.Design.Editors
 		{
 			var other = obj as IUniquelyNamed;
 			if (other == null)
+			{
 				return false;
+			}
+
 			return (Name == other.Name);
 		}
 

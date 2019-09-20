@@ -24,7 +24,9 @@ namespace Zeus.Templates.ContentTypes.ReferenceData
 			var tempIconName = "Flag" + alpha2.Substring(0, 1) + alpha2.Substring(1).ToLower();
 			Icon icon;
 			if (EnumHelper.TryParse(tempIconName, out icon))
+			{
 				FlagIcon = icon;
+			}
 		}
 
 		[TextBoxEditor("Name", 10, Required = true)]

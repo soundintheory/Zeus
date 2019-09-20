@@ -51,9 +51,13 @@ namespace Zeus.Globalization
 			{
 				var translation = Context.Current.LanguageManager.GetTranslation(context.Page, context.SelectedLanguage);
 				if (translation != null)
+				{
 					context.SelectedLanguage = translation.Language;
+				}
 				else
+				{
 					context.SelectedLanguage = _fallBackToMaster ? context.MasterLanguageBranch : null;
+				}
 			}
 		}
 
@@ -69,16 +73,22 @@ namespace Zeus.Globalization
 			{
 				var translation = Context.Current.LanguageManager.GetTranslation(context.Page, context.SelectedLanguage);
 				if (translation != null)
+				{
 					context.SelectedLanguage = translation.Language ?? Context.Current.LanguageManager.GetDefaultLanguage();
+				}
 				else
+				{
 					context.SelectedLanguage = _fallBackToMaster ? context.MasterLanguageBranch : null;
+				}
 			}
 		}
 
 		public virtual void SetInitializedLanguageBranch(LanguageSelectorContext args)
 		{
 			if (!_auto && !_fallBackToMaster)
+			{
 				args.SelectedLanguage = _languageBranch;
+			}
 		}
 	}
 }

@@ -19,7 +19,9 @@ namespace Zeus.Web.UI.WebControls
 			{
 				var dataItemType = typedGridViewControlBuilder.DataItemType;
 				if (dataItemType != null)
+				{
 					fakeType = new TypedTemplateFieldFakeType(dataItemType);
+				}
 			}
 			base.Init(parser, parentBuilder, fakeType, tagName, id, attribs);
 		}

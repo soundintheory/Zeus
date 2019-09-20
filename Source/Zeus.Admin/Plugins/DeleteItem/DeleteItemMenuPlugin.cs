@@ -28,7 +28,9 @@ namespace Zeus.Admin.Plugins.DeleteItem
 		public override bool IsEnabled(ContentItem contentItem)
 		{
 			if (Context.UrlParser.IsRootOrStartPage(contentItem))
+			{
 				return false;
+			}
 
 			return base.IsEnabled(contentItem);
 		}

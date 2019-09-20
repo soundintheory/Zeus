@@ -12,7 +12,9 @@ namespace Zeus.Web.Mvc.ActionFilters
 			{
 				// Only Import if we are viewing
 				if (filterContext.Result is ViewResultBase)
+				{
 					filterContext.Controller.ViewData.ModelState.Merge(modelState);
+				}
 			}
 
 			base.OnActionExecuted(filterContext);

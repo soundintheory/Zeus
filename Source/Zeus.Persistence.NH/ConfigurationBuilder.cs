@@ -32,9 +32,11 @@ namespace Zeus.Persistence.NH
 			_definitions = definitions;
 
 			if (databaseSectionConfig == null)
+			{
 				databaseSectionConfig = new DatabaseSection();
+			}
 
-            var configuration = MsSqlConfiguration.MsSql2008
+			var configuration = MsSqlConfiguration.MsSql2008
                 .ConnectionString(c => c.FromConnectionStringWithKey(databaseSectionConfig.ConnectionStringName));
 
 			var properties = configuration.ToProperties();
@@ -75,14 +77,17 @@ namespace Zeus.Persistence.NH
 		protected virtual void AddMapping(NHibernate.Cfg.Configuration cfg, string name)
 		{
 			if (!string.IsNullOrEmpty(name))
+			{
 				cfg.AddInputStream(GetType().Assembly.GetManifestResourceStream(name));
+			}
 		}
 
 		private IEnumerable<Type> EnumerateDefinedTypes()
 		{
 			var types = new List<Type>();
 			foreach (var definition in _definitions.GetContentTypes())
-					foreach (var t in EnumerateBaseTypes(definition.ItemType))
+			{
+				foreach (var t in EnumerateBaseTypes(definition.ItemType))
 					{
 						if (t.IsSubclassOf(typeof(ContentItem)) && !types.Contains(t))
 						{
@@ -90,6 +95,8 @@ namespace Zeus.Persistence.NH
 							types.Insert(index + 1, t);
 						}
 					}
+			}
+
 			return types;
 		}
 
@@ -101,7 +108,10 @@ namespace Zeus.Persistence.NH
 			if (t != null)
 			{
 				foreach (var baseType in EnumerateBaseTypes(t.BaseType))
+				{
 					yield return baseType;
+				}
+
 				yield return t;
 			}
 		}
@@ -115,7 +125,10 @@ namespace Zeus.Persistence.NH
 		{
 			var definition = _definitions[itemType];
 			if (definition != null)
+			{
 				return definition.Discriminator;
+			}
+
 			return itemType.Name;
 		}
 	}

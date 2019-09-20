@@ -14,12 +14,19 @@ namespace Zeus.BaseLibrary.Web.Routing
 				{
 					var route = base2 as Route;
 					if (route != null)
+					{
 						route.RouteHandler = new DebugRouteHandler();
+					}
+
 					if (route == DebugRoute.Singleton)
+					{
 						flag = true;
+					}
 				}
 				if (!flag)
+				{
 					routes.Add(DebugRoute.Singleton);
+				}
 			}
 		}
 	}

@@ -20,7 +20,10 @@ namespace Zeus.Collections
 		{
 			var children = currentItem.GetChildren();
 			if (Filter != null)
+			{
 				children = Filter(children);
+			}
+
 			return children;
 		}
 	}

@@ -29,7 +29,9 @@ namespace Zeus.Admin.Plugins.PageCaching
 		public override bool IsApplicable(ContentItem contentItem)
 		{
 			if (!contentItem.IsPage)
+			{
 				return false;
+			}
 
 			return base.IsApplicable(contentItem);
 		}

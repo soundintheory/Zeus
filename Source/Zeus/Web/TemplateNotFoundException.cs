@@ -16,6 +16,22 @@ namespace Zeus.Web
 			Item = item;
 		}
 
+		public TemplateNotFoundException(string message) : base(message)
+		{
+		}
+
+		public TemplateNotFoundException(string messageFormat, params object[] args) : base(messageFormat, args)
+		{
+		}
+
+		public TemplateNotFoundException(string message, Exception innerException) : base(message, innerException)
+		{
+		}
+
+		public TemplateNotFoundException() : base()
+		{
+		}
+
 		/// <summary>Gets the content item associated with this exception.</summary>
 		public ContentItem Item
 		{

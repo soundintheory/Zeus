@@ -17,20 +17,28 @@ namespace Zeus.BaseLibrary.DependencyInjection
 		public static void RegisterAllComponentsTransient<TService>(IKernel kernel, Assembly assembly, Func<Type, string> namingConvention)
 		{
 			foreach (var type in assembly.GetExportedTypes().Where(IsComponent<TService>))
+			{
 				kernel.Bind<TService>().To(type).InTransientScope().Named(namingConvention(type));
+			}
 		}
 
 		public static void RegisterAllComponents<TService>(IKernel kernel, Assembly assembly)
 		{
 			foreach (var type in assembly.GetExportedTypes().Where(IsComponent<TService>))
+			{
 				kernel.Bind<TService>().To(type);
+			}
 		}
 
 		public static void RegisterAllComponents<TService>(IKernel kernel, IEnumerable<string> filenames)
 		{
 			foreach (var assembly in FindAssembliesWithComponents<TService>(filenames).Select(name => Assembly.Load(name)))
+			{
 				foreach (var type in assembly.GetExportedTypes().Where(IsComponent<TService>))
+				{
 					kernel.Bind<TService>().To(type);
+				}
+			}
 		}
 
 		private static bool IsComponent<TService>(Type type)
@@ -58,7 +66,9 @@ namespace Zeus.BaseLibrary.DependencyInjection
 				}
 
 				if (assembly.HasComponents<TService>())
+				{
 					yield return assembly.GetName();
+				}
 			}
 
 			AppDomain.Unload(temporaryDomain);

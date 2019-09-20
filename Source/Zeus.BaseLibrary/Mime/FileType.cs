@@ -26,9 +26,11 @@ namespace Zeus.BaseLibrary.Mime
         {
             //header cannot be null, file type normal operation requires the data
             if (header == null)
-                throw new ArgumentNullException(nameof(header), "cannot be null file type needs file header data");
+			{
+				throw new ArgumentNullException(nameof(header), "cannot be null file type needs file header data");
+			}
 
-            Header = header;
+			Header = header;
             HeaderOffset = offset;
             Extension = extension;
             Mime = mime;
@@ -47,14 +49,18 @@ namespace Zeus.BaseLibrary.Mime
         public override bool Equals(object other)
         {
             if (!(other is FileType))
-                return false;
+			{
+				return false;
+			}
 
-            var otherType = (FileType)other;
+			var otherType = (FileType)other;
 
             if (this.Extension == otherType.Extension && this.Mime == otherType.Mime)
-                return true;
+			{
+				return true;
+			}
 
-            return base.Equals(other);
+			return base.Equals(other);
         }
 
         public override int GetHashCode()

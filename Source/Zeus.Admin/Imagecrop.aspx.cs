@@ -30,10 +30,12 @@ namespace Zeus.Admin
                 ImageToEdit = Zeus.Context.Persister.Get<CroppedImage>(id);
                 bFixedAspectRatio = ImageToEdit.FixedWidthValue > 0 && ImageToEdit.FixedHeightValue > 0;
                 if (bFixedAspectRatio)
-                    aspectRatio = (double)ImageToEdit.FixedWidthValue / (double)ImageToEdit.FixedHeightValue;
-                
-                //need to set the min and max sizes...this will stop people upscaling their images
-                var imageToEdit = Zeus.Context.Persister.Get<CroppedImage>(id);
+				{
+					aspectRatio = (double)ImageToEdit.FixedWidthValue / (double)ImageToEdit.FixedHeightValue;
+				}
+
+				//need to set the min and max sizes...this will stop people upscaling their images
+				var imageToEdit = Zeus.Context.Persister.Get<CroppedImage>(id);
 
                 var image = System.Drawing.Image.FromStream(new MemoryStream(imageToEdit.Data));
                 var ActualWidth = image.Width;

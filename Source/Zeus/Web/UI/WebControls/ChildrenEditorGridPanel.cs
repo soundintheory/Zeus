@@ -17,13 +17,17 @@ namespace Zeus.Web.UI.WebControls
 		private void OnInvokeAddItemButton(ChildrenEditorGridPanelItemAddedEventArgs e)
 		{
 			if (AddItemButtonClicked != null)
+			{
 				AddItemButtonClicked(this, e);
+			}
 		}
 
 		private void OnItemsRemoved(ChildrenEditorGridPanelItemsRemovedEventArgs args)
 		{
 			if (ItemsRemoved != null)
+			{
 				ItemsRemoved(this, args);
+			}
 		}
 
 		protected override void CreateChildControls()

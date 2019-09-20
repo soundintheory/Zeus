@@ -105,7 +105,9 @@ namespace Zeus.BaseLibrary.Drawing
 			set
 			{
 				if (x < 0 || y < 0 || x >= this.Width || y >= this.Height)
+				{
 					throw new ArgumentOutOfRangeException();
+				}
 
 				var b = (byte*) _bitmapData.Scan0 + (y * _bitmapData.Stride) + (x * _bitsPerPixel);
 
@@ -168,7 +170,10 @@ namespace Zeus.BaseLibrary.Drawing
 		public void Dispose()
 		{
 			if (_stream != null)
+			{
 				_stream.Close();
+			}
+
 			GC.SuppressFinalize(this);
 			Dispose(true);
 		}
@@ -177,7 +182,9 @@ namespace Zeus.BaseLibrary.Drawing
 		{
 			Unlock();
 			if (disposing)
+			{
 				_bitmap.Dispose();
+			}
 		}
 
 		#endregion
@@ -236,11 +243,14 @@ namespace Zeus.BaseLibrary.Drawing
 			var destination = new FastBitmap(value.Width, value.Height, PixelFormat.Format24bppRgb);
 			destination.Lock();
 			for (var y = 0; y < value.Height; y++)
+			{
 				for (var x = 0; x < value.Width; x++)
 				{
 					var b = (byte*) bitmapData.Scan0 + (y * bitmapData.Stride) + (x * bytesPerPixel);
 					destination[x, y] = value.Palette.Entries[*b];
 				}
+			}
+
 			destination.Unlock();
 
 			value.UnlockBits(bitmapData);

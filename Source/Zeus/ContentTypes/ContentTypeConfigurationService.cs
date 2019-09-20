@@ -28,16 +28,24 @@ namespace Zeus.ContentTypes
 		{
 			// For each registered content types, apply filters specified in <contentTypes> config section.
 			foreach (var contentType in _contentTypeManager.GetContentTypes())
+			{
 				if (!_configSection.Rules.IsContentTypeAllowed(contentType))
+				{
 					contentType.Enabled = false;
+				}
+			}
 
 			// Add configured zones to page content types.
 			foreach (ContentTypeSettingsElement settings in _configSection.Settings)
 			{
 				var contentTypes = (settings.AllSpecified) ? _contentTypeManager.GetContentTypes() : new[] { _contentTypeManager.GetContentType(settings.GetSystemType()) };
 				foreach (var contentType in contentTypes) //.Where(ct => ct.IsPage))
+				{
 					foreach (ContentTypeZone templateZone in settings.Zones)
+					{
 						contentType.AddAvailableZone(templateZone.Name, templateZone.Title);
+					}
+				}
 			}
 		}
 

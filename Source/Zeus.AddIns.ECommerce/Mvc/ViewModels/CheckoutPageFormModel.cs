@@ -44,7 +44,10 @@ namespace Zeus.AddIns.ECommerce.Mvc.ViewModels
 			get
 			{
 				if (CardExpiryMonth == null || CardExpiryYear == null)
+				{
 					return DateTime.MinValue;
+				}
+
 				return new DateTime(CardExpiryYear.Value, CardExpiryMonth.Value,
 					DateTime.DaysInMonth(CardExpiryYear.Value, CardExpiryMonth.Value));
 			}
@@ -58,7 +61,10 @@ namespace Zeus.AddIns.ECommerce.Mvc.ViewModels
 			get
 			{
 				if (CardStartMonth == null || CardStartYear == null)
+				{
 					return DateTime.MinValue;
+				}
+
 				return new DateTime(CardStartYear.Value, CardStartMonth.Value, 1);
 			}
 		}

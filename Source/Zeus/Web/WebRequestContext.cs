@@ -19,9 +19,13 @@ namespace Zeus.Web
 			{
 				RequestItems["CurrentTemplate"] = value;
 				if (value != null)
+				{
 					CurrentPage = value.CurrentItem as ContentItem;
+				}
 				else
+				{
 					CurrentPage = null;
+				}
 			}
 		}
 
@@ -45,7 +49,9 @@ namespace Zeus.Web
 			{
 				var value = RequestItems[key] as IClosable;
 				if (value != null)
+				{
 					value.Dispose();
+				}
 			}
 		}
 

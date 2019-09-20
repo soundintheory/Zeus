@@ -14,17 +14,25 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		/// <param name="expression">The expression to evaluate.</param>
 		public static object GetValue(this object item, string expression)
 		{
-			if (item == null) return null;
+			if (item == null)
+			{
+				return null;
+			}
 
 			var info = item.GetType().GetProperty(expression, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 			if (info != null)
+			{
 				return info.GetValue(item, new object[0]);
+			}
+
 			if (expression.IndexOf('.') > 0)
 			{
 				var dotIndex = expression.IndexOf('.');
 				var obj = GetValue(item, expression.Substring(0, dotIndex));
 				if (obj != null)
+				{
 					return GetValue(obj, expression.Substring(dotIndex + 1, expression.Length - dotIndex - 1));
+				}
 			}
 			return null;
 		}
@@ -32,9 +40,13 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		public static TResult GetValueOrDefault<T, TResult>(this T parentObject, Func<T, TResult> valueCallback, TResult defaultValue)
 		{
 			if (parentObject != null)
+			{
 				return valueCallback(parentObject);
+			}
 			else
+			{
 				return defaultValue;
+			}
 		}
 
 		public static void SetValue(this object parentObject, string hierarchicalPropertyName, object value, bool ignoreCase)
@@ -45,7 +57,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		public static void SetValue(this object parentObject, string hierarchicalPropertyName, object value, string separator, bool ignoreCase)
 		{
 			if (parentObject == null)
+			{
 				return;
+			}
 
 			// Get property.
 			var propertyNames = hierarchicalPropertyName.Split(new string[] { separator }, StringSplitOptions.RemoveEmptyEntries);
@@ -55,9 +69,14 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 			{
 				currentProperty = currentObject.GetType().GetProperty(propertyNames[i], propertySearchBindingFlags);
 				if (currentProperty == null)
+				{
 					throw new Exception(string.Format("Could not find property '{0}' on object of type '{1}'", propertyNames[i], currentObject.GetType().FullName));
+				}
+
 				if (i < propertyNames.Length - 1)
+				{
 					currentObject = currentProperty.GetValue(currentObject, null);
+				}
 			}
 			
 			// Convert property value if necessary.

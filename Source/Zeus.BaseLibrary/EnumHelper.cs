@@ -23,7 +23,9 @@ namespace Zeus.BaseLibrary
 				{
 					var attribute = memberInfo[0].GetCustomAttribute<DescriptionAttribute>(false, false);
 					if (attribute != null)
+					{
 						description = attribute.Description;
+					}
 				}
 
 				_cachedEnumDescriptions.Add(cacheKey, description);

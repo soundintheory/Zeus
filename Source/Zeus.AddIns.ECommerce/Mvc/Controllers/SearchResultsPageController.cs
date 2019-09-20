@@ -22,7 +22,9 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 		public ActionResult Index(string keywords, int? page, bool? viewAll)
 		{
 			if (keywords == null)
+			{
 				keywords = string.Empty;
+			}
 
 			var searchResults = Find.EnumerateAccessibleChildren(CurrentItem.Parent)
 				.OfType<Product>()

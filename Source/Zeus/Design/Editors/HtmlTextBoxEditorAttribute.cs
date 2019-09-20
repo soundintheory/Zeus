@@ -47,9 +47,15 @@ namespace Zeus.Design.Editors
 			};
 			tb.ID = Name;
 			if (Required)
+			{
 				tb.CssClass += " required";
+			}
+
 			if (ReadOnly)
+			{
 				tb.ReadOnly = true;
+			}
+
 			container.Controls.Add(tb);
 
 			return tb;

@@ -17,7 +17,9 @@ namespace Zeus.Web.Mvc
 
 			// we got something like addToCart.x
 			if (button == null)
+			{
 				throw new ZeusException("No image button found");
+			}
 
 			var buttonName = button.Substring(0, button.Length - 2);
 			return (Name == buttonName);

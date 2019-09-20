@@ -56,7 +56,9 @@ namespace Zeus.Web.Security
 		public void RedirectFromLoginPage(string userName, bool createPersistentCookie)
 		{
 			if (userName == null)
-				throw new ArgumentException("userName must be set", "userName");
+			{
+				throw new ArgumentException("userName must be set", nameof(userName));
+			}
 
 			var returnUrl = GetReturnUrl(true);
 			SetAuthCookie(userName, createPersistentCookie);
@@ -117,9 +119,15 @@ namespace Zeus.Web.Security
 		{
 			var str = _webContext.Request.QueryString["ReturnUrl"];
 			if ((!string.IsNullOrEmpty(str) && !str.Contains("/")) && str.Contains("%"))
+			{
 				str = HttpUtility.UrlDecode(str);
+			}
+
 			if (string.IsNullOrEmpty(str) && useDefaultIfAbsent)
+			{
 				return Config.DefaultUrl;
+			}
+
 			return str;
 		}
 
@@ -127,7 +135,10 @@ namespace Zeus.Web.Security
 		{
 			var str = string.Empty;
 			if (_webContext.Request.Browser["supportsEmptyStringInCookieValue"] == "false")
+			{
 				str = "NoCookie";
+			}
+
 			var cookie = new HttpCookie(Config.Name, str)
 			{
 				HttpOnly = true,
@@ -136,7 +147,10 @@ namespace Zeus.Web.Security
 				Secure = Config.RequireSsl
 			};
 			if (Config.CookieDomain != null)
+			{
 				cookie.Domain = Config.CookieDomain;
+			}
+
 			_webContext.Response.Cookies.Remove(Config.Name);
 			_webContext.Response.Cookies.Add(cookie);
 		}
@@ -159,7 +173,9 @@ namespace Zeus.Web.Security
 			string encryptedTicket = null;
 			var cookie = _webContext.Request.Cookies[Config.Name];
 			if (cookie != null)
+			{
 				encryptedTicket = cookie.Value;
+			}
 
 			if (!string.IsNullOrEmpty(encryptedTicket))
 			{
@@ -173,7 +189,9 @@ namespace Zeus.Web.Security
 				}
 
 				if (ticket != null && !ticket.Expired && (!Config.RequireSsl || _webContext.Request.IsSecureConnection))
+				{
 					return ticket;
+				}
 
 				_webContext.Request.Cookies.Remove(Config.Name);
 			}
@@ -184,7 +202,9 @@ namespace Zeus.Web.Security
 		private void CreateAuthCookie(string userName, bool createPersistentCookie)
 		{
 			if (userName == null)
+			{
 				userName = string.Empty;
+			}
 
 			var ticket = new FormsAuthenticationTicket(1, userName,
 				DateTime.Now, DateTime.Now.AddMinutes(Config.Timeout.TotalMinutes),
@@ -203,19 +223,28 @@ namespace Zeus.Web.Security
 		{
 			var cookieValue = Encrypt(ticket);
 			if (string.IsNullOrEmpty(cookieValue))
+			{
 				throw new HttpException(Resources.WebSecurityUnableToEncryptCookieTicket);
+			}
 
 			if (cookie == null)
+			{
 				cookie = new HttpCookie(Config.Name);
+			}
 
 			if (ticket.IsPersistent)
+			{
 				cookie.Expires = ticket.Expiration;
+			}
+
 			cookie.Path = ticket.CookiePath;
 			cookie.Value = cookieValue;
 			cookie.Secure = Config.RequireSsl;
 			cookie.HttpOnly = true;
 			if (Config.CookieDomain != null)
+			{
 				cookie.Domain = Config.CookieDomain;
+			}
 
 			_webContext.Response.Cookies.Remove(cookie.Name);
 			_webContext.Response.Cookies.Add(cookie);
@@ -224,13 +253,17 @@ namespace Zeus.Web.Security
 		public FormsAuthenticationTicket RenewTicketIfOld(FormsAuthenticationTicket old)
 		{
 			if (old == null)
+			{
 				return null;
+			}
 
 			var now = DateTime.Now;
 			var span = now - old.IssueDate;
 			var span2 = old.Expiration - now;
 			if (span2 > span)
+			{
 				return old;
+			}
 
 			return new FormsAuthenticationTicket(old.Version, old.Name, now, now + (old.Expiration - old.IssueDate), old.IsPersistent, old.UserData, old.CookiePath);
 		}
@@ -238,7 +271,9 @@ namespace Zeus.Web.Security
 		public void SetAuthCookie(string userName, bool createPersistentCookie)
 		{
 			if (!_webContext.Request.IsSecureConnection && Config.RequireSsl)
+			{
 				throw new HttpException(Resources.WebSecurityConnectionNotSecureCreatingSecureCookie);
+			}
 
 			CreateAuthCookie(userName, createPersistentCookie);
 		}
