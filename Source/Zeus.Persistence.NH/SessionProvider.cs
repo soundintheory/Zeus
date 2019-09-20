@@ -32,7 +32,7 @@ namespace Zeus.Persistence.NH
 				SessionContext sc = CurrentSession;
 				if (sc == null)
 				{
-					ISession s = _sessionFactory.OpenSession(_interceptor);
+					ISession s = _sessionFactory.WithOptions().Interceptor(_interceptor).OpenSession(); // _sessionFactory.OpenSession(_interceptor);
 					s.FlushMode = FlushMode.Commit;
 					CurrentSession = sc = new SessionContext(this, s);
 				}
@@ -47,6 +47,7 @@ namespace Zeus.Persistence.NH
 			if (sc != null)
 			{
 				sc.Session.Dispose();
+				_sessionFactory.Dispose();
 				CurrentSession = null;
 			}
 		}

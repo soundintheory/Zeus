@@ -23,12 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{2609146F-D8B6-43C5-8AAD-CAF08CE85B18}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A7A33508-F0F0-46FC-882D-150BB333BC0C}"
-	ProjectSection(SolutionItems) = preProject
-		..\Build\Template.wxs = ..\Build\Template.wxs
-		..\Build\ZeusTeamCityBuild.msbuild = ..\Build\ZeusTeamCityBuild.msbuild
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{B197282F-CBBE-454C-842C-F6AA857FCBBB}"
 	ProjectSection(SolutionItems) = preProject
 		changelog.txt = changelog.txt
