@@ -29,7 +29,6 @@ namespace Zeus.Web
         public UrlParser(IPersister persister, IHost host, IWebContext webContext, IItemNotifier notifier, HostSection config, ILanguageManager languageManager, CustomUrlsSection urls)
             : this(persister, host, webContext, notifier, config, languageManager, urls, null)
         {
-
         }
 
         public UrlParser(IPersister persister, IHost host, IWebContext webContext, IItemNotifier notifier, HostSection config, ILanguageManager languageManager, CustomUrlsSection urls, GlobalizationSection globalizationConfig)
@@ -401,7 +400,7 @@ namespace Zeus.Web
                         {
                             if (stringToFind.IsRegex)
                             {
-                                if (Regex.IsMatch(_webContext.Url.Path, stringToFind.Value))                                        
+                                if (Regex.IsMatch(_webContext.Url.Path, stringToFind.Value))
                                 {
                                     bTryCustomUrls = true;
                                     break;
@@ -421,7 +420,6 @@ namespace Zeus.Web
 
                 if (data.IsEmpty() && requestedUrl.Path.IndexOf(".") == -1 && bTryCustomUrls)
                 {
-
                     var lastRun = Convert.ToDateTime(System.Web.HttpContext.Current.Cache["customUrlCacheInitialLoopLastRun"]);
                     var lastComplete = System.Web.HttpContext.Current.Cache["customUrlCacheInitialLoopComplete"] == null ? DateTime.MinValue : Convert.ToDateTime(System.Web.HttpContext.Current.Cache["customUrlCacheInitialLoopLastRun"]);
 
@@ -480,7 +478,6 @@ namespace Zeus.Web
                                     return data;
                                 }
                             }
-
                         }
 
                         // Check for Custom Urls (could be done in a service that subscribes to the IUrlParser.PageNotFound event)...
@@ -515,7 +512,6 @@ namespace Zeus.Web
                                 //now need to check for an action...
                                 if (fullPath.LastIndexOf("/") > -1)
                                 {
-
                                     //see whether we have the root item in the cache...
                                     if (System.Web.HttpContext.Current.Cache["customUrlCache_" + pathNoAction] == null)
                                     {
@@ -542,7 +538,7 @@ namespace Zeus.Web
                                 }
                             }
                             else
-                            { 
+                            {
                                 //ignore, if parent hasn't been updated, no new URLs to search
                             }
                         }
@@ -588,7 +584,7 @@ namespace Zeus.Web
             }
 
             data.IsRewritable = IsRewritable(_webContext.PhysicalPath);
-             
+
             return data;
         }
 
