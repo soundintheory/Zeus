@@ -12,7 +12,7 @@ namespace Zeus.FileSystem.Images
 {
     [ContentType("Hidden User Cropped Image")]
     [AdminSiteTreeVisibility(AdminSiteTreeVisibility.Hidden)]
-    [ContentTypeAuthorizedRoles("Administrators")]    
+    [ContentTypeAuthorizedRoles("Administrators")]
     public class HiddenCroppedImage : CroppedImage
     {
         public override string arg1

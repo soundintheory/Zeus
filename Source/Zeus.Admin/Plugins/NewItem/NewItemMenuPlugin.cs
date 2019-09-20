@@ -51,7 +51,7 @@ namespace Zeus.Admin.Plugins.NewItem
 			// Check that this content item has allowed children
 			var contentTypeManager = Context.ContentTypes;
 			var contentType = contentTypeManager.GetContentType(contentItem.GetType());
-			if (!contentTypeManager.GetAllowedChildren(contentType, null, Context.Current.WebContext.User).Any())
+			if (contentTypeManager.GetAllowedChildren(contentType, null, Context.Current.WebContext.User).Count == 0)
 			{
 				return false;
 			}
@@ -83,7 +83,7 @@ namespace Zeus.Admin.Plugins.NewItem
 			var manager = Context.Current.Resolve<IContentTypeManager>();
 			var childTypes = manager.GetAllowedChildren(manager.GetContentType(contentItem.GetType()), null, Context.Current.WebContext.User);
 
-            if (childTypes.Any())
+            if (childTypes.Count > 0)
 			{
 				var childMenu = new Menu();
 				menuItem.Menu.Add(childMenu);

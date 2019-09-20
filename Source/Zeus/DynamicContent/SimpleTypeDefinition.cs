@@ -33,7 +33,7 @@ namespace Zeus.DynamicContent
 			get { return _objectToWrap.GetType(); }
 		}
 
-		public IEditorContainer RootContainer { get; private set; }
+		public IEditorContainer RootContainer { get; }
 
 		public IEnumerable<IDisplayer> Displayers
 		{

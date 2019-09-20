@@ -6,6 +6,5 @@ namespace Zeus.Tests.Integrity.ContentTypes
 	[AllowedChildren(typeof(StartPage))]
 	public class Root : ContentItem
 	{
-
 	}
 }

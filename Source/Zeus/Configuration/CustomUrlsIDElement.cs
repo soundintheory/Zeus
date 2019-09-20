@@ -16,7 +16,6 @@ namespace Zeus.Configuration
             {
 							this["id"] = value;
             }
-
         }
 
         [ConfigurationProperty("depth", IsRequired = true)]
@@ -30,7 +29,6 @@ namespace Zeus.Configuration
             {
                 this["depth"] = value;
             }
-
         }
 	}
 }

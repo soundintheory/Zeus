@@ -19,7 +19,7 @@ namespace Coolite.Ext.UX
 			var items = value as ListItemCollection<ListItem>;
 
 			var sb = new StringBuilder("new Ext.data.SimpleStore({fields:[\"text\",\"value\",\"" + _iconUrlField + "\"],data :[");
-			if (items != null && items.Count > 0)
+			if (items?.Count > 0)
 			{
 				foreach (IconComboListItem item in items)
 				{

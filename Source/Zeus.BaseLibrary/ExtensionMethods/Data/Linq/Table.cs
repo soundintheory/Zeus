@@ -257,7 +257,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Data.Linq
 			ValidateExpression(table, selectExpression);
 
 			// Convert the selectExpression into an IQueryable query so that I can get the CommandText
-			var selectQuery = (table as IQueryable).Provider.CreateQuery(selectExpression);
+			var selectQuery = (table as IQueryable)?.Provider.CreateQuery(selectExpression);
 
 			// Get the DbCommand so I can grab relavent parts of CommandText to construct a field 
 			// assignment and based on the 'current TEntity row'.  Additionally need to massage parameter 

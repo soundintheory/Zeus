@@ -15,16 +15,13 @@ namespace Zeus.Web
 	/// </summary>
 	public class ThreadContext : IWebContext, IDisposable
 	{
-		private static string baseDirectory;
+		private static readonly string baseDirectory;
 
 		[ThreadStatic]
-		PathData currentPath;
+		private PathData currentPath;
+
 		[ThreadStatic]
 		private static IDictionary items;
-		[ThreadStatic]
-		private Url localUrl = new Url("/");
-		[ThreadStatic]
-		private Url hostUrl = new Url("http://localhost");
 
 		static ThreadContext()
 		{
@@ -85,26 +82,17 @@ namespace Zeus.Web
 
 			foreach (var key in keys)
 			{
-				var value = RequestItems[key] as IClosable;
-				if (value != null)
+				if (RequestItems[key] is IClosable value)
 				{
-					(value as IClosable).Dispose();
+					value?.Dispose();
 				}
 			}
 			items = null;
 		}
 
-		public virtual Url LocalUrl
-		{
-			get { return localUrl; }
-			set { localUrl = value; }
-		}
+		public virtual Url LocalUrl { get; set; } = new Url("/");
 
-		public virtual Url HostUrl
-		{
-			get { return hostUrl; }
-			set { hostUrl = value; }
-		}
+		public virtual Url HostUrl { get; set; } = new Url("http://localhost");
 
 		public Url Url
 		{

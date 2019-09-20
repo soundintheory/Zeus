@@ -59,7 +59,7 @@ namespace Zeus.Templates.Services
 
 	public class UserRegisteredEventArgs : EventArgs
 	{
-		public User User { get; private set; }
+		public User User { get; }
 		public object RegistrationForm { get; set; }
 
 		public UserRegisteredEventArgs(User user, object registrationForm)

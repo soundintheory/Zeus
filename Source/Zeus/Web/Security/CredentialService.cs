@@ -107,7 +107,7 @@ namespace Zeus.Web.Security
 		{
 			// Get user from store.
 			var user = _store.GetUser(FormatUsername(username));
-			return (user != null && user.Password == EncryptPassword(password) && user.Verified);
+			return user != null && user.Password == EncryptPassword(password) && user.Verified;
 		}
 
 		private static string FormatUsername(string username)
@@ -255,8 +255,7 @@ namespace Zeus.Web.Security
 
 		public PasswordResetResult ResetPassword(string nonce, string newPassword)
 		{
-			PasswordResetRequest resetRequest;
-			if (CheckPasswordResetRequestValidity(nonce, out resetRequest) != PasswordResetRequestValidity.Valid)
+			if (CheckPasswordResetRequestValidity(nonce, out var resetRequest) != PasswordResetRequestValidity.Valid)
 			{
 				return PasswordResetResult.Failed;
 			}
@@ -268,7 +267,6 @@ namespace Zeus.Web.Security
 			_persister.Save(resetRequest);
 
 			return PasswordResetResult.Succeeded;
-
 		}
 	}
 }

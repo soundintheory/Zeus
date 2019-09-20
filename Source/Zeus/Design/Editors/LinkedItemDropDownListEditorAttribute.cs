@@ -56,7 +56,7 @@ namespace Zeus.Design.Editors
             var ddl = (ListControl)editor;
             var one = GetValue(ddl);
             var two = GetValue(item);
-            
+
             if (one == null && two.ToString() == string.Empty)
             {//do nothing - this means the same as them being equal
             }

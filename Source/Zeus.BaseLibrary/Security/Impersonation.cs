@@ -11,7 +11,7 @@ namespace Zeus.BaseLibrary.Security
 
 		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]
 		private static extern bool CloseHandle(IntPtr handle);
- 
+
 		public static WindowsIdentity CreateIdentity(string user, string domain, string password)
 		{
 			var phToken = IntPtr.Zero;

@@ -37,12 +37,8 @@ namespace Zeus.Web.Mvc
 		{
 			get
 			{
-				if (_currentItem == null)
-				{
-					_currentItem = ControllerContext.RouteData.Values[ContentRoute.ContentItemKey] as T
-												 ?? GetCurrentItemById();
-				}
-				return _currentItem;
+				return _currentItem ?? (_currentItem = ControllerContext.RouteData.Values[ContentRoute.ContentItemKey] as T
+												 ?? GetCurrentItemById());
 			}
 			set { _currentItem = value; }
 		}
@@ -52,7 +48,7 @@ namespace Zeus.Web.Mvc
 			get
 			{
 				ContentItem page = CurrentItem;
-				while (page != null && !page.IsPage)
+				while (page?.IsPage == false)
 				{
 					page = page.Parent;
 				}
@@ -110,7 +106,7 @@ namespace Zeus.Web.Mvc
 		/// <returns></returns>
 		protected virtual ViewPageResult ViewParentPage()
 		{
-			if (CurrentItem != null && CurrentItem.IsPage)
+			if (CurrentItem?.IsPage == true)
 			{
 				throw new InvalidOperationException(
 					"The current page is already being rendered. ViewPage should only be used from content items to render their parent page.");

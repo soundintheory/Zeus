@@ -29,7 +29,7 @@ namespace Zeus.Web.Caching
 				return;
 			}
 
-			if (_currentItem != null && _currentItem.GetPageCachingEnabled())
+			if (_currentItem?.GetPageCachingEnabled() == true)
 			{
 				_originalOutputStream = filterContext.HttpContext.Response.Filter;
 				var response = filterContext.HttpContext.Response;
@@ -58,8 +58,8 @@ namespace Zeus.Web.Caching
 		/// </summary>
 		private class CapturingResponseFilter : Stream
 		{
-			private Stream _sink;
-			private MemoryStream mem;
+			private readonly Stream _sink;
+			private readonly MemoryStream mem;
 
 			public CapturingResponseFilter(Stream sink)
 			{

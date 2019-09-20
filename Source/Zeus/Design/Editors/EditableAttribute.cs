@@ -144,7 +144,7 @@ namespace Zeus.Design.Editors
 				                        editor.GetType());
 			}
 
-			if (value != null && !value.GetType().IsAssignableFrom(pi.PropertyType))
+			if (value?.GetType().IsAssignableFrom(pi.PropertyType) == false)
 			{
 				value = Utility.Convert(value, pi.PropertyType);
 			}

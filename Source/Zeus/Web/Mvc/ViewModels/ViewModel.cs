@@ -65,7 +65,7 @@ namespace Zeus.Web.Mvc.ViewModels
                 }
 
                 var SessionVal = System.Web.HttpContext.Current.Cache["zeusChange_" + ActionForCache + "_" + currentItem.CacheID];
-                
+
                 //check itself
                 var itemChanged = false;
                 if (CurrentItem.CheckItselfForCaching)
@@ -77,7 +77,7 @@ namespace Zeus.Web.Mvc.ViewModels
                 {
                     _allDataSignal.FireChanged();
                     ChangeSignalFired = true;
-                    
+
                     if (itemChanged)
 					{
 						System.Web.HttpContext.Current.Cache["zeusChange_" + ActionForCache + "_" + currentItem.CacheID] = currentItem.Updated;
@@ -122,20 +122,20 @@ namespace Zeus.Web.Mvc.ViewModels
             {
                 //no model, so fire changes (essentially denying the page caching)
                 res = new CacheSignal();
-                res.FireChanged();                
+                res.FireChanged();
             }
             else
             {
                 //set up the signal for this object
                 res = new CacheSignal();
-                
+
                 //check itself
                 var SessionVal = System.Web.HttpContext.Current.Cache["zeusChange_" + ActionForCache + "_" + item.CacheID];
                 var itemChanged = (SessionVal == null) || (SessionVal != null && (System.DateTime)SessionVal != item.Updated);
                 if (itemChanged)
                 {
                     res.FireChanged();
-                    
+
                     if (itemChanged)
 					{
 						System.Web.HttpContext.Current.Cache["zeusChange_" + ActionForCache + "_" + item.CacheID] = item.Updated;

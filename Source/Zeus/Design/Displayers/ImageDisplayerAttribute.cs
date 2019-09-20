@@ -33,7 +33,6 @@ namespace Zeus.Design.Displayers
 
 		public override void InstantiateIn(Control container)
 		{
-			
 		}
 
 		public override void SetValue(Control container, ContentItem item, string propertyName)

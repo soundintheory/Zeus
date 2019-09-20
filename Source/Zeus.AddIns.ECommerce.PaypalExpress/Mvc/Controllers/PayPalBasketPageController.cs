@@ -38,7 +38,6 @@ namespace Zeus.AddIns.ECommerce.PaypalExpress.Mvc.Controllers
                                                             );
             if (ret)
             {
-                
                 System.Web.HttpContext.Current.Session["token"] = token;
                 System.Web.HttpContext.Current.Session["payment_amt"] = CurrentItem.BasketTotal;
                 //this kicks it to the correct PayPal page in order to take the payment
@@ -128,7 +127,7 @@ namespace Zeus.AddIns.ECommerce.PaypalExpress.Mvc.Controllers
             return View(basketPageViewModel);
              */
         }
-        
+
         [HttpGet]
         public virtual ActionResult PayPalConfirmation(string token, string PayerID)
         {
@@ -151,7 +150,7 @@ namespace Zeus.AddIns.ECommerce.PaypalExpress.Mvc.Controllers
                 //at this point check to see if an appropriate country has been used...
                 var basketPageViewModel = GetViewModel(CurrentItem);
                 basketPageViewModel.ShippingAddress = shippingAddress;
-                
+
                 if (CurrentItem.ForceCountryMatch && !CurrentItem.PossibleCountries.Contains(shippingAddress.Country))
                 {
                     //throw the error...

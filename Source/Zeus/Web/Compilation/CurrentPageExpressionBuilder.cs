@@ -30,5 +30,5 @@ namespace Zeus.Web.Compilation
 		{
 			get { return @"Zeus.Web.Compilation.CurrentPageExpressionBuilder.GetCurrentPageValue(""{0}"")"; }
 		}
-	} 
+	}
 }

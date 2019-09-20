@@ -32,7 +32,7 @@ namespace Zeus.Web.Mvc.Html
 
 		protected IContentItemContainer Container { get; }
 
-		protected ContentItem CurrentItem { get; private set; }
+		protected ContentItem CurrentItem { get; }
 
 		/// <summary>The content adapter related to the current page item.</summary>
 		protected virtual PartsAdapter PartsAdapter

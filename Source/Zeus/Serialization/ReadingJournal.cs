@@ -5,7 +5,6 @@ namespace Zeus.Serialization
 {
 	public class ReadingJournal : IImportRecord
 	{
-		readonly IList<Exception> errors = new List<Exception>();
 		public event EventHandler<ItemEventArgs> ItemAdded;
 
 		public IList<ContentItem> ReadItems { get; } = new List<ContentItem>();
@@ -36,18 +35,12 @@ namespace Zeus.Serialization
 			}
 		}
 
-		public IList<Exception> Errors
-		{
-			get { return errors; }
-		}
+		public IList<Exception> Errors { get; } = new List<Exception>();
 
 		public void Report(ContentItem item)
 		{
 			ReadItems.Add(item);
-			if (ItemAdded != null)
-			{
-				ItemAdded.Invoke(this, new ItemEventArgs(item));
-			}
+			ItemAdded?.Invoke(this, new ItemEventArgs(item));
 		}
 
 		public ContentItem Find(int itemiD)

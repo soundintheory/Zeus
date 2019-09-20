@@ -28,7 +28,7 @@ namespace Zeus.Web.UI.WebControls
 		{
 			this.Controls.Clear();
 			var page = this.Page;
-			if (((page != null) && !page.IsPostBack) && !base.DesignMode)
+			if ((page?.IsPostBack == false) && !base.DesignMode)
 			{
 				this._templateIndex = this.GetTemplateIndex();
 			}
@@ -78,7 +78,7 @@ namespace Zeus.Web.UI.WebControls
 
 		private int GetTemplateIndex()
 		{
-			if ((base.DesignMode || (this.Page == null)) || !this.Page.Request.IsAuthenticated)
+			if (base.DesignMode || (this.Page?.Request.IsAuthenticated != true))
 			{
 				return 0;
 			}
@@ -90,7 +90,7 @@ namespace Zeus.Web.UI.WebControls
 			}
 			if (matchingRoleGroupInternal >= 0)
 			{
-				return (matchingRoleGroupInternal + 2);
+				return matchingRoleGroupInternal + 2;
 			}
 			return 1;
 		}
@@ -114,10 +114,7 @@ namespace Zeus.Web.UI.WebControls
 		protected override void OnInit(EventArgs e)
 		{
 			base.OnInit(e);
-			if (this.Page != null)
-			{
-				this.Page.RegisterRequiresControlState(this);
-			}
+			this.Page?.RegisterRequiresControlState(this);
 		}
 
 		protected override void OnPreRender(EventArgs e)
@@ -205,11 +202,7 @@ namespace Zeus.Web.UI.WebControls
 		{
 			get
 			{
-				if (this._roleGroups == null)
-				{
-					this._roleGroups = new RoleGroupCollection();
-				}
-				return this._roleGroups;
+				return this._roleGroups ?? (this._roleGroups = new RoleGroupCollection());
 			}
 		}
 

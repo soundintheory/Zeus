@@ -18,7 +18,7 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageSettings
 
 			if (!IsPostBack)
 			{
-				chkInheritSettings.Checked = !SelectedItem.LanguageSettings.Any();
+				chkInheritSettings.Checked = SelectedItem.LanguageSettings.Count == 0;
 				chkInheritSettings.Visible = (SelectedItem.Parent != null);
 				if (SelectedItem.Parent != null)
 				{

@@ -16,14 +16,12 @@ namespace Zeus.Integrity
 		public ContentItem SourceItem
 		{
 			get;
-			private set;
 		}
 
 		/// <summary>Gets the parent item already containing an item with the same name.</summary>
 		public ContentItem DestinationItem
 		{
 			get;
-			private set;
 		}
 	}
 }

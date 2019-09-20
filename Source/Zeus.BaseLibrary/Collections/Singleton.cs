@@ -14,6 +14,6 @@ namespace Zeus.BaseLibrary.Collections
 		}
 
 		/// <summary>Dictionary of type to singleton instances.</summary>
-		public static IDictionary<Type, object> AllSingletons { get; private set; }
+		public static IDictionary<Type, object> AllSingletons { get; }
 	}
 }

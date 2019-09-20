@@ -99,7 +99,7 @@ namespace Zeus.Persistence
 		/// <returns>An enumeration of all children of an item.</returns>
 		public static IEnumerable<ContentItem> EnumerateAccessibleChildren(ContentItem item)
 		{
-            var depth = 200;
+			const int depth = 200;
 			if (item.VersionOf != null)
 			{
 				item = item.VersionOf;
@@ -129,7 +129,7 @@ namespace Zeus.Persistence
             {
                 yield return child;
                 if (depth > 1)
-                {                    
+				{
                     foreach (var childItem in EnumerateAccessibleChildren(child, depth - 1))
 					{
 						yield return childItem;

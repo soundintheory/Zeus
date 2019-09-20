@@ -65,7 +65,6 @@ namespace Zeus.Web.UI.WebControls
 
 		protected virtual void OnCurrentItemChanged(EventArgs eventArgs)
 		{
-			
 		}
 
 		public ITypeDefinition CurrentItemDefinition

@@ -78,7 +78,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 					currentObject = currentProperty.GetValue(currentObject, null);
 				}
 			}
-			
+
 			// Convert property value if necessary.
 			if (value != null && value.GetType() != currentProperty.PropertyType)
 			{

@@ -67,7 +67,7 @@ namespace Zeus.Web.UI.WebControls
 
 		internal string UserName
 		{
-			get { return (Page != null && Page.User != null && Page.User.Identity != null) ? Page.User.Identity.Name : null; }
+			get { return (Page != null && Page.User?.Identity != null) ? Page.User.Identity.Name : null; }
 		}
 	}
 }

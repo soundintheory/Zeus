@@ -20,7 +20,7 @@ namespace Zeus.FileSystem.Images
 		{
 			base.Visible = false;
 		}
-		
+
 		[ImageUploadEditor("Image", 100)]
 		public override byte[] Data
 		{

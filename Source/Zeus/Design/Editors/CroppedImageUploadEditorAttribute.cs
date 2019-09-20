@@ -20,17 +20,15 @@ namespace Zeus.Design.Editors
         public CroppedImageUploadEditorAttribute(string title, int sortOrder)
 			: base(title, sortOrder)
 		{
-
 		}
 
 		protected override FancyFileUpload CreateEditor()
-		{            
+		{
 			var uploader = new FancyImageUpload { MinimumWidth = MinimumWidth, MinimumHeight = MinimumHeight };
             //add crop tool if item is already saved
-            
+
             //CroppedImage image = (CroppedImage)this.UnderlyingProperty.GetValue(;
             return uploader;
-            
 		}
 
         protected override void UpdateEditorInternal(IEditableObject item, Control editor)
@@ -59,8 +57,5 @@ namespace Zeus.Design.Editors
                 //}
             }
         }
-
-
-        
 	}
 }

@@ -34,7 +34,7 @@ namespace Zeus.Templates.Services
 
 		public void Initialize()
 		{
-			if (_templatesConfig.Seo == null || !_templatesConfig.Seo.Enabled)
+			if (_templatesConfig.Seo?.Enabled != true)
 			{
 				return;
 			}
@@ -64,10 +64,7 @@ namespace Zeus.Templates.Services
                     };
 
                     contentType.Add(seoTab);
-
-
                 }
-
 			}
 		}
 

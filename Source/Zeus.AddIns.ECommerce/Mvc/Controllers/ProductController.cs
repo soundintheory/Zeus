@@ -12,7 +12,6 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 		public ProductController(IShoppingBasketService shoppingBasketService)
 			: base(shoppingBasketService)
 		{
-			
 		}
 
 		public override ActionResult Index()

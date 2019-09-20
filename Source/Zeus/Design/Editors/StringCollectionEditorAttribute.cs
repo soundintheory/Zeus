@@ -10,7 +10,6 @@ namespace Zeus.Design.Editors
 		public StringCollectionEditorAttribute(string title, int sortOrder)
 			: base(title, sortOrder)
 		{
-			
 		}
 
 		protected override BaseDetailCollectionEditor CreateEditor()

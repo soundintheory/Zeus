@@ -16,7 +16,6 @@ namespace Zeus.Configuration
             {
                 this["action"] = value;
             }
-
         }
 	}
 }

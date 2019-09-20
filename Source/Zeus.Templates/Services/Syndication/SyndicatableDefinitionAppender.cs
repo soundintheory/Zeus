@@ -13,7 +13,6 @@ namespace Zeus.Templates.Services.Syndication
 	public class SyndicatableDefinitionAppender : IInitializable
 	{
 		private readonly IContentTypeManager _contentTypeManager;
-		private string containerName = "Syndication";
 		public static readonly string SyndicatableDetailName = "Syndicate";
 
 		public SyndicatableDefinitionAppender(IContentTypeManager definitions)
@@ -23,11 +22,7 @@ namespace Zeus.Templates.Services.Syndication
 
 		public int SortOrder { get; set; } = 30;
 
-		public string ContainerName
-		{
-			get { return containerName; }
-			set { containerName = value; }
-		}
+		public string ContainerName { get; set; } = "Syndication";
 
 		public string CheckBoxText { get; set; } = "Make available for syndication.";
 

@@ -5,6 +5,5 @@ namespace Zeus
 {
 	public class Find : GenericFind<ContentItem, ContentItem>
 	{
-		
 	}
 }

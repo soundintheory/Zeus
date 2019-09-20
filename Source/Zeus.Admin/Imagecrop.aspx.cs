@@ -16,7 +16,7 @@ namespace Zeus.Admin
         public string selectedForForm;
         public double aspectRatio;
         public int minWidth;
-        public int minHeight;        
+        public int minHeight;
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
@@ -64,7 +64,7 @@ namespace Zeus.Admin
                     }
                 }
                 else
-                {                    
+                {
                     //resized, leaving height @ 600
                     var percChange = (double)600 / (double)ActualHeight;
                     if (percChange < 1)
@@ -78,7 +78,6 @@ namespace Zeus.Admin
                         minHeight = ImageToEdit.FixedHeightValue;
                     }
                 }
-
 
                 //check to see if now outside of the boundaries!
                 if (minWidth > ActualWidth)
@@ -115,7 +114,7 @@ namespace Zeus.Admin
                 {
                     //no resizing happened
                 }
-                else if ((Convert.ToDouble(ActualWidth) / Convert.ToDouble(800)) >= (Convert.ToDouble(ActualHeight) / Convert.ToDouble(600)))                
+                else if ((Convert.ToDouble(ActualWidth) / Convert.ToDouble(800)) >= (Convert.ToDouble(ActualHeight) / Convert.ToDouble(600)))
                 {
                     //resized, leaving width @ 800
                     var percChange = (double)ActualWidth / (double)800;
@@ -154,20 +153,19 @@ namespace Zeus.Admin
 		}
 
         protected bool bFixedAspectRatio { get; set; }
- 
+
 		protected override void OnPreRender(EventArgs e)
 		{
 			Page.ClientScript.RegisterJQuery();
             Page.ClientScript.RegisterJavascriptResource(typeof(Imagecrop), "Zeus.Admin.Assets.JS.jcrop_jquery.js");
-			
+
             //Page.ClientScript.RegisterCssResource(typeof(Login), "Zeus.Admin.Assets.Css.jcrop.demos.css");
             Page.ClientScript.RegisterCssResource(typeof(Imagecrop), "Zeus.Admin.Assets.Css.reset.css");
             Page.ClientScript.RegisterCssResource(typeof(Imagecrop), "Zeus.Admin.Assets.Css.login.css");
             Page.ClientScript.RegisterCssResource(typeof(Imagecrop), "Zeus.Admin.Assets.Css.jcrop_demos.css");
             Page.ClientScript.RegisterCssResource(typeof(Imagecrop), "Zeus.Admin.Assets.Css.jcrop_jquery.css");
-            
+
 			base.OnPreRender(e);
 		}
-         
 	}
 }

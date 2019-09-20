@@ -27,7 +27,7 @@ namespace Zeus.Admin.Plugins.Children
 
 		public override bool IsDefault(ContentItem contentItem)
 		{
-			return (contentItem is DataContentItem);
+			return contentItem is DataContentItem;
 		}
 
 		public string GetJavascriptHandler(ContentItem contentItem)

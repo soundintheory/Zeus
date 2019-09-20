@@ -31,10 +31,7 @@ namespace Zeus
         private IList<LanguageSetting> _languageSettings;
         private string _name;
         private DateTime? _expires;
-        private IList<ContentItem> _children = new List<ContentItem>();
-        private IList<ContentItem> _translations = new List<ContentItem>();
-		private IDictionary<string, PropertyCollection> _detailCollections = new Dictionary<string, PropertyCollection>();
-        private string _url;
+		private string _url;
         private bool _visible;
 
         [Copy]
@@ -65,14 +62,7 @@ namespace Zeus
             }
             set
             {
-                if (string.IsNullOrEmpty(value))
-				{
-					_name = null;
-				}
-				else
-				{
-					_name = value;
-				}
+                _name = string.IsNullOrEmpty(value) ? null : value;
 
 				_url = null;
             }
@@ -85,6 +75,7 @@ namespace Zeus
         /// <summary>Gets or sets the date this item was updated.</summary>
         [Copy]
         public virtual DateTime Updated { get; set; }
+
         public virtual void ReorderAction() {  }
 
         /// <summary>Gets or sets the publish date of this item.</summary>
@@ -157,32 +148,20 @@ namespace Zeus
 
 		/// <summary>Gets or sets the details collection collection. These are details grouped into a collection.</summary>
 		[BsonIgnore]
-        public IDictionary<string, PropertyCollection> DetailCollections
-        {
-            get { return _detailCollections; }
-            set { _detailCollections = value; }
-        }
+		public IDictionary<string, PropertyCollection> DetailCollections { get; set; } = new Dictionary<string, PropertyCollection>();
 
-        /// <summary>Gets or sets all a collection of child items of this item ignoring permissions. If you want the children the current user has permission to use <see cref="GetChildren()"/> instead.</summary>
-        [BsonIgnore]
-        public virtual IList<ContentItem> Children
-        {
-            get { return _children; }
-            set { _children = value; }
-        }
+		/// <summary>Gets or sets all a collection of child items of this item ignoring permissions. If you want the children the current user has permission to use <see cref="GetChildren()"/> instead.</summary>
+		[BsonIgnore]
+		public virtual IList<ContentItem> Children { get; set; } = new List<ContentItem>();
 
-        /// <summary>Gets or sets all a collection of child items of this item ignoring permissions. If you want the children the current user has permission to use <see cref="GetChildren()"/> instead.</summary>
-        [BsonIgnore]
-        public virtual IList<ContentItem> Translations
-        {
-            get { return _translations; }
-            set { _translations = value; }
-        }
+		/// <summary>Gets or sets all a collection of child items of this item ignoring permissions. If you want the children the current user has permission to use <see cref="GetChildren()"/> instead.</summary>
+		[BsonIgnore]
+		public virtual IList<ContentItem> Translations { get; set; } = new List<ContentItem>();
 
-        [BsonIgnore]
+		[BsonIgnore]
         public virtual int? OverrideCacheID { get; set; }
 
-        public int CacheID { get { return OverrideCacheID.HasValue ? OverrideCacheID.Value : ID; } }
+        public int CacheID { get { return OverrideCacheID ?? ID; } }
 
         #endregion
 
@@ -232,18 +211,9 @@ namespace Zeus
         {
             get
             {
-                if (_url == null)
-                {
-                    if (_urlParser != null)
-					{
-						_url = GetUrl(LanguageSelector.Fallback(ContentLanguage.PreferredCulture.Name, false));
-					}
-					else
-					{
-						_url = FindPath(PathData.DefaultAction).RewrittenUrl;
-					}
-				}
-                return _url;
+                return _url ?? (_url = _urlParser != null
+						? GetUrl(LanguageSelector.Fallback(ContentLanguage.PreferredCulture.Name, false))
+						: (string)FindPath(PathData.DefaultAction).RewrittenUrl);
             }
         }
 
@@ -314,7 +284,7 @@ namespace Zeus
 					path += Name;
 				}
 
-				for (var item = startingParent; item != null && item.Parent != null; item = item.Parent)
+				for (var item = startingParent; item?.Parent != null; item = item.Parent)
 				{
 					path = "/" + item.Name + path;
 				}
@@ -331,12 +301,7 @@ namespace Zeus
         {
             get
             {
-                if (_authorizationRules == null)
-				{
-					_authorizationRules = new List<AuthorizationRule>();
-				}
-
-				return _authorizationRules;
+                return _authorizationRules ?? (_authorizationRules = new List<AuthorizationRule>());
             }
             set { _authorizationRules = value; }
         }
@@ -347,12 +312,7 @@ namespace Zeus
         {
             get
             {
-                if (_languageSettings == null)
-				{
-					_languageSettings = new List<LanguageSetting>();
-				}
-
-				return _languageSettings;
+                return _languageSettings ?? (_languageSettings = new List<LanguageSetting>());
             }
             set { _languageSettings = value; }
         }
@@ -396,7 +356,7 @@ namespace Zeus
 				}
 
 				var info = GetType().GetProperty(detailName);
-                if (info != null && info.CanWrite)
+                if (info?.CanWrite == true)
                 {
                     if (value != null && info.PropertyType != value.GetType())
 					{
@@ -405,9 +365,9 @@ namespace Zeus
 
 					info.SetValue(this, value, null);
                 }
-                else if (value is PropertyCollection)
+                else if (value is PropertyCollection properties)
                 {
-                    DetailCollections[detailName] = (PropertyCollection)value;
+                    DetailCollections[detailName] = properties;
                     //throw new ZeusException("Cannot set a detail collection this way, add it to the DetailCollections collection instead.");
                 }
                 else
@@ -418,7 +378,7 @@ namespace Zeus
         }
 
         #endregion
-        
+
         protected ContentItem()
         {
             Created = DateTime.Now;
@@ -470,7 +430,7 @@ namespace Zeus
         {
             // Look up content property matching this name.
             var property = Context.ContentTypes.GetContentType(GetType()).GetProperty(detailName);
-            if (property == null || property.Shared)
+            if (property?.Shared != false)
             {
                 var currentItem = VersionOf ?? this;
                 if (currentItem.TranslationOf != null)
@@ -494,7 +454,7 @@ namespace Zeus
             {
                 var detail = Details.ContainsKey(detailName) ? Details[detailName] : null;
 
-                if (detail != null && value != null && value.GetType().IsAssignableFrom(detail.ValueType))
+                if (detail != null && value?.GetType().IsAssignableFrom(detail.ValueType) == true)
                 {
                     // update an existing detail
                     detail.Value = value;
@@ -585,7 +545,7 @@ namespace Zeus
 			Parent = newParent;
 
             //see if we care about ordering...
-            if (newParent != null && !newParent.Children.Contains(this))
+            if (newParent?.Children.Contains(this) == false)
             {
                 var siblings = newParent.Children;
                 if (siblings.Count > 0 && !newParent.IgnoreOrderOnSave)
@@ -608,7 +568,7 @@ namespace Zeus
                         return;
                     }
                 }
-                
+
                 siblings.Add(this);
             }
         }
@@ -726,9 +686,9 @@ namespace Zeus
 				return null;
 			}
 
-			if (contentItem is TAncestor)
+			if (contentItem is TAncestor ancestor)
 			{
-				return (TAncestor)contentItem;
+				return ancestor;
 			}
 
 			return FindFirstAncestorRecursive<TAncestor>(contentItem.Parent);
@@ -854,7 +814,7 @@ namespace Zeus
             {
                 // Get correct translation.
                 var childTranslation = Context.Current.LanguageManager.GetTranslation(child, languageCode);
-                if (childTranslation != null && childTranslation.Equals(nameSegment))
+                if (childTranslation?.Equals(nameSegment) == true)
                 {
                     remainingUrl = slashIndex < 0 ? null : remainingUrl.Substring(slashIndex + 1);
                     return childTranslation.FindPath(remainingUrl, languageCode);
@@ -886,7 +846,7 @@ namespace Zeus
         /// <returns></returns>
         public virtual bool IsEmpty()
         {
-            return string.IsNullOrEmpty(Title) && !Details.Any() && !DetailCollections.Any();
+            return string.IsNullOrEmpty(Title) && Details.Count == 0 && DetailCollections.Count == 0;
         }
 
         /// <summary>
@@ -1043,8 +1003,8 @@ namespace Zeus
 
         public virtual bool IsPublished()
         {
-            return (Published != null && Published.Value <= DateTime.Now)
-                && !(Expires != null && Expires.Value < DateTime.Now);
+            return Published != null && Published.Value <= DateTime.Now
+				&& !(Expires != null && Expires.Value < DateTime.Now);
         }
 
         public virtual bool HasMinRequirementsForSaving()
@@ -1116,7 +1076,7 @@ namespace Zeus
 					className.Append("invisible ");
 				}
 
-				if (AuthorizationRules != null && AuthorizationRules.Count > 0)
+				if (AuthorizationRules?.Count > 0)
 				{
 					className.Append("locked ");
 				}

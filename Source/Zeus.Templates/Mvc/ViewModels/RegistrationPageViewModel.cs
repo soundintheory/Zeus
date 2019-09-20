@@ -10,7 +10,6 @@ namespace Zeus.Templates.Mvc.ViewModels
 		public RegistrationPageViewModel(RegistrationPageBase currentItem)
 			: base(currentItem)
 		{
-			
 		}
 	}
 }

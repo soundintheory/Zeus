@@ -10,7 +10,6 @@ namespace Zeus.Web.Mvc.Html
 		public DisplayHelper(HtmlHelper htmlHelper, IContentItemContainer container, ContentItem item)
 			: base(htmlHelper, container, item)
 		{
-			
 		}
 
 		public override string ToString()

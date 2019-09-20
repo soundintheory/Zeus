@@ -10,7 +10,6 @@ namespace Zeus.Web.UI.WebControls
 		public P()
 			: base("p")
 		{
-
 		}
 
 		public string CssClass

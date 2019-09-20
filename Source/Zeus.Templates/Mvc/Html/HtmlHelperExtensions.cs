@@ -44,7 +44,7 @@ namespace Zeus.Templates.Mvc.Html
 					return thePage.ProgrammableHtmlTitle;
 				}
 			}
-            return html.PropertyOrDefault(contentItem, SeoUtility.HTML_TITLE, "Title");        
+            return html.PropertyOrDefault(contentItem, SeoUtility.HTML_TITLE, "Title");
 		}
 
 		public static string MetaKeywords(this HtmlHelper html, ContentItem contentItem)

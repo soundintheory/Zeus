@@ -33,7 +33,7 @@ namespace Zeus.Admin.Plugins.FileManager
 
 		public override bool IsDefault(ContentItem contentItem)
 		{
-			return (contentItem is Folder);
+			return contentItem is Folder;
 		}
 
 		public string GetJavascriptHandler(ContentItem contentItem)

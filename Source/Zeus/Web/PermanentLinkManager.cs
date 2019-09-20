@@ -10,7 +10,6 @@ namespace Zeus.Web
 			const string pattern = @"href=""/?~/link/([\d]+?)""";
 			var regex = new Regex(pattern, RegexOptions.IgnoreCase);
 			return regex.Replace(value, OnPatternMatched);
-			
 		}
 
 		private string OnPatternMatched(Match match)

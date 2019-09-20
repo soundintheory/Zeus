@@ -217,7 +217,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 				}
 			}
 		}
-			   
+
 		public static IEnumerable<SelectListItem> ToSelectListItems<TSource>(this IEnumerable<TSource> source, object defaultValue)
 			where TSource : IEquatable<TSource>
 		{

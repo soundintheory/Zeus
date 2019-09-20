@@ -12,7 +12,7 @@ namespace Zeus.BaseLibrary.Drawing
 		private Bitmap _bitmap;
 		private BitmapData _bitmapData;
 		private int _bitsPerPixel;
-		private Stream _stream;
+		private readonly Stream _stream;
 
 		#endregion
 
@@ -169,10 +169,7 @@ namespace Zeus.BaseLibrary.Drawing
 
 		public void Dispose()
 		{
-			if (_stream != null)
-			{
-				_stream.Close();
-			}
+			_stream?.Close();
 
 			GC.SuppressFinalize(this);
 			Dispose(true);
@@ -208,7 +205,7 @@ namespace Zeus.BaseLibrary.Drawing
 
 		public void Unlock()
 		{
-			if (_bitmapData != null) 
+			if (_bitmapData != null)
 			{
 				try
 				{
@@ -216,7 +213,6 @@ namespace Zeus.BaseLibrary.Drawing
 				}
 				catch (ArgumentException)
 				{
-
 				}
 				_bitmapData = null;
 			}

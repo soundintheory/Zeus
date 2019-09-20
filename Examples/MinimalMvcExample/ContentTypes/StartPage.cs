@@ -63,7 +63,6 @@ namespace Zeus.Examples.MinimalMvcExample.ContentTypes
 
         #region IStartPageForPayPal Members
 
-
         public bool UseShipping
         {
             get

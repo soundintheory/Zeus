@@ -9,7 +9,7 @@ namespace Zeus.Web.Security
 			Rules = new AuthorizationRuleCollection();
 		}
 
-		public AuthorizationRuleCollection Rules { get; private set; }
+		public AuthorizationRuleCollection Rules { get; }
 
 		public bool EveryoneAllowed
 		{

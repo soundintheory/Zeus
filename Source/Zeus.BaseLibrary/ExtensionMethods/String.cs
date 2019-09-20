@@ -15,7 +15,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 	{
 		public static bool Contains(this string thisString, string value, StringComparison comparisonType)
 		{
-			return (thisString.IndexOf(value, comparisonType) != -1);
+			return thisString.IndexOf(value, comparisonType) != -1;
 		}
 
 		public static T Deserialize<T>(this string serializedValue)
@@ -389,7 +389,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 			try
             {
                 var match = Regex.Match(original, @"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
-                return ((match.Success && (match.Index == 0)) && (match.Length == original.Length));
+                return match.Success && (match.Index == 0) && (match.Length == original.Length);
             }
             catch
             {
@@ -427,11 +427,10 @@ namespace Zeus.BaseLibrary.ExtensionMethods
             }
             else
             {
-                var newText = "";
-                newText = theString.Substring(0, theLength);
+				var newText = theString.Substring(0, theLength);
 
-                // test whether the truncate has cut into an existing HTML tag. If it has, remove a character to newText and test again. Do this until false. 
-                var isItCutXP = new Regex(@"<[^>]*$");
+				// test whether the truncate has cut into an existing HTML tag. If it has, remove a character to newText and test again. Do this until false. 
+				var isItCutXP = new Regex(@"<[^>]*$");
                 while (isItCutXP.IsMatch(newText))
                 {
                     theLength--;
@@ -446,29 +445,24 @@ namespace Zeus.BaseLibrary.ExtensionMethods
                 var openTagsRGX = new Regex(@"<(?!\/)(?!br)[^>]+>", RegexOptions.IgnoreCase);
                 var theMatches = openTagsRGX.Matches(newText);
 
-
                 // for each opening tag, create a close tag
                 var theCloses = new ArrayList();
                 var inTagRGX = new Regex(@"\w+");
                 foreach (Match m in theMatches)
                 {
-
                     var theTag = inTagRGX.Match(m.ToString());
                     var toAdd = "</" + theTag.ToString() + ">";
                     theCloses.Add(toAdd);
                 }
 
-
                 //find all currently existing close tags
                 var closeTagsRGX = new Regex(@"<\/[^>]+>", RegexOptions.IgnoreCase);
                 var existingCloseTags = closeTagsRGX.Matches(newText);
-                var returningText = "";
 
                 //if there are any, delete matches entries in theCloses in the order in which they appear
 
                 foreach (Match m in existingCloseTags)
                 {
-
                     foreach (string exC in theCloses)
                     {
                         if (m.ToString() == exC)
@@ -477,7 +471,6 @@ namespace Zeus.BaseLibrary.ExtensionMethods
                             break;
                         }
                     }
-
                 }
                 //reverse it
                 theCloses.Reverse();
@@ -489,11 +482,8 @@ namespace Zeus.BaseLibrary.ExtensionMethods
                     theCloseString.Append(m);
                 }
 
-                returningText = newText + "..." + theCloseString;
-
-                return returningText;
-            }
+				return newText + "..." + theCloseString;
+			}
         }
-    
 	}
 }

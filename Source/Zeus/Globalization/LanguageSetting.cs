@@ -14,7 +14,6 @@ namespace Zeus.Globalization
 		public LanguageSetting(ContentItem item, string language)
 			: this(item, language, null)
 		{
-			
 		}
 
 		public LanguageSetting(ContentItem item, string language, string fallbackLanguage)

@@ -42,7 +42,7 @@ namespace Zeus.Design.Editors
                 item[Name] = ((NameEditor)editor).Text;
                 return true;
             }
-            return false;			
+            return false;
 		}
 
 		protected override void UpdateEditorInternal(IEditableObject item, Control editor)

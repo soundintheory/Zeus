@@ -38,8 +38,7 @@ namespace Zeus.Templates.Mvc.Html
 					contentItem.Url, contentItem.Title);
 			}
 
-			result = layoutCallback(result);
-			return result;
+			return layoutCallback(result);
 		}
 
 		public static string NavigationLinks(this HtmlHelper html, ContentItem currentPage)
@@ -99,7 +98,7 @@ namespace Zeus.Templates.Mvc.Html
 
 		public static bool IsCurrentBranch(this HtmlHelper helper, ContentItem itemToCheck, ContentItem currentPage)
 		{
-			if ((itemToCheck is Redirect))
+			if (itemToCheck is Redirect)
 			{
 				var redirect = (Redirect) itemToCheck;
 				if (redirect.RedirectItem == currentPage)
@@ -142,7 +141,7 @@ namespace Zeus.Templates.Mvc.Html
 			foreach (var page in parents)
 			{
 				var appearance = page as IBreadcrumbAppearance;
-				var visible = appearance == null || appearance.VisibleInBreadcrumb;
+				var visible = appearance?.VisibleInBreadcrumb != false;
 				if (visible && page.IsPage)
 				{
 					var link = appearance ?? (ILink)page;
@@ -201,8 +200,8 @@ namespace Zeus.Templates.Mvc.Html
 				{
 					var appearance = childItem as ISitemapAppearance;
 					//the appearance != null bit means that by default items won't show as links
-					var visible = childItem.Visible && (childItem.IsPage || (appearance != null && appearance.VisibleInSitemap));
-					
+					var visible = childItem.Visible && (childItem.IsPage || (appearance?.VisibleInSitemap == true));
+
 					if (visible)
 					{
 						sbInner.Append("<li>");
@@ -279,12 +278,7 @@ namespace Zeus.Templates.Mvc.Html
                     {
                         foreach (var subNavItem in html.NavigationPages(theItem))
                         {
-                            if (item.SubNav == null)
-							{
-								item.SubNav = new List<NavigationItem>();
-							}
-
-							item.SubNav.Add(new NavigationItem { Title = subNavItem.Title, Url = subNavItem.Url, ID = subNavItem.ID, ParentUrl = item.Url, SubNav = GetTertiaryNav(html, subNavItem, true) });
+							(item.SubNav ?? (item.SubNav = new List<NavigationItem>())).Add(new NavigationItem { Title = subNavItem.Title, Url = subNavItem.Url, ID = subNavItem.ID, ParentUrl = item.Url, SubNav = GetTertiaryNav(html, subNavItem, true) });
                         }
                     }
                 }

@@ -10,7 +10,6 @@ namespace Zeus.Templates.ContentTypes.ReferenceData
 	{
 		public Currency()
 		{
-
 		}
 
 		public Currency(string title, string isoCode, string symbol)

@@ -12,9 +12,7 @@ namespace Zeus.ContentTypes
 {
 	public class ContentType : IComparable<ContentType>, ITypeDefinition
 	{
-		#region Fields
-
-		private readonly IList<AvailableZoneAttribute> _availableZones = new List<AvailableZoneAttribute>();
+#region Fields
 
 		#endregion
 
@@ -41,10 +39,7 @@ namespace Zeus.ContentTypes
 		public IList<string> AllowedZoneNames { get; internal set; } = new List<string>();
 
 		/// <summary>Gets zones available in this items of this class.</summary>
-		public IList<AvailableZoneAttribute> AvailableZones
-		{
-			get { return _availableZones; }
-		}
+		public IList<AvailableZoneAttribute> AvailableZones { get; } = new List<AvailableZoneAttribute>();
 
 		public AllowedZones AllowedIn { get; set; }
 
@@ -74,6 +69,7 @@ namespace Zeus.ContentTypes
 				}
 			}
         }
+
         public string IgnoreSEOExplanation {
             get
             {

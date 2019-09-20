@@ -49,19 +49,20 @@ namespace Zeus.Templates.Services.AntiSpam
 		{
 			using (var webClient = new WebClient())
 			{
-				var values = new NameValueCollection();
+				var values = new NameValueCollection
+				{
+					// Your private key.
+					["privatekey"] = _configuration.PrivateKey,
 
-				// Your private key.
-				values["privatekey"] = _configuration.PrivateKey;
+					// The IP address of the user who solved the CAPTCHA. 
+					["remoteip"] = httpContext.Request.UserHostAddress,
 
-				// The IP address of the user who solved the CAPTCHA. 
-				values["remoteip"] = httpContext.Request.UserHostAddress;
+					// The value of "recaptcha_challenge_field" sent via the form.
+					["challenge"] = httpContext.Request["recaptcha_challenge_field"],
 
-				// The value of "recaptcha_challenge_field" sent via the form.
-				values["challenge"] = httpContext.Request["recaptcha_challenge_field"];
-
-				// The value of "recaptcha_response_field" sent via the form.
-				values["response"] = httpContext.Request["recaptcha_response_field"];
+					// The value of "recaptcha_response_field" sent via the form.
+					["response"] = httpContext.Request["recaptcha_response_field"]
+				};
 
 				var responseBytes = webClient.UploadValues(
 					"http://api-verify.recaptcha.net/verify",

@@ -13,12 +13,14 @@ namespace Zeus.Persistence.NH
 	public class ConfigurationBuilder : IConfigurationBuilder
 	{
 		private readonly IContentTypeManager _definitions;
+
 		private const string _mappingFormat = @"<?xml version=""1.0"" encoding=""utf-16""?>
 <hibernate-mapping xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns=""urn:nhibernate-mapping-2.2""
 	auto-import=""false"">
 {0}
 </hibernate-mapping>
 ";
+
 		private const string _classFormat = @"<subclass name=""{0}"" extends=""{1}"" discriminator-value=""{2}"" lazy=""false""/>";
 
 		private const string _widgetClassFormat = @"<subclass name=""{0}"" extends=""{1}"" discriminator-value=""{2}"" lazy=""false"">

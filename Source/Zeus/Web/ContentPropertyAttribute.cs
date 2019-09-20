@@ -25,7 +25,6 @@ namespace Zeus
 		public ContentPropertyAttribute(string title, int sortOrder)
 			: base(title, sortOrder)
 		{
-			
 		}
 
 		#endregion

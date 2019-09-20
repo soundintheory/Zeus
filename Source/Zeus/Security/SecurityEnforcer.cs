@@ -82,10 +82,7 @@ namespace Zeus.Security
 			}
 
 			var args = new CancelItemEventArgs(item);
-			if (AuthorizationFailed != null)
-			{
-				AuthorizationFailed.Invoke(this, args);
-			}
+			AuthorizationFailed?.Invoke(this, args);
 
 			if (!args.Cancel)
 			{
@@ -104,14 +101,7 @@ namespace Zeus.Security
 			}
 
 			var user = _webContext.User;
-			if (user != null)
-			{
-				item.SavedBy = user.Identity.Name;
-			}
-			else
-			{
-				item.SavedBy = null;
-			}
+			item.SavedBy = user != null ? user.Identity.Name : null;
 		}
 
 		/// <summary>Is Invoked when an item is moved.</summary>

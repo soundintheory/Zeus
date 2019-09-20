@@ -19,14 +19,7 @@ namespace Zeus.Integrity
 		public AllowedZonesAttribute(AllowedZones allowedIn)
 		{
 			this.allowedIn = allowedIn;
-			if (allowedIn == AllowedZones.All)
-			{
-				ZoneNames = null;
-			}
-			else
-			{
-				ZoneNames = new string[0];
-			}
+			ZoneNames = allowedIn == AllowedZones.All ? null : (new string[0]);
 		}
 
 		/// <summary>Initializes a new instance of the AllowedZonesAttribute which is used to restrict which zones item may have.</summary>

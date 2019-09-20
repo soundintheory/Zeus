@@ -27,7 +27,7 @@ namespace Zeus.Web.Mvc.Descriptors
 			};
 		}
 
-		public StringDictionary DeviceFolders { get; private set; }
+		public StringDictionary DeviceFolders { get; }
 
 		public override void ExtraParameters(ControllerContext context, IDictionary<string, object> extra)
 		{

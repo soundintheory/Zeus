@@ -88,11 +88,11 @@ namespace Zeus.AddIns.ECommerce.Services
             var paymentRequest = new PaymentRequest(
                 PaymentTransactionType.Payment, order.ID.ToString(), order.TotalPrice, order.Title,
                 order.BillingAddress, order.ShippingAddress,
-                order.PaymentCard, cardNumber, cardVerificationCode, 
+                order.PaymentCard, cardNumber, cardVerificationCode,
                 order.TelephoneNumber, order.EmailAddress, _webContext.Request.UserHostAddress);
-			
+
             var paymentResponse = _paymentGateway.TakePayment(paymentRequest);
-            
+
             if (paymentResponse.Success)
 			{
 				// Update order status to Paid.
@@ -114,7 +114,7 @@ namespace Zeus.AddIns.ECommerce.Services
 			return order;
 		}
 
-        public Order PlaceOrderWithoutPayment(IECommerceConfiguration configuration, DeliveryMethod deliveryMethod, 
+        public Order PlaceOrderWithoutPayment(IECommerceConfiguration configuration, DeliveryMethod deliveryMethod,
             decimal deliveryPrice, Address billingAddress,
             Address shippingAddress, PaymentCard paymentCard, string emailAddress,
             string telephoneNumber, string mobileTelephoneNumber,
@@ -124,7 +124,6 @@ namespace Zeus.AddIns.ECommerce.Services
         {
 			try
 			{
-
 				// Convert shopping basket into order, with unpaid status.
 				var order = new Order
 				{
@@ -153,23 +152,18 @@ namespace Zeus.AddIns.ECommerce.Services
                 order.Status = OrderStatus.Unpaid;
 				_persister.Save(order);
 
-                if (_webContext.User != null && !string.IsNullOrEmpty(_webContext.User.Identity.Name))
-                {
-                    order.Title = _webContext.User.Identity.Name + " for " + items.First().Title;
-                }
-                else
-                {
-                    order.Title = "Order #" + order.ID;
-                }
+                order.Title = _webContext.User != null && !string.IsNullOrEmpty(_webContext.User.Identity.Name)
+					? _webContext.User.Identity.Name + " for " + items.First().Title
+					: "Order #" + order.ID;
 
-                _persister.Save(order);
+				_persister.Save(order);
 
 				return order;
 			}
 			catch (System.Exception ex)
-			{ 
+			{
 				throw(new System.Exception("Error creating order: \n" + ex.Message + "\n" + ex.StackTrace));
-			}			
+			}
         }
 
 		public Order PlaceOrder(Shop shop, string cardNumber, string cardVerificationCode,
@@ -183,8 +177,8 @@ namespace Zeus.AddIns.ECommerce.Services
 					WeakProductLink = shoppingBasketItem.Product.ID,
 					ProductTitle = shoppingBasketItem.Product.Title,
 					Quantity = shoppingBasketItem.Quantity,
-					Price = shoppingBasketItem.VariationPermutation != null && shoppingBasketItem.VariationPermutation.PriceOverride.HasValue ? shoppingBasketItem.VariationPermutation.PriceOverride.Value : shoppingBasketItem.Product.CurrentPrice,
-                    VATable = !(shoppingBasketItem.Product.VatZeroRated)
+					Price = shoppingBasketItem.VariationPermutation?.PriceOverride.HasValue == true ? shoppingBasketItem.VariationPermutation.PriceOverride.Value : shoppingBasketItem.Product.CurrentPrice,
+                    VATable = !shoppingBasketItem.Product.VatZeroRated
 				};
 				if (shoppingBasketItem.Variations != null)
 				{
@@ -204,7 +198,7 @@ namespace Zeus.AddIns.ECommerce.Services
 				shoppingBasket.TelephoneNumber, shoppingBasket.MobileTelephoneNumber,
 				items,
                 shoppingBasket.Discount.DiscountAmount(shoppingBasket.SubTotalPrice),
-                shoppingBasket.Discount.DescriptionForAdministrators, 
+                shoppingBasket.Discount.DescriptionForAdministrators,
                 shoppingBasket.TotalDeliveryPrice, shoppingBasket.TotalPrice);
 
 			// Clear shopping basket.

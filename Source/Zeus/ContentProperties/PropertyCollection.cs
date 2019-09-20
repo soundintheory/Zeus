@@ -72,16 +72,9 @@ namespace Zeus.ContentProperties
 
 		private PropertyData GetDetail(object val)
 		{
-			PropertyData detail;
-			if (val is PropertyData)
-			{
-				detail = (PropertyData) val;
-			}
-			else
-			{
-				detail = Context.Current.Resolve<IContentPropertyManager>().CreatePropertyDataObject(val.GetType());
-			}
-
+			var detail = val is PropertyData
+				? (PropertyData) val
+				: Context.Current.Resolve<IContentPropertyManager>().CreatePropertyDataObject(val.GetType());
 			detail.Name = Name;
 			detail.EnclosingItem = EnclosingItem;
 			detail.EnclosingCollection = this;
@@ -305,7 +298,6 @@ namespace Zeus.ContentProperties
 
 			public void Dispose()
 			{
-				
 			}
 		}
 

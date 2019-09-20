@@ -8,16 +8,7 @@ namespace Zeus.BaseLibrary.Web.UI
 	{
 		public static string GetUrl(Type type, string resourceName)
 		{
-			ClientScriptManager csm;
-			if (HttpContext.Current != null && HttpContext.Current.Handler is Page)
-			{
-				csm = ((Page) HttpContext.Current.Handler).ClientScript;
-			}
-			else
-			{
-				csm = new Page().ClientScript;
-			}
-
+			var csm = HttpContext.Current?.Handler is Page ? ((Page) HttpContext.Current.Handler).ClientScript : new Page().ClientScript;
 			return csm.GetWebResourceUrl(type, resourceName);
 		}
 	}

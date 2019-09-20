@@ -21,14 +21,7 @@ namespace Zeus.Integrity
 		public RestrictParentsAttribute(AllowedTypes allowedTypes)
 			: this()
 		{
-			if (allowedTypes == AllowedTypes.All)
-			{
-				Types = null;
-			}
-			else
-			{
-				Types = new Type[0];
-			}
+			Types = allowedTypes == AllowedTypes.All ? null : (new Type[0]);
 		}
 
 		/// <summary>Initializes a new instance of the RestrictParentsAttribute which is used to restrict which types of items may be added below which.</summary>

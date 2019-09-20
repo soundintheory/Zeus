@@ -21,17 +21,7 @@ namespace Zeus.Net.Mail
 
 		protected SmtpClient CreateSmtpClient(string host, int port, string user, string password)
 		{
-			SmtpClient client;
-
-			if (string.IsNullOrEmpty(host))
-			{
-				client = new SmtpClient();
-			}
-			else
-			{
-				client = new SmtpClient(host, port);
-			}
-
+			var client = string.IsNullOrEmpty(host) ? new SmtpClient() : new SmtpClient(host, port);
 			if (!string.IsNullOrEmpty(user))
 			{
 				client.Credentials = new NetworkCredential(user, password);

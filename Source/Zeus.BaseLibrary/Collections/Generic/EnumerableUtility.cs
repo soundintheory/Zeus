@@ -54,7 +54,7 @@ namespace Zeus.BaseLibrary.Collections.Generic
 				table.AddRightValue(actualElement);
 			}
 
-			return (table.NonEqualCount == 0);
+			return table.NonEqualCount == 0;
 		}
 	}
 }

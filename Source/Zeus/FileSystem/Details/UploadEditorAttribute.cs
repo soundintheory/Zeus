@@ -51,7 +51,7 @@ namespace Zeus.FileSystem.Details
 		{
 			var ce = editor as CompositeEditor;
 			var f = item as File;
-			if (ce.Upload.PostedFile != null && ce.Upload.PostedFile.ContentLength > 0)
+			if (ce.Upload.PostedFile?.ContentLength > 0)
 			{
 				f.Name = System.IO.Path.GetFileName(ce.Upload.PostedFile.FileName);
 				f.Data = ce.Upload.FileBytes;

@@ -12,7 +12,6 @@ namespace Zeus.Persistence.NH.Linq
         public ZeusQueryProvider(ISessionImplementor session)
             : base(session)
         {
-
         }
 
         object IQueryProvider.Execute(Expression expression)

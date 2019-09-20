@@ -64,6 +64,7 @@ namespace Zeus.Web.UI
 			{
 				ItemStack.Push(currentItem);
 			}
+
 			public void Dispose()
 			{
 				ItemStack.Pop();

@@ -21,7 +21,6 @@ namespace Zeus.Design.Editors
 		public FileUploadEditorAttribute(string title, int sortOrder)
 			: base(title, sortOrder)
 		{
-
 		}
 
 		#region Properties
@@ -58,7 +57,7 @@ namespace Zeus.Design.Editors
 				{
 					file.Data = fs.ReadAllBytes();
                     file.ContentType = file.Data.GetMimeType();
-					file.Size = fs.Length;                    
+					file.Size = fs.Length;
 				}
 
 				// Later, we will change the name, if this is a child property.
@@ -106,7 +105,7 @@ namespace Zeus.Design.Editors
 		{
 			((FancyFileUpload)editor).Enabled = false;
 		}
-        
+
 		protected override void UpdateEditorInternal(IEditableObject item, Control editor)
 		{
 			var fileUpload = (FancyFileUpload)editor;

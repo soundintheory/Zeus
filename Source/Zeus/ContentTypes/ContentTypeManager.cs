@@ -105,10 +105,7 @@ namespace Zeus.ContentTypes
 
 			_notifier.Notify(item);
 
-			if (ItemCreated != null)
-			{
-				ItemCreated.Invoke(this, new ItemEventArgs(item));
-			}
+			ItemCreated?.Invoke(this, new ItemEventArgs(item));
 		}
 
 		public ICollection<ContentType> GetContentTypes()

@@ -23,10 +23,9 @@ namespace Zeus.Globalization
 			IHost host, IContentTypeManager contentTypeManager)
 			: this(persister, host, contentTypeManager, null)
 		{
-
 		}
 
-		public LanguageManager(IPersister persister, 
+		public LanguageManager(IPersister persister,
 			IHost host, IContentTypeManager contentTypeManager,
 			GlobalizationSection globalizationConfig)
 		{
@@ -119,7 +118,7 @@ namespace Zeus.Globalization
 			// Iterate upward until we find a content item with some language settings.
 			while (contentItem != null)
 			{
-				if (contentItem.LanguageSettings != null && contentItem.LanguageSettings.Any())
+				if (contentItem.LanguageSettings?.Count > 0)
 				{
 					break;
 				}
@@ -184,7 +183,7 @@ namespace Zeus.Globalization
 
 		public bool Enabled
 		{
-			get { return (_globalizationConfig != null && _globalizationConfig.Enabled); }
+			get { return _globalizationConfig?.Enabled == true; }
 		}
 
 		public string GetDefaultLanguage()

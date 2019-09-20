@@ -27,15 +27,15 @@ namespace Zeus.Globalization
 
 			if (languageCode2.Equals("no", StringComparison.OrdinalIgnoreCase))
 			{
-				return (languageCode1.IndexOf(languageCode2, StringComparison.OrdinalIgnoreCase) >= 0);
+				return languageCode1.IndexOf(languageCode2, StringComparison.OrdinalIgnoreCase) >= 0;
 			}
 
-			return (string.Compare(languageCode1, 0, languageCode2, 0, index, StringComparison.OrdinalIgnoreCase) == 0);
+			return string.Compare(languageCode1, 0, languageCode2, 0, index, StringComparison.OrdinalIgnoreCase) == 0;
 		}
 
 		public static bool IsHostLanguageMatch(string requestedLanguage)
 		{
-			return (string.Compare(GetLanguageFromHost(), requestedLanguage, StringComparison.OrdinalIgnoreCase) == 0);
+			return string.Equals(GetLanguageFromHost(), requestedLanguage, StringComparison.OrdinalIgnoreCase);
 		}
 
 		public static string GetLanguageFromHost()

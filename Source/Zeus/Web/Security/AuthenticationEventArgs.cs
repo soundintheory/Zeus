@@ -14,7 +14,6 @@ namespace Zeus.Web.Security
 		public HttpContextBase Context
 		{
 			get;
-			private set;
 		}
 
 		public IPrincipal User

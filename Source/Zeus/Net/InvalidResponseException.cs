@@ -42,6 +42,6 @@ namespace Zeus.Net
 		/// Gets the HTTP status returned by the service.
 		/// </summary>
 		/// <value>The HTTP status.</value>
-		public HttpStatusCode HttpStatus { get; private set; }
+		public HttpStatusCode HttpStatus { get; }
 	}
 }

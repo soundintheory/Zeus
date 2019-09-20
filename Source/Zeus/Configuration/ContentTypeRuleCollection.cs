@@ -51,7 +51,7 @@ namespace Zeus.Configuration
 		protected override bool IsElementName(string elementName)
 		{
 			var str = elementName.ToLower(CultureInfo.InvariantCulture);
-			return (str == "allow" || str == "deny");
+			return str == "allow" || str == "deny";
 		}
 
 		internal bool IsContentTypeAllowed(ContentType contentType)
@@ -68,7 +68,7 @@ namespace Zeus.Configuration
 					var num = rule.IsContentTypeAllowed(contentType);
 					if (num != 0)
 					{
-						return (num > 0);
+						return num > 0;
 					}
 				}
 			}

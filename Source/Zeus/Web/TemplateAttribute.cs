@@ -31,7 +31,6 @@ namespace Zeus.Web
 		public TemplateAttribute()
 			:this(PathData.DefaultAction, string.Empty)
 		{
-			
 		}
 
 		/// <summary>Registers a template for the defualt action. This is equivalent to overriding the TemplateUrl property on the content item.</summary>

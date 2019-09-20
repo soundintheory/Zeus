@@ -29,13 +29,13 @@ namespace Zeus
 			if (value != null)
 			{
 				var converter = TypeDescriptor.GetConverter(destinationType);
-				if (converter != null && converter.CanConvertFrom(value.GetType()))
+				if (converter?.CanConvertFrom(value.GetType()) == true)
 				{
 					return converter.ConvertFrom(value);
 				}
 
 				converter = TypeDescriptor.GetConverter(value.GetType());
-				if (converter != null && converter.CanConvertTo(destinationType))
+				if (converter?.CanConvertTo(destinationType) == true)
 				{
 					return converter.ConvertTo(value, destinationType);
 				}
@@ -160,7 +160,7 @@ namespace Zeus
 		/// <returns>The index of the item among it's siblings.</returns>
 		public static int Insert(ContentItem item, ContentItem newParent, IComparer<ContentItem> comparer)
 		{
-			if (item.Parent != null && item.Parent.Children.Contains(item))
+			if (item.Parent?.Children.Contains(item) == true)
 			{
 				item.Parent.Children.Remove(item);
 			}
@@ -278,6 +278,7 @@ namespace Zeus
 		}
 
 		private static readonly ResourceManager _resourceManager = new ResourceManager();
+
 		public static string GetCooliteIconUrl(Icon icon)
 		{
 			return _resourceManager.GetIconUrl(icon);

@@ -2,6 +2,5 @@
 {
 	public partial class Popup : System.Web.UI.MasterPage
 	{
-		
 	}
 }

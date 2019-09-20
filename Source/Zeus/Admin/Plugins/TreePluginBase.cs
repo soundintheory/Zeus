@@ -20,7 +20,6 @@ namespace Zeus.Admin.Plugins
 
 		public virtual void ModifyTreeNode(TreeNodeBase treeNode, ContentItem contentItem)
 		{
-			
 		}
 
 		protected string GetPageUrl(Type type, string resourcePath)

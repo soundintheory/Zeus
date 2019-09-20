@@ -137,7 +137,7 @@ namespace Zeus.Admin.Plugins.ImportExport
 			}
 		}
 
-		void ShowErrors(IImportRecord record)
+		private void ShowErrors(IImportRecord record)
 		{
 			if (record.Errors.Count > 0)
 			{

@@ -27,11 +27,6 @@ namespace Zeus.Web
         #region Constructors
 
         public UrlParser(IPersister persister, IHost host, IWebContext webContext, IItemNotifier notifier, HostSection config, ILanguageManager languageManager, CustomUrlsSection urls)
-            : this(persister, host, webContext, notifier, config, languageManager, urls, null)
-        {
-        }
-
-        public UrlParser(IPersister persister, IHost host, IWebContext webContext, IItemNotifier notifier, HostSection config, ILanguageManager languageManager, CustomUrlsSection urls)
         {
             Persister = persister;
             Host = host;
@@ -87,8 +82,7 @@ namespace Zeus.Web
 
         public virtual string BuildUrl(ContentItem item, string languageCode)
         {
-            ContentItem startPage;
-            return BuildUrlInternal(item, languageCode, out startPage);
+            return BuildUrlInternal(item, languageCode, out _);
         }
 
         protected string BuildUrlInternal(ContentItem item, string languageCode, out ContentItem startPage)
@@ -153,17 +147,8 @@ namespace Zeus.Web
         /// <returns>The absolute url to the item.</returns>
         protected virtual string ToAbsolute(string url, ContentItem item)
         {
-            if (string.IsNullOrEmpty(url) || url == "/")
-			{
-				url = _webContext.ToAbsolute("~/");
-			}
-			else
-			{
-				url = _webContext.ToAbsolute("~" + url + item.Extension);
-			}
-
-			return url;
-        }
+			return string.IsNullOrEmpty(url) || url == "/" ? _webContext.ToAbsolute("~/") : _webContext.ToAbsolute("~" + url + item.Extension);
+		}
 
         /// <summary>Checks if an item is startpage or root page</summary>
         /// <param name="item">The item to compare</param>
@@ -195,12 +180,11 @@ namespace Zeus.Web
                     {
                         if (query.StartsWith(parameter + "=", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            int id;
-                            if (int.TryParse(query.Substring(parameterLength), out id))
-                            {
-                                return id;
-                            }
-                        }
+							if (int.TryParse(query.Substring(parameterLength), out var id))
+							{
+								return id;
+							}
+						}
                     }
                 }
             }
@@ -564,14 +548,7 @@ namespace Zeus.Web
 						};
 						PageNotFound(this, args);
 
-                        if (args.AffectedItem != null)
-						{
-							data = args.AffectedItem.FindPath(PathData.DefaultAction);
-						}
-						else
-						{
-							data = args.AffectedPath;
-						}
+                        data = args.AffectedItem != null ? args.AffectedItem.FindPath(PathData.DefaultAction) : args.AffectedPath;
 
 						data.Is404 = true;
                     }

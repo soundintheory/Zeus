@@ -8,7 +8,6 @@ namespace Zeus.Examples.MinimalMvcExample.ViewModels
 		public CacheTestViewModel(CacheTest currentItem)
 			: base(currentItem)
 		{
-			
 		}
 
 		public string GetTestQSNum {

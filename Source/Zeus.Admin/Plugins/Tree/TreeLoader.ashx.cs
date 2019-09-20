@@ -35,14 +35,12 @@ namespace Zeus.Admin.Plugins.Tree
 				{
 					tree = SiteTree.From(selectedItem, int.MaxValue);
 				}
-				else if (fromRoot)
-				{
-					tree = SiteTree.Between(selectedItem, Find.RootItem, true)
-						.OpenTo(selectedItem);
-				}
 				else
 				{
-					tree = SiteTree.From(selectedItem.TranslationOf ?? selectedItem, 2);
+					tree = fromRoot
+						? SiteTree.Between(selectedItem, Find.RootItem, true)
+											.OpenTo(selectedItem)
+						: SiteTree.From(selectedItem.TranslationOf ?? selectedItem, 2);
 				}
 
 				if (sync)

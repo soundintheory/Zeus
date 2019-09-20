@@ -24,10 +24,10 @@ namespace Zeus.Security
 		#region Properties
 
 		/// <summary>Gets the user which caused the exception.</summary>
-		public IPrincipal User { get; private set; }
+		public IPrincipal User { get; }
 
 		/// <summary>Gets the item that caused the exception.</summary>
-		public ContentItem Item { get; private set; }
+		public ContentItem Item { get; }
 
 		#endregion
 	}

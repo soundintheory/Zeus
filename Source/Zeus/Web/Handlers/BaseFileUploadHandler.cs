@@ -48,7 +48,6 @@ namespace Zeus.Web.Handlers
 			var uploadFolderPath = Path.Combine(uploadRootFolderPath, identifier);
 
             return uploadFolderPath;
-            
 		}
 
 		public bool IsReusable

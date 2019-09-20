@@ -28,10 +28,7 @@ namespace Zeus.BaseLibrary.Drawing
 			}
 			catch
 			{
-				if (stream != null)
-				{
-					stream.Close();
-				}
+				stream?.Close();
 
 				throw;
 			}
@@ -54,10 +51,7 @@ namespace Zeus.BaseLibrary.Drawing
 			}
 			finally
 			{
-				if (stream != null)
-				{
-					stream.Close();
-				}
+				stream?.Close();
 			}
 		}
 	}

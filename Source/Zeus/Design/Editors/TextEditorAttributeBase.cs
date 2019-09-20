@@ -20,14 +20,14 @@ namespace Zeus.Design.Editors
 	[AttributeUsage(AttributeTargets.Property)]
 	public abstract class TextEditorAttributeBase : AbstractEditorAttribute
 	{
-		public TextEditorAttributeBase()
+		protected TextEditorAttributeBase()
 		{
 		}
 
 		/// <summary>Initializes a new instance of the EditableTextBoxAttribute class.</summary>
 		/// <param name="title">The label displayed to editors</param>
 		/// <param name="sortOrder">The order of this editor</param>
-		public TextEditorAttributeBase(string title, int sortOrder)
+		protected TextEditorAttributeBase(string title, int sortOrder)
 			: base(title, sortOrder)
 		{
 		}
@@ -36,7 +36,7 @@ namespace Zeus.Design.Editors
 		/// <param name="title">The label displayed to editors</param>
 		/// <param name="sortOrder">The order of this editor</param>
 		/// <param name="maxLength">The max length of the text box.</param>
-		public TextEditorAttributeBase(string title, int sortOrder, int maxLength)
+		protected TextEditorAttributeBase(string title, int sortOrder, int maxLength)
 			: this(title, sortOrder)
 		{
 			MaxLength = maxLength;
@@ -58,7 +58,7 @@ namespace Zeus.Design.Editors
 		{
 			var tb = editor as ITextControl;
 			var value = (tb.Text == DefaultValue) ? null : tb.Text;
-            if (!AreEqual(value, (item[Name] == null ? null : item[Name].ToString())))
+            if (!AreEqual(value, item[Name]?.ToString()))
 			{
 				item[Name] = value;
 				return true;

@@ -12,7 +12,6 @@ namespace Zeus.Design.Editors
 		public TimeEditorAttribute(string title, int sortOrder)
 			: base(title, sortOrder)
 		{
-			
 		}
 
 		protected override Control AddEditor(Control container)

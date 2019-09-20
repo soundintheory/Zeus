@@ -39,7 +39,6 @@ namespace Zeus.Design.Editors
 		public ChildEditorAttribute(string title, int sortOrder)
 			: base(title, sortOrder)
 		{
-			
 		}
 
 		#endregion
@@ -162,10 +161,10 @@ namespace Zeus.Design.Editors
 			try
 			{
 				child = Definitions.CreateInstance(childItemType, item);
-                if (child is AcceptArgsFromChildEditor)
+                if (child is AcceptArgsFromChildEditor acceptArgsFromChildEditor)
                 {
-                    ((AcceptArgsFromChildEditor)child).arg1 = this.arg1;
-                    ((AcceptArgsFromChildEditor)child).arg2 = this.arg2;
+                    (acceptArgsFromChildEditor).arg1 = this.arg1;
+                    (acceptArgsFromChildEditor).arg2 = this.arg2;
                 }
 			}
 			catch (KeyNotFoundException ex)

@@ -24,6 +24,7 @@ jQuery(document).ready(function() {{
 	else
 		window.location = '{1}';
 }});";
+
 		private const string REFRESH_PREVIEW_FORMAT = @"
 jQuery(document).ready(function() {{
 	if (window.top.zeus)
@@ -31,6 +32,7 @@ jQuery(document).ready(function() {{
 	else
 		window.location = '{1}';
 }});";
+
 		private const string REFRESH_BOTH_FORMAT = @"
 jQuery(document).ready(function() {{
 	if (window.top.zeus)
@@ -59,7 +61,7 @@ jQuery(document).ready(function() {{
 			{
                 var selectedItem = GetFromViewState()
                     ?? GetFromUrl();
-                
+
                 //added code to stop the start page being returned if the url accessed is tampered with or data changed during edit, else home page was getting edited!!
                 if (selectedItem == null && !string.IsNullOrEmpty(Request["selected"]))
 				{
@@ -74,14 +76,7 @@ jQuery(document).ready(function() {{
 			}
 			set
 			{
-				if (value != null)
-				{
-					SelectedItemID = value.ID;
-				}
-				else
-				{
-					SelectedItemID = 0;
-				}
+				SelectedItemID = value != null ? value.ID : 0;
 			}
 		}
 
@@ -97,6 +92,7 @@ jQuery(document).ready(function() {{
 		}
 
 		private ContentItem _memorizedItem;
+
 		protected ContentItem MemorizedItem
 		{
 			get { return _memorizedItem ?? (_memorizedItem = Engine.Resolve<Navigator>().Navigate(Request.QueryString["memory"])); }

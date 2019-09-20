@@ -19,7 +19,7 @@ namespace Zeus.Web
 		/// <summary>Rewrites a dynamic/computed url to an actual template url.</summary>
 		public virtual void RewriteRequest(RewriteMethod rewriteMethod)
 		{
-			if (Path == null || Path.IsEmpty())
+			if (Path?.IsEmpty() != false)
 			{
 				return;
 			}

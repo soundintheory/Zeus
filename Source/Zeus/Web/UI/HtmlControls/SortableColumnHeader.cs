@@ -50,21 +50,13 @@ namespace Zeus.BaseLibrary.Web.UI.HtmlControls
 		public SortableColumnHeader()
 			: base("th")
 		{
-
 		}
 
 		protected override void CreateChildControls()
 		{
 			base.CreateChildControls();
 
-			if (this.IncludedInSort)
-			{
-				this.Attributes["class"] = "on " + ((this.SortDirection == SortDirection.Ascending) ? "up" : "down");
-			}
-			else
-			{
-				this.Attributes["class"] = string.Empty;
-			}
+			this.Attributes["class"] = this.IncludedInSort ? "on " + ((this.SortDirection == SortDirection.Ascending) ? "up" : "down") : string.Empty;
 		}
 	}
 }

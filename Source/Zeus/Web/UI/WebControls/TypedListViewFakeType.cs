@@ -8,7 +8,7 @@ namespace Zeus.Web.UI.WebControls
 	/// </summary>
 	internal class TypedListViewFakeType : TypeDelegator
 	{
-		private Type listViewItemType;
+		private readonly Type listViewItemType;
 
 		public TypedListViewFakeType(Type dataItemType)
 			: base(typeof(TypedListView<>).MakeGenericType(dataItemType))

@@ -13,7 +13,7 @@ namespace Zeus.Web
 			if (adminSection != null)
 			{
 				var adminPath = (!adminSection.Path.StartsWith("/")) ? "/" + adminSection.Path : adminSection.Path;
-				return (urlPath.StartsWith(adminPath, StringComparison.OrdinalIgnoreCase));
+				return urlPath.StartsWith(adminPath, StringComparison.OrdinalIgnoreCase);
 			}
 			return false;
 		}
@@ -22,7 +22,7 @@ namespace Zeus.Web
 		{
 			get
 			{
-				return (((HttpContext.Current != null) && (HttpContext.Current.Request != null)) && IsSystemDirectory(HttpContext.Current.Request.Url.AbsolutePath));
+				return ((HttpContext.Current?.Request != null)) && IsSystemDirectory(HttpContext.Current.Request.Url.AbsolutePath);
 			}
 		}
 	}

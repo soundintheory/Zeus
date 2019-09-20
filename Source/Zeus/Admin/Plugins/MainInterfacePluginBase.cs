@@ -23,7 +23,6 @@ namespace Zeus.Admin.Plugins
 
 		public virtual void ModifyInterface(IMainInterface mainInterface)
 		{
-			
 		}
 
 		public virtual void RegisterScripts(ResourceManager scriptManager)

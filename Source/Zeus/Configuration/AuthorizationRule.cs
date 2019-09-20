@@ -9,7 +9,7 @@ namespace Zeus.Configuration
 		private CommaDelimitedStringCollection _roles, _users;
 
 		public AuthorizationRuleAction Action { get; set; }
- 
+
 		[TypeConverter(typeof(CommaDelimitedStringCollectionConverter)), ConfigurationProperty("roles")]
 		public StringCollection Roles
 		{
@@ -18,14 +18,7 @@ namespace Zeus.Configuration
 				if (_roles == null)
 				{
 					var strings = (CommaDelimitedStringCollection) base["roles"];
-					if (strings == null)
-					{
-						_roles = new CommaDelimitedStringCollection();
-					}
-					else
-					{
-						_roles = strings.Clone();
-					}
+					_roles = strings == null ? new CommaDelimitedStringCollection() : strings.Clone();
 				}
 				return _roles;
 			}
@@ -39,19 +32,10 @@ namespace Zeus.Configuration
 				if (_users == null)
 				{
 					var strings = (CommaDelimitedStringCollection) base["users"];
-					if (strings == null)
-					{
-						_users = new CommaDelimitedStringCollection();
-					}
-					else
-					{
-						_users = strings.Clone();
-					}
+					_users = strings == null ? new CommaDelimitedStringCollection() : strings.Clone();
 				}
 				return _users;
 			}
 		}
- 
-
 	}
 }

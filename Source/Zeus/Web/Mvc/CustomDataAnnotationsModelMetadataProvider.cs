@@ -19,7 +19,7 @@ namespace Zeus.Web.Mvc
 				defaultMetadata.Description = attributes.OfType<DescriptionAttribute>().First().Description;
 			}
 
-			if (modelType.IsEnum || (Nullable.GetUnderlyingType(modelType) != null && Nullable.GetUnderlyingType(modelType).IsEnum))
+			if (modelType.IsEnum || (Nullable.GetUnderlyingType(modelType)?.IsEnum == true))
 			{
 				defaultMetadata.TemplateHint = "Enum";
 			}

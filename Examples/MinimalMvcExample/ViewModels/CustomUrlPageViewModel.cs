@@ -8,7 +8,6 @@ namespace Zeus.Examples.MinimalMvcExample.ViewModels
         public CustomUrlPageViewModel(CustomUrlPage currentItem)
             : base(currentItem)
         {
-
         }
     }
 }

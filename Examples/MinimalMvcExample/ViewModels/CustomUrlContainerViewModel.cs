@@ -8,7 +8,6 @@ namespace Zeus.Examples.MinimalMvcExample.ViewModels
         public CustomUrlContainerViewModel(CustomUrlContainer currentItem)
             : base(currentItem)
         {
-
         }
     }
 }

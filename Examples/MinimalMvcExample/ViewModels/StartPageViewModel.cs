@@ -8,7 +8,6 @@ namespace Zeus.Examples.MinimalMvcExample.ViewModels
         public StartPageViewModel(StartPage currentItem)
             : base(currentItem)
         {
-
         }
     }
 }

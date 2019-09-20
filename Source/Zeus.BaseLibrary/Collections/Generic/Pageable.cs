@@ -18,7 +18,7 @@ namespace Zeus.BaseLibrary.Collections.Generic
 			Paged = paged;
 		}
 
-		public bool Paged { get; private set; }
+		public bool Paged { get; }
 
 		public IEnumerable<T> NonPagedItems { get; }
 

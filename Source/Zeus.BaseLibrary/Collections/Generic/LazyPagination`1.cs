@@ -20,13 +20,13 @@ namespace Zeus.BaseLibrary.Collections.Generic
 		public const int DefaultPageSize = 20;
 		private IList<T> results;
 		private int totalItems;
-		public int PageSize { get; private set; }
+		public int PageSize { get; }
+
 		/// <summary>
 		/// The query to execute.
 		/// </summary>
-		public IEnumerable<T> Query { get; private set; }
-		public int PageNumber { get; private set; }
-
+		public IEnumerable<T> Query { get; }
+		public int PageNumber { get; }
 
 		/// <summary>
 		/// Creates a new instance of the <see cref="LazyPagination{T}"/> class.

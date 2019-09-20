@@ -30,7 +30,7 @@ namespace Zeus.Web.UI
 
 		protected virtual ContentItem CurrentPage
 		{
-			get { return (ContentItem) ((Page is IContentTemplate) ? (Page as IContentTemplate).CurrentItem : Zeus.Find.CurrentPage); }
+			get { return (ContentItem) ((Page is IContentTemplate) ? (Page as IContentTemplate)?.CurrentItem : Zeus.Find.CurrentPage); }
 		}
 
 		public virtual ContentItem CurrentItem

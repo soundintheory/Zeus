@@ -21,7 +21,7 @@ namespace Zeus.Templates.Services
 
 		public void Initialize()
 		{
-			if (_templatesConfig.Tagging == null || !_templatesConfig.Tagging.Enabled)
+			if (_templatesConfig.Tagging?.Enabled != true)
 			{
 				return;
 			}

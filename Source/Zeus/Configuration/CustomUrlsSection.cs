@@ -24,6 +24,5 @@ namespace Zeus.Configuration
             get { return (CustomUrlsMandatoryStringsCollection)base["mandatoryStrings"]; }
             set { base["mandatoryStrings"] = value; }
         }
-
 	}
 }

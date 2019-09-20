@@ -8,7 +8,6 @@ namespace Zeus.Templates.Mvc.ViewModels
 		public ForgottenPasswordPageResetViewModel(ForgottenPasswordPage currentItem)
 			: base(currentItem)
 		{
-			
 		}
 	}
 }

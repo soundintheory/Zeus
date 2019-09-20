@@ -36,7 +36,7 @@ namespace Zeus.Admin.Plugins.Versions
 			chkShowAllLanguages.Visible = GlobalizationEnabled;
 
 			ResetPublishedItems();
-			
+
 			base.OnInit(e);
 		}
 
@@ -147,7 +147,6 @@ namespace Zeus.Admin.Plugins.Versions
 
 		protected void gvHistory_RowDeleting(object sender, GridViewDeleteEventArgs e)
 		{
-			
 		}
 
 		protected string GetLanguage(string languageCode)

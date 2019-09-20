@@ -26,6 +26,7 @@ namespace Zeus.Admin.Install
 			get { return (int) (ViewState["rootId"] ?? 0); }
 			set { ViewState["rootId"] = value; }
 		}
+
 		protected int StartId
 		{
 			get { return (int) (ViewState["startId"] ?? 0); }
@@ -43,12 +44,7 @@ namespace Zeus.Admin.Install
 		{
 			get
 			{
-				if (status == null)
-				{
-					status = CurrentInstallationManager.GetStatus();
-				}
-
-				return status;
+				return status ?? (status = CurrentInstallationManager.GetStatus());
 			}
 		}
 
@@ -242,6 +238,7 @@ namespace Zeus.Admin.Install
 				ltRootNode.Text = string.Format("<span class='warning'>{0}</span><!--\n{1}\n-->", ex.Message, ex);
 			}
 		}
+
 		protected void btnInsertRootOnly_Click(object sender, EventArgs e)
 		{
 			var im = CurrentInstallationManager;
@@ -516,7 +513,7 @@ namespace Zeus.Admin.Install
 
 		protected void btnUpload_Click(object sender, EventArgs e)
 		{
-			rfvUpload.IsValid = fileUpload.PostedFile != null && fileUpload.PostedFile.FileName.Length > 0;
+			rfvUpload.IsValid = fileUpload.PostedFile?.FileName.Length > 0;
 			if (!rfvUpload.IsValid)
 			{
 				return;

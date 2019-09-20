@@ -26,12 +26,11 @@ namespace Zeus.FileSystem
 			get { return base.Name; }
 			set { base.Name = value; }
 		}
-        
+
         public override string Title
-        {        
+        {
 			get { return base.Name; }
 			set { base.Title = value; }
 		}
-         
 	}
 }

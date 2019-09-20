@@ -12,7 +12,7 @@ namespace Zeus.Templates.Mvc
 
 		protected abstract string ContentType { get; }
 
-		protected Feed Feed { get; private set; }
+		protected Feed Feed { get; }
 
 		protected HttpContextBase HttpContext
 		{
@@ -108,14 +108,7 @@ namespace Zeus.Templates.Mvc
 			context.HttpContext.Response.Cache.SetETag(Feed.LastModified.ToString(CultureInfo.InvariantCulture));
 
 			context.HttpContext.Response.AddHeader("IM", "feed");
-			if (Feed.UseDeltaEncoding)
-			{
-				HttpContext.Response.StatusCode = HttpImUsed; //IM Used
-			}
-			else
-			{
-				HttpContext.Response.StatusCode = (int) HttpStatusCode.OK;
-			}
+			HttpContext.Response.StatusCode = Feed.UseDeltaEncoding ? HttpImUsed : (int) HttpStatusCode.OK;
 
 			WriteXml(context);
 		}

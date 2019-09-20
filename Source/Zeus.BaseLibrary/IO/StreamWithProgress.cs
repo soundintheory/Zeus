@@ -7,10 +7,10 @@ namespace Zeus.BaseLibrary.IO
 	{
 		public event EventHandler<ProgressChangedEventArgs> ProgressChanged;
 
-		private Stream file;
-		private long length;
+		private readonly Stream file;
+		private readonly long length;
 		private long bytesRead;
-		private string _fileName;
+		private readonly string _fileName;
 
 		public override bool CanRead
 		{

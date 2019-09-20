@@ -20,7 +20,7 @@ namespace Zeus.Configuration
 			get { return (string) base["defaultUrl"]; }
 			set { base["defaultUrl"] = string.IsNullOrEmpty(value) ? base.Properties["defaultUrl"].DefaultValue : value; }
 		}
- 
+
 		[ConfigurationProperty("domain", DefaultValue = "")]
 		public string Domain
 		{

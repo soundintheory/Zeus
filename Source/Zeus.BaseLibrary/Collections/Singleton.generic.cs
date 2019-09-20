@@ -9,7 +9,7 @@ namespace Zeus.BaseLibrary.Collections
 	/// <remarks>Access to the instance is not synchrnoized.</remarks>
 	public class Singleton<T> : Singleton
 	{
-		static T instance;
+		private static T instance;
 
 		/// <summary>The singleton instance for the specified type T. Only one instance (at the time) of this object for each type of T.</summary>
 		public static T Instance

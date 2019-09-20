@@ -19,13 +19,11 @@ namespace Zeus.ContentTypes
 		public string Name
 		{
 			get;
-			private set;
 		}
 
 		public PropertyInfo UnderlyingProperty
 		{
 			get;
-			private set;
 		}
 
 		#endregion

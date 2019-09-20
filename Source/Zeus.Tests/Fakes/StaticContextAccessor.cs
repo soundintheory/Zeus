@@ -5,7 +5,7 @@ namespace Zeus.Tests.Fakes
 {
 	public class StaticContextAccessor : IRequestContextAccessor
 	{
-		Hashtable context = new Hashtable();
+		private readonly Hashtable context = new Hashtable();
 
 		public object Get(object key)
 		{

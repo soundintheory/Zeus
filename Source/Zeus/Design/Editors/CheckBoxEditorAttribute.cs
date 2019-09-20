@@ -9,7 +9,6 @@ namespace Zeus.Design.Editors
 		public CheckBoxEditorAttribute()
 			: base(typeof(CheckBox), "Checked")
 		{
-			
 		}
 
 		/// <summary>Creates a new instance of the checkbox editable attribute.</summary>

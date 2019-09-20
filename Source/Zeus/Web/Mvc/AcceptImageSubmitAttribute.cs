@@ -22,7 +22,7 @@ namespace Zeus.Web.Mvc
 			}
 
 			var buttonName = button.Substring(0, button.Length - 2);
-			return (Name == buttonName);
+			return Name == buttonName;
 		}
 	}
 }

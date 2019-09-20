@@ -11,7 +11,6 @@ namespace Zeus.Templates.ContentTypes.ReferenceData
 	{
 		public Country()
 		{
-
 		}
 
 		public Country(string alpha2, string ignore, string title, string alpha3, string numeric)

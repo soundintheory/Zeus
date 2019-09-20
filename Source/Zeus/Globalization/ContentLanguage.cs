@@ -17,7 +17,6 @@ namespace Zeus.Globalization
 
 		protected ContentLanguage()
 		{
-			
 		}
 
 		public static ContentLanguage Instance { get; set; }
@@ -66,7 +65,7 @@ namespace Zeus.Globalization
 				list.ConditionalAddCookie(request.Cookies["zeuslanguage"]);
 
 				var globalizationConfig = ConfigurationManager.GetSection("zeus/globalization") as GlobalizationSection;
-				if (globalizationConfig != null && globalizationConfig.UseBrowserLanguagePreferences)
+				if (globalizationConfig?.UseBrowserLanguagePreferences == true)
 				{
 					list.ConditionalAddRange(request.UserLanguages);
 				}

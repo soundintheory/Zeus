@@ -26,8 +26,8 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 
 		protected Shop CurrentShop
 		{
-			get 
-            { 
+			get
+            {
                 var result = CurrentItem.GetParent();
                 return (Shop)(result.TranslationOf ?? result);
             }
@@ -59,7 +59,7 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 			var product = Engine.Persister.Get<Product>(productID);
 			var variationPermutation = (variationPermutationID != null) ? Engine.Persister.Get<VariationPermutation>(variationPermutationID.Value) : null;
 			_shoppingBasketService.UpdateQuantity(CurrentShop, product, variationPermutation, quantity);
-			
+
 			return Redirect(CurrentItem.Url);
 		}
 

@@ -288,8 +288,8 @@ namespace Zeus.Design.Editors
 		protected bool AreEqual(object editorValue, object itemValue)
 		{
 			return (editorValue == null && itemValue == null)
-			       || (editorValue != null && editorValue.Equals(itemValue))
-			       || (itemValue != null && itemValue.Equals(editorValue));
+			       || (editorValue?.Equals(itemValue) == true)
+			       || (itemValue?.Equals(editorValue) == true);
 		}
 
 		/// <summary>Updates the object with the values from the editor.</summary>
@@ -376,7 +376,7 @@ namespace Zeus.Design.Editors
 				return false;
 			}
 
-			return (Name == other.Name);
+			return Name == other.Name;
 		}
 
 		/// <summary>Gets a hash code based on the attribute's name.</summary>

@@ -122,7 +122,7 @@ namespace Zeus.Templates.Services.AntiSpam
 			SubmitComment(currentStartPage, comment, _submitHamUrl);
 		}
 
-		string SubmitComment(ContentItem currentStartPage, IAntiSpamComment comment, Url url)
+		private string SubmitComment(ContentItem currentStartPage, IAntiSpamComment comment, Url url)
 		{
 			// Not too many concatenations.  Might not need a string builder.
 			var parameters = "blog=" + HttpUtility.UrlEncode(_webContext.GetFullyQualifiedUrl(currentStartPage.Url))

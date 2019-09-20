@@ -7,6 +7,7 @@ namespace Zeus.Web.Security
 	{
 		User CreateUser(string username, string password, string email, string[] roles,
 			bool isVerified, out UserCreateStatus createStatus);
+
 		IEnumerable<string> GetAllRoles();
 		IEnumerable<User> GetAllUsers();
 		User GetUser(string username);

@@ -15,9 +15,9 @@ namespace Zeus.Web.Security
 		}
 
 		public AuthorizationRuleAction Action { get; set; }
-		public List<string> Users { get; private set; }
-		public List<string> Roles { get; private set; }
-		public List<string> Verbs { get; private set; }
+		public List<string> Users { get; }
+		public List<string> Roles { get; }
+		public List<string> Verbs { get; }
 
 		public bool AllUsersSpecified
 		{

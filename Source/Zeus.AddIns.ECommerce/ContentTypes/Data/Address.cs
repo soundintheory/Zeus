@@ -87,7 +87,6 @@ namespace Zeus.AddIns.ECommerce.ContentTypes.Data
 					Postcode + "<br/>" +
 					Country.Title;
 			}
-			
 		}
 	}
 }

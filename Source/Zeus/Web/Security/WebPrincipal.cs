@@ -15,7 +15,6 @@ namespace Zeus.Web.Security
 		public User MembershipUser
 		{
 			get;
-			private set;
 		}
 	}
 }

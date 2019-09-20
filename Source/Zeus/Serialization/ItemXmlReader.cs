@@ -29,11 +29,13 @@ namespace Zeus.Serialization
 
 		private static IDictionary<string, IXmlReader> DefaultReaders()
 		{
-			IDictionary<string, IXmlReader> readers = new Dictionary<string, IXmlReader>();
-			readers["properties"] = new PropertyXmlReader();
-			readers["propertyCollections"] = new PropertyCollectionXmlReader();
-			readers["authorizationRules"] = new AuthorizationRuleXmlReader();
-			readers["languageSettings"] = new LanguageSettingXmlReader();
+			IDictionary<string, IXmlReader> readers = new Dictionary<string, IXmlReader>
+			{
+				["properties"] = new PropertyXmlReader(),
+				["propertyCollections"] = new PropertyCollectionXmlReader(),
+				["authorizationRules"] = new AuthorizationRuleXmlReader(),
+				["languageSettings"] = new LanguageSettingXmlReader()
+			};
 			return readers;
 		}
 

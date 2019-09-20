@@ -100,8 +100,6 @@ namespace Zeus.AddIns.ECommerce.ContentTypes.Data
 
 				return res;
             }
-
         }
-
     }
 }

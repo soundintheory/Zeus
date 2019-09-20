@@ -15,6 +15,6 @@ namespace Zeus
 		}
 
 		/// <summary>Gets the destination for the event with these arguments.</summary>
-		public ContentItem Destination { get; private set; }
+		public ContentItem Destination { get; }
 	}
 }

@@ -94,12 +94,7 @@ namespace Coolite.Ext.UX
 		{
 			get
 			{
-				if (_settings == null)
-				{
-					_settings = new TinyMCESettings();
-				}
-
-				return _settings;
+				return _settings ?? (_settings = new TinyMCESettings());
 			}
 		}
 

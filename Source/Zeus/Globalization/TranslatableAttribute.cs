@@ -10,7 +10,6 @@ namespace Zeus.Globalization
 		public TranslatableAttribute()
 			: this(true)
 		{
-			
 		}
 
 		public TranslatableAttribute(bool translatable)

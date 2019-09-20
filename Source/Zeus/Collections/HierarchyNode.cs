@@ -5,7 +5,7 @@ namespace Zeus.Collections
 {
 	public class HierarchyNode<T>
 	{
-		private List<HierarchyNode<T>> _children;
+		private readonly List<HierarchyNode<T>> _children;
 
 		public HierarchyNode(T current)
 		{

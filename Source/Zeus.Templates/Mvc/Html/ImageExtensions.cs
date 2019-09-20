@@ -50,7 +50,7 @@ namespace Zeus.Templates.Mvc.Html
         /// <summary>
         /// Image URL methods
         /// </summary>
-        
+
         public static string ImageUrl(this HtmlHelper helper, Image image)
         {
             return ImageUrl(helper, image, 0, 0);
@@ -73,7 +73,6 @@ namespace Zeus.Templates.Mvc.Html
 
         public static string ImageUrl(this HtmlHelper helper, Image image, int width, int height, bool fill, string defaultImage, DynamicImageFormat format)
         {
-            
             var result = defaultImage;
 
             // only generate url if image exists
@@ -103,7 +102,6 @@ namespace Zeus.Templates.Mvc.Html
             }
 
             return result;
-            
         }
 
         /// <summary>

@@ -33,9 +33,7 @@ namespace Zeus.ContentProperties
 
 			// Resolve permanent links.
 			var permanentLinkManager = Context.Current.Resolve<IPermanentLinkManager>();
-			result = permanentLinkManager.ResolvePermanentLinks(result);
-
-			return result;
+			return permanentLinkManager.ResolvePermanentLinks(result);
 		}
 
 		#endregion

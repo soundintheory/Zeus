@@ -16,11 +16,11 @@ namespace Zeus.Web
 	/// </summary>
 	public class RequestLifecycleHandler : IRequestLifecycleHandler, IStartable
 	{
-		readonly IErrorHandler errors;
-		readonly IWebContext webContext;
-		readonly EventBroker broker;
-		readonly InstallationManager installer;
-		readonly IRequestDispatcher dispatcher;
+		private readonly IErrorHandler errors;
+		private readonly IWebContext webContext;
+		private readonly EventBroker broker;
+		private readonly InstallationManager installer;
+		private readonly IRequestDispatcher dispatcher;
 
 		protected bool initialized = false;
 		protected bool checkInstallation = false;
@@ -105,7 +105,7 @@ namespace Zeus.Web
 		/// <summary>Infuses the http handler (usually an aspx page) with the content page associated with the url if it implements the <see cref="IContentTemplate"/> interface.</summary>
 		protected virtual void Application_AcquireRequestState(object sender, EventArgs e)
 		{
-			if (webContext.CurrentPath == null || webContext.CurrentPath.IsEmpty())
+			if (webContext.CurrentPath?.IsEmpty() != false)
 			{
 				return;
 			}
@@ -116,7 +116,7 @@ namespace Zeus.Web
 
 		protected virtual void Application_AuthorizeRequest(object sender, EventArgs e)
 		{
-			if (webContext.CurrentPath == null || webContext.CurrentPath.IsEmpty())
+			if (webContext.CurrentPath?.IsEmpty() != false)
 			{
 				return;
 			}

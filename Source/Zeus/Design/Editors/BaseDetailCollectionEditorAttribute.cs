@@ -11,7 +11,6 @@ namespace Zeus.Design.Editors
 		protected BaseDetailCollectionEditorAttribute(string title, int sortOrder)
 			: base(title, sortOrder)
 		{
-			
 		}
 
 		public override bool UpdateItem(IEditableObject item, Control editor)

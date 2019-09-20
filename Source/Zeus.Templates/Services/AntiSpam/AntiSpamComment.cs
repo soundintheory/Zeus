@@ -6,7 +6,7 @@ namespace Zeus.Templates.Services.AntiSpam
 {
 	public class AntiSpamComment : IAntiSpamComment
 	{
-		NameValueCollection _serverEnvironmentVariables;
+		private NameValueCollection _serverEnvironmentVariables;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AntiSpamComment"/> class.
@@ -56,7 +56,7 @@ namespace Zeus.Templates.Services.AntiSpam
 		/// <summary>
 		/// User agent of the requester. (Required)
 		/// </summary>
-		public string UserAgent { get; private set; }
+		public string UserAgent { get; }
 
 		/// <summary>
 		/// May be one of the following: {blank}, "comment", "trackback", "pingback", or a made-up value 
@@ -67,7 +67,7 @@ namespace Zeus.Templates.Services.AntiSpam
 		/// <summary>
 		/// IPAddress of the submitter
 		/// </summary>
-		public IPAddress IPAddress { get; private set; }
+		public IPAddress IPAddress { get; }
 
 		/// <summary>
 		/// Optional collection of various server environment variables. 

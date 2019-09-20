@@ -101,7 +101,7 @@ namespace Zeus.Web.Security
 				tOld = null;
 			}
 
-			if (tOld == null || tOld.Expired)
+			if (tOld?.Expired != false)
 			{
 				return;
 			}
@@ -169,7 +169,6 @@ namespace Zeus.Web.Security
 
 		public void Dispose()
 		{
-
 		}
 
 		#endregion

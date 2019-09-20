@@ -10,8 +10,6 @@ namespace Zeus.Web.Mvc
 {
 	public class ControllerMapper : IControllerMapper
 	{
-		private readonly IDictionary<Type, string> _areaMap = new Dictionary<Type, string>();
-
 		public ControllerMapper(ITypeFinder typeFinder, IContentTypeManager definitionManager, IKernel kernel)
 		{
 			var controllerDefinitions = FindControllers(typeFinder);
@@ -77,10 +75,7 @@ namespace Zeus.Web.Mvc
 
 		private IDictionary<Type, string> ControllerMap { get; } = new Dictionary<Type, string>();
 
-		private IDictionary<Type, string> AreaMap
-		{
-			get { return _areaMap; }
-		}
+		private IDictionary<Type, string> AreaMap { get; } = new Dictionary<Type, string>();
 
 		private static IAdapterDescriptor GetControllerFor(Type itemType, IList<ControlsAttribute> controllerDefinitions)
 		{

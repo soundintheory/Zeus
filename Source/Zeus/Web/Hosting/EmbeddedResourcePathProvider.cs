@@ -63,29 +63,18 @@ namespace Zeus.Web.Hosting
 						continue;
 					}
 
-					if (retVal == null)
-					{
-						retVal = new AggregateCacheDependency();
-					}
-
-					retVal.Add(dependencyToAdd);
+					(retVal ?? (retVal = new AggregateCacheDependency())).Add(dependencyToAdd);
 				}
 			}
 
 			// Handle the primary file
-			CacheDependency primaryDependency = null;
-			primaryDependency = FileHandledByBaseProvider(absolutePath)
+			var primaryDependency = FileHandledByBaseProvider(absolutePath)
 				? base.GetCacheDependency(absolutePath, null, utcStart)
 				: new CacheDependency((_manager.GetFile(absolutePath)).ContainingAssembly.Location, utcStart);
 
 			if (primaryDependency != null)
 			{
-				if (retVal == null)
-				{
-					retVal = new AggregateCacheDependency();
-				}
-
-				retVal.Add(primaryDependency);
+				(retVal ?? (retVal = new AggregateCacheDependency())).Add(primaryDependency);
 			}
 
 			return retVal;

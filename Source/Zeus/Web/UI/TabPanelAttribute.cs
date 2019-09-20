@@ -47,6 +47,5 @@ namespace Zeus.Web.UI
 
 	public class CustomTabPanel : TabPanel, INamingContainer
 	{
-		
 	}
 }

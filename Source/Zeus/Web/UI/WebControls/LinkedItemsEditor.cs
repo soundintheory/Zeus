@@ -45,7 +45,7 @@ namespace Zeus.Web.UI.WebControls
 			var first = ((IEnumerable) Zeus.Context.Current.Finder.Query(TypeFilterInternal)).Cast<ContentItem>();
 			var contentItems = first.ToArray().Cast<ContentItem>();
 			ddl.Items.AddRange(contentItems.Select(ci => new ListItem(ci.Title, ci.ID.ToString())).ToArray());
-			if (linkDetail != null && linkDetail.LinkValue != null)
+			if (linkDetail?.LinkValue != null)
 			{
 				ddl.SelectedValue = linkDetail.LinkValue.Value.ToString();
 			}

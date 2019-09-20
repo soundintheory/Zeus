@@ -14,13 +14,13 @@ namespace Zeus.BaseLibrary
 			if (value != null)
 			{
 				var converter = TypeDescriptor.GetConverter(destinationType);
-				if (converter != null && converter.CanConvertFrom(value.GetType()))
+				if (converter?.CanConvertFrom(value.GetType()) == true)
 				{
 					return converter.ConvertFrom(value);
 				}
 
 				converter = TypeDescriptor.GetConverter(value.GetType());
-				if (converter != null && converter.CanConvertTo(destinationType))
+				if (converter?.CanConvertTo(destinationType) == true)
 				{
 					return converter.ConvertTo(value, destinationType);
 				}

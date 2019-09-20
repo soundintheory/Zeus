@@ -47,8 +47,10 @@ namespace Zeus.Web
 		{
 			lock (Instance)
 			{
-				var newFinders = new List<IPathFinder>(GetFinders(itemType));
-				newFinders.Add(finder);
+				var newFinders = new List<IPathFinder>(GetFinders(itemType))
+				{
+					finder
+				};
 				Instance[itemType] = newFinders.ToArray();
 			}
 		}
@@ -69,7 +71,7 @@ namespace Zeus.Web
 		/// <summary>Looks up path finders for a certain type using reflection.</summary>
 		/// <param name="itemType">The type of item whose path finders to get.</param>
 		/// <returns>A list of path finders that decorates the item class and it's base types.</returns>
-		static IPathFinder[] FindFinders(Type itemType)
+		private static IPathFinder[] FindFinders(Type itemType)
 		{
 			var attributes = itemType.GetCustomAttributes(typeof(IPathFinder), true);
 			var pathFinders = new List<IPathFinder>(attributes.Length);

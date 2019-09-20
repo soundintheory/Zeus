@@ -8,7 +8,6 @@ namespace Zeus.Templates.Mvc.ViewModels
 		public FeedLinkViewModel(FeedLink currentItem)
 			: base(currentItem)
 		{
-			
 		}
 	}
 }

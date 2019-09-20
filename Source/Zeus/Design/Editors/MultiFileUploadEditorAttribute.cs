@@ -17,7 +17,6 @@ namespace Zeus.Design.Editors
 		public MultiFileUploadEditorAttribute(string title, int sortOrder)
 			: base(title, sortOrder)
 		{
-			
 		}
 
 		protected override void CreateOrUpdateDetailCollectionItem(ContentItem contentItem, PropertyData existingDetail, Control editor, out object newDetail)
@@ -70,7 +69,6 @@ namespace Zeus.Design.Editors
 
 		protected virtual void HandleUpdatedFile(File file)
 		{
-			
 		}
 
 		protected virtual File CreateNewItem()

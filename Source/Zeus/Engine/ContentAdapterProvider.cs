@@ -12,10 +12,10 @@ namespace Zeus.Engine
 	/// </summary>
 	public class ContentAdapterProvider : IContentAdapterProvider, IInitializable
 	{
-		readonly ContentEngine engine;
+		private readonly ContentEngine engine;
 		private readonly ITypeFinder _typeFinder;
-		readonly IAssemblyFinder assemblyFinder;
-		IAdapterDescriptor[] adapterDescriptors = new IAdapterDescriptor[0];
+		private readonly IAssemblyFinder assemblyFinder;
+		private IAdapterDescriptor[] adapterDescriptors = new IAdapterDescriptor[0];
 		private readonly object _lockObject = new object();
 
 		public ContentAdapterProvider(ContentEngine engine, IAssemblyFinder finder, ITypeFinder typeFinder)
@@ -32,12 +32,11 @@ namespace Zeus.Engine
 
 		#region IContentAdapterProvider Members
 
-
 		/// <summary>Resolves the controller for the current Url.</summary>
 		/// <returns>A suitable controller for the given Url.</returns>
 		public virtual T ResolveAdapter<T>(PathData path) where T : class, IContentAdapter
 		{
-			if (path == null || path.IsEmpty())
+			if (path?.IsEmpty() != false)
 			{
 				return null;
 			}
@@ -103,12 +102,12 @@ namespace Zeus.Engine
 			{
 				foreach (IAdapterDescriptor reference in assembly.GetCustomAttributes(typeof(IAdapterDescriptor), false))
 				{
-					if (null == reference.ItemType)
+					if (reference.ItemType == null)
 					{
 						throw new ZeusException("The assembly '{0}' defines a [assembly: Controls(null)] attribute with no ItemType specified. Please specify this property: [assembly: Controls(typeof(MyItem), AdapterType = typeof(MyAdapter)]", assembly);
 					}
 
-					if (null == reference.AdapterType)
+					if (reference.AdapterType == null)
 					{
 						throw new ZeusException("The assembly '{0}' defines a [assembly: Controls(typeof({1})] attribute with no AdapterType specified. Please specify this property: [assembly: Controls(typeof({1}), AdapterType = typeof(MyAdapter)]", assembly, reference.ItemType.Name);
 					}

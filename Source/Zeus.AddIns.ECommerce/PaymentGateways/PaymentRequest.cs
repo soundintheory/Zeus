@@ -11,7 +11,7 @@ namespace Zeus.AddIns.ECommerce.PaymentGateways
         /// <summary>
         /// Constructor
         /// </summary>
-        
+
         public PaymentRequest()
         { }
 
@@ -26,7 +26,7 @@ namespace Zeus.AddIns.ECommerce.PaymentGateways
         }
 
         public PaymentRequest(PaymentTransactionType transactionType, string transactionCode, decimal amount, string description,
-			Address billingAddress, Address shippingAddress, 
+			Address billingAddress, Address shippingAddress,
             PaymentCard card, string cardNumber, string cardSecurityCode,
 			string telephoneNumber, string emailAddress,
 			string clientIpAddress, string currencyOverride)
@@ -54,9 +54,9 @@ namespace Zeus.AddIns.ECommerce.PaymentGateways
             Initialise(transactionType, transactionCode, amount, description, billingAddress, shippingAddress,
                 card, cardNumber, cardSecurityCode, telephoneNumber, emailAddress, clientIpAddress, currencyOverride, false, true, token, storeToken);
         }
-        
+
         private void Initialise(PaymentTransactionType transactionType, string transactionCode, decimal amount, string description,
-			Address billingAddress, Address shippingAddress, 
+			Address billingAddress, Address shippingAddress,
             PaymentCard card, string cardNumber, string cardSecurityCode,
 			string telephoneNumber, string emailAddress,
             string clientIpAddress, string currencyOverride, bool createToken, bool useToken, string token, bool storeToken)
@@ -97,7 +97,7 @@ namespace Zeus.AddIns.ECommerce.PaymentGateways
         public PaymentCard Card { get; set; }
         public string CardNumber { get; set; }
         public string CardSecurityCode { get; set; }
-        
+
 		public string TelephoneNumber { get; set; }
 		public string EmailAddress { get; set; }
 

@@ -40,7 +40,6 @@ namespace Zeus.Design.Editors
 		public TextAreaEditorAttribute(string title, int sortOrder, int maxLength)
 			: base(title, sortOrder, maxLength)
 		{
-
 		}
 
 		#region Properties

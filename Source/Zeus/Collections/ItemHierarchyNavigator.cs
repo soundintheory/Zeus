@@ -10,7 +10,6 @@ namespace Zeus.Collections
 	{
 		#region Fields
 
-
 		#endregion
 
 		#region Constructors

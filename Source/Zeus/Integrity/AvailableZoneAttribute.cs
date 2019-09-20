@@ -13,13 +13,11 @@ namespace Zeus.Integrity
 	{
 		public AvailableZoneAttribute(string title, string zoneName)
 		{
-			this.title = title;
+			this.Title = title;
 			this.ZoneName = zoneName;
 		}
 
-		#region Private Members
-
-		private string title;
+#region Private Members
 
 		#endregion
 
@@ -28,11 +26,7 @@ namespace Zeus.Integrity
 		public string ZoneName { get; set; }
 
 		/// <summary>Gets or sets the title displayed to editors.</summary>
-		public string Title
-		{
-			get { return title; }
-			set { title = value; }
-		}
+		public string Title { get; set; }
 
 		#endregion
 

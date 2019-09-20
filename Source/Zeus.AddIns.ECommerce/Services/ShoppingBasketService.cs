@@ -26,7 +26,7 @@ namespace Zeus.AddIns.ECommerce.Services
 
         public virtual bool IsValidVariationPermutation(Product product, IEnumerable<Variation> variations)
 		{
-			if ((variations == null || !variations.Any()) && (product.VariationConfigurations == null || !product.VariationConfigurations.Any()))
+			if ((variations?.Any() != true) && (product.VariationConfigurations?.Any() != true))
 			{
 				return true;
 			}
@@ -44,7 +44,7 @@ namespace Zeus.AddIns.ECommerce.Services
 			if (item == null)
 			{
 				VariationPermutation variationPermutation = null;
-				if (variations != null && variations.Any())
+				if (variations?.Any() == true)
 				{
 					variationPermutation = new VariationPermutation();
 					foreach (var variation in variations)
@@ -52,7 +52,7 @@ namespace Zeus.AddIns.ECommerce.Services
 						variationPermutation.Variations.Add(variation);
 					}
 
-					variationPermutation.PriceOverride = GetPriceOverride(variationPermutation, product);				
+					variationPermutation.PriceOverride = GetPriceOverride(variationPermutation, product);
 				}
                 item = new ShoppingBasketItem { Product = product, VariationPermutation = variationPermutation, Quantity = 1 };
 				item.AddTo(shoppingBasket);
@@ -112,7 +112,7 @@ namespace Zeus.AddIns.ECommerce.Services
         public virtual void ClearBasket(Shop shop)
 		{
 			var shoppingBasket = GetCurrentShoppingBasketInternal(shop, false);
-			if (shoppingBasket != null && shoppingBasket.ID > 0)
+			if (shoppingBasket?.ID > 0)
 			{
 				_persister.Delete(shoppingBasket);
 				_webContext.Response.Cookies.Remove(GetCookieKey(shop));
@@ -149,7 +149,6 @@ namespace Zeus.AddIns.ECommerce.Services
                 message = "";
                 return true;
             }
-
         }
 
         public virtual void SaveBasket(Shop shop)

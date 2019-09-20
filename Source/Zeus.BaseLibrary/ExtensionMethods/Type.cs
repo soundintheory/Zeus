@@ -30,7 +30,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 
 		public static bool IsNullable(this Type type)
 		{
-			return (type.IsGenericType && type.GetGenericTypeDefinition().Equals(typeof(Nullable<>)));
+			return type.IsGenericType && type.GetGenericTypeDefinition().Equals(typeof(Nullable<>));
 		}
 
 		/// <summary>

@@ -4,12 +4,10 @@ namespace Zeus.BaseLibrary.Web.Routing
 {
 	public class DebugRoute : Route
 	{
-
 		// Methods
 		private DebugRoute()
 			: base("{*catchall}", new DebugRouteHandler())
 		{
-
 		}
 
 		// Properties

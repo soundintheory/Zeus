@@ -52,10 +52,7 @@ namespace Zeus.Persistence
 		public virtual ContentItem SaveVersion(ContentItem item)
 		{
 			var args = new CancelItemEventArgs(item);
-			if (ItemSavingVersion != null)
-			{
-				ItemSavingVersion.Invoke(this, args);
-			}
+			ItemSavingVersion?.Invoke(this, args);
 
 			if (!args.Cancel)
 			{
@@ -79,10 +76,7 @@ namespace Zeus.Persistence
 
 				_itemRepository.SaveOrUpdate(oldVersion);
 
-				if (ItemSavedVersion != null)
-				{
-					ItemSavedVersion.Invoke(this, new ItemEventArgs(oldVersion));
-				}
+				ItemSavedVersion?.Invoke(this, new ItemEventArgs(oldVersion));
 
 				return oldVersion;
 			}
@@ -96,10 +90,7 @@ namespace Zeus.Persistence
 		public virtual ContentItem ReplaceVersion(ContentItem currentItem, ContentItem replacementItem)
 		{
 			var args = new CancelDestinationEventArgs(currentItem, replacementItem);
-			if (ItemReplacingVersion != null)
-			{
-				ItemReplacingVersion.Invoke(this, args);
-			}
+			ItemReplacingVersion?.Invoke(this, args);
 
 			if (!args.Cancel)
 			{
@@ -116,10 +107,7 @@ namespace Zeus.Persistence
 					currentItem.Updated = Utility.CurrentTime();
 					_itemRepository.Update(currentItem);
 
-					if (ItemReplacedVersion != null)
-					{
-						ItemReplacedVersion.Invoke(this, new ItemEventArgs(replacementItem));
-					}
+					ItemReplacedVersion?.Invoke(this, new ItemEventArgs(replacementItem));
 
 					if (replacementItem.VersionOf == currentItem)
 					{

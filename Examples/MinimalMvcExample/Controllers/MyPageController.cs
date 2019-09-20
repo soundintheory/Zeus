@@ -15,12 +15,9 @@ namespace Zeus.Examples.MinimalMvcExample.Controllers
 			return View(new MyPageViewModel(CurrentItem, ""));
 		}
 
-
         public ActionResult Index(string param)
         {
             return View(new MyPageViewModel(CurrentItem, param));
         }
-
-
 	}
 }

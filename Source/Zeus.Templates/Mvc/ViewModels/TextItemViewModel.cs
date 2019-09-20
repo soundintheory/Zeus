@@ -9,7 +9,6 @@ namespace Zeus.Templates.Mvc.ViewModels
 		public TextItemViewModel(TextItem currentItem)
 			: base(currentItem)
 		{
-			
 		}
 	}
 }

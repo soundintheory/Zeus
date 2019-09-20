@@ -19,7 +19,7 @@ namespace Zeus.BaseLibrary
 				var memberInfo = enumType.GetMember(name);
 
 				var description = name;
-				if (memberInfo != null && memberInfo.Length > 0)
+				if (memberInfo?.Length > 0)
 				{
 					var attribute = memberInfo[0].GetCustomAttribute<DescriptionAttribute>(false, false);
 					if (attribute != null)

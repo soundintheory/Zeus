@@ -46,7 +46,7 @@ namespace Zeus.Admin
 			if (baseMenuItem is MenuItem)
 			{
 				var menuItem = (MenuItem)baseMenuItem;
-				if (menuItem.Menu != null && menuItem.Menu.Primary != null)
+				if (menuItem.Menu?.Primary != null)
 				{
 					return new
 					{
@@ -112,7 +112,7 @@ namespace Zeus.Admin
 						first = false;
 					}
 				}
-				if (result.Any())
+				if (result.Count > 0)
 				{
 					first = true;
 				}

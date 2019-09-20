@@ -14,14 +14,14 @@ namespace Zeus.Web
 	/// </summary>
 	public class RequestDispatcher : IRequestDispatcher
 	{
-		readonly IContentAdapterProvider aspectProvider;
-		readonly IWebContext webContext;
-		readonly IUrlParser parser;
-		readonly IErrorHandler errorHandler;
-		readonly bool rewriteEmptyExtension = true;
-		readonly bool observeAllExtensions = true;
-		readonly string[] observedExtensions = new[] { ".aspx" };
-		readonly string[] nonRewritablePaths = new[] { "~/admin/" };
+		private readonly IContentAdapterProvider aspectProvider;
+		private readonly IWebContext webContext;
+		private readonly IUrlParser parser;
+		private readonly IErrorHandler errorHandler;
+		private readonly bool rewriteEmptyExtension = true;
+		private readonly bool observeAllExtensions = true;
+		private readonly string[] observedExtensions = new[] { ".aspx" };
+		private readonly string[] nonRewritablePaths = new[] { "~/admin/" };
 
 		public RequestDispatcher(IContentAdapterProvider aspectProvider, IWebContext webContext, IUrlParser parser, IErrorHandler errorHandler, HostSection config)
 		{
@@ -32,7 +32,7 @@ namespace Zeus.Web
 			//observeAllExtensions = config.Web.ObserveAllExtensions;
 			rewriteEmptyExtension = config.Web.ObserveEmptyExtension;
 			var additionalExtensions = config.Web.ObservedExtensions;
-			if (additionalExtensions != null && additionalExtensions.Count > 0)
+			if (additionalExtensions?.Count > 0)
 			{
 				observedExtensions = new string[additionalExtensions.Count + 1];
 				additionalExtensions.CopyTo(observedExtensions, 1);

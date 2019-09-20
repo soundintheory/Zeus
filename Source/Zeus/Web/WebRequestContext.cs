@@ -18,14 +18,7 @@ namespace Zeus.Web
 			set
 			{
 				RequestItems["CurrentTemplate"] = value;
-				if (value != null)
-				{
-					CurrentPage = value.CurrentItem as ContentItem;
-				}
-				else
-				{
-					CurrentPage = null;
-				}
+				CurrentPage = value != null ? value.CurrentItem as ContentItem : null;
 			}
 		}
 
@@ -48,10 +41,7 @@ namespace Zeus.Web
 			foreach (var key in keys)
 			{
 				var value = RequestItems[key] as IClosable;
-				if (value != null)
-				{
-					value.Dispose();
-				}
+				value?.Dispose();
 			}
 		}
 

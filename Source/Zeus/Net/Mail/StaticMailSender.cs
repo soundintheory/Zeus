@@ -4,10 +4,10 @@ namespace Zeus.Net.Mail
 {
 	public class StaticMailSender : SmtpMailSender
 	{
-		string host;
-		int port = 25;
-		string user = null;
-		string password = null;
+		private readonly string host;
+		private readonly int port = 25;
+		private readonly string user = null;
+		private readonly string password = null;
 
 		public StaticMailSender()
 		{
@@ -30,7 +30,6 @@ namespace Zeus.Net.Mail
 			this.user = user;
 			this.password = password;
 		}
-
 
 		protected override SmtpClient GetSmtpClient()
 		{

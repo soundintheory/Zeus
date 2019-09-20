@@ -17,7 +17,6 @@ namespace Zeus.Templates.Mvc
 		public RssResult(Feed feed)
 			: base(feed)
 		{
-			
 		}
 
 		protected override void WriteXml(ControllerContext context)

@@ -20,7 +20,6 @@ namespace Zeus.BaseLibrary.Web
 
 		public Url()
 		{
-			
 		}
 
 		public Url(Uri uri)
@@ -183,13 +182,9 @@ namespace Zeus.BaseLibrary.Web
 			{
 				Path = url.Substring(0, hashIndex);
 			}
-			else if (url.Length > 0)
-			{
-				Path = url;
-			}
 			else
 			{
-				Path = "";
+				Path = url.Length > 0 ? url : "";
 			}
 		}
 
@@ -204,13 +199,9 @@ namespace Zeus.BaseLibrary.Web
 				{
 					Path = url.Substring(slashIndex, queryIndex - slashIndex);
 				}
-				else if (hashIndex >= 0)
-				{
-					Path = url.Substring(slashIndex, hashIndex - slashIndex);
-				}
 				else
 				{
-					Path = url.Substring(slashIndex);
+					Path = hashIndex >= 0 ? url.Substring(slashIndex, hashIndex - slashIndex) : url.Substring(slashIndex);
 				}
 			}
 			else
@@ -227,26 +218,15 @@ namespace Zeus.BaseLibrary.Web
 			{
 				Querystring = EmptyToNull(url.Substring(queryIndex + 1, hashIndex - queryIndex - 1));
 			}
-			else if (queryIndex >= 0)
-			{
-				Querystring = EmptyToNull(url.Substring(queryIndex + 1));
-			}
 			else
 			{
-				Querystring = null;
+				Querystring = queryIndex >= 0 ? EmptyToNull(url.Substring(queryIndex + 1)) : null;
 			}
 		}
 
 		private void LoadFragment(string url, int hashIndex)
 		{
-			if (hashIndex >= 0)
-			{
-				Fragment = EmptyToNull(url.Substring(hashIndex + 1));
-			}
-			else
-			{
-				Fragment = null;
-			}
+			Fragment = hashIndex >= 0 ? EmptyToNull(url.Substring(hashIndex + 1)) : null;
 		}
 
 		private static string EmptyToNull(string text)
@@ -441,14 +421,12 @@ namespace Zeus.BaseLibrary.Web
 					{
 						clone.Querystring = string.Join(Amp, queries, 1, queries.Length - 1);
 					}
-					else if (i == queries.Length - 1)
-					{
-						clone.Querystring = string.Join(Amp, queries, 0, queries.Length - 1);
-					}
 					else
 					{
-						clone.Querystring = string.Join(Amp, queries, 0, i) + Amp +
-						                    string.Join(Amp, queries, i + 1, queries.Length - i - 1);
+						clone.Querystring = i == queries.Length - 1
+							? string.Join(Amp, queries, 0, queries.Length - 1)
+							: string.Join(Amp, queries, 0, i) + Amp +
+																	string.Join(Amp, queries, i + 1, queries.Length - i - 1);
 					}
 
 					return clone;
@@ -507,22 +485,14 @@ namespace Zeus.BaseLibrary.Web
 				{
 					newPath = Path.Insert(extensionIndex, "/" + segment);
 				}
-				else if (Path.EndsWith("/"))
-				{
-					newPath = Path + segment + extension;
-				}
 				else
 				{
-					newPath = Path + "/" + segment + extension;
+					newPath = Path.EndsWith("/") ? Path + segment + extension : Path + "/" + segment + extension;
 				}
-			}
-			else if (Path.EndsWith("/"))
-			{
-				newPath = Path + segment;
 			}
 			else
 			{
-				newPath = Path + "/" + segment;
+				newPath = Path.EndsWith("/") ? Path + segment : Path + "/" + segment;
 			}
 
 			return new Url(Scheme, Authority, newPath, Querystring, Fragment);
@@ -585,13 +555,11 @@ namespace Zeus.BaseLibrary.Web
 			{
 				newPath = "/" + segment + extension;
 			}
-			else if (extension != Extension && !string.IsNullOrEmpty(extension))
-			{
-				newPath = "/" + segment + PathWithoutExtension + extension;
-			}
 			else
 			{
-				newPath = "/" + segment + Path + extension;
+				newPath = extension != Extension && !string.IsNullOrEmpty(extension)
+					? "/" + segment + PathWithoutExtension + extension
+					: "/" + segment + Path + extension;
 			}
 
 			return new Url(Scheme, Authority, newPath, Querystring, Fragment);
@@ -689,16 +657,7 @@ namespace Zeus.BaseLibrary.Web
 
 		public override string ToString()
 		{
-			string url;
-			if (Authority != null)
-			{
-				url = Scheme + "://" + Authority + Path;
-			}
-			else
-			{
-				url = Path;
-			}
-
+			var url = Authority != null ? Scheme + "://" + Authority + Path : Path;
 			if (Querystring != null)
 			{
 				url += "?" + Querystring;

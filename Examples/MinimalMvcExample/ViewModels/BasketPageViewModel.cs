@@ -9,7 +9,6 @@ namespace Zeus.Examples.MinimalMvcExample.ViewModels
         public BasketPageViewModel(BasketPage currentItem)
             : base(currentItem)
         {
-
         }
     }
 }

@@ -14,7 +14,6 @@ namespace Zeus.Web.Security
 		#region Fields
 
 		private readonly BaseLibrary.Web.IWebContext _webContext;
-		private readonly string _loginUrl;
 
 		#endregion
 
@@ -24,7 +23,7 @@ namespace Zeus.Web.Security
 		{
 			_webContext = webContext;
 			Config = config;
-			_loginUrl = loginUrl;
+			LoginUrl = loginUrl;
 		}
 
 		#endregion
@@ -33,15 +32,12 @@ namespace Zeus.Web.Security
 
 		public bool Enabled
 		{
-			get { return Config != null && Config.Enabled; }
+			get { return Config?.Enabled == true; }
 		}
 
 		public AuthenticationLocation Config { get; }
 
-		public string LoginUrl
-		{
-			get { return _loginUrl; }
-		}
+		public string LoginUrl { get; }
 
 		#endregion
 
@@ -49,7 +45,7 @@ namespace Zeus.Web.Security
 
 		public bool AccessingLoginPage()
 		{
-			var loginUrl = (!string.IsNullOrEmpty(_loginUrl) && VirtualPathUtility.IsAppRelative(_loginUrl)) ? VirtualPathUtility.ToAbsolute(_loginUrl) : _loginUrl;
+			var loginUrl = (!string.IsNullOrEmpty(LoginUrl) && VirtualPathUtility.IsAppRelative(LoginUrl)) ? VirtualPathUtility.ToAbsolute(LoginUrl) : LoginUrl;
 			return _webContext.Request.Path.Equals(loginUrl, StringComparison.InvariantCultureIgnoreCase);
 		}
 
@@ -68,7 +64,7 @@ namespace Zeus.Web.Security
 		public string GetLoginPage(string extraQueryString, bool reuseReturnUrl)
 		{
 			var current = HttpContext.Current;
-			var loginUrl = _loginUrl;
+			var loginUrl = LoginUrl;
 			if (loginUrl.IndexOf('?') >= 0)
 			{
 				loginUrl = new Url(loginUrl).SetQueryParameter("ReturnUrl", null).ToString();
@@ -118,7 +114,7 @@ namespace Zeus.Web.Security
 		private string GetReturnUrl(bool useDefaultIfAbsent)
 		{
 			var str = _webContext.Request.QueryString["ReturnUrl"];
-			if ((!string.IsNullOrEmpty(str) && !str.Contains("/")) && str.Contains("%"))
+			if (!string.IsNullOrEmpty(str) && !str.Contains("/") && str.Contains("%"))
 			{
 				str = HttpUtility.UrlDecode(str);
 			}
@@ -188,7 +184,7 @@ namespace Zeus.Web.Security
 					_webContext.Request.Cookies.Remove(Config.Name);
 				}
 
-				if (ticket != null && !ticket.Expired && (!Config.RequireSsl || _webContext.Request.IsSecureConnection))
+				if (ticket?.Expired == false && (!Config.RequireSsl || _webContext.Request.IsSecureConnection))
 				{
 					return ticket;
 				}

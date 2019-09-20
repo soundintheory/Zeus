@@ -10,7 +10,7 @@ namespace Zeus.Web.Security
 			ChildLocations = new List<SecurityLocation>();
 		}
 
-		public IList<SecurityLocation> ChildLocations { get; private set; }
+		public IList<SecurityLocation> ChildLocations { get; }
 		public string Path { get; set; }
 
 		public SecurityLocation GetChild(string path)

@@ -13,7 +13,7 @@ namespace Zeus.Admin.Plugins.Globalization.DeleteLanguage
 		public override bool IsEnabled(ContentItem contentItem)
 		{
 			// Disable, if there are no translations of the original item.
-			if (!Context.Current.LanguageManager.GetTranslationsOf(contentItem.TranslationOf ?? contentItem, false).Any())
+			if (Context.Current.LanguageManager.GetTranslationsOf(contentItem.TranslationOf ?? contentItem, false).Count == 0)
 			{
 				return false;
 			}

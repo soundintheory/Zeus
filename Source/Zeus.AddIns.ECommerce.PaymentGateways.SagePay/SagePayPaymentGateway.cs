@@ -99,13 +99,13 @@ namespace Zeus.AddIns.ECommerce.PaymentGateways.SagePay
 			switch (status)
 			{
                 case "3DAUTH":
-                    return Process3DAuthResponse(status, statusDetail, responseData);                    
+                    return Process3DAuthResponse(status, statusDetail, responseData);
 				default :
 					// If this isn't 3D-Auth, then this is an authorisation result (either successful or otherwise).
 					return ProcessAuthorisationResponse(status, statusDetail, responseData);
 			}
 		}
-        
+
         private PaymentResponse Process3DAuthResponse(string status, string statusDetail, NameValueCollection responseData)
 		{
 			// This is a 3D-Secure transaction, so we need to redirect the customer to their bank **
@@ -207,17 +207,18 @@ namespace Zeus.AddIns.ECommerce.PaymentGateways.SagePay
 
 		private NameValueCollection BuildPostData(PaymentRequest paymentRequest)
 		{
-			var postData = new NameValueCollection();
+			var postData = new NameValueCollection
+			{
+				// Now to build the Direct POST.  For more details see the Direct Protocol 2.22.
+				// NB: Fields potentially containing non ASCII characters are URLEncoded when included in the POST
+				["VPSProtocol"] = _vpsProtocol,
+				["TxType"] = GetTransactionType(paymentRequest.TransactionType),
+				["Vendor"] = _vendorName,
+				["VendorTxCode"] = paymentRequest.TransactionCode,
 
-			// Now to build the Direct POST.  For more details see the Direct Protocol 2.22.
-			// NB: Fields potentially containing non ASCII characters are URLEncoded when included in the POST
-			postData["VPSProtocol"] = _vpsProtocol;
-			postData["TxType"] = GetTransactionType(paymentRequest.TransactionType);
-			postData["Vendor"] = _vendorName;
-			postData["VendorTxCode"] = paymentRequest.TransactionCode;
-
-			postData["Amount"] = paymentRequest.Amount.ToString("F2"); // Formatted to 2 decimal places with leading digit but no commas or currency symbols
-			postData["Currency"] = string.IsNullOrEmpty(paymentRequest.CurrencyOverride) ? _currency : paymentRequest.CurrencyOverride;
+				["Amount"] = paymentRequest.Amount.ToString("F2"), // Formatted to 2 decimal places with leading digit but no commas or currency symbols
+				["Currency"] = string.IsNullOrEmpty(paymentRequest.CurrencyOverride) ? _currency : paymentRequest.CurrencyOverride
+			};
 			if (!string.IsNullOrEmpty(paymentRequest.Description))
 			{
 				postData["Description"] = paymentRequest.Description.Left(100); // Up to 100 chars of free format description
@@ -227,10 +228,10 @@ namespace Zeus.AddIns.ECommerce.PaymentGateways.SagePay
             {
                 postData["Token"] = paymentRequest.Token;
                 postData["StoreToken"] = "1";
-                postData["CV2"] = paymentRequest.CardSecurityCode;			    
+                postData["CV2"] = paymentRequest.CardSecurityCode;
             }
             else
-            { 
+            {
 			    postData["CardHolder"] = paymentRequest.Card.NameOnCard;
 			    postData["CardNumber"] = paymentRequest.CardNumber;
 			    if (paymentRequest.Card.ValidFrom != null)
@@ -323,7 +324,6 @@ namespace Zeus.AddIns.ECommerce.PaymentGateways.SagePay
 			// Your Sage Pay account MUST be set up for the account type you choose.  If in doubt, use E.
 			postData["AccountType"] = "E";
 
-            
 			return postData;
 		}
 

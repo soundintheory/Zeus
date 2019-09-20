@@ -62,16 +62,9 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageOverview
 			row.Cells.Add(titleCell);
 			foreach (var language in languages)
 			{
-				string text;
-				if (Engine.LanguageManager.TranslationExists(item, language.Name))
-				{
-					text = string.Format("<img src=\"{0}\" />", Utility.GetCooliteIconUrl(Ext.Net.Icon.Tick));
-				}
-				else
-				{
-					text = "Create";
-				}
-
+				var text = Engine.LanguageManager.TranslationExists(item, language.Name)
+					? string.Format("<img src=\"{0}\" />", Utility.GetCooliteIconUrl(Ext.Net.Icon.Tick))
+					: "Create";
 				var link = string.Format("<a href=\"{0}\">{1}</a>", Engine.AdminManager.GetEditExistingItemUrl(item, language.Name), text);
 				row.Cells.Add(new TableCell { Text = link });
 			}

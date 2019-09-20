@@ -46,6 +46,7 @@ namespace Zeus.Tests
 		}
 
 		private Dictionary<string, object> requestItems;
+
 		protected IWebContext CreateWebContext(bool replay)
 		{
 			requestItems = new Dictionary<string, object>();

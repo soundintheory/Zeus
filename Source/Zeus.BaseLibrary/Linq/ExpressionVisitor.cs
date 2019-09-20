@@ -46,7 +46,7 @@ namespace Zeus.BaseLibrary.Linq
 	/// </summary>
 	public class ExpressionVisitor<T> : ExpressionVisitor where T : Expression
 	{
-		Func<T, Expression> visitor;
+		private readonly Func<T, Expression> visitor;
 
 		public ExpressionVisitor(Func<T, Expression> visitor)
 		{

@@ -41,7 +41,7 @@ namespace Zeus.Web.Mvc.Html
 
 		public static bool IsUserLoggedIn(this HtmlHelper html)
 		{
-			return (html.ViewContext.HttpContext.User != null && html.ViewContext.HttpContext.User.Identity != null && html.ViewContext.HttpContext.User.Identity.IsAuthenticated);
+			return html.ViewContext.HttpContext.User != null && html.ViewContext.HttpContext.User.Identity?.IsAuthenticated == true;
 		}
 
 		private static string GetUsername(HtmlHelper html)

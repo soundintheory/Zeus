@@ -43,7 +43,7 @@ namespace Zeus.BaseLibrary.Mime
 
         public static bool operator !=(FileType a, FileType b)
         {
-            return !(a.Equals(b));
+            return !a.Equals(b);
         }
 
         public override bool Equals(object other)

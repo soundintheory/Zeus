@@ -11,16 +11,11 @@ namespace Zeus.Integrity
 	/// </summary>
 	public class NameOccupiedException : ZeusException
 	{
-		private ContentItem destinationItem;
-
 		/// <summary>Gets the source item that is causing the conflict.</summary>
 		public ContentItem SourceItem { get; }
 
 		/// <summary>Gets the parent item already containing an item with the same name.</summary>
-		public ContentItem DestinationItem
-		{
-			get { return destinationItem; }
-		}
+		public ContentItem DestinationItem { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the NameOccupiedException.
@@ -31,7 +26,23 @@ namespace Zeus.Integrity
 			: base(FormatErrorMessage(source, destination))
 		{
 			this.SourceItem = source;
-			this.destinationItem = destination;
+			this.DestinationItem = destination;
+		}
+
+		public NameOccupiedException(string message) : base(message)
+		{
+		}
+
+		public NameOccupiedException(string messageFormat, params object[] args) : base(messageFormat, args)
+		{
+		}
+
+		public NameOccupiedException(string message, Exception innerException) : base(message, innerException)
+		{
+		}
+
+		public NameOccupiedException() : base()
+		{
 		}
 
 		private static string FormatErrorMessage(ContentItem source, ContentItem destination)

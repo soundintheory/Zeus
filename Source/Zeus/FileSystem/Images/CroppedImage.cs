@@ -57,7 +57,7 @@ namespace Zeus.FileSystem.Images
 
         public new string GetUrl(int width, int height, bool fill, DynamicImageFormat format)
         {
-            return GetUrl(width, height, fill, format, false);                
+            return GetUrl(width, height, fill, format, false);
         }
 
         public string GetUrlForAdmin(int width, int height, bool fill, DynamicImageFormat format, bool isResize)
@@ -100,16 +100,11 @@ namespace Zeus.FileSystem.Images
                     var ActualHeight = image.Height;
                     image.Dispose();
 
-                    if ((Convert.ToDouble(ActualWidth) / Convert.ToDouble(800)) >= (Convert.ToDouble(ActualHeight) / Convert.ToDouble(600)))
-                    {
-                        percChangeForBG = (double)ActualWidth / (double)800;
-                    }
-                    else
-                    {
-                        percChangeForBG = (double)ActualHeight / (double)600;
-                    }
+                    percChangeForBG = (Convert.ToDouble(ActualWidth) / Convert.ToDouble(800)) >= (Convert.ToDouble(ActualHeight) / Convert.ToDouble(600))
+						? (double)ActualWidth / (double)800
+						: (double)ActualHeight / (double)600;
 
-                    if (percChangeForBG > 1)
+					if (percChangeForBG > 1)
                     {
                         var resizeBG = new ResizeFilter
                         {
@@ -249,7 +244,7 @@ namespace Zeus.FileSystem.Images
 
                 return res2;
             }
-                
+
             //see if it's the standard editor crop (from admin site most likely)
             var isStandard = width == 800 & height == 600;
 
@@ -285,16 +280,11 @@ namespace Zeus.FileSystem.Images
                     var ActualHeight = image.Height;
                     image.Dispose();
 
-                    if ((Convert.ToDouble(ActualWidth) / Convert.ToDouble(800)) >= (Convert.ToDouble(ActualHeight) / Convert.ToDouble(600)))
-                    {
-                        percChangeForBG = (double)ActualWidth / (double)800;
-                    }
-                    else
-                    {
-                        percChangeForBG = (double)ActualHeight / (double)600;
-                    }
+                    percChangeForBG = (Convert.ToDouble(ActualWidth) / Convert.ToDouble(800)) >= (Convert.ToDouble(ActualHeight) / Convert.ToDouble(600))
+						? (double)ActualWidth / (double)800
+						: (double)ActualHeight / (double)600;
 
-                    if (percChangeForBG > 1)
+					if (percChangeForBG > 1)
                     {
                         var resizeBG = new ResizeFilter
                         {
@@ -321,7 +311,6 @@ namespace Zeus.FileSystem.Images
                     imageLayer.X = 200;
                     imageLayer.Y = 150;
                 }
-
             }
 
             // create image layer wit ha source
@@ -419,18 +408,18 @@ namespace Zeus.FileSystem.Images
                 return "<img src=\"" + GetUrl() + "\" alt=\"" + this.Caption + "\" />";
             }
         }
-        
+
         #region AcceptArgsFromChildEditor Members
 
         public virtual string arg1
         {
-            get { return (Parent as ParentWithCroppedImageValues).Width.ToString(); }
+            get { return (Parent as ParentWithCroppedImageValues)?.Width.ToString(); }
             set { }
         }
 
         public virtual string arg2
         {
-            get { return (Parent as ParentWithCroppedImageValues).Height.ToString(); }
+            get { return (Parent as ParentWithCroppedImageValues)?.Height.ToString(); }
             set { }
         }
 
@@ -445,7 +434,7 @@ namespace Zeus.FileSystem.Images
             get { return Convert.ToInt32(arg2); }
             set { arg2 = value.ToString(); }
         }
-        
+
         #endregion
     }
 

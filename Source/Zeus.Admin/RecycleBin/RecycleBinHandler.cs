@@ -64,7 +64,7 @@ namespace Zeus.Admin.RecycleBin
 		public bool CanThrow(ContentItem affectedItem)
 		{
 			var trash = GetTrashContainer(false);
-			var enabled = trash == null || trash.Enabled;
+			var enabled = trash?.Enabled != false;
 			var alreadyThrown = IsInTrash(affectedItem);
 			var throwable = affectedItem.GetType().GetCustomAttributes(typeof(NotThrowableAttribute), true).Length == 0;
 			return enabled && !alreadyThrown && throwable;

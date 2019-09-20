@@ -9,7 +9,6 @@ namespace Zeus.ContentProperties
 		public XhtmlStringContentPropertyAttribute(string title, int sortOrder)
 			: base(title, sortOrder)
 		{
-			
 		}
 
 		protected override IEditor GetDefaultEditorInternal(Type propertyType)

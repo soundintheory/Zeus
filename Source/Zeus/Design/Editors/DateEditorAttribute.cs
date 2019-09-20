@@ -16,7 +16,6 @@ namespace Zeus.Design.Editors
 
 		public DateEditorAttribute()
 		{
-			
 		}
 
 		protected override void DisableEditor(Control editor)

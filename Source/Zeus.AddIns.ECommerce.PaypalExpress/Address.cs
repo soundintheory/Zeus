@@ -11,6 +11,7 @@ namespace Zeus.AddIns.ECommerce.PaypalExpress
         public string FirstName { get; set; }
         public string Surname { get; set; }
         private string _addressLine1;
+
         public string AddressLine1
         {
             get { return _addressLine1 ?? string.Empty; }
@@ -18,6 +19,7 @@ namespace Zeus.AddIns.ECommerce.PaypalExpress
         }
 
         private string _addressLine2;
+
         public string AddressLine2
         {
             get { return _addressLine2 ?? string.Empty; }

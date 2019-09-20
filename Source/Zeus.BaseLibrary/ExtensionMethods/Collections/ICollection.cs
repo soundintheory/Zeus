@@ -6,7 +6,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Collections
 	{
 		public static bool IsNullOrEmpty(this ICollection collection)
 		{
-			return (collection == null || collection.Count == 0);
+			return collection == null || collection.Count == 0;
 		}
 	}
 }

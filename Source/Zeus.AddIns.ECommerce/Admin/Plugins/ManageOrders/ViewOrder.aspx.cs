@@ -47,7 +47,7 @@ namespace Zeus.AddIns.ECommerce.Plugins
 		protected void btnBack_Click(object sender, EventArgs e)
 		{
             var order = SelectedOrder;
-            
+
             Response.Redirect("admin.plugins.manage-orders.default.aspx?selected=" + order.Parent.Path);
 		}
 

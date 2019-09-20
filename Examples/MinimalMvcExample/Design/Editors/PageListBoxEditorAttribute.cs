@@ -37,7 +37,7 @@ namespace Zeus.Examples.MinimalMvcExample.Design.Editors
             var ddl = CreateEditor();
             container.Controls.Add(ddl);
             ddl.ID = Name;
-                        
+
             ModifyEditor(ddl);
 
             return ddl;

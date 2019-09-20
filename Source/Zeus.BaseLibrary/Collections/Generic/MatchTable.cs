@@ -76,8 +76,6 @@ namespace Zeus.BaseLibrary.Collections.Generic
 	/// <typeparam name="TSecond">The type of the second value.</typeparam>
 	public struct Pair<TFirst, TSecond>
 	{
-		private readonly TSecond second;
-
 		/// <summary>
 		/// Creates a pair.
 		/// </summary>
@@ -86,7 +84,7 @@ namespace Zeus.BaseLibrary.Collections.Generic
 		public Pair(TFirst first, TSecond second)
 		{
 			this.First = first;
-			this.second = second;
+			this.Second = second;
 		}
 
 		/// <summary>
@@ -97,10 +95,7 @@ namespace Zeus.BaseLibrary.Collections.Generic
 		/// <summary>
 		/// Gets the second value.
 		/// </summary>
-		public TSecond Second
-		{
-			get { return second; }
-		}
+		public TSecond Second { get; }
 	}
 
 	/// <summary>

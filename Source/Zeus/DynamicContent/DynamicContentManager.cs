@@ -29,11 +29,11 @@ namespace Zeus.DynamicContent
 		public DynamicContentManager()
 		{
 			NameToTypeMap = new Dictionary<string, Type>();
-			TypeToNameMap = new Dictionary<Type, string>();			
+			TypeToNameMap = new Dictionary<Type, string>();
 		}
 
-		public IDictionary<string, Type> NameToTypeMap { get; private set; }
-		public IDictionary<Type, string> TypeToNameMap { get; private set; }
+		public IDictionary<string, Type> NameToTypeMap { get; }
+		public IDictionary<Type, string> TypeToNameMap { get; }
 
 		public IDynamicContent CreateDynamicContent(string name, string state)
 		{

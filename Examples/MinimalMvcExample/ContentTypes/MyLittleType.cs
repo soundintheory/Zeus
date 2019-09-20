@@ -29,6 +29,5 @@ namespace Zeus.Examples.MinimalMvcExample.ContentTypes
 			get { return GetDetail("MultiTextBox", string.Empty); }
 			set { SetDetail("MultiTextBox", value); }
 		}
-        
 	}
 }

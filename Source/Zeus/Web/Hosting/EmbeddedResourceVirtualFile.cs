@@ -7,14 +7,9 @@ namespace Zeus.Web.Hosting
 	[DebuggerDisplay("Assembly = {ContainingAssembly.FullName}, ResourcePath = {ResourcePath}, VirtualPath = {VirtualPath}")]
 	public class EmbeddedResourceVirtualFile : System.Web.Hosting.VirtualFile
 	{
-		private readonly string _resourcePath;
-
 		public Assembly ContainingAssembly { get; }
 
-		public string ResourcePath
-		{
-			get { return _resourcePath; }
-		}
+		public string ResourcePath { get; }
 
 		public EmbeddedResourceVirtualFile(string virtualPath, Assembly containingAssembly, string resourcePath)
 			: base(virtualPath)
@@ -35,12 +30,12 @@ namespace Zeus.Web.Hosting
 			}
 
 			ContainingAssembly = containingAssembly;
-			_resourcePath = resourcePath;
+			ResourcePath = resourcePath;
 		}
 
 		public override System.IO.Stream Open()
 		{
-			return ContainingAssembly.GetManifestResourceStream(_resourcePath);
+			return ContainingAssembly.GetManifestResourceStream(ResourcePath);
 		}
 	}
 }

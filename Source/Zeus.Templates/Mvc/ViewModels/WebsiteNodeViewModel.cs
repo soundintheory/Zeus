@@ -8,7 +8,6 @@ namespace Zeus.Templates.Mvc.ViewModels
 		public WebsiteNodeViewModel(WebsiteNode currentItem)
 			: base(currentItem)
 		{
-			
 		}
 	}
 }

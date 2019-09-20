@@ -10,7 +10,7 @@ namespace Zeus.Web.Mvc
 	public class ActionResolver : IPathFinder
 	{
 		private readonly IControllerMapper _controllerMapper;
-		readonly string[] _methods;
+		private readonly string[] _methods;
 		private const string DefaultAction = "index";
 
 		public ActionResolver(IControllerMapper controllerMapper, string[] methods)
@@ -56,7 +56,7 @@ namespace Zeus.Web.Mvc
 			var pathData = PathDictionary.GetFinders(item.GetType())
 				.Where(finder => !(finder is ActionResolver))
 				.Select(finder => finder.GetPath(item, null))
-				.FirstOrDefault(path => path != null && !path.IsEmpty());
+				.FirstOrDefault(path => path?.IsEmpty() == false);
 
 			if (pathData != null)
 			{

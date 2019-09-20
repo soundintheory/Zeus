@@ -79,9 +79,9 @@ namespace Zeus.Web.UI.WebControls
 		}
 
 		private void AddPropertyControlsRecursive(Control control, IContainable contained)
-		{            
+		{
             var addedControl = contained.AddTo(control);
-            
+
             if (contained is IEditor)
 			{
 				PropertyControls.Add(contained.Name, addedControl);
@@ -119,7 +119,7 @@ namespace Zeus.Web.UI.WebControls
 				c => OnSaving(new ItemViewEditableObjectEventArgs(c)));
 
 			OnSaved(new ItemViewEditableObjectEventArgs(CurrentItem));
-			
+
 			return item;
 		}
 

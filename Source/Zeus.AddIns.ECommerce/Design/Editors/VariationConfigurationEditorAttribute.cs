@@ -17,12 +17,10 @@ namespace Zeus.AddIns.ECommerce.Design.Editors
 		public VariationConfigurationEditorAttribute(string title, int sortOrder)
 			: base(title, sortOrder)
 		{
-
 		}
 
 		protected override void DisableEditor(Control editor)
 		{
-			
 		}
 
 		protected override Control AddEditor(Control container)

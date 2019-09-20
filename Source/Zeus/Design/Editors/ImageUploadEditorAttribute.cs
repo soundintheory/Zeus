@@ -15,7 +15,6 @@ namespace Zeus.Design.Editors
 		public ImageUploadEditorAttribute(string title, int sortOrder)
 			: base(title, sortOrder)
 		{
-
 		}
 
 		protected override FancyFileUpload CreateEditor()

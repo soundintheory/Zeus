@@ -9,7 +9,6 @@ namespace Zeus.Design.Editors
 		public MultiImageUploadEditorAttribute(string title, int sortOrder)
 			: base(title, sortOrder)
 		{
-			
 		}
 
 		protected override void HandleUpdatedFile(File file)

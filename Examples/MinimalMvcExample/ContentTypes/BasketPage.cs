@@ -24,10 +24,12 @@ namespace Zeus.Examples.MinimalMvcExample.ContentTypes
         public System.Collections.Generic.List<PayPalItem> BasketItems
         {
             get {
-                var items = new List<PayPalItem>();
-                items.Add(new PayPalItem { Name = "First Item", Amount = 0.01m, Description = "My first item, what a beaut!", Quantity = 1, Url = "" });
-                items.Add(new PayPalItem { Name = "Second Item", Amount = 0.02m, Description = "My second item, not so good...", Quantity = 1, Url = "" });
-                return items;
+				var items = new List<PayPalItem>
+				{
+					new PayPalItem { Name = "First Item", Amount = 0.01m, Description = "My first item, what a beaut!", Quantity = 1, Url = "" },
+					new PayPalItem { Name = "Second Item", Amount = 0.02m, Description = "My second item, not so good...", Quantity = 1, Url = "" }
+				};
+				return items;
             }
         }
 
@@ -61,7 +63,6 @@ namespace Zeus.Examples.MinimalMvcExample.ContentTypes
         #endregion
 
         #region IPayPalBasketPage Members
-
 
         public string Currency
         {

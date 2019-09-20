@@ -19,7 +19,7 @@ namespace Zeus.Design.Displayers
 		public override void SetValue(Control container, ContentItem item, string propertyName)
 		{
 			var hexRef = item[propertyName] as string;
-			if (hexRef != null && hexRef.Length == 6)
+			if (hexRef?.Length == 6)
 			{
 				_panel.BackColor = ColorTranslator.FromHtml("#" + hexRef);
 				_panel.ToolTip = hexRef;

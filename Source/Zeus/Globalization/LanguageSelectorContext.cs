@@ -35,7 +35,7 @@ namespace Zeus.Globalization
 		{
 			get
 			{
-				if (Page != null && Page.TranslationOf != null && !string.IsNullOrEmpty(Page.TranslationOf.Language))
+				if (Page?.TranslationOf != null && !string.IsNullOrEmpty(Page.TranslationOf.Language))
 				{
 					return CultureInfo.GetCultureInfo(Page.TranslationOf.Language).Name;
 				}

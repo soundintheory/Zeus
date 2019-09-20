@@ -101,7 +101,7 @@ namespace Zeus.Engine
             _dependencyInjectionManager.BindInstance(ConfigurationManager.GetSection("zeus/customUrls") as CustomUrlsSection ?? new CustomUrlsSection());
             _dependencyInjectionManager.BindInstance(ConfigurationManager.GetSection("zeus/routing") as RoutingSection ?? new RoutingSection());
 
-            if (hostSection != null && hostSection.Web != null)
+            if (hostSection?.Web != null)
 			{
 				Url.DefaultExtension = hostSection.Web.Extension;
 			}

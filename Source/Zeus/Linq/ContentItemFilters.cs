@@ -49,14 +49,14 @@ namespace Zeus.Linq
 		public static IQueryable<T> Published<T>(this IQueryable<T> source)
 			where T : ContentItem
 		{
-			return source.Where(ci => (ci.Published.HasValue && ci.Published.Value <= DateTime.Now)
+			return source.Where(ci => ci.Published.HasValue && ci.Published.Value <= DateTime.Now
 				&& !(ci.Expires.HasValue && ci.Expires.Value < DateTime.Now));
 		}
 
 		public static IEnumerable<T> Published<T>(this IEnumerable<T> source)
 			where T : ContentItem
 		{
-			return source.Where(ci => (ci.Published.HasValue && ci.Published.Value <= DateTime.Now)
+			return source.Where(ci => ci.Published.HasValue && ci.Published.Value <= DateTime.Now
 				&& !(ci.Expires.HasValue && ci.Expires.Value < DateTime.Now));
 		}
 

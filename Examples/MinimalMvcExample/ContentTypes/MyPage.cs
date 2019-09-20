@@ -60,7 +60,6 @@ namespace Zeus.Examples.MinimalMvcExample.ContentTypes
         }
          */
 
-
 		[ChildrenEditor("Test Child Editors", 15, TypeFilter = typeof(MyLittleType), ContainerName = "NewContainer")]
 		public virtual IEnumerable<MyLittleType> ListFilters
 		{
@@ -74,6 +73,5 @@ namespace Zeus.Examples.MinimalMvcExample.ContentTypes
                 return true;
             }
         }
-
 	}
 }

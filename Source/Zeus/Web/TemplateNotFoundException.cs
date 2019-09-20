@@ -35,7 +35,7 @@ namespace Zeus.Web
 		/// <summary>Gets the content item associated with this exception.</summary>
 		public ContentItem Item
 		{
-			get; private set;
+			get;
 		}
 	}
 }

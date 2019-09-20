@@ -11,7 +11,6 @@ namespace Zeus.Design.Editors
 		public ChildrenEditorAttribute(string title, int sortOrder)
 			: base(title, sortOrder)
 		{
-			
 		}
 
 		public Type TypeFilter { get; set; }

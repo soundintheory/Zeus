@@ -8,7 +8,7 @@ namespace Zeus.ContentProperties
 {
 	public class ContentPropertyManager : IContentPropertyManager
 	{
-		private IEnumerable<BasePropertyDataTypeAttribute> _propertyDataTypes;
+		private readonly IEnumerable<BasePropertyDataTypeAttribute> _propertyDataTypes;
 
 		public ContentPropertyManager(IPluginFinder<BasePropertyDataTypeAttribute> pluginFinder)
 		{

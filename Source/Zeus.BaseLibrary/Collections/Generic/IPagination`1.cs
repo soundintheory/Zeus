@@ -9,6 +9,5 @@ namespace Zeus.BaseLibrary.Collections.Generic
 	/// <typeparam name="T">Type of object being paged</typeparam>
 	public interface IPagination<T> : IPagination, IEnumerable<T>
 	{
-
 	}
 }

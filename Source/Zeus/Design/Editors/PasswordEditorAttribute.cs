@@ -8,7 +8,6 @@ namespace Zeus.Design.Editors
 	{
 		protected override void UpdateEditorInternal(Zeus.ContentTypes.IEditableObject item, System.Web.UI.Control editor)
 		{
-			
 		}
 
 		public override bool UpdateItem(ContentTypes.IEditableObject item, System.Web.UI.Control editor)

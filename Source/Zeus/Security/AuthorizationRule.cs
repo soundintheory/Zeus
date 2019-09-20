@@ -20,7 +20,6 @@ namespace Zeus.Security
 		public AuthorizationRule(ContentItem item, string operation, string roleOrUser, AuthorizationType type, bool allowed)
 			: this(item, operation, (type == AuthorizationType.Role) ? roleOrUser : null, (type == AuthorizationType.User) ? roleOrUser : null, allowed)
 		{
-			
 		}
 
 		/// <summary>Creates a new instance of the AuthorizedRole class associating it with a content item and defining the role name.</summary>

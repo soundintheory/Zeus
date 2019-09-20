@@ -36,7 +36,7 @@ namespace Zeus.Admin.RecycleBin
 
 		protected override Icon Icon
 		{
-			get { return Children.Any() ? Icon.Bin : Icon.BinClosed; }
+			get { return Children.Count > 0 ? Icon.Bin : Icon.BinClosed; }
 		}
 	}
 }

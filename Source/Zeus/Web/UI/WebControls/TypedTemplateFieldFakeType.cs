@@ -5,7 +5,7 @@ namespace Zeus.Web.UI.WebControls
 {
 	internal class TypedTemplateFieldFakeType : TypeDelegator
 	{
-		private Type formViewType;
+		private readonly Type formViewType;
 
 		public TypedTemplateFieldFakeType(Type dataItemType)
 			: base(typeof(TypedTemplateField))

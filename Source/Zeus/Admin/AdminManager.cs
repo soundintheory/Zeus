@@ -47,7 +47,6 @@ namespace Zeus.Admin
 		#region Constructor
 
 		public AdminManager(AdminSection configSection, ISecurityManager securityManager, IAdminAssemblyManager adminAssembly,
-			IAuthorizationService authorizationService, IAuthenticationContextService authenticationContextService,
 			IPersister persister, IVersionManager versionManager, IContentTypeManager contentTypeManager,
 			Web.IWebContext webContext, ILanguageManager languageManager,
 			IPluginFinder<ActionPluginGroupAttribute> actionPluginGroupFinder,
@@ -104,7 +103,7 @@ namespace Zeus.Admin
 
 		public bool TreeTooltipsEnabled
 		{
-			get { return (_configSection.Tree == null || _configSection.Tree.TooltipsEnabled); }
+			get { return _configSection.Tree?.TooltipsEnabled != false; }
 		}
 
 		#endregion
@@ -290,7 +289,7 @@ namespace Zeus.Admin
 
                         var theParent = itemToUpdate.Parent;
                         while (theParent.Parent != null && (item.PropogateUpdate && theParent.PropogateUpdate))
-                        { 
+                        {
                             //go up the tree updating - if a child has been changed, so effectively has the parent
                             theParent.Updated = DateTime.Now;
                             _persister.Save(theParent);
@@ -398,7 +397,7 @@ namespace Zeus.Admin
 		{
 			var masterItem = item.VersionOf ?? item;
 			var versions = _versionManager.GetVersionsOf(masterItem);
-			if (versions.Any())
+			if (versions.Count > 0)
 			{
 				var maxVersion = versions.Max(ci => ci.Version);
 				item.Version = maxVersion + 1;
@@ -438,10 +437,9 @@ namespace Zeus.Admin
                         System.Web.HttpContext.Current.Response.End();
                     }
                      */
-                    
+
                 }
             }
-            
 
 			return updated;
 		}
@@ -461,10 +459,7 @@ namespace Zeus.Admin
 		private ContentItem SaveVersion(ContentItem current)
 		{
 			ContentItem savedVersion = null;
-			Utility.InvokeEvent(SavingVersion, current, this, delegate(ContentItem item)
-			{
-				savedVersion = _versionManager.SaveVersion(item);
-			});
+			Utility.InvokeEvent(SavingVersion, current, this, (ContentItem item) => savedVersion = _versionManager.SaveVersion(item));
 			return savedVersion;
 		}
 

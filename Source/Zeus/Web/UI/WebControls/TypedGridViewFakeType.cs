@@ -11,7 +11,6 @@ namespace Zeus.Web.UI.WebControls
 		public TypedGridViewFakeType(Type dataItemType)
 			: base(typeof(RealTypedGridView<>).MakeGenericType(dataItemType))
 		{
-			
 		}
 	}
 }

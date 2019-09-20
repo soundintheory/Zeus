@@ -88,7 +88,6 @@ namespace Zeus.Admin.RecycleBin
 
 		protected void grvRecycleBinItems_RowDeleting(object sender, GridViewDeleteEventArgs e)
 		{
-			
 		}
 	}
 }

@@ -17,13 +17,11 @@ namespace Zeus.Web
 		public MultipleSitesUrlParser(IPersister persister, IWebContext webContext, IItemNotifier notifier, IHost host, HostSection config, ILanguageManager languageManager, CustomUrlsSection urls)
 			: base(persister, host, webContext, notifier, config, languageManager, urls)
 		{
-			
 		}
 
         public MultipleSitesUrlParser(IPersister persister, IWebContext webContext, IItemNotifier notifier, IHost host, HostSection config, ILanguageManager languageManager, CustomUrlsSection urls, GlobalizationSection globalizationConfig)
 			: base(persister, host, webContext, notifier, config, languageManager, urls, globalizationConfig)
 		{
-
 		}
 
 		#endregion

@@ -9,7 +9,6 @@ namespace Zeus.AddIns.ECommerce.PaypalExpress.Mvc.ViewModels
         public PayPalBasketPageViewModel(T currentItem)
             : base(currentItem)
         {
-            
         }
 
         public string OrderProcessingErrorMessage { get; set; }

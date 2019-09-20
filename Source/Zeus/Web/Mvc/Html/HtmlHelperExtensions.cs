@@ -123,7 +123,6 @@ namespace Zeus.Web.Mvc.Html
 			return null;
 		}
 
-
         /// <summary>
         /// Content cut for summaries in the lists
         /// </summary>
@@ -158,18 +157,15 @@ namespace Zeus.Web.Mvc.Html
                 var openTagsRGX = new Regex(@"<(?!\/)(?!br)[^>]+>", RegexOptions.IgnoreCase);
                 var theMatches = openTagsRGX.Matches(newText);
 
-
                 // for each opening tag, create a close tag
                 var theCloses = new ArrayList();
                 var inTagRGX = new Regex(@"\w+");
                 foreach (Match m in theMatches)
                 {
-
                     var theTag = inTagRGX.Match(m.ToString());
                     var toAdd = "</" + theTag.ToString() + ">";
                     theCloses.Add(toAdd);
                 }
-
 
                 //find all currently existing close tags
                 var closeTagsRGX = new Regex(@"<\/[^>]+>", RegexOptions.IgnoreCase);
@@ -180,7 +176,6 @@ namespace Zeus.Web.Mvc.Html
 
                 foreach (Match m in existingCloseTags)
                 {
-
                     foreach (string exC in theCloses)
                     {
                         if (m.ToString() == exC)
@@ -189,7 +184,6 @@ namespace Zeus.Web.Mvc.Html
                             break;
                         }
                     }
-
                 }
                 //reverse it
                 theCloses.Reverse();
@@ -201,11 +195,8 @@ namespace Zeus.Web.Mvc.Html
                     theCloseString.Append(m);
                 }
 
-                returningText = newText + "..." + theCloseString;
-
-                return returningText;
-            }
+				return newText + "..." + theCloseString;
+			}
         }
-
 	}
 }

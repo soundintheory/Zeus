@@ -12,7 +12,7 @@ namespace Zeus.Web.Mvc
 		/// <summary>
 		/// Gets or sets the kernel.
 		/// </summary>
-		public IKernel Kernel { get; private set; }
+		public IKernel Kernel { get; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NinjectActionInvoker"/> class.

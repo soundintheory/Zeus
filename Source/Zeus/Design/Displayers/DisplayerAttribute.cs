@@ -80,7 +80,7 @@ namespace Zeus.Design.Displayers
 				return false;
 			}
 
-			return (Name == other.Name);
+			return Name == other.Name;
 		}
 
 		/// <summary>Gets a hash code based on the attribute's name.</summary>

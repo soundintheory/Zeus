@@ -30,7 +30,6 @@ namespace Zeus.Web.Security
 		public FormsAuthenticationTicket Ticket
 		{
 			get;
-			private set;
 		}
 	}
 }

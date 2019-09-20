@@ -52,11 +52,10 @@ namespace Zeus.Examples.MinimalMvcExample.ContentTypes
             set { SetDetail("PagesSelection", value); }
         }
 
-
         /// <summary>
         /// Banner image
         /// </summary>
-        
+
         [ContentProperty("Banner", 200)]
         [ChildEditor("Banner", 200, arg1="400", arg2="200")]
         public Zeus.FileSystem.Images.HiddenCroppedImage Banner
@@ -71,12 +70,12 @@ namespace Zeus.Examples.MinimalMvcExample.ContentTypes
                 }
             }
         }
-        
+
         [ContentProperty("MyPage", 200)]
         [LinkedItemDropDownListEditor("MyPage", 200, TypeFilter=typeof(MyLittleType))]
         public virtual MyLittleType MyPage
         {
-            get { return GetDetail<MyLittleType>("MyPage", (default(MyLittleType))); }
+            get { return GetDetail<MyLittleType>("MyPage", default(MyLittleType)); }
             set { SetDetail("MyPage", value); }
         }
 
@@ -125,7 +124,6 @@ namespace Zeus.Examples.MinimalMvcExample.ContentTypes
                 return "This is a programmatical desc";
             }
         }
-
 
         #region ParentWithCroppedImageValues Members
 

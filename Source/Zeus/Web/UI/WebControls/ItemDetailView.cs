@@ -21,12 +21,7 @@ namespace Zeus.Web.UI.WebControls
 		{
 			get
 			{
-				if (_currentItem == null)
-				{
-					_currentItem = this.FindCurrentItem();
-				}
-
-				return _currentItem;
+				return _currentItem ?? (_currentItem = this.FindCurrentItem());
 			}
 			set
 			{
@@ -54,7 +49,7 @@ namespace Zeus.Web.UI.WebControls
 		{
 			// Get current item.
 			var contentItem = this.CurrentItem;
-			
+
 			// Get selected property from content item.
 			var contentType = Zeus.Context.Current.ContentTypes[contentItem.GetType()];
 			var displayer = contentType.Displayers.SingleOrDefault(d => d.Name == this.PropertyName);

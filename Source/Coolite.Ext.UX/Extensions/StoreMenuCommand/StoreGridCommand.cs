@@ -18,12 +18,7 @@ namespace Coolite.Ext.UX
 		{
 			get
 			{
-				if (_menu == null)
-				{
-					_menu = new StoreCommandMenu();
-				}
-
-				return _menu;
+				return _menu ?? (_menu = new StoreCommandMenu());
 			}
 		}
 	}
@@ -67,12 +62,7 @@ namespace Coolite.Ext.UX
 		{
 			get
 			{
-				if (_baseParams == null)
-				{
-					_baseParams = new FakeParameterCollection();
-				}
-
-				return _baseParams;
+				return _baseParams ?? (_baseParams = new FakeParameterCollection());
 			}
 		}
 	}

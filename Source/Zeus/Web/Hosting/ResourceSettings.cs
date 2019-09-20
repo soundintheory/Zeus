@@ -11,7 +11,7 @@ namespace Zeus.Web.Hosting
 			ClientResourcePrefixes = new Dictionary<Assembly, string>();
 		}
 
-		public Dictionary<string, Assembly> AssemblyPathPrefixes { get; private set; }
+		public Dictionary<string, Assembly> AssemblyPathPrefixes { get; }
 		public Dictionary<Assembly, string> ClientResourcePrefixes { get; set; }
 	}
 }

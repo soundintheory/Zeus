@@ -10,7 +10,6 @@ namespace Zeus.Web.UI.WebControls
 		public Span()
 			: base("span")
 		{
-
 		}
 
 		public string CssClass

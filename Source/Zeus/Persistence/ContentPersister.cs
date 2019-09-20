@@ -81,7 +81,7 @@ namespace Zeus.Persistence
 			{
 				if (source is ISelfPersister)
 				{
-					return (source as ISelfPersister).CopyTo(destination);
+					return (source as ISelfPersister)?.CopyTo(destination);
 				}
 
 				var cloned = source.Clone(includeChildren);
@@ -136,10 +136,7 @@ namespace Zeus.Persistence
 		{
 			foreach (var detail in _linkFinder.QueryDetails<LinkProperty>().Where(ld => ld.LinkedItem == itemNoMore))
 			{
-				if (detail.EnclosingCollection != null)
-				{
-					detail.EnclosingCollection.Remove(detail);
-				}
+				detail.EnclosingCollection?.Remove(detail);
 
 				var test = detail.EnclosingItem.Details; // TODO: Investigate why this is necessary, on a PersistentGenericMap
 				var count = test.Count;
@@ -231,12 +228,12 @@ namespace Zeus.Persistence
 			else
             {
                 contentItem.Updated = DateTime.Now;
-                
+
                 using (var transaction = Repository.BeginTransaction())
                 {
                     Repository.SaveOrUpdate(contentItem);
                     contentItem.AddTo(contentItem.Parent);
-                    EnsureSortOrder(contentItem);                    
+                    EnsureSortOrder(contentItem);
                     transaction.Commit();
                 }
             }
@@ -255,7 +252,7 @@ namespace Zeus.Persistence
 
 		private void EnsureSortOrder(ContentItem unsavedItem)
 		{
-			if (unsavedItem.Parent != null && !unsavedItem.Parent.IgnoreOrderOnSave)
+			if (unsavedItem.Parent?.IgnoreOrderOnSave == false)
 			{
 				var updatedItems = Utility.UpdateSortOrder(unsavedItem.Parent.Children);
 				foreach (var updatedItem in updatedItems)

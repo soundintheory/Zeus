@@ -94,14 +94,7 @@ namespace Zeus.Web.UI.WebControls
 					case System.Web.UI.WebControls.LogoutAction.Redirect:
 						{
 							var logoutPageUrl = this.LogoutPageUrl;
-							if (string.IsNullOrEmpty(logoutPageUrl))
-						{
-							logoutPageUrl = CurrentAuthenticationService.LoginUrl;
-						}
-						else
-						{
-							logoutPageUrl = base.ResolveClientUrl(logoutPageUrl);
-						}
+							logoutPageUrl = string.IsNullOrEmpty(logoutPageUrl) ? CurrentAuthenticationService.LoginUrl : base.ResolveClientUrl(logoutPageUrl);
 
 						this.Page.Response.Redirect(logoutPageUrl, false);
 							return;
@@ -142,10 +135,7 @@ namespace Zeus.Web.UI.WebControls
 
 		protected override void RenderContents(HtmlTextWriter writer)
 		{
-			if (Page != null)
-			{
-				Page.VerifyRenderingInServerForm(this);
-			}
+			Page?.VerifyRenderingInServerForm(this);
 			SetChildProperties();
 			if (!string.IsNullOrEmpty(ID))
 			{

@@ -16,7 +16,6 @@ namespace Zeus.Configuration
             {
                 this["value"] = value;
             }
-
         }
 
         [ConfigurationProperty("isRegex", IsRequired = true)]
@@ -30,7 +29,6 @@ namespace Zeus.Configuration
             {
                 this["isRegex"] = value;
             }
-
         }
 	}
 }

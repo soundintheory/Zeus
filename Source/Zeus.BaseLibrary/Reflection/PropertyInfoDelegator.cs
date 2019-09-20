@@ -9,7 +9,7 @@ namespace Zeus.BaseLibrary.Reflection
 	/// </summary>
 	public class PropertyInfoDelegator : PropertyInfo
 	{
-		private PropertyInfo real;
+		private readonly PropertyInfo real;
 
 		public PropertyInfoDelegator(PropertyInfo real)
 		{

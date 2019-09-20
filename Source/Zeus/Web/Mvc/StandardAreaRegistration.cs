@@ -48,7 +48,6 @@ namespace Zeus.Web.Mvc
 		protected virtual void RegisterArea(AreaRegistrationContext context, Assembly assembly,
 			SparkViewFactory sparkViewFactory)
 		{
-			
 		}
 	}
 }

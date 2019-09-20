@@ -16,7 +16,7 @@ namespace Zeus.Templates.Mvc.Controllers
                 var httpContext = System.Web.HttpContext.Current;
                 httpContext.Response.Headers["Cache-Control"] = "public";
                 var modDate = CurrentItem.Updated;
-                
+
                 httpContext.Response.Headers["Last-Modified"] = modDate.ToString("ddd, dd MMM yyyy HH:mm:ss 'GMT'");
 
                 if (CurrentItem.Size.HasValue)
@@ -38,7 +38,6 @@ namespace Zeus.Templates.Mvc.Controllers
             }
 
 			return new FileContentResult(CurrentItem.Data, CurrentItem.ContentType);
-
 		}
 	}
 }

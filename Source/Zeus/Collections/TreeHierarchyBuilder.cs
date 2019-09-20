@@ -8,7 +8,6 @@
 		public TreeHierarchyBuilder(ContentItem rootItem)
 			: this(rootItem, int.MaxValue)
 		{
-
 		}
 
 		public TreeHierarchyBuilder(ContentItem rootItem, int maxDepth)

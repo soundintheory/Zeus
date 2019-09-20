@@ -44,7 +44,7 @@ namespace Zeus.Web.Mvc
 
             var namespaces = Zeus.Context.Current.Resolve<RoutingSection>().Controllers.ToArray();
 
-            if (namespaces != null && namespaces.Length > 0)
+            if (namespaces?.Length > 0)
             {
                 this.DataTokens["Namespaces"] = namespaces;
                 this.DataTokens["UseNamespaceFallback "] = false;
@@ -100,7 +100,7 @@ namespace Zeus.Web.Mvc
                 td = engine.UrlParser.ResolvePath(thePathWithOutLastParam);
 
                 //check to see if the content item has been and is a page and if so, if it allows the Index(Param) option
-                if (!td.Is404 && td.CurrentItem != null && td.CurrentItem is PageContentItem && (td.CurrentItem as PageContentItem).AllowParamsOnIndex)
+                if (!td.Is404 && td.CurrentItem != null && td.CurrentItem is PageContentItem && (td.CurrentItem as PageContentItem)?.AllowParamsOnIndex == true)
                 {
                     extraParam = thePath.Segments.Last();
                 }
@@ -133,7 +133,7 @@ namespace Zeus.Web.Mvc
 				return null;
 			}
 
-			if (td.QueryParameters.ContainsKey("preview") 
+			if (td.QueryParameters.ContainsKey("preview")
 				&& int.TryParse(td.QueryParameters["preview"], out var itemId))
 			{
 				item = engine.Persister.Get(itemId);
@@ -170,17 +170,9 @@ namespace Zeus.Web.Mvc
 
         public override VirtualPathData GetVirtualPath(RequestContext requestContext, RouteValueDictionary values)
         {
-            ContentItem item;
-            if (values.ContainsKey(ContentItemKey))
-            {
-                item = values[ContentItemKey] as ContentItem;
-                //values.Remove(ContentItemKey);
-            }
-            else
-			{
-				item = requestContext.RouteData.Values[ContentItemKey] as ContentItem;
-			}
-
+			var item = values.ContainsKey(ContentItemKey)
+				? values[ContentItemKey] as ContentItem
+				: requestContext.RouteData.Values[ContentItemKey] as ContentItem;
 			if (item == null)
 			{
 				return null;

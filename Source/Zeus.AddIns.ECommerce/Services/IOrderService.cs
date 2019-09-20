@@ -16,14 +16,14 @@ namespace Zeus.AddIns.ECommerce.Services
 			Address shippingAddress, PaymentCard paymentCard, string emailAddress,
 			string telephoneNumber, string mobileTelephoneNumber,
 			IEnumerable<OrderItem> items,
-            decimal discountAmount, string discountDescription, 
+            decimal discountAmount, string discountDescription,
             decimal totalVatPrice, decimal totalPrice);
 
         Order PlaceOrderWithoutPayment(IECommerceConfiguration configuration, DeliveryMethod deliveryMethod,
             decimal deliveryPrice, Address billingAddress,
             Address shippingAddress, PaymentCard paymentCard, string emailAddress,
             string telephoneNumber, string mobileTelephoneNumber,
-            IEnumerable<OrderItem> items, 
+            IEnumerable<OrderItem> items,
             decimal discountAmount, string discountDescription,
             decimal totalVatPrice, decimal totalPrice);
 
