@@ -114,20 +114,20 @@ namespace Zeus.Web.UI.WebControls
 
 		protected override void OnPreRender(EventArgs e)
 		{
-			bool justCreated = false;
+			var justCreated = false;
 			if (string.IsNullOrEmpty(_hiddenIdentifierField.Value))
 			{
 				_hiddenIdentifierField.Value = Guid.NewGuid().ToString();
 				justCreated = true;
 			}
 
-			string html = string.Format(@"<div style=""float:left;width:600px;margin-bottom:10px;""><a href=""#"" id=""{0}"">Attach a file</a>
+			var html = string.Format(@"<div style=""float:left;width:600px;margin-bottom:10px;""><a href=""#"" id=""{0}"">Attach a file</a>
 				<ul class=""demo-list"" id=""{1}""></ul></div>", GetAnchorClientID(), GetListClientID());
 			Controls.Add(new LiteralControl(html));
 
             // Resource registration moved to Edit.Default.aspx.cs
 
-			string script = string.Format(@"var {8}up;
+			var script = string.Format(@"var {8}up;
 function prepare{8}() {{
 	if ({8}up)
 		return;
@@ -217,7 +217,7 @@ if (window.addEvent) window.addEvent('domready', prepare{8});
 
 			if (!string.IsNullOrEmpty(_currentFileName))
 			{
-				string existingFileScript = string.Format(@"window.addEvent('domready', function() {{
+				var existingFileScript = string.Format(@"window.addEvent('domready', function() {{
 	{2}up.select.setStyle('display', 'none');
 	{2}up.reposition();
 

@@ -23,11 +23,11 @@ namespace Zeus.Web.UI.WebControls
 				switch (((CommandEventArgs) e).CommandName)
 				{
 					case "Delete":
-						bool result = false;
+						var result = false;
 						// loop through rows and delete item if checkbox is checked
-						foreach (ListViewDataItem listViewDataItem in Items)
+						foreach (var listViewDataItem in Items)
 						{
-							CheckBox deleteCheckBox = listViewDataItem.FindControl("chkDelete") as CheckBox;
+							var deleteCheckBox = listViewDataItem.FindControl("chkDelete") as CheckBox;
 							if (deleteCheckBox != null)
 							{
 								result = true;
@@ -51,7 +51,7 @@ namespace Zeus.Web.UI.WebControls
 		{
 			if (_sortButton != null)
 			{
-				SortableColumnHeader sortableColumnHeader = _sortButton.Parent as SortableColumnHeader;
+				var sortableColumnHeader = _sortButton.Parent as SortableColumnHeader;
 				if (sortableColumnHeader != null)
 				{
 					sortableColumnHeader.IncludedInSort = true;

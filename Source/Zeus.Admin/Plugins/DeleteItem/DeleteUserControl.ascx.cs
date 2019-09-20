@@ -25,7 +25,7 @@ namespace Zeus.Admin.Plugins.DeleteItem
 			window.Listeners.Maximize.Fn = "function(el) { var v = Ext.getBody().getViewSize(); el.setSize(v.width, v.height); }";
 			window.Listeners.Maximize.Scope = "this";
 
-			FormPanel formPanel = new FormPanel
+			var formPanel = new FormPanel
 			{
 				BaseCls = "x-plain",
 				Layout = "absolute"
@@ -45,7 +45,7 @@ namespace Zeus.Admin.Plugins.DeleteItem
 				Y = 6
 			});
 
-			TabPanel tabPanel = new TabPanel
+			var tabPanel = new TabPanel
 			{
 				ID = "deleteDialog_TabPanel",
 				X = 0,
@@ -57,7 +57,7 @@ namespace Zeus.Admin.Plugins.DeleteItem
 			};
 			formPanel.ContentControls.Add(tabPanel);
 
-			TreePanel affectedItemsTreePanel = new TreePanel
+			var affectedItemsTreePanel = new TreePanel
 			{
 				Title = "Affected Items",
 				AutoScroll = true,
@@ -65,7 +65,7 @@ namespace Zeus.Admin.Plugins.DeleteItem
 			};
 			tabPanel.Items.Add(affectedItemsTreePanel);
 
-			TreeLoader treeLoader = new TreeLoader
+			var treeLoader = new TreeLoader
 			{
 				DataUrl = Engine.Resolve<IEmbeddedResourceManager>().GetServerResourceUrl(typeof(DeleteUserControl).Assembly,
 					"Zeus.Admin.Plugins.DeleteItem.AffectedItems.ashx")
@@ -81,7 +81,7 @@ namespace Zeus.Admin.Plugins.DeleteItem
 				Expanded = true
 			});
 
-			TreePanel referencingItemsTreePanel = new TreePanel
+			var referencingItemsTreePanel = new TreePanel
 			{
 				Title = "Referencing Items",
 				TabTip = "Items referencing the item(s) you're deleting",
@@ -90,7 +90,7 @@ namespace Zeus.Admin.Plugins.DeleteItem
 			};
 			tabPanel.Items.Add(referencingItemsTreePanel);
 
-			TreeLoader referencingItemsTreeLoader = new TreeLoader
+			var referencingItemsTreeLoader = new TreeLoader
 			{
 				DataUrl = Engine.Resolve<IEmbeddedResourceManager>().GetServerResourceUrl(typeof(DeleteUserControl).Assembly,
 					"Zeus.Admin.Plugins.DeleteItem.ReferencingItems.ashx")
@@ -104,7 +104,7 @@ namespace Zeus.Admin.Plugins.DeleteItem
 				Expanded = true
 			});
 
-			Button yesButton = new Button
+			var yesButton = new Button
 			{
 				ID = "yesButton",
 				Text = "Yes"
@@ -136,15 +136,15 @@ namespace Zeus.Admin.Plugins.DeleteItem
 			if (string.IsNullOrEmpty(ids))
 				return;
 
-			string[] nodeIDsTemp = ids.Split(',');
+			var nodeIDsTemp = ids.Split(',');
 			var nodeIDs = nodeIDsTemp.Select(s => Convert.ToInt32(s));
 			if (!nodeIDs.Any())
 				return;
 
-			ContentItem parent = Engine.Persister.Get(nodeIDs.First()).Parent;
-			foreach (int id in nodeIDs)
+			var parent = Engine.Persister.Get(nodeIDs.First()).Parent;
+			foreach (var id in nodeIDs)
 			{
-				ContentItem item = Engine.Persister.Get(id);
+				var item = Engine.Persister.Get(id);
 				Zeus.Context.Persister.Delete(item);
 			}
 
@@ -152,7 +152,7 @@ namespace Zeus.Admin.Plugins.DeleteItem
             parent.Updated = Utility.CurrentTime();
             Zeus.Context.Persister.Save(parent);
 
-            ContentItem theParent = parent;
+            var theParent = parent;
             while (theParent.Parent != null)
             {
                 //go up the tree updating - if a child has been changed, so effectively has the parent

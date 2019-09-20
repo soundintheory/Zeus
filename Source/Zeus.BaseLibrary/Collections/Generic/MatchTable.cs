@@ -12,7 +12,6 @@ namespace Zeus.BaseLibrary.Collections.Generic
 	{
 		private readonly EqualityComparison<T> comparer;
 		private readonly List<KeyValuePair<T, Pair<int, int>>> items;
-		private int nonEqualCount;
 
 		public MatchTable(EqualityComparison<T> comparer)
 		{
@@ -20,13 +19,7 @@ namespace Zeus.BaseLibrary.Collections.Generic
 			items = new List<KeyValuePair<T, Pair<int, int>>>();
 		}
 
-		public int NonEqualCount
-		{
-			get
-			{
-				return nonEqualCount;
-			}
-		}
+		public int NonEqualCount { get; private set; }
 
 		public IEnumerable<KeyValuePair<T, Pair<int, int>>> Items
 		{
@@ -48,26 +41,26 @@ namespace Zeus.BaseLibrary.Collections.Generic
 
 		private void Add(T key, int expectedCount, int actualCount)
 		{
-			for (int i = 0; i < items.Count; i++)
+			for (var i = 0; i < items.Count; i++)
 			{
-				KeyValuePair<T, Pair<int, int>> item = items[i];
+				var item = items[i];
 				if (comparer(item.Key, key))
 				{
-					Pair<int, int> oldCounters = items[i].Value;
-					Pair<int, int> newCounters = new Pair<int, int>(oldCounters.First + expectedCount, oldCounters.Second + actualCount);
+					var oldCounters = items[i].Value;
+					var newCounters = new Pair<int, int>(oldCounters.First + expectedCount, oldCounters.Second + actualCount);
 					items[i] = new KeyValuePair<T, Pair<int, int>>(item.Key, newCounters);
 
 					if (newCounters.First == newCounters.Second)
-						nonEqualCount -= 1;
+						NonEqualCount -= 1;
 					else if (oldCounters.First == oldCounters.Second)
-						nonEqualCount += 1;
+						NonEqualCount += 1;
 
 					return;
 				}
 			}
 
 			items.Add(new KeyValuePair<T, Pair<int, int>>(key, new Pair<int, int>(expectedCount, actualCount)));
-			nonEqualCount += 1;
+			NonEqualCount += 1;
 		}
 	}
 
@@ -79,7 +72,6 @@ namespace Zeus.BaseLibrary.Collections.Generic
 	/// <typeparam name="TSecond">The type of the second value.</typeparam>
 	public struct Pair<TFirst, TSecond>
 	{
-		private readonly TFirst first;
 		private readonly TSecond second;
 
 		/// <summary>
@@ -89,17 +81,14 @@ namespace Zeus.BaseLibrary.Collections.Generic
 		/// <param name="second">The second value.</param>
 		public Pair(TFirst first, TSecond second)
 		{
-			this.first = first;
+			this.First = first;
 			this.second = second;
 		}
 
 		/// <summary>
 		/// Gets the first value.
 		/// </summary>
-		public TFirst First
-		{
-			get { return first; }
-		}
+		public TFirst First { get; }
 
 		/// <summary>
 		/// Gets the second value.

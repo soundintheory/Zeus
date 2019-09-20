@@ -32,11 +32,11 @@ namespace Zeus.Web.Security.Items
 		/// <param name="roleName">The role to add.</param>
 		public virtual void AddRole(string roleName)
 		{
-			Role existingRole = Children.Cast<Role>().SingleOrDefault(ci => ci.Name == roleName);
+			var existingRole = Children.Cast<Role>().SingleOrDefault(ci => ci.Name == roleName);
 			if (existingRole != null)
 				return;
 
-			Role role = new Role { Name = roleName };
+			var role = new Role { Name = roleName };
 			role.AddTo(this);
 		}
 
@@ -44,14 +44,14 @@ namespace Zeus.Web.Security.Items
 		/// <param name="roleName">The role to remove.</param>
 		public virtual void RemoveRole(string roleName)
 		{
-			Role role = Children.Cast<Role>().SingleOrDefault(ci => ci.Name == roleName);
+			var role = Children.Cast<Role>().SingleOrDefault(ci => ci.Name == roleName);
 			if (role != null)
 				Children.Remove(role);
 		}
 
 		public virtual Role GetRole(string roleName)
 		{
-			Role role = GetChild(roleName) as Role;
+			var role = GetChild(roleName) as Role;
 			if (role == null)
 				throw new ZeusException("Role '{0}' does not exist.", roleName);
 			return role;

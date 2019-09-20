@@ -10,15 +10,10 @@ namespace Zeus.BaseLibrary.Collections
 	{
 		static Singleton()
 		{
-			allSingletons = new Dictionary<Type, object>();
+			AllSingletons = new Dictionary<Type, object>();
 		}
-
-		static readonly IDictionary<Type, object> allSingletons;
 
 		/// <summary>Dictionary of type to singleton instances.</summary>
-		public static IDictionary<Type, object> AllSingletons
-		{
-			get { return allSingletons; }
-		}
+		public static IDictionary<Type, object> AllSingletons { get; private set; }
 	}
 }

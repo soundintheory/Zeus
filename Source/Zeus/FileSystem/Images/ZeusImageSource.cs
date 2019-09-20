@@ -26,7 +26,7 @@ namespace Zeus.FileSystem.Images
 
 		public override FastBitmap GetBitmap()
 		{
-			Image image = Context.Persister.Get(ContentID) as Image;
+			var image = Context.Persister.Get(ContentID) as Image;
 			if (image != null && image.Data != null)
 			{
 				try

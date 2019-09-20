@@ -17,19 +17,19 @@ namespace Zeus.Admin
 			Title = "View \"" + SelectedItem.Title + "\"";
 
 			// Get selected property from content item.
-			ContentType contentType = Zeus.Context.Current.ContentTypes[SelectedItem.GetType()];
-			foreach (IContentProperty property in contentType.Properties)
+			var contentType = Zeus.Context.Current.ContentTypes[SelectedItem.GetType()];
+			foreach (var property in contentType.Properties)
 			{
-				PlaceHolder plcDisplay = new PlaceHolder();
-				Panel panel = new Panel { CssClass = "editDetail" };
-				HtmlGenericControl label = new HtmlGenericControl("label");
+				var plcDisplay = new PlaceHolder();
+				var panel = new Panel { CssClass = "editDetail" };
+				var label = new HtmlGenericControl("label");
 				label.Attributes["class"] = "editorLabel";
 				label.InnerText = property.Name;
 				panel.Controls.Add(label);
 				plcDisplay.Controls.Add(panel);
 				plcDisplayers.Controls.Add(plcDisplay);
 
-				IDisplayer displayer = contentType.GetDisplayer(property.Name);
+				var displayer = contentType.GetDisplayer(property.Name);
 				if (displayer != null)
 				{
 					//displayer.AddTo(this, contentItem, this.PropertyName);

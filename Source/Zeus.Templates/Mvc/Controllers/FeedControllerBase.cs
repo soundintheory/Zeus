@@ -80,10 +80,10 @@ namespace Zeus.Templates.Mvc.Controllers
 
 		protected Feed GetFeed()
 		{
-			DateTime latestPublishDate = PublishDateOfLastFeedItemReceived;
-			bool clientHasAllFeedItems = true;
-			List<ISyndicatable> items = new List<ISyndicatable>();
-			foreach (ISyndicatable syndicatable in CurrentItem.GetItems())
+			var latestPublishDate = PublishDateOfLastFeedItemReceived;
+			var clientHasAllFeedItems = true;
+			var items = new List<ISyndicatable>();
+			foreach (var syndicatable in CurrentItem.GetItems())
 			{
 				if (UseDeltaEncoding && syndicatable.Published <= PublishDateOfLastFeedItemReceived)
 				{

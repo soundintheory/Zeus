@@ -23,9 +23,9 @@ namespace Zeus.Web.Mvc
 		{
 			if (string.IsNullOrEmpty(remainingUrl) || string.Equals(remainingUrl, "default", StringComparison.InvariantCultureIgnoreCase))
 				remainingUrl = DefaultAction;
-			int slashIndex = remainingUrl.IndexOf('/');
+			var slashIndex = remainingUrl.IndexOf('/');
 
-			string action = remainingUrl;
+			var action = remainingUrl;
 			string arguments = null;
 			if (slashIndex > 0)
 			{
@@ -36,7 +36,7 @@ namespace Zeus.Web.Mvc
 			var templateUrl = GetTemplateUrl(item);
 			var controllerName = _controllerMapper.GetControllerName(item.GetType());
 
-			foreach (string method in _methods)
+			foreach (var method in _methods)
 				if (method.Equals(action, StringComparison.InvariantCultureIgnoreCase))
 					return new MvcPathData(item, templateUrl, action, arguments, controllerName);
 

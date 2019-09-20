@@ -30,9 +30,9 @@ namespace Zeus.BaseLibrary.DependencyInjection
 
 			public void InitializeServices()
 			{
-				Type initializableInterfaceType = typeof(IInitializable);
-				Type startableInterfaceType = typeof(IStartable);
-				foreach (IBinding binding in _bindings)
+				var initializableInterfaceType = typeof(IInitializable);
+				var startableInterfaceType = typeof(IStartable);
+				foreach (var binding in _bindings)
 				{
 					if (initializableInterfaceType.IsAssignableFrom(binding.Service) || startableInterfaceType.IsAssignableFrom(binding.Service))
 					{
@@ -110,9 +110,9 @@ namespace Zeus.BaseLibrary.DependencyInjection
 
 		private static IEnumerable<AssemblyName> FindAssemblyNames(IEnumerable<string> filenames, Predicate<Assembly> filter)
 		{
-			AppDomain temporaryDomain = CreateTemporaryAppDomain();
+			var temporaryDomain = CreateTemporaryAppDomain();
 
-			foreach (string file in filenames)
+			foreach (var file in filenames)
 			{
 				Assembly assembly;
 

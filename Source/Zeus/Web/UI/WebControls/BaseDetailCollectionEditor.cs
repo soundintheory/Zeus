@@ -18,7 +18,7 @@ namespace Zeus.Web.UI.WebControls
 		{
 			protected override System.Web.UI.HtmlControls.HtmlGenericControl CreateContainer()
 			{
-				System.Web.UI.HtmlControls.HtmlGenericControl control = base.CreateContainer();
+				var control = base.CreateContainer();
 				control.ID = ID.ConcatWith("_Content");
 				return control;
 			}
@@ -49,7 +49,7 @@ namespace Zeus.Web.UI.WebControls
 		{
 			get
 			{
-				IList<int> result = ViewState["DeletedIndexes"] as IList<int>;
+				var result = ViewState["DeletedIndexes"] as IList<int>;
 				if (result == null)
 					ViewState["DeletedIndexes"] = result = new List<int>();
 				return result;
@@ -116,9 +116,9 @@ namespace Zeus.Web.UI.WebControls
 			_container = new CustomContainer { ID = ID + "_container" };
 			Controls.Add(_container);
 
-			foreach (PropertyData linkDetail in _initialValues)
+			foreach (var linkDetail in _initialValues)
 				CreateLinkedItemEditor(linkDetail);
-			for (int i = 0; i < AddedEditorCount; ++i)
+			for (var i = 0; i < AddedEditorCount; ++i)
 				CreateLinkedItemEditor(null);
 
 			AddNewItemButton();
@@ -145,14 +145,14 @@ namespace Zeus.Web.UI.WebControls
 		private void OnAddButtonDirectClick(object sender, DirectEventArgs e)
 		{
 			++AddedEditorCount;
-			Panel panel = CreateLinkedItemEditor(null);
+			var panel = CreateLinkedItemEditor(null);
 			panel.Render(_container);
 		}
 
 		private Panel CreateLinkedItemEditor(PropertyData detail)
 		{
-			Control editor = CreateDetailEditor(_editorIndex, detail);
-			Panel panel = CreatePanel(editor, _editorIndex);
+			var editor = CreateDetailEditor(_editorIndex, detail);
+			var panel = CreatePanel(editor, _editorIndex);
 			_container.Controls.Add(panel);
 			Panels.Add(panel);
 			Editors.Add(editor);
@@ -198,7 +198,7 @@ namespace Zeus.Web.UI.WebControls
 
 		private void OnDeleteButtonDirectClick(object sender, DirectEventArgs e)
 		{
-			int index = int.Parse(e.ExtraParams["ID"]);
+			var index = int.Parse(e.ExtraParams["ID"]);
 			DeletedIndexes.Add(index);
 			Panels[index].Hidden = true;
 			Panels[index].Update();

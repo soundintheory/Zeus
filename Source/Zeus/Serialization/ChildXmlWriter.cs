@@ -8,14 +8,14 @@ namespace Zeus.Serialization
 		{
 			using (new ElementWriter("children", writer))
 			{
-				foreach (ContentItem child in item.Children)
+				foreach (var child in item.Children)
 					WriteChild(writer, child);
 			}
 		}
 
 		protected virtual void WriteChild(XmlTextWriter writer, ContentItem child)
 		{
-			using (ElementWriter childElement = new ElementWriter("child", writer))
+			using (var childElement = new ElementWriter("child", writer))
 			{
 				childElement.WriteAttribute("id", child.ID);
 			}

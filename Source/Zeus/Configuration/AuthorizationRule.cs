@@ -17,7 +17,7 @@ namespace Zeus.Configuration
 			{
 				if (_roles == null)
 				{
-					CommaDelimitedStringCollection strings = (CommaDelimitedStringCollection) base["roles"];
+					var strings = (CommaDelimitedStringCollection) base["roles"];
 					if (strings == null)
 						_roles = new CommaDelimitedStringCollection();
 					else
@@ -34,7 +34,7 @@ namespace Zeus.Configuration
 			{
 				if (_users == null)
 				{
-					CommaDelimitedStringCollection strings = (CommaDelimitedStringCollection) base["users"];
+					var strings = (CommaDelimitedStringCollection) base["users"];
 					if (strings == null)
 						_users = new CommaDelimitedStringCollection();
 					else

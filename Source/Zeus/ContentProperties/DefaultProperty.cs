@@ -32,7 +32,7 @@ namespace Zeus.ContentProperties
 
 		public PropertyData CreatePropertyData(ContentItem enclosingItem, object value)
 		{
-			PropertyData propertyData = (PropertyData) Activator.CreateInstance(GetPropertyDataType());
+			var propertyData = (PropertyData) Activator.CreateInstance(GetPropertyDataType());
 			propertyData.Name = Name;
 			propertyData.EnclosingItem = enclosingItem;
 			propertyData.Value = value;
@@ -42,7 +42,7 @@ namespace Zeus.ContentProperties
 		public Type GetPropertyDataType()
 		{
 			// For underlying property type "string", return typeof(StringProperty), etc.
-			Type propertyDataType = Context.Current.Resolve<IContentPropertyManager>().GetDefaultPropertyDataType(PropertyType);
+			var propertyDataType = Context.Current.Resolve<IContentPropertyManager>().GetDefaultPropertyDataType(PropertyType);
 			if (propertyDataType != null)
 				return propertyDataType;
 

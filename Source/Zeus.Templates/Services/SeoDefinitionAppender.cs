@@ -37,11 +37,11 @@ namespace Zeus.Templates.Services
 			if (_templatesConfig.Seo == null || !_templatesConfig.Seo.Enabled)
 				return;
 
-			foreach (ContentType contentType in _contentTypeManager.GetContentTypes())
+			foreach (var contentType in _contentTypeManager.GetContentTypes())
 			{
                 if (IsPage(contentType))
 				{
-					FieldSetAttribute seoTab = new FieldSetAttribute("SEO", SeoTabTitle, 15)
+					var seoTab = new FieldSetAttribute("SEO", SeoTabTitle, 15)
 					{
 						Collapsible = true,
 						Collapsed = true
@@ -55,7 +55,7 @@ namespace Zeus.Templates.Services
 				}
                 else if (contentType.IgnoreSEOAssets)
                 {
-                    FieldSetAttribute seoTab = new FieldSetAttribute("SEO", contentType.IgnoreSEOExplanation, 15)
+                    var seoTab = new FieldSetAttribute("SEO", contentType.IgnoreSEOExplanation, 15)
                     {
                         Collapsible = true,
                         Collapsed = false
@@ -71,7 +71,7 @@ namespace Zeus.Templates.Services
 
 		private static void AddEditableText(ContentType contentType, string title, string name, int sortOrder, string formatString, string description, int maxLength, bool multiline)
 		{
-			ReactiveTextBoxEditorAttribute editor = new ReactiveTextBoxEditorAttribute(title, sortOrder, formatString)
+			var editor = new ReactiveTextBoxEditorAttribute(title, sortOrder, formatString)
 			{
 				Name = name,
 				ContainerName = "SEO",

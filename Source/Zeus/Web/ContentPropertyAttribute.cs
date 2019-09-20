@@ -41,7 +41,7 @@ namespace Zeus
 
 		protected override IEditor GetDefaultEditorInternal(Type propertyType)
 		{
-			PropertyData propertyData = (PropertyData) Activator.CreateInstance(GetPropertyDataType());
+			var propertyData = (PropertyData) Activator.CreateInstance(GetPropertyDataType());
 			return propertyData.GetDefaultEditor(Title, SortOrder, propertyType, EditorContainerName);
 		}
 
@@ -52,7 +52,7 @@ namespace Zeus
 				return _propertyDataType;
 
 			// For underlying property type "string", return typeof(StringProperty), etc.
-			Type propertyDataType = Context.Current.Resolve<IContentPropertyManager>().GetDefaultPropertyDataType(UnderlyingProperty.PropertyType);
+			var propertyDataType = Context.Current.Resolve<IContentPropertyManager>().GetDefaultPropertyDataType(UnderlyingProperty.PropertyType);
 			if (propertyDataType != null)
 				return propertyDataType;
 

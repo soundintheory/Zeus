@@ -41,7 +41,7 @@ namespace Zeus.Web.Mvc.Html
 			foreach (var child in GetItems())
 			{
 				ContentItem model = child;
-				string partial = _templateRenderer.RenderTemplate(HtmlHelper, model, Container, ActionName);
+				var partial = _templateRenderer.RenderTemplate(HtmlHelper, model, Container, ActionName);
 
 				if (TagBuilder == null)
 				{

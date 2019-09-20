@@ -8,14 +8,8 @@ namespace Zeus.Integrity
 	/// </summary>
 	public abstract class TypeIntegrityAttribute : AbstractContentTypeRefiner
 	{
-		private Type[] types = new Type[0];
-
 		/// <summary>Gets or sets the types needed by this attribute.</summary>
-		public Type[] Types
-		{
-			get { return types; }
-			set { types = value; }
-		}
+		public Type[] Types { get; set; } = new Type[0];
 
 		/// <summary>Tells wether any of the types defined by the <see cref="Types"/> property are assignable by the supplied type.</summary>
 		/// <param name="type">The type to check.</param>
@@ -25,7 +19,7 @@ namespace Zeus.Integrity
 			if (Types == null)
 				return false;
 
-			foreach (Type t in Types)
+			foreach (var t in Types)
 				if (t.IsAssignableFrom(type))
 					return true;
 			return false;

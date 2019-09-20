@@ -10,7 +10,6 @@ namespace Zeus.Collections
 	{
 		#region Fields
 
-		private readonly HierarchyNode<ContentItem> _currentNode;
 
 		#endregion
 
@@ -18,34 +17,31 @@ namespace Zeus.Collections
 
 		public ItemHierarchyNavigator(HierarchyNode<ContentItem> currentNode)
 		{
-			_currentNode = currentNode;
+			CurrentNode = currentNode;
 		}
 
 		public ItemHierarchyNavigator(HierarchyBuilder builder, Func<IEnumerable<ContentItem>, IEnumerable<ContentItem>> filter)
 		{
-			_currentNode = builder.Build(filter);
+			CurrentNode = builder.Build(filter);
 		}
 
 		public ItemHierarchyNavigator(HierarchyBuilder builder)
 		{
-			_currentNode = builder.Build();
+			CurrentNode = builder.Build();
 		}
 
 		#endregion
 
 		#region Properties
 
-		public HierarchyNode<ContentItem> CurrentNode
-		{
-			get { return _currentNode; }
-		}
+		public HierarchyNode<ContentItem> CurrentNode { get; }
 
 		public IHierarchyNavigator<ContentItem> Parent
 		{
 			get
 			{
-				if (_currentNode.Parent != null)
-					return new ItemHierarchyNavigator(_currentNode.Parent);
+				if (CurrentNode.Parent != null)
+					return new ItemHierarchyNavigator(CurrentNode.Parent);
 				return null;
 			}
 		}
@@ -54,19 +50,19 @@ namespace Zeus.Collections
 		{
 			get
 			{
-				foreach (HierarchyNode<ContentItem> childNode in _currentNode.Children)
+				foreach (var childNode in CurrentNode.Children)
 					yield return new ItemHierarchyNavigator(childNode);
 			}
 		}
 
 		public ContentItem Current
 		{
-			get { return _currentNode.Current; }
+			get { return CurrentNode.Current; }
 		}
 
 		public bool HasChildren
 		{
-			get { return _currentNode.Children.Count > 0; }
+			get { return CurrentNode.Children.Count > 0; }
 		}
 
 		#endregion
@@ -80,7 +76,7 @@ namespace Zeus.Collections
 
 		public HierarchyNode<ContentItem> GetRootNode()
 		{
-			HierarchyNode<ContentItem> last = _currentNode;
+			var last = CurrentNode;
 			while (last.Parent != null)
 				last = last.Parent;
 			return last;
@@ -88,20 +84,20 @@ namespace Zeus.Collections
 
 		public IEnumerable<ContentItem> EnumerateAllItems()
 		{
-			HierarchyNode<ContentItem> rootNode = GetRootNode();
+			var rootNode = GetRootNode();
 			return EnumerateItemsRecursive(rootNode);
 		}
 
 		public IEnumerable<ContentItem> EnumerateChildItems()
 		{
-			return EnumerateItemsRecursive(_currentNode);
+			return EnumerateItemsRecursive(CurrentNode);
 		}
 
 		protected virtual IEnumerable<ContentItem> EnumerateItemsRecursive(HierarchyNode<ContentItem> node)
 		{
 			yield return node.Current;
-			foreach (HierarchyNode<ContentItem> childNode in node.Children)
-				foreach (ContentItem childItem in EnumerateItemsRecursive(childNode))
+			foreach (var childNode in node.Children)
+				foreach (var childItem in EnumerateItemsRecursive(childNode))
 					yield return childItem;
 		}
 

@@ -5,22 +5,18 @@ namespace Zeus.Serialization
 {
 	public class ReadingJournal : IImportRecord
 	{
-		readonly IList<ContentItem> readItems = new List<ContentItem>();
 		readonly IList<Exception> errors = new List<Exception>();
 		public event EventHandler<ItemEventArgs> ItemAdded;
 
-		public IList<ContentItem> ReadItems
-		{
-			get { return readItems; }
-		}
+		public IList<ContentItem> ReadItems { get; } = new List<ContentItem>();
 
 		public ContentItem LastItem
 		{
 			get
 			{
-				if (readItems.Count == 0)
+				if (ReadItems.Count == 0)
 					return null;
-				return readItems[readItems.Count - 1];
+				return ReadItems[ReadItems.Count - 1];
 			}
 		}
 
@@ -28,9 +24,9 @@ namespace Zeus.Serialization
 		{
 			get
 			{
-				if (readItems.Count == 0)
+				if (ReadItems.Count == 0)
 					return null;
-				return readItems[0];
+				return ReadItems[0];
 			}
 		}
 
@@ -41,14 +37,14 @@ namespace Zeus.Serialization
 
 		public void Report(ContentItem item)
 		{
-			readItems.Add(item);
+			ReadItems.Add(item);
 			if (ItemAdded != null)
 				ItemAdded.Invoke(this, new ItemEventArgs(item));
 		}
 
 		public ContentItem Find(int itemiD)
 		{
-			foreach (ContentItem previousItem in readItems)
+			foreach (var previousItem in ReadItems)
 				if (previousItem.ID == itemiD)
 					return previousItem;
 			return null;

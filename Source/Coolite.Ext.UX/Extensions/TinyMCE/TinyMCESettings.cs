@@ -338,7 +338,7 @@ namespace Coolite.Ext.UX
 		{
 			get
 			{
-				ConfigOptionsCollection list = base.ConfigOptions;
+				var list = base.ConfigOptions;
 
 				list.Add("custom_elements", string.Empty, CustomElements);
 				list.Add("extended_valid_elements", string.Empty, ExtendedValidElements);

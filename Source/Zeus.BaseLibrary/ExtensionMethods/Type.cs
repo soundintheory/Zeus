@@ -19,7 +19,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		public static MethodInfo GetGenericMethod(this Type type, string name, Type[] typeArgs,
 			Type[] argTypes, BindingFlags flags)
 		{
-			int typeArity = typeArgs.Length;
+			var typeArity = typeArgs.Length;
 			var methods = type.GetMethods()
 				.Where(m => m.Name == name)
 				.Where(m => m.GetGenericArguments().Length == typeArity)

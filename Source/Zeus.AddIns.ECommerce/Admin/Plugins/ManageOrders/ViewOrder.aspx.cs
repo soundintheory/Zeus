@@ -33,7 +33,7 @@ namespace Zeus.AddIns.ECommerce.Plugins
 
 		protected void btnProcess_Click(object sender, EventArgs e)
 		{
-			Order order = SelectedOrder;
+			var order = SelectedOrder;
 			order.Status = OrderStatus.Processed;
 			Engine.Persister.Save(order);
 
@@ -42,14 +42,14 @@ namespace Zeus.AddIns.ECommerce.Plugins
 
 		protected void btnBack_Click(object sender, EventArgs e)
 		{
-            Order order = SelectedOrder;
+            var order = SelectedOrder;
             
             Response.Redirect("admin.plugins.manage-orders.default.aspx?selected=" + order.Parent.Path);
 		}
 
 		protected void btnCancel_Click(object sender, EventArgs e)
 		{
-			Order order = SelectedOrder;
+			var order = SelectedOrder;
 			order.Status = OrderStatus.Cancelled;
 			Engine.Persister.Save(order);
 

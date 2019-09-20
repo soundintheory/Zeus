@@ -19,7 +19,7 @@ namespace Zeus.Templates.ContentTypes.ReferenceData
 			IsoCode = isoCode;
 			Symbol = symbol;
 
-			Icon icon = Icon.MoneyAdd;
+			var icon = Icon.MoneyAdd;
 			switch (isoCode)
 			{
 				case "GBP" :

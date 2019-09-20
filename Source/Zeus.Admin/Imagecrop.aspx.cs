@@ -26,26 +26,26 @@ namespace Zeus.Admin
             if (Request.Form["id"] == null)
             {
                 //this is the display page
-                int id = Convert.ToInt32(Request.QueryString["id"]);
+                var id = Convert.ToInt32(Request.QueryString["id"]);
                 ImageToEdit = Zeus.Context.Persister.Get<CroppedImage>(id);
                 bFixedAspectRatio = ImageToEdit.FixedWidthValue > 0 && ImageToEdit.FixedHeightValue > 0;
                 if (bFixedAspectRatio)
                     aspectRatio = (double)ImageToEdit.FixedWidthValue / (double)ImageToEdit.FixedHeightValue;
                 
                 //need to set the min and max sizes...this will stop people upscaling their images
-                CroppedImage imageToEdit = Zeus.Context.Persister.Get<CroppedImage>(id);
+                var imageToEdit = Zeus.Context.Persister.Get<CroppedImage>(id);
 
-                System.Drawing.Image image = System.Drawing.Image.FromStream(new MemoryStream(imageToEdit.Data));
-                int ActualWidth = image.Width;
-                int ActualHeight = image.Height;
+                var image = System.Drawing.Image.FromStream(new MemoryStream(imageToEdit.Data));
+                var ActualWidth = image.Width;
+                var ActualHeight = image.Height;
                 image.Dispose();
 
-                int widthAfterResize = 0;
-                int heightAfterResize = 0;
+                var widthAfterResize = 0;
+                var heightAfterResize = 0;
 
                 if ((Convert.ToDouble(ActualWidth) / Convert.ToDouble(800)) >= (Convert.ToDouble(ActualHeight) / Convert.ToDouble(600)))
                 {
-                    double percChange = (double)800 / (double)ActualWidth;
+                    var percChange = (double)800 / (double)ActualWidth;
                     widthAfterResize = Convert.ToInt32(Convert.ToDouble(ActualWidth) * percChange);
                     heightAfterResize = Convert.ToInt32(Convert.ToDouble(ActualHeight) * percChange);
 
@@ -64,7 +64,7 @@ namespace Zeus.Admin
                 else
                 {                    
                     //resized, leaving height @ 600
-                    double percChange = (double)600 / (double)ActualHeight;
+                    var percChange = (double)600 / (double)ActualHeight;
                     if (percChange < 1)
                     {
                         minWidth = Convert.ToInt32(Math.Round(percChange * ImageToEdit.FixedWidthValue, 0));
@@ -93,18 +93,18 @@ namespace Zeus.Admin
             else
             {
                 //this is the form post - so save the data
-                int id = Convert.ToInt32(Request.Form["id"]);
-                int x1 = Convert.ToInt32(Request.Form["x1"]);
-                int y1 = Convert.ToInt32(Request.Form["y1"]);
-                int w = Convert.ToInt32(Request.Form["w"]);
-                int h = Convert.ToInt32(Request.Form["h"]);
-                string selected = Request.Form["selected"];
+                var id = Convert.ToInt32(Request.Form["id"]);
+                var x1 = Convert.ToInt32(Request.Form["x1"]);
+                var y1 = Convert.ToInt32(Request.Form["y1"]);
+                var w = Convert.ToInt32(Request.Form["w"]);
+                var h = Convert.ToInt32(Request.Form["h"]);
+                var selected = Request.Form["selected"];
 
-                CroppedImage imageToEdit = Zeus.Context.Persister.Get<CroppedImage>(id);
+                var imageToEdit = Zeus.Context.Persister.Get<CroppedImage>(id);
 
-                System.Drawing.Image image = System.Drawing.Image.FromStream(new MemoryStream(imageToEdit.Data));
-                int ActualWidth = image.Width;
-                int ActualHeight = image.Height;
+                var image = System.Drawing.Image.FromStream(new MemoryStream(imageToEdit.Data));
+                var ActualWidth = image.Width;
+                var ActualHeight = image.Height;
                 image.Dispose();
 
                 //we know that for display purposes before cropping the image was resized to 800 x 600, so do some calcs...
@@ -116,7 +116,7 @@ namespace Zeus.Admin
                 else if ((Convert.ToDouble(ActualWidth) / Convert.ToDouble(800)) >= (Convert.ToDouble(ActualHeight) / Convert.ToDouble(600)))                
                 {
                     //resized, leaving width @ 800
-                    double percChange = (double)ActualWidth / (double)800;
+                    var percChange = (double)ActualWidth / (double)800;
                     if (percChange > 1)
                     {
                         //this means the image was actually resized, so we need to amend the recorded data, else leave it as it is
@@ -129,7 +129,7 @@ namespace Zeus.Admin
                 else
                 {
                     //resized, leaving height @ 600
-                    double percChange = (double)ActualHeight / (double)600;
+                    var percChange = (double)ActualHeight / (double)600;
                     if (percChange > 1)
                     {
                         //this means the image was actually resized, so we need to amend the recorded data, else leave it as it is

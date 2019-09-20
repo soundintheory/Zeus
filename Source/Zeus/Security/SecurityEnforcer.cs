@@ -69,7 +69,7 @@ namespace Zeus.Security
 		/// <summary>Checks that the current user is authorized to access the current item.</summary>
 		public virtual void AuthoriseRequest()
 		{
-			ContentItem item = _webContext.CurrentPage;
+			var item = _webContext.CurrentPage;
 
 			if (item == null)
 				return;
@@ -77,7 +77,7 @@ namespace Zeus.Security
 			if (_security.IsAuthorized(item, _webContext.User, Operations.Read))
 				return;
 
-			CancelItemEventArgs args = new CancelItemEventArgs(item);
+			var args = new CancelItemEventArgs(item);
 			if (AuthorizationFailed != null)
 				AuthorizationFailed.Invoke(this, args);
 
@@ -93,7 +93,7 @@ namespace Zeus.Security
 		{
 			if (!_security.IsAuthorized(item, _webContext.User, Operations.Change))
 				throw new PermissionDeniedException(item, _webContext.User, Operations.Change);
-			IPrincipal user = _webContext.User;
+			var user = _webContext.User;
 			if (user != null)
 				item.SavedBy = user.Identity.Name;
 			else
@@ -113,7 +113,7 @@ namespace Zeus.Security
 		/// <param name="item">The item to delete.</param>
 		protected virtual void OnItemDeleting(ContentItem item)
 		{
-			IPrincipal user = _webContext.User;
+			var user = _webContext.User;
 			if (!_security.IsAuthorized(item, user, Operations.Delete))
 				throw new PermissionDeniedException(item, user, Operations.Delete);
 		}

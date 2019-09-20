@@ -22,7 +22,7 @@ namespace Coolite.Ext.UX
 		{
 			get
 			{
-				List<ResourceItem> baseList = base.Resources;
+				var baseList = base.Resources;
 				baseList.Capacity += 1;
 
 				baseList.Add(new ClientStyleItem(typeof(IconCombo), "Coolite.Ext.UX.Extensions.IconCombo.resources.ext.ux.IconCombo.css", "ux/extensions/iconcombo/iconcombo.css"));
@@ -67,7 +67,7 @@ namespace Coolite.Ext.UX
 		{
 			get
 			{
-				ConfigOptionsCollection list = base.ConfigOptions;
+				var list = base.ConfigOptions;
 				list.Add("iconUrlField", string.Empty, IconUrlField);
 				return list;
 			}
@@ -77,9 +77,9 @@ namespace Coolite.Ext.UX
 		{
 			get
 			{
-				StringWriter sw = new StringWriter();
-				JsonTextWriter jw = new JsonTextWriter(sw);
-				IconComboListItemCollectionJsonConverter converter = new IconComboListItemCollectionJsonConverter(IconUrlField);
+				var sw = new StringWriter();
+				var jw = new JsonTextWriter(sw);
+				var converter = new IconComboListItemCollectionJsonConverter(IconUrlField);
 				converter.WriteJson(jw, this.Items, null);
 
 				return sw.GetStringBuilder().ToString();

@@ -27,7 +27,7 @@ namespace Zeus.Web
 
 		public static Uri AppendQuery(this Uri uri, string keyValue)
 		{
-			UriBuilder clone = new UriBuilder(uri);
+			var clone = new UriBuilder(uri);
 			if (string.IsNullOrEmpty(clone.Query))
 				clone.Query = keyValue;
 			else if (!string.IsNullOrEmpty(keyValue))

@@ -20,7 +20,7 @@ namespace Zeus.Web.UI.WebControls
 
 		protected override bool OnServerValidate(string value)
 		{
-			ContentItem currentItem = this.FindCurrentItem();
+			var currentItem = this.FindCurrentItem();
 
 			if (currentItem != null)
 			{

@@ -56,8 +56,8 @@ namespace Zeus.BaseLibrary.Web
 		public Url(string scheme, string authority, string rawUrl)
 			: this()
 		{
-			int queryIndex = QueryIndex(rawUrl);
-			int hashIndex = rawUrl.IndexOf('#', queryIndex > 0 ? queryIndex : 0);
+			var queryIndex = QueryIndex(rawUrl);
+			var hashIndex = rawUrl.IndexOf('#', queryIndex > 0 ? queryIndex : 0);
 			LoadFragment(rawUrl, hashIndex);
 			LoadQuery(rawUrl, queryIndex, hashIndex);
 			LoadSiteRelativeUrl(rawUrl, queryIndex, hashIndex);
@@ -74,9 +74,9 @@ namespace Zeus.BaseLibrary.Web
 			}
 			else
 			{
-				int queryIndex = QueryIndex(url);
-				int hashIndex = url.IndexOf('#', queryIndex > 0 ? queryIndex : 0);
-				int authorityIndex = url.IndexOf("://");
+				var queryIndex = QueryIndex(url);
+				var hashIndex = url.IndexOf('#', queryIndex > 0 ? queryIndex : 0);
+				var authorityIndex = url.IndexOf("://");
 
 				LoadFragment(url, hashIndex);
 				LoadQuery(url, queryIndex, hashIndex);
@@ -104,7 +104,7 @@ namespace Zeus.BaseLibrary.Web
 		{
 			get
 			{
-				int index = Path.LastIndexOfAny(_dotsAndSlashes);
+				var index = Path.LastIndexOfAny(_dotsAndSlashes);
 
 				if (index < 0)
 					return null;
@@ -179,7 +179,7 @@ namespace Zeus.BaseLibrary.Web
 		private void LoadBasedUrl(string url, int queryIndex, int hashIndex, int authorityIndex)
 		{
 			Scheme = url.Substring(0, authorityIndex);
-			int slashIndex = url.IndexOf('/', authorityIndex + 3);
+			var slashIndex = url.IndexOf('/', authorityIndex + 3);
 			if (slashIndex > 0)
 			{
 				Authority = url.Substring(authorityIndex + 3, slashIndex - authorityIndex - 3);
@@ -254,7 +254,7 @@ namespace Zeus.BaseLibrary.Web
 			if (string.IsNullOrEmpty(Path) || Path == "/" || index < 0)
 				return string.Empty;
 
-			string[] segments = PathWithoutExtension.Split(_slashes, StringSplitOptions.RemoveEmptyEntries);
+			var segments = PathWithoutExtension.Split(_slashes, StringSplitOptions.RemoveEmptyEntries);
 			if (index >= segments.Length)
 				return string.Empty;
 
@@ -271,20 +271,20 @@ namespace Zeus.BaseLibrary.Web
 
 			if (index == 0)
 			{
-				int slashIndex = Path.IndexOf('/', 1);
+				var slashIndex = Path.IndexOf('/', 1);
 				if (slashIndex < 0)
 					return new Url(Scheme, Authority, "/", Querystring, Fragment);
 				return new Url(Scheme, Authority, Path.Substring(slashIndex), Querystring, Fragment);
 			}
 
-			string[] segments = PathWithoutExtension.Split(_slashes, StringSplitOptions.RemoveEmptyEntries);
+			var segments = PathWithoutExtension.Split(_slashes, StringSplitOptions.RemoveEmptyEntries);
 			if (index >= segments.Length)
 				return this;
 
 			if (index == segments.Length - 1)
 				return RemoveTrailingSegment();
 
-			string newPath = "/" + string.Join("/", segments, 0, index) + "/" + string.Join("/", segments, index + 1, segments.Length - index - 1) + Extension;
+			var newPath = "/" + string.Join("/", segments, 0, index) + "/" + string.Join("/", segments, index + 1, segments.Length - index - 1) + Extension;
 			return new Url(Scheme, Authority, newPath, Querystring, Fragment);
 		}
 
@@ -295,9 +295,9 @@ namespace Zeus.BaseLibrary.Web
 			if (string.IsNullOrEmpty(Path) || Path == "/")
 				return this;
 
-			string newPath = "/";
+			var newPath = "/";
 
-			int lastSlashIndex = Path.LastIndexOf('/');
+			var lastSlashIndex = Path.LastIndexOf('/');
 			if (lastSlashIndex == Path.Length - 1)
 				lastSlashIndex = Path.TrimEnd(_slashes).LastIndexOf('/');
 			if (lastSlashIndex > 0)
@@ -351,8 +351,8 @@ namespace Zeus.BaseLibrary.Web
 					return this;
 
 			var clone = new Url(this);
-			string[] queries = Querystring.Split(_querySplitter, StringSplitOptions.RemoveEmptyEntries);
-			for (int i = 0; i < queries.Length; i++)
+			var queries = Querystring.Split(_querySplitter, StringSplitOptions.RemoveEmptyEntries);
+			for (var i = 0; i < queries.Length; i++)
 			{
 				if (queries[i].StartsWith(key + "=", StringComparison.InvariantCultureIgnoreCase))
 				{
@@ -387,7 +387,7 @@ namespace Zeus.BaseLibrary.Web
 			if (Querystring == null)
 				return AppendQuery(keyValue);
 
-			int eqIndex = keyValue.IndexOf('=');
+			var eqIndex = keyValue.IndexOf('=');
 			if (eqIndex >= 0)
 				return SetQueryParameter(keyValue.Substring(0, eqIndex), keyValue.Substring(eqIndex + 1));
 
@@ -414,7 +414,7 @@ namespace Zeus.BaseLibrary.Web
 				newPath = "/" + segment + extension;
 			else if (!string.IsNullOrEmpty(extension))
 			{
-				int extensionIndex = Path.LastIndexOf(extension);
+				var extensionIndex = Path.LastIndexOf(extension);
 				if (extensionIndex >= 0)
 					newPath = Path.Insert(extensionIndex, "/" + segment);
 				else if (Path.EndsWith("/"))
@@ -492,7 +492,7 @@ namespace Zeus.BaseLibrary.Web
 		/// <returns>The path without the file extension or the same path if no extension was found.</returns>
 		public static string RemoveExtension(string path)
 		{
-			int index = path.LastIndexOfAny(_dotsAndSlashes);
+			var index = path.LastIndexOfAny(_dotsAndSlashes);
 
 			if (index < 0)
 				return path;
@@ -516,22 +516,22 @@ namespace Zeus.BaseLibrary.Web
 		{
 			if (path.StartsWith("~"))
 				path = ToAbsolute(path);
-			int queryIndex = QueryIndex(path);
+			var queryIndex = QueryIndex(path);
 			return new Url(Scheme, Authority, queryIndex < 0 ? path : path.Substring(0, queryIndex), Querystring, Fragment);
 		}
 
 		public Url UpdateQuery(NameValueCollection queryString)
 		{
-			Url u = new Url(this);
-			foreach (string key in queryString.AllKeys)
+			var u = new Url(this);
+			foreach (var key in queryString.AllKeys)
 				u = u.SetQueryParameter(key, queryString[key]);
 			return u;
 		}
 
 		public Url UpdateQuery(IDictionary<string, string> queryString)
 		{
-			Url u = new Url(this);
-			foreach (KeyValuePair<string, string> pair in queryString)
+			var u = new Url(this);
+			foreach (var pair in queryString)
 				u = u.SetQueryParameter(pair.Key, pair.Value);
 			return u;
 		}
@@ -573,7 +573,7 @@ namespace Zeus.BaseLibrary.Web
 		{
 			url = RemoveHash(url);
 
-			int queryIndex = QueryIndex(url);
+			var queryIndex = QueryIndex(url);
 			if (queryIndex >= 0)
 				url = url.Substring(0, queryIndex);
 
@@ -590,7 +590,7 @@ namespace Zeus.BaseLibrary.Web
 		/// <returns>An url without the hash part.</returns>
 		public static string RemoveHash(string url)
 		{
-			int hashIndex = url.IndexOf('#');
+			var hashIndex = url.IndexOf('#');
 			if (hashIndex >= 0)
 				url = url.Substring(0, hashIndex);
 			return url;
@@ -598,7 +598,7 @@ namespace Zeus.BaseLibrary.Web
 
 		public string GetQuery(string key)
 		{
-			IDictionary<string, string> queries = GetQueries();
+			var queries = GetQueries();
 			if (queries.ContainsKey(key))
 				return queries[key];
 
@@ -616,11 +616,11 @@ namespace Zeus.BaseLibrary.Web
 			if (Querystring == null)
 				return dictionary;
 
-			string[] queries = Querystring.Split(_querySplitter, StringSplitOptions.RemoveEmptyEntries);
-			for (int i = 0; i < queries.Length; i++)
+			var queries = Querystring.Split(_querySplitter, StringSplitOptions.RemoveEmptyEntries);
+			for (var i = 0; i < queries.Length; i++)
 			{
-				string q = queries[i];
-				int eqIndex = q.IndexOf("=");
+				var q = queries[i];
+				var eqIndex = q.IndexOf("=");
 				if (eqIndex >= 0)
 					dictionary[q.Substring(0, eqIndex)] = q.Substring(eqIndex + 1);
 			}
@@ -632,7 +632,7 @@ namespace Zeus.BaseLibrary.Web
 		{
 			url = RemoveHash(url);
 
-			int queryIndex = QueryIndex(url);
+			var queryIndex = QueryIndex(url);
 			if (queryIndex >= 0)
 				return url.Substring(queryIndex + 1);
 			return string.Empty;

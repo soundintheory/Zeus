@@ -43,15 +43,15 @@ namespace Zeus.Web.Security
 
 		protected virtual void OnAuthenticateRequest(object source, EventArgs eventArgs)
 		{
-			HttpApplication application = (HttpApplication) source;
+			var application = (HttpApplication) source;
 			HttpContextBase context = new HttpContextWrapper(application.Context);
 
-			IAuthenticationContextService authenticationContextService = WebSecurityEngine.Get<IAuthenticationContextService>();
-			AuthenticationSection authenticationConfig = System.Web.Configuration.WebConfigurationManager.GetSection("zeus/authentication") as AuthenticationSection;
-			string locationPath = context.Request.Path.ToLower();
+			var authenticationContextService = WebSecurityEngine.Get<IAuthenticationContextService>();
+			var authenticationConfig = System.Web.Configuration.WebConfigurationManager.GetSection("zeus/authentication") as AuthenticationSection;
+			var locationPath = context.Request.Path.ToLower();
 			if (authenticationConfig != null && !authenticationContextService.ContainsLocation(locationPath))
 			{
-				AuthenticationLocation location = authenticationConfig.ToAuthenticationLocation();
+				var location = authenticationConfig.ToAuthenticationLocation();
 				location.Path = locationPath;
 				authenticationContextService.AddLocation(location);
 			}
@@ -96,7 +96,7 @@ namespace Zeus.Web.Security
 			if (tOld == null || tOld.Expired)
 				return;
 
-			FormsAuthenticationTicket ticket = tOld;
+			var ticket = tOld;
 			if (CurrentAuthenticationService.Config.SlidingExpiration)
 				ticket = CurrentAuthenticationService.RenewTicketIfOld(tOld);
 
@@ -138,13 +138,13 @@ namespace Zeus.Web.Security
 
 			_onEnterCalled = false;
 
-			HttpApplication application = (HttpApplication) source;
-			HttpContext context = application.Context;
+			var application = (HttpApplication) source;
+			var context = application.Context;
 			if (context.Response.StatusCode != 0x191)
 				return;
 
 			// Add new ReturnUrl parameter, which will remove any existing parameter of this name.
-			Url redirectUrl = new Url(CurrentAuthenticationService.LoginUrl);
+			var redirectUrl = new Url(CurrentAuthenticationService.LoginUrl);
 			redirectUrl.SetQueryParameter("ReturnUrl", new Url(context.Request.Url).PathAndQuery);
 			context.Response.Redirect(redirectUrl.ToString(), false);
 		}

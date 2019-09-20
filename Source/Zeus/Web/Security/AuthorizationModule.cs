@@ -15,20 +15,20 @@ namespace Zeus.Web.Security
 
 		private void OnAuthorizeRequest(object source, EventArgs eventArgs)
 		{
-			HttpApplication application = (HttpApplication) source;
-			HttpContext context = application.Context;
+			var application = (HttpApplication) source;
+			var context = application.Context;
 
 			// If an <authorization> section exists in the current web.config, and it hasn't yet
 			// been registered with the AuthorizationService, add it now.
-			IAuthorizationService authorizationService = WebSecurityEngine.Get<IAuthorizationService>();
-			AuthorizationSection authorizationSection = System.Web.Configuration.WebConfigurationManager.GetSection("zeus.web/authorization") as AuthorizationSection;
-			string locationPath = context.Request.Path.ToLower();
+			var authorizationService = WebSecurityEngine.Get<IAuthorizationService>();
+			var authorizationSection = System.Web.Configuration.WebConfigurationManager.GetSection("zeus.web/authorization") as AuthorizationSection;
+			var locationPath = context.Request.Path.ToLower();
 			if (authorizationSection != null && !authorizationService.LocationExists(locationPath))
 			{
-				List<AuthorizationRule> rules = new List<AuthorizationRule>();
+				var rules = new List<AuthorizationRule>();
 				foreach (AuthorizationRule authorizationRule in authorizationSection.Rules)
 				{
-					AuthorizationRule rule = new AuthorizationRule();
+					var rule = new AuthorizationRule();
 					rule.Action = (authorizationRule.Action == AuthorizationRuleAction.Allow) ? AuthorizationRuleAction.Allow : AuthorizationRuleAction.Deny;
 					rule.Roles.AddRange(authorizationRule.Roles);
 					rule.Users.AddRange(authorizationRule.Users);

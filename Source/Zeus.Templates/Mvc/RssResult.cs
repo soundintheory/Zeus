@@ -22,7 +22,7 @@ namespace Zeus.Templates.Mvc
 
 		protected override void WriteXml(ControllerContext context)
 		{
-			RssFeed feed = new RssFeed();
+			var feed = new RssFeed();
 			feed.Channel.Title = Feed.Title;
 			feed.Channel.Link = GetLink(Feed.Url);
 			feed.Channel.Description = Feed.Tagline;
@@ -31,9 +31,9 @@ namespace Zeus.Templates.Mvc
 			feed.Channel.Generator = "Zeus CMS";
 			feed.Channel.ManagingEditor = Feed.Author;
 
-			foreach (ISyndicatable syndicatable in Feed.Items)
+			foreach (var syndicatable in Feed.Items)
 			{
-				RssItem item = new RssItem();
+				var item = new RssItem();
 				item.Title = syndicatable.Title;
 				item.Link = GetLink(syndicatable.Url);
                 item.Description = syndicatable.Summary;
@@ -41,7 +41,7 @@ namespace Zeus.Templates.Mvc
                 feed.Channel.AddItem(item);
 			}
 
-			SyndicationResourceSaveSettings settings = new SyndicationResourceSaveSettings
+			var settings = new SyndicationResourceSaveSettings
 			{
 				CharacterEncoding = new UTF8Encoding(false)
 			};

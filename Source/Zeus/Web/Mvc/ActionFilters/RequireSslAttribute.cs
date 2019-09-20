@@ -7,13 +7,13 @@ namespace Zeus.Web.Mvc.ActionFilters
 	{
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			HttpRequestBase request = filterContext.HttpContext.Request;
-			HttpResponseBase response = filterContext.HttpContext.Response;
+			var request = filterContext.HttpContext.Request;
+			var response = filterContext.HttpContext.Response;
 
 			// Check if we're secure or not and if we're on the local box
 			if (!request.IsSecureConnection && !request.IsLocal)
 			{
-				string url = request.Url.ToString().ToLower().Replace("http:", "https:");
+				var url = request.Url.ToString().ToLower().Replace("http:", "https:");
 				response.Redirect(url);
 			}
 			base.OnActionExecuting(filterContext);

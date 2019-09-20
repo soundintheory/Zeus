@@ -20,18 +20,18 @@ namespace Zeus.Web.Mvc
 
 		public override IController CreateController(RequestContext requestContext, string controllerName)
 		{
-			string controllerKey = controllerName.ToLowerInvariant();
+			var controllerKey = controllerName.ToLowerInvariant();
 
 			object area;
 			if (requestContext.RouteData.Values.TryGetValue("area", out area))
 			{
-				string areaControllerKey = Convert.ToString(area).ToLowerInvariant() + "." + controllerKey;
-				IController areaController = InstantiateController(areaControllerKey);
+				var areaControllerKey = Convert.ToString(area).ToLowerInvariant() + "." + controllerKey;
+				var areaController = InstantiateController(areaControllerKey);
 				if (areaController != null)
 					return areaController;
 			}
 
-			IController controller = InstantiateController(controllerKey);
+			var controller = InstantiateController(controllerKey);
 
 			if (controller != null)
                 return controller;
@@ -49,7 +49,7 @@ namespace Zeus.Web.Mvc
 #if DEBUG
 			IController controller = _kernel.Get<IController>(controllerName.ToLowerInvariant());
 #else
-			IController controller = _kernel.TryGet<IController>(controllerName.ToLowerInvariant());
+			var controller = _kernel.TryGet<IController>(controllerName.ToLowerInvariant());
 #endif
 
 			var standardController = controller as Controller;

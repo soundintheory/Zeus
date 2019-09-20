@@ -26,10 +26,10 @@ namespace Zeus.Admin
 			if (item.Parent != null)
 			{
 				var filter = editManager.GetEditorFilter(webContext.User);
-				IList<ContentItem> siblings = item.Parent.Children;
+				var siblings = item.Parent.Children;
 				IList<ContentItem> filtered = filter(siblings).ToList();
 
-				int index = filtered.IndexOf(item);
+				var index = filtered.IndexOf(item);
 				if (index > 0)
 					MoveTo(item, NodePosition.Before, filtered[index - 1]);
 			}
@@ -40,10 +40,10 @@ namespace Zeus.Admin
 			if (item.Parent != null)
 			{
 				var filter = editManager.GetEditorFilter(webContext.User);
-				IList<ContentItem> siblings = item.Parent.Children;
+				var siblings = item.Parent.Children;
 				IList<ContentItem> filtered = filter(siblings).ToList();
 
-				int index = filtered.IndexOf(item);
+				var index = filtered.IndexOf(item);
 				if (index + 1 < filtered.Count)
 					MoveTo(item, NodePosition.After, filtered[index + 1]);
 			}
@@ -51,9 +51,9 @@ namespace Zeus.Admin
 
 		public void MoveTo(ContentItem item, int index)
 		{
-			IList<ContentItem> siblings = item.Parent.Children;
+			var siblings = item.Parent.Children;
 			Utility.MoveToIndex(siblings, item, index);
-			foreach (ContentItem updatedItem in Utility.UpdateSortOrder(siblings))
+			foreach (var updatedItem in Utility.UpdateSortOrder(siblings))
 			{
                 if (item.ID == updatedItem.ID)
                     updatedItem.ReorderAction();
@@ -70,10 +70,10 @@ namespace Zeus.Admin
 			if (item.Parent != relativeTo.Parent)
 				item.AddTo(relativeTo.Parent);
 
-			IList<ContentItem> siblings = item.Parent.Children;
+			var siblings = item.Parent.Children;
 
-			int itemIndex = siblings.IndexOf(item);
-			int relativeToIndex = siblings.IndexOf(relativeTo);
+			var itemIndex = siblings.IndexOf(item);
+			var relativeToIndex = siblings.IndexOf(relativeTo);
 
 			if (itemIndex < 0)
 			{

@@ -12,7 +12,7 @@ namespace Zeus.FileSystem
 		{
 			get
 			{
-				string fileExtension = (!string.IsNullOrEmpty(FileExtension)) ? FileExtension.ToLower() : null;
+				var fileExtension = (!string.IsNullOrEmpty(FileExtension)) ? FileExtension.ToLower() : null;
 				switch (fileExtension)
 				{
 					case ".pdf":

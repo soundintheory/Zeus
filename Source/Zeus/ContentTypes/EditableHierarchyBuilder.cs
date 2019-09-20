@@ -14,7 +14,7 @@ namespace Zeus.ContentTypes
 		public virtual IEditorContainer Build(IEnumerable<IEditorContainer> containers, IEnumerable<T> editables)
 		{
 			// Clear existing containers, in case this is a rebuild.
-			foreach (IEditorContainer container in containers)
+			foreach (var container in containers)
 				container.Contained.Clear();
 
 			IEditorContainer rootContainer = new RootEditorContainer();
@@ -27,14 +27,14 @@ namespace Zeus.ContentTypes
 
 		private static void AddContainersToRootContainer(IEditorContainer rootContainer, IEnumerable<IEditorContainer> containers)
 		{
-			foreach (IEditorContainer container in containers)
+			foreach (var container in containers)
 			{
 				if (container.ContainerName != null)
 				{
 					if (container.ContainerName == container.Name)
 						throw new ZeusException("The container '{0}' cannot reference itself as containing container. Change the ContainerName property.", container.Name);
 
-					IEditorContainer parentContainer = FindContainer(container.ContainerName, containers);
+					var parentContainer = FindContainer(container.ContainerName, containers);
 
 					if (parentContainer == null)
 						throw new ZeusException("The container '{0}' references another containing container '{1}' that doesn't seem to be defined. Either add a container with this name or remove the reference to that container.", container.Name, container.ContainerName);
@@ -55,11 +55,11 @@ namespace Zeus.ContentTypes
 
 		private static void AddEditorsToContainers(IEditorContainer rootContainer, IEnumerable<IEditorContainer> containers, IEnumerable<T> editables)
 		{
-			foreach (T editable in editables)
+			foreach (var editable in editables)
 			{
 				if (editable.ContainerName != null)
 				{
-					IEditorContainer container = FindContainer(editable.ContainerName, containers);
+					var container = FindContainer(editable.ContainerName, containers);
 					if (container == null)
 						throw new ZeusException("The editor '{0}' references a container '{1}' that doesn't seem to be defined. Either add a container with this name or remove the reference to that container.", editable.Name, editable.ContainerName);
 					container.AddContained(editable);

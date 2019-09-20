@@ -4,8 +4,6 @@ namespace Zeus.BaseLibrary.Web.Routing
 {
 	public class DebugRoute : Route
 	{
-		// Fields
-		private static DebugRoute singleton = new DebugRoute();
 
 		// Methods
 		private DebugRoute()
@@ -15,12 +13,6 @@ namespace Zeus.BaseLibrary.Web.Routing
 		}
 
 		// Properties
-		public static DebugRoute Singleton
-		{
-			get
-			{
-				return singleton;
-			}
-		}
+		public static DebugRoute Singleton { get; } = new DebugRoute();
 	}
 }

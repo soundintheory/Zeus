@@ -61,9 +61,9 @@ namespace Zeus.Templates.Services.AntiSpam
 		/// <exception type="Sytsem.Web.WebException">If it cannot make a request of Akismet.</exception>
 		public bool VerifyApiKey(ContentItem currentStartPage)
 		{
-			string parameters = "key=" + HttpUtility.UrlEncode(_configuration.ApiKey) + "&blog="
+			var parameters = "key=" + HttpUtility.UrlEncode(_configuration.ApiKey) + "&blog="
 				+ HttpUtility.UrlEncode(_webContext.GetFullyQualifiedUrl(currentStartPage.Url));
-			string result = _httpClient.PostRequest(_verifyUrl, _userAgent, _configuration.Timeout, parameters);
+			var result = _httpClient.PostRequest(_verifyUrl, _userAgent, _configuration.Timeout, parameters);
 
 			if (string.IsNullOrEmpty(result))
 				throw new InvalidResponseException("Akismet returned an empty response");
@@ -79,7 +79,7 @@ namespace Zeus.Templates.Services.AntiSpam
 		/// <returns></returns>
 		public bool CheckCommentForSpam(ContentItem currentStartPage, IAntiSpamComment comment)
 		{
-			string result = SubmitComment(currentStartPage, comment, _checkUrl);
+			var result = SubmitComment(currentStartPage, comment, _checkUrl);
 
 			if (string.IsNullOrEmpty(result))
 				throw new InvalidResponseException("Akismet returned an empty response");
@@ -119,7 +119,7 @@ namespace Zeus.Templates.Services.AntiSpam
 		string SubmitComment(ContentItem currentStartPage, IAntiSpamComment comment, Url url)
 		{
 			// Not too many concatenations.  Might not need a string builder.
-			string parameters = "blog=" + HttpUtility.UrlEncode(_webContext.GetFullyQualifiedUrl(currentStartPage.Url))
+			var parameters = "blog=" + HttpUtility.UrlEncode(_webContext.GetFullyQualifiedUrl(currentStartPage.Url))
 				+ "&user_ip=" + comment.IPAddress
 				+ "&user_agent=" + HttpUtility.UrlEncode(comment.UserAgent);
 

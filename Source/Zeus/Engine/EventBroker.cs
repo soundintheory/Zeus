@@ -109,11 +109,11 @@ namespace Zeus.Engine
 		/// </remarks>
 		protected static bool IsStaticResource(object sender)
 		{
-			HttpApplication application = sender as HttpApplication;
+			var application = sender as HttpApplication;
 			if (application != null)
 			{
-				string path = application.Request.Path;
-				string extension = VirtualPathUtility.GetExtension(path);
+				var path = application.Request.Path;
+				var extension = VirtualPathUtility.GetExtension(path);
 
 				if (extension == null) return false;
 

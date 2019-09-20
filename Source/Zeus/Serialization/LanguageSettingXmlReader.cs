@@ -9,11 +9,11 @@ namespace Zeus.Serialization
 	{
 		public void Read(XPathNavigator navigator, ContentItem item, ReadingJournal journal)
 		{
-			foreach (XPathNavigator languageSettingElement in EnumerateChildren(navigator))
+			foreach (var languageSettingElement in EnumerateChildren(navigator))
 			{
-				Dictionary<string, string> attributes = GetAttributes(languageSettingElement);
-				string language = attributes["language"];
-				string fallbackLanguage = attributes["fallbackLanguage"];
+				var attributes = GetAttributes(languageSettingElement);
+				var language = attributes["language"];
+				var fallbackLanguage = attributes["fallbackLanguage"];
 				item.LanguageSettings.Add(new LanguageSetting(item, language, fallbackLanguage));
 			}
 		}

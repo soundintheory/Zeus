@@ -20,7 +20,7 @@ namespace Zeus.Web.Hosting
 				throw new ArgumentNullException("virtualPath");
 			if (virtualPath.Length == 0)
 				throw new ArgumentOutOfRangeException("virtualPath");
-			string absolutePath = System.Web.VirtualPathUtility.ToAbsolute(virtualPath);
+			var absolutePath = System.Web.VirtualPathUtility.ToAbsolute(virtualPath);
 			if (_manager.FileExists(absolutePath))
 				return true;
 			return base.FileExists(absolutePath);
@@ -33,7 +33,7 @@ namespace Zeus.Web.Hosting
 			if (virtualPath.Length == 0)
 				throw new ArgumentOutOfRangeException("virtualPath");
 
-			string absolutePath = System.Web.VirtualPathUtility.ToAbsolute(virtualPath);
+			var absolutePath = System.Web.VirtualPathUtility.ToAbsolute(virtualPath);
 
 			// Lazy initialize the return value so we can return null if needed
 			AggregateCacheDependency retVal = null;
@@ -42,7 +42,7 @@ namespace Zeus.Web.Hosting
 			if (virtualPathDependencies != null)
 				foreach (string virtualPathDependency in virtualPathDependencies)
 				{
-					CacheDependency dependencyToAdd = GetCacheDependency(virtualPathDependency, null, utcStart);
+					var dependencyToAdd = GetCacheDependency(virtualPathDependency, null, utcStart);
 					if (dependencyToAdd == null) // Ignore items that have no dependency
 						continue;
 
@@ -77,7 +77,7 @@ namespace Zeus.Web.Hosting
 			if (virtualPath.Length == 0)
 				throw new ArgumentOutOfRangeException("virtualPath");
 
-			string absolutePath = System.Web.VirtualPathUtility.ToAbsolute(virtualPath);
+			var absolutePath = System.Web.VirtualPathUtility.ToAbsolute(virtualPath);
 			if (FileHandledByBaseProvider(absolutePath))
 				return base.GetFile(absolutePath);
 			return _manager.GetFile(absolutePath);

@@ -13,7 +13,7 @@ namespace Zeus.Serialization
 			if (!navigator.MoveToFirstAttribute())
 				throw new DeserializationException("Node has no attributes: " + navigator.Name);
 
-			Dictionary<string, string> attributes = new Dictionary<string, string>();
+			var attributes = new Dictionary<string, string>();
 			do
 			{
 				attributes.Add(navigator.Name, navigator.Value);

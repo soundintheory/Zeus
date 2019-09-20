@@ -23,7 +23,7 @@ namespace Zeus.Web.Mvc
         protected override void OnApplicationStart(EventArgs e)
         {
             // Create and initialize Zeus engine.
-            ContentEngine engine = Zeus.Context.Initialize(false);
+            var engine = Zeus.Context.Initialize(false);
 
             ViewEngines.Engines.Clear();
 
@@ -73,7 +73,7 @@ namespace Zeus.Web.Mvc
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("{*extaxd}", new { extaxd = @"(.*/)?ext.axd(/.*)?" });
 
-            string adminPath = Zeus.Context.Current.Resolve<AdminSection>().Path;
+            var adminPath = Zeus.Context.Current.Resolve<AdminSection>().Path;
             routes.IgnoreRoute(adminPath + "/{*pathInfo}");
             routes.IgnoreRoute("assets" + "/{*pathInfo}");
 

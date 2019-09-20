@@ -22,8 +22,8 @@ namespace Zeus.ContentProperties
 
 		public Type GetDefaultPropertyDataType(Type type)
 		{
-			Type underlyingType = type.GetTypeOrUnderlyingType();
-			foreach (BasePropertyDataTypeAttribute propertyDataTypeAttribute in _propertyDataTypes)
+			var underlyingType = type.GetTypeOrUnderlyingType();
+			foreach (var propertyDataTypeAttribute in _propertyDataTypes)
 				if (propertyDataTypeAttribute.IsDefaultPropertyDataTypeForType(underlyingType))
 					return propertyDataTypeAttribute.ContextType;
 			return null;
@@ -31,7 +31,7 @@ namespace Zeus.ContentProperties
 
 		public PropertyData CreatePropertyDataObject(Type type)
 		{
-			Type propertyDataType = GetDefaultPropertyDataType(type);
+			var propertyDataType = GetDefaultPropertyDataType(type);
 			return (PropertyData) Activator.CreateInstance(propertyDataType);
 		}
 	}

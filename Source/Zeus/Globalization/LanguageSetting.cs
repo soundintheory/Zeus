@@ -55,7 +55,7 @@ namespace Zeus.Globalization
 		/// <returns>A copy of this AuthorizedRole.</returns>
 		public virtual LanguageSetting Clone()
 		{
-			LanguageSetting cloned = (LanguageSetting) MemberwiseClone();
+			var cloned = (LanguageSetting) MemberwiseClone();
 			cloned.ID = 0;
 			cloned.EnclosingItem = null;
 			return cloned;

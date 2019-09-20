@@ -73,7 +73,7 @@ namespace Zeus.BaseLibrary.Reflection
         /// <param name="assemblies"></param>
         private void AddAssembliesInAppDomain(ref List<string> addedAssemblyNames, ref List<Assembly> assemblies)
 		{
-			foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 			{
 				if (!Matches(assembly.FullName))
 				{

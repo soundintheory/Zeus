@@ -7,23 +7,18 @@ namespace Zeus.DynamicContent
 {
 	public class SimpleEditableObject : IEditableObject
 	{
-		private readonly object _objectToWrap;
-
 		public SimpleEditableObject(object objectToWrap)
 		{
-			_objectToWrap = objectToWrap;
+			WrappedObject = objectToWrap;
 		}
 
 		public object this[string detailName]
 		{
-			get { return _objectToWrap.GetValue(detailName); }
-			set { _objectToWrap.SetValue(detailName, value, true); }
+			get { return WrappedObject.GetValue(detailName); }
+			set { WrappedObject.SetValue(detailName, value, true); }
 		}
 
-		public object WrappedObject
-		{
-			get { return _objectToWrap; }
-		}
+		public object WrappedObject { get; }
 
 		public PropertyCollection GetDetailCollection(string name, bool create)
 		{

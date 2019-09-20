@@ -10,19 +10,14 @@ namespace Zeus.Web
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = true)]
 	public class ControlsAttribute : Attribute, IComparable<ControlsAttribute>, IAdapterDescriptor
 	{
-		private readonly Type itemType;
-
 		public ControlsAttribute(Type itemType)
 		{
-			this.itemType = itemType;
+			this.ItemType = itemType;
 			Priority = 10;
 		}
 
 		/// <summary>The type of item beeing adapted.</summary>
-		public Type ItemType
-		{
-			get { return itemType; }
-		}
+		public Type ItemType { get; }
 
 		/// <summary>The type of adapter referenced by this descriptor. This property is set by the framework as adapters are enumerated.</summary>
 		public Type AdapterType { get; set; }
@@ -32,8 +27,8 @@ namespace Zeus.Web
 		{
 			get
 			{
-				string name = AdapterType.Name;
-				int i = name.IndexOf("Controller");
+				var name = AdapterType.Name;
+				var i = name.IndexOf("Controller");
 				if (i > 0)
 				{
 					return name.Substring(0, i);

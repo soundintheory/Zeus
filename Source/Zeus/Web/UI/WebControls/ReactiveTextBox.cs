@@ -34,12 +34,12 @@ namespace Zeus.Web.UI.WebControls
 			// Render javascript for updating name textbox based on title textbox.
 			Page.ClientScript.RegisterClientScriptResource(typeof(ReactiveTextBox), "Zeus.Web.UI.WebControls.ReactiveTextBox.js");
 
-			List<string> otherEditors = new List<string>();
-			foreach (KeyValuePair<string, Control> propertyControl in Parent.FindParent<ItemView>().PropertyControls)
+			var otherEditors = new List<string>();
+			foreach (var propertyControl in Parent.FindParent<ItemView>().PropertyControls)
 				otherEditors.Add("'" + propertyControl.Key + "' : '" + propertyControl.Value.ClientID + "'");
-			string reactiveOptions = string.Format(@"{{formatString: '{0}', keepUpdatedClientID: '{1}', otherEditors: {{{2}}} }}",
+			var reactiveOptions = string.Format(@"{{formatString: '{0}', keepUpdatedClientID: '{1}', otherEditors: {{{2}}} }}",
 				FormatString, chkKeepUpdated.ClientID, string.Join(", ", otherEditors.ToArray()));
-			string script = string.Format(@"jQuery(document).ready(function() {{
+			var script = string.Format(@"jQuery(document).ready(function() {{
 					jQuery('#{0}').reactiveTextBox({1});
 					var chkKeepUpdated = document.getElementById('{2}');
 					var value1 = jQuery.fn.reactiveTextBox.formattedValue({1});

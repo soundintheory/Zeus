@@ -19,26 +19,26 @@ namespace Zeus.Web.Mvc.Html
 			if (htmlHelper.ViewData.ModelState.IsValid)
 				return null;
 
-			TagBuilder divBuilder = new TagBuilder("div");
+			var divBuilder = new TagBuilder("div");
 			divBuilder.Attributes["id"] = "errors";
 
 			if (!string.IsNullOrEmpty(message))
 			{
-				TagBuilder messageBuilder = new TagBuilder("p");
+				var messageBuilder = new TagBuilder("p");
 				messageBuilder.SetInnerText(message);
 				divBuilder.InnerHtml += messageBuilder.ToString(TagRenderMode.Normal) + Environment.NewLine;
 			}
 
-			StringBuilder builder = new StringBuilder();
-			TagBuilder listBuilder = new TagBuilder("ul");
-			foreach (ModelState state in htmlHelper.ViewData.ModelState.Values)
+			var builder = new StringBuilder();
+			var listBuilder = new TagBuilder("ul");
+			foreach (var state in htmlHelper.ViewData.ModelState.Values)
 			{
-				foreach (ModelError error in state.Errors)
+				foreach (var error in state.Errors)
 				{
-					string errorMessage = GetUserErrorMessageOrDefault(htmlHelper.ViewContext.HttpContext, error, null);
+					var errorMessage = GetUserErrorMessageOrDefault(htmlHelper.ViewContext.HttpContext, error, null);
 					if (!string.IsNullOrEmpty(errorMessage))
 					{
-						TagBuilder liBuilder = new TagBuilder("li");
+						var liBuilder = new TagBuilder("li");
 						liBuilder.SetInnerText(errorMessage);
 						builder.AppendLine(liBuilder.ToString(TagRenderMode.Normal));
 					}
@@ -57,7 +57,7 @@ namespace Zeus.Web.Mvc.Html
 			if (modelState == null)
 				return null;
 
-			string value = (modelState.Value != null) ? modelState.Value.AttemptedValue : null;
+			var value = (modelState.Value != null) ? modelState.Value.AttemptedValue : null;
 			return string.Format(CultureInfo.CurrentCulture, "The value '{0}' is invalid.", value);
 		}
 

@@ -70,7 +70,7 @@ namespace Zeus.Design.Editors
 		/// <returns>A text box control.</returns>
 		protected override Control AddEditor(Control container)
 		{
-			TextArea tb = CreateEditor();
+			var tb = CreateEditor();
 			tb.ID = Name;
 			if (ReadOnly)
 				tb.ReadOnly = true;

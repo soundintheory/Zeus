@@ -12,7 +12,7 @@ namespace Zeus.Configuration
 
 		protected override object GetElementKey(ConfigurationElement element)
 		{
-			ContentTypeZone rule = (ContentTypeZone)element;
+			var rule = (ContentTypeZone)element;
 			return rule.Name;
 		}
 	}

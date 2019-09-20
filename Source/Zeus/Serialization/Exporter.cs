@@ -12,25 +12,20 @@ namespace Zeus.Serialization
 	public class Exporter
 	{
 		private readonly ItemXmlWriter itemWriter;
-		private Formatting xmlFormatting = Formatting.Indented;
 
 		public Exporter(ItemXmlWriter itemWriter)
 		{
 			this.itemWriter = itemWriter;
 		}
 
-		public Formatting XmlFormatting
-		{
-			get { return xmlFormatting; }
-			set { xmlFormatting = value; }
-		}
+		public Formatting XmlFormatting { get; set; } = Formatting.Indented;
 
 		public virtual void Export(ContentItem item, ExportOptions options, HttpResponse response)
 		{
 			response.ContentType = GetContentType();
 			response.AppendHeader("Content-Disposition", "attachment;filename=" + GetExportFilename(item));
 
-			using (TextWriter output = GetTextWriter(response))
+			using (var output = GetTextWriter(response))
 			{
 				Export(item, options, output);
 				output.Flush();
@@ -55,11 +50,11 @@ namespace Zeus.Serialization
 
 		public virtual void Export(ContentItem item, ExportOptions options, TextWriter output)
 		{
-			XmlTextWriter xmlOutput = new XmlTextWriter(output);
+			var xmlOutput = new XmlTextWriter(output);
 			xmlOutput.Formatting = XmlFormatting;
 			xmlOutput.WriteStartDocument();
 
-			using (ElementWriter envelope = new ElementWriter("zeus", xmlOutput))
+			using (var envelope = new ElementWriter("zeus", xmlOutput))
 			{
 				envelope.WriteAttribute("version", GetType().Assembly.GetName().Version.ToString());
 				envelope.WriteAttribute("exportVersion", 1);

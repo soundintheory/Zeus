@@ -147,7 +147,7 @@ namespace Zeus.Web.Mvc
 
 			public IDictionary<string, object> LoadTempData(ControllerContext controllerContext)
 			{
-				HttpContextBase httpContext = controllerContext.HttpContext;
+				var httpContext = controllerContext.HttpContext;
 
 				//let these through, non dangerous and stops bots throwing 100s of errors
 				if (httpContext.Session?.IsReadOnly != false)
@@ -177,7 +177,7 @@ namespace Zeus.Web.Mvc
 
 			public void SaveTempData(ControllerContext controllerContext, IDictionary<string, object> values)
 			{
-				HttpContextBase httpContext = controllerContext.HttpContext;
+				var httpContext = controllerContext.HttpContext;
 
 				//let these through, non dangerous and stops bots throwing 100s of errors
 				if (httpContext.Session?.IsReadOnly != false)

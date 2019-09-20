@@ -13,7 +13,7 @@ namespace Zeus.Web.Mvc.Html
 
 		public static string CurrentUsername(this HtmlHelper html, string formatString)
 		{
-			string username = GetUsername(html);
+			var username = GetUsername(html);
 			if (string.IsNullOrEmpty(username))
 				return string.Empty;
 

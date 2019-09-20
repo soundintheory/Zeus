@@ -72,7 +72,7 @@ namespace Zeus.FileSystem.Images
         public string GetUrlForAdminViaSource(ImageSource source, int width, int height, bool fill, DynamicImageFormat format, bool isResize)
         {
             //see if it's the standard editor crop (from admin site most likely)
-            bool isStandard = width == 800 & height == 600;
+            var isStandard = width == 800 & height == 600;
 
             if (this.Data == null)
                 return "";
@@ -83,8 +83,8 @@ namespace Zeus.FileSystem.Images
             dynamicImage.ImageFormat = format;
 
             //create the background
-            string optionalBackground = System.Web.HttpContext.Current.Server.MapPath("/assets/zeus/background.png");
-            bool useBG = System.IO.File.Exists(optionalBackground);
+            var optionalBackground = System.Web.HttpContext.Current.Server.MapPath("/assets/zeus/background.png");
+            var useBG = System.IO.File.Exists(optionalBackground);
             double percChangeForBG = 1;
             var bgLayer = new ImageLayer();
             if (useBG)
@@ -93,9 +93,9 @@ namespace Zeus.FileSystem.Images
 
                 if (!isStandard)
                 {
-                    System.Drawing.Image image = System.Drawing.Image.FromStream(new MemoryStream(this.Data));
-                    int ActualWidth = image.Width;
-                    int ActualHeight = image.Height;
+                    var image = System.Drawing.Image.FromStream(new MemoryStream(this.Data));
+                    var ActualWidth = image.Width;
+                    var ActualHeight = image.Height;
                     image.Dispose();
 
                     if ((Convert.ToDouble(ActualWidth) / Convert.ToDouble(800)) >= (Convert.ToDouble(ActualHeight) / Convert.ToDouble(600)))
@@ -220,9 +220,9 @@ namespace Zeus.FileSystem.Images
 
         public string GetUrl(int width, int height, bool fill, DynamicImageFormat format, bool isResize)
         {
-            string appKey = "CroppedImage_" + this.ID + "_" + width + "_" + height + "_" + fill.ToString();
-            string res = System.Web.HttpContext.Current.Cache[appKey] == null ? null : System.Web.HttpContext.Current.Cache[appKey].ToString();
-            DateTime lastUpdated = res != null ? (DateTime)System.Web.HttpContext.Current.Cache[appKey + "_timer"] : DateTime.MinValue;
+            var appKey = "CroppedImage_" + this.ID + "_" + width + "_" + height + "_" + fill.ToString();
+            var res = System.Web.HttpContext.Current.Cache[appKey] == null ? null : System.Web.HttpContext.Current.Cache[appKey].ToString();
+            var lastUpdated = res != null ? (DateTime)System.Web.HttpContext.Current.Cache[appKey + "_timer"] : DateTime.MinValue;
 
             if (res != null && lastUpdated == this.Updated)
             {
@@ -236,7 +236,7 @@ namespace Zeus.FileSystem.Images
 
             if (this.TopLeftXVal == 0 && this.TopLeftYVal == 0 && this.CropWidth == 0 && this.CropHeight == 0)
             {
-                string res2 = GetUrl(width, height, fill);
+                var res2 = GetUrl(width, height, fill);
 
                 System.Web.HttpContext.Current.Cache[appKey] = res2;
                 System.Web.HttpContext.Current.Cache[appKey + "_timer"] = this.Updated;
@@ -247,7 +247,7 @@ namespace Zeus.FileSystem.Images
             }
                 
             //see if it's the standard editor crop (from admin site most likely)
-            bool isStandard = width == 800 & height == 600;
+            var isStandard = width == 800 & height == 600;
 
             //first construct the crop
             var imageSource = new ZeusImageSource();
@@ -261,11 +261,11 @@ namespace Zeus.FileSystem.Images
             var dynamicImage = new SoundInTheory.DynamicImage.Composition();
             dynamicImage.ImageFormat = format;
 
-            ImageLayer imageLayer = new ImageLayer();
+            var imageLayer = new ImageLayer();
 
             //create the background
-            string optionalBackground = System.Web.HttpContext.Current.Server.MapPath("/assets/zeus/background.png");
-            bool useBG = System.IO.File.Exists(optionalBackground);
+            var optionalBackground = System.Web.HttpContext.Current.Server.MapPath("/assets/zeus/background.png");
+            var useBG = System.IO.File.Exists(optionalBackground);
             double percChangeForBG = 1;
             var bgLayer = new ImageLayer();
             if (useBG)
@@ -274,9 +274,9 @@ namespace Zeus.FileSystem.Images
 
                 if (!isStandard)
                 {
-                    System.Drawing.Image image = System.Drawing.Image.FromStream(new MemoryStream(this.Data));
-                    int ActualWidth = image.Width;
-                    int ActualHeight = image.Height;
+                    var image = System.Drawing.Image.FromStream(new MemoryStream(this.Data));
+                    var ActualWidth = image.Width;
+                    var ActualHeight = image.Height;
                     image.Dispose();
 
                     if ((Convert.ToDouble(ActualWidth) / Convert.ToDouble(800)) >= (Convert.ToDouble(ActualHeight) / Convert.ToDouble(600)))
@@ -325,12 +325,12 @@ namespace Zeus.FileSystem.Images
             dynamicImage.Layers.Add(imageLayer);
 
             // generate url
-            string halfWayFileName = ImageUrlGenerator.GetImageUrl(dynamicImage);
+            var halfWayFileName = ImageUrlGenerator.GetImageUrl(dynamicImage);
 
             var dynamicImage2 = new SoundInTheory.DynamicImage.Composition();
 
             var HalfwayImageSource = new ImageLayer();
-            BytesImageSource sourceData = new BytesImageSource();
+            var sourceData = new BytesImageSource();
             var webClient = new WebClient();
             try
             {
@@ -391,7 +391,7 @@ namespace Zeus.FileSystem.Images
 
             dynamicImage2.Layers.Add(HalfwayImageSource);
 
-            string imageUrl = ImageUrlGenerator.GetImageUrl(dynamicImage2);
+            var imageUrl = ImageUrlGenerator.GetImageUrl(dynamicImage2);
 
             System.Web.HttpContext.Current.Cache[appKey] = imageUrl;
             System.Web.HttpContext.Current.Cache[appKey + "_timer"] = this.Updated;

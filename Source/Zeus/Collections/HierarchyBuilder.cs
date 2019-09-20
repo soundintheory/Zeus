@@ -18,7 +18,7 @@ namespace Zeus.Collections
 
 		protected virtual IEnumerable<ContentItem> GetChildren(ContentItem currentItem)
 		{
-			IEnumerable<ContentItem> children = currentItem.GetChildren();
+			var children = currentItem.GetChildren();
 			if (Filter != null)
 				children = Filter(children);
 			return children;

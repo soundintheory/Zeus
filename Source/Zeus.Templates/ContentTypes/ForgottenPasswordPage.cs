@@ -29,7 +29,7 @@ namespace Zeus.Templates.ContentTypes
 		{
 			get
 			{
-				string defaultValue = string.Format(@"To initiate the password reset process for your
+				var defaultValue = string.Format(@"To initiate the password reset process for your
 account, click the link below:
 
 {0}

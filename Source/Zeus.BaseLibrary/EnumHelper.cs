@@ -13,15 +13,15 @@ namespace Zeus.BaseLibrary
 
 		public static string GetEnumValueDescription(Type enumType, string name)
 		{
-			string cacheKey = enumType.FullName + "." + name;
+			var cacheKey = enumType.FullName + "." + name;
 			if (!_cachedEnumDescriptions.ContainsKey(cacheKey))
 			{
-				MemberInfo[] memberInfo = enumType.GetMember(name);
+				var memberInfo = enumType.GetMember(name);
 
-				string description = name;
+				var description = name;
 				if (memberInfo != null && memberInfo.Length > 0)
 				{
-					DescriptionAttribute attribute = memberInfo[0].GetCustomAttribute<DescriptionAttribute>(false, false);
+					var attribute = memberInfo[0].GetCustomAttribute<DescriptionAttribute>(false, false);
 					if (attribute != null)
 						description = attribute.Description;
 				}
@@ -33,7 +33,7 @@ namespace Zeus.BaseLibrary
 
 		public static IEnumerable<string> GetDescriptions(Type enumType)
 		{
-			string[] names = Enum.GetNames(enumType);
+			var names = Enum.GetNames(enumType);
 			return names.Select(s => GetEnumValueDescription(enumType, s));
 		}
 

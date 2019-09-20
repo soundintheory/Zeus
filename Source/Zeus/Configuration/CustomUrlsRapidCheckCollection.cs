@@ -12,7 +12,7 @@ namespace Zeus.Configuration
 
 		protected override object GetElementKey(ConfigurationElement element)
         {
-            CustomUrlsRapidCheckElement rule = (CustomUrlsRapidCheckElement)element;
+            var rule = (CustomUrlsRapidCheckElement)element;
             return rule.Action;
         }
     }

@@ -17,9 +17,9 @@ namespace Zeus.BaseLibrary.Web.Handlers
 				int length;
 
 				// Check start parameter if present
-				using (FileStream fs = new FileStream(context.Request.PhysicalPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+				using (var fs = new FileStream(context.Request.PhysicalPath, FileMode.Open, FileAccess.Read, FileShare.Read))
 				{
-					string qs = context.Request.Params["start"];
+					var qs = context.Request.Params["start"];
 
 					if (string.IsNullOrEmpty(qs))
 					{
@@ -48,9 +48,9 @@ namespace Zeus.BaseLibrary.Web.Handlers
 
 					// read buffer and write stream to the response stream
 					const int BUFFER_SIZE = 16384;
-					byte[] buffer = new byte[BUFFER_SIZE];
+					var buffer = new byte[BUFFER_SIZE];
 
-					int count = fs.Read(buffer, 0, BUFFER_SIZE);
+					var count = fs.Read(buffer, 0, BUFFER_SIZE);
 					while (count > 0)
 					{
 						if (context.Response.IsClientConnected)
@@ -78,8 +78,8 @@ namespace Zeus.BaseLibrary.Web.Handlers
 
 		private static byte[] HexToByte(string hexString)
 		{
-			byte[] returnBytes = new byte[hexString.Length / 2];
-			for (int i = 0; i < returnBytes.Length; i++)
+			var returnBytes = new byte[hexString.Length / 2];
+			for (var i = 0; i < returnBytes.Length; i++)
 				returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
 			return returnBytes;
 		}

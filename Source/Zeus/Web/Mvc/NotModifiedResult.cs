@@ -7,7 +7,7 @@ namespace Zeus.Web.Mvc
 	{
 		public override void ExecuteResult(ControllerContext context)
 		{
-			HttpResponseBase response = context.HttpContext.Response;
+			var response = context.HttpContext.Response;
 			response.StatusCode = 304;
 			response.SuppressContent = true;
 		}

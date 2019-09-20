@@ -12,7 +12,7 @@ namespace Zeus.BaseLibrary.Tests.ExtensionMethods
 		public void Test_Left_Length_Is_LessThanStringLength()
 		{
 			const string myString = "This is a test string.";
-			string leftPart = myString.Left(6);
+			var leftPart = myString.Left(6);
 			Assert.AreEqual("This i", leftPart);
 		}
 
@@ -20,7 +20,7 @@ namespace Zeus.BaseLibrary.Tests.ExtensionMethods
 		public void Test_Left_Length_Is_GreaterThanStringLength()
 		{
 			const string myString = "This is a test string.";
-			string leftPart = myString.Left(300);
+			var leftPart = myString.Left(300);
 			Assert.AreEqual("This is a test string.", leftPart);
 		}
 
@@ -28,7 +28,7 @@ namespace Zeus.BaseLibrary.Tests.ExtensionMethods
 		public void Test_Left_EmptyString()
 		{
 			const string myString = "";
-			string leftPart = myString.Left(6);
+			var leftPart = myString.Left(6);
 			Assert.AreEqual("", leftPart);
 		}
 
@@ -36,7 +36,7 @@ namespace Zeus.BaseLibrary.Tests.ExtensionMethods
 		public void Test_Right_Length_Is_LessThanStringLength()
 		{
 			const string myString = "This is a test string.";
-			string rightPart = myString.Right(6);
+			var rightPart = myString.Right(6);
 			Assert.AreEqual("tring.", rightPart);
 		}
 
@@ -44,7 +44,7 @@ namespace Zeus.BaseLibrary.Tests.ExtensionMethods
 		public void Test_Right_Length_Is_GreaterThanStringLength()
 		{
 			const string myString = "This is a test string.";
-			string rightPart = myString.Right(300);
+			var rightPart = myString.Right(300);
 			Assert.AreEqual("This is a test string.", rightPart);
 		}
 
@@ -52,7 +52,7 @@ namespace Zeus.BaseLibrary.Tests.ExtensionMethods
 		public void Test_ToPascalCase()
 		{
 			const string myString = "ThisIsAnIdentifier";
-			string result = myString.ToPascalCase();
+			var result = myString.ToPascalCase();
 			Assert.AreEqual("thisIsAnIdentifier", result);
 		}
 
@@ -60,7 +60,7 @@ namespace Zeus.BaseLibrary.Tests.ExtensionMethods
 		public void Test_Truncate_Length_Is_LessThanStringLength()
 		{
 			const string myString = "This is a test string.";
-			string leftPart = myString.Truncate(6);
+			var leftPart = myString.Truncate(6);
 			Assert.AreEqual("This ...", leftPart);
 		}
 
@@ -68,7 +68,7 @@ namespace Zeus.BaseLibrary.Tests.ExtensionMethods
 		public void Test_Truncate_Length_Is_GreaterThanStringLength()
 		{
 			const string myString = "This is a test string.";
-			string leftPart = myString.Truncate(300);
+			var leftPart = myString.Truncate(300);
 			Assert.AreEqual("This is a test string.", leftPart);
 		}
 
@@ -79,7 +79,7 @@ namespace Zeus.BaseLibrary.Tests.ExtensionMethods
 			const string value = "This is my string.";
 
 			// Act.
-			string result = value.LeftBefore("string");
+			var result = value.LeftBefore("string");
 
 			// Assert.
 			Assert.AreEqual("This is my ", result);
@@ -92,7 +92,7 @@ namespace Zeus.BaseLibrary.Tests.ExtensionMethods
 			const string value = "This is my string.";
 
 			// Act.
-			string result = value.RightAfter("my");
+			var result = value.RightAfter("my");
 
 			// Assert.
 			Assert.AreEqual(" string.", result);
@@ -105,7 +105,7 @@ namespace Zeus.BaseLibrary.Tests.ExtensionMethods
 			const string value = "This is my string.";
 
 			// Act.
-			string result = value.RightAfterLast("i");
+			var result = value.RightAfterLast("i");
 
 			// Assert.
 			Assert.AreEqual("ng.", result);

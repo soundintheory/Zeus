@@ -12,7 +12,7 @@ namespace Zeus.Configuration
 
 		protected override object GetElementKey(ConfigurationElement element)
         {
-            CustomUrlsMandatoryStringsElement rule = (CustomUrlsMandatoryStringsElement)element;
+            var rule = (CustomUrlsMandatoryStringsElement)element;
             return rule.Value;
         }
     }

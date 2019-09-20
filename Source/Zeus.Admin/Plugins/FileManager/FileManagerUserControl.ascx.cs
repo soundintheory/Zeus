@@ -36,11 +36,11 @@ namespace Zeus.Admin.Plugins.FileManager
 			if (ExtNet.IsAjaxRequest)
 				return;
 
-			ContentItem fileManagerRootFolder = Find.StartPage;
+			var fileManagerRootFolder = Find.StartPage;
 			if (fileManagerRootFolder == null)
 				return;
 
-			TreeNodeBase treeNode = SiteTree.Between(fileManagerRootFolder, fileManagerRootFolder, true)
+			var treeNode = SiteTree.Between(fileManagerRootFolder, fileManagerRootFolder, true)
 				.OpenTo(fileManagerRootFolder)
 				.Filter(items => items.Authorized(Engine.WebContext.User, Engine.SecurityManager, Operations.Read))
 				.ToTreeNode(true);
@@ -52,7 +52,7 @@ namespace Zeus.Admin.Plugins.FileManager
 
 		private static IEnumerable GetFiles(ContentItem contentItem, FileType fileType)
 		{
-			IEnumerable<ContentItem> files = contentItem.GetChildren().Pages().Published().Authorized(Operations.Read);
+			var files = contentItem.GetChildren().Pages().Published().Authorized(Operations.Read);
 			switch (fileType)
 			{
 				case FileType.Image :
@@ -83,9 +83,9 @@ namespace Zeus.Admin.Plugins.FileManager
 
 		protected void filesStore_RefreshData(object sender, StoreRefreshDataEventArgs e)
 		{
-			int nodeID = Convert.ToInt32(e.Parameters["node"]);
-			FileType type = e.Parameters.Any(p => p.Name == "type") ? (FileType) Enum.Parse(typeof(FileType), e.Parameters["type"], true) : FileType.Both;
-			ContentItem contentItem = Engine.Persister.Get(nodeID);
+			var nodeID = Convert.ToInt32(e.Parameters["node"]);
+			var type = e.Parameters.Any(p => p.Name == "type") ? (FileType) Enum.Parse(typeof(FileType), e.Parameters["type"], true) : FileType.Both;
+			var contentItem = Engine.Persister.Get(nodeID);
 			filesStore.DataSource = GetFiles(contentItem, type);
 			filesStore.DataBind();
 		}

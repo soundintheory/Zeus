@@ -49,11 +49,11 @@ namespace Zeus.Web.Hosting
 		{
 			// Resource path is in the form Zeus.Admin.Children.aspx.
 			// First, take assembly name off the front.
-			string assemblyName = resourceAssembly.GetName().Name;
+			var assemblyName = resourceAssembly.GetName().Name;
 			if (!resourcePath.StartsWith(assemblyName))
 				throw new ArgumentException(string.Format("Resource path '{0}' must start with assembly name '{1}'.", resourcePath, assemblyName), "resourcePath");
 
-			string relativePath = resourcePath.Substring(assemblyName.Length + 1);
+			var relativePath = resourcePath.Substring(assemblyName.Length + 1);
 			if (relativePath.EndsWith(".aspx"))
 			{
 				relativePath = Regex.Replace(relativePath, "^([A-Z])", m => m.Groups[1].Value.ToLower());
@@ -67,7 +67,7 @@ namespace Zeus.Web.Hosting
 		private EmbeddedResourceVirtualFile GetOrCreateVirtualFile(Url url, bool throwOnError)
 		{
 			// If we're in an application in a folder (i.e. /blog) then remove that part.
-			Url testUrl = new Url(VirtualPathUtility.ToAppRelative(url.Path).TrimStart('~'));
+			var testUrl = new Url(VirtualPathUtility.ToAppRelative(url.Path).TrimStart('~'));
 
 			// Always deal with lower-case URLs for aspx pages.
 			if (testUrl.Extension == ".aspx")
@@ -78,7 +78,7 @@ namespace Zeus.Web.Hosting
 				return _files[testUrl];
 
 			// Grab the first segment of the path. This will be the assembly prefix.
-			string assemblyPathPrefix = testUrl.SegmentAtIndex(0);
+			var assemblyPathPrefix = testUrl.SegmentAtIndex(0);
 			if (string.IsNullOrEmpty(assemblyPathPrefix))
 				if (throwOnError)
 					throw new ArgumentException("URL does not contain an assembly path prefix", "url");
@@ -90,11 +90,11 @@ namespace Zeus.Web.Hosting
 				else
 					return null;
 
-			Assembly assembly = _assemblyPathPrefixes[assemblyPathPrefix];
+			var assembly = _assemblyPathPrefixes[assemblyPathPrefix];
 
 			// Now get the rest of the path. This, combined with the assembly prefix, will be the resource path.
-			Url remainingUrl = testUrl.RemoveSegment(0);
-			string resourcePath = remainingUrl.PathWithoutExtension.Replace('/', '.');
+			var remainingUrl = testUrl.RemoveSegment(0);
+			var resourcePath = remainingUrl.PathWithoutExtension.Replace('/', '.');
 			if (remainingUrl.Extension == ".aspx")
 			{
 				resourcePath = Regex.Replace(resourcePath, "[^a-zA-Z]([a-z])|^([a-z])", m => m.Captures[0].Value.ToUpper());
@@ -102,7 +102,7 @@ namespace Zeus.Web.Hosting
 			}
 
 			// Create a new virtual file.
-			EmbeddedResourceVirtualFile virtualFile = new EmbeddedResourceVirtualFile(url, assembly, assembly.GetName().Name + resourcePath + remainingUrl.Extension);
+			var virtualFile = new EmbeddedResourceVirtualFile(url, assembly, assembly.GetName().Name + resourcePath + remainingUrl.Extension);
 			_files.Add(testUrl, virtualFile);
 
 			// Check that resource actually exists.

@@ -49,7 +49,7 @@ namespace Zeus.BaseLibrary.Mime
             if (!(other is FileType))
                 return false;
 
-            FileType otherType = (FileType)other;
+            var otherType = (FileType)other;
 
             if (this.Extension == otherType.Extension && this.Mime == otherType.Mime)
                 return true;

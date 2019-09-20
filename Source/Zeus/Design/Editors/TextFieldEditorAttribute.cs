@@ -92,7 +92,7 @@ namespace Zeus.Design.Editors
 
 		private string GetDataTypeName(bool throwException)
 		{
-			Type propertyType = PropertyType.GetTypeOrUnderlyingType();
+			var propertyType = PropertyType.GetTypeOrUnderlyingType();
 			if (propertyType == typeof(int))
 				return "integer";
 			if (propertyType == typeof(decimal) || propertyType == typeof(double) || propertyType == typeof(float))
@@ -109,14 +109,14 @@ namespace Zeus.Design.Editors
 			base.AddValidators(panel, editor);
 
 			// If data type is not string, we need to add a validator for data type
-			Type propertyType = PropertyType.GetTypeOrUnderlyingType();
+			var propertyType = PropertyType.GetTypeOrUnderlyingType();
 			if (propertyType == typeof(int) || propertyType == typeof(decimal) || propertyType == typeof(double) || propertyType == typeof(float) || propertyType == typeof(DateTime))
 				AddCompareValidator(panel, editor);
 		}
 
 		protected virtual IValidator AddCompareValidator(Control container, Control editor)
 		{
-			CompareValidator cmv = new CompareValidator
+			var cmv = new CompareValidator
 			{
 				ID = "cmv" + Name,
 				ControlToValidate = editor.ID,
@@ -133,7 +133,7 @@ namespace Zeus.Design.Editors
 
 		private ValidationDataType GetValidationDataType()
 		{
-			Type propertyType = PropertyType.GetTypeOrUnderlyingType();
+			var propertyType = PropertyType.GetTypeOrUnderlyingType();
 			if (propertyType == typeof(int))
 				return ValidationDataType.Integer;
 			if (propertyType == typeof(decimal) || propertyType == typeof(double) || propertyType == typeof(float))
@@ -145,8 +145,8 @@ namespace Zeus.Design.Editors
 
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
-			TextFieldBase tb = editor as TextFieldBase;
-			string value = (tb.Text == DefaultValue) ? null : tb.Text;
+			var tb = editor as TextFieldBase;
+			var value = (tb.Text == DefaultValue) ? null : tb.Text;
 			if (!AreEqual(value, item[Name]))
 			{
 				item[Name] = value;
@@ -157,13 +157,13 @@ namespace Zeus.Design.Editors
 
 		protected override void UpdateEditorInternal(IEditableObject item, Control editor)
 		{
-			TextFieldBase tb = editor as TextFieldBase;
+			var tb = editor as TextFieldBase;
 			tb.Text = Utility.Convert<string>(item[Name]) ?? DefaultValue;
 		}
 
 		public override Control AddTo(Control container)
 		{
-			TextFieldBase textField = CreateEditor();
+			var textField = CreateEditor();
 			textField.FieldLabel = Title;
 			textField.ID = Name;
 			textField.AllowBlank = !Required;
@@ -187,7 +187,7 @@ namespace Zeus.Design.Editors
 		/// <returns>A text box control.</returns>
 		protected override Control AddEditor(Control container)
 		{
-			TextFieldBase tb = CreateEditor();
+			var tb = CreateEditor();
 			tb.ID = Name;
 			tb.CssClass += " textEditor " + TextBoxCssClass;
 			if (Required)
@@ -207,7 +207,7 @@ namespace Zeus.Design.Editors
 		{
 			if (TextMode == TextBoxMode.MultiLine)
 			{
-				TextArea textArea = new TextArea();
+				var textArea = new TextArea();
 				//if (Columns > 0) textArea.Columns = Columns;
 				//if (Rows > 0) textArea.Rows = Rows;
 				return textArea;

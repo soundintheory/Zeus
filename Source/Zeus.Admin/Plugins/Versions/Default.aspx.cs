@@ -27,7 +27,7 @@ namespace Zeus.Admin.Plugins.Versions
 		{
 			Title = "Versions of '" + SelectedItem.Title + "'";
 
-			bool isVersionable = SelectedItem.GetType().GetCustomAttributes(typeof(NotVersionableAttribute), true).Length == 0;
+			var isVersionable = SelectedItem.GetType().GetCustomAttributes(typeof(NotVersionableAttribute), true).Length == 0;
 			cvVersionable.IsValid = isVersionable;
 
 			_persister = Zeus.Context.Persister;
@@ -42,14 +42,14 @@ namespace Zeus.Admin.Plugins.Versions
 
 		private void ResetPublishedItems()
 		{
-			ContentItem publishedItem = SelectedItem.VersionOf ?? SelectedItem;
+			var publishedItem = SelectedItem.VersionOf ?? SelectedItem;
 			if (chkShowAllLanguages.Checked)
 			{
 				_publishedItems = Engine.LanguageManager.GetTranslationsOf(publishedItem, true);
 			}
 			else
 			{
-				ContentItem translatedItem = Engine.LanguageManager.GetTranslationDirect(publishedItem, SelectedLanguageCode);
+				var translatedItem = Engine.LanguageManager.GetTranslationDirect(publishedItem, SelectedLanguageCode);
 				if (translatedItem != null)
 					publishedItem = translatedItem;
 				_publishedItems = new List<ContentItem>(new[] { publishedItem });
@@ -58,17 +58,17 @@ namespace Zeus.Admin.Plugins.Versions
 
 		protected void gvHistory_RowCommand(object sender, GridViewCommandEventArgs e)
 		{
-			int id = Convert.ToInt32(e.CommandArgument);
-			ContentItem selectedItem = Engine.Persister.Get(id);
+			var id = Convert.ToInt32(e.CommandArgument);
+			var selectedItem = Engine.Persister.Get(id);
 			if (selectedItem.VersionOf == null)
 			{
 				// do nothing
 			}
 			else if (e.CommandName == "Publish")
 			{
-				ContentItem previousVersion = selectedItem;
-				ContentItem currentVersion = previousVersion.VersionOf;
-				bool deletePrevious = previousVersion.Updated > currentVersion.Updated;
+				var previousVersion = selectedItem;
+				var currentVersion = previousVersion.VersionOf;
+				var deletePrevious = previousVersion.Updated > currentVersion.Updated;
 				_versionManager.ReplaceVersion(currentVersion, previousVersion);
 				//if (deletePrevious)
 				//	_persister.Delete(previousVersion);
@@ -139,7 +139,7 @@ namespace Zeus.Admin.Plugins.Versions
 
 		protected string GetLanguage(string languageCode)
 		{
-			Language language = Engine.LanguageManager.GetLanguage(languageCode);
+			var language = Engine.LanguageManager.GetLanguage(languageCode);
 			return "<img src=\"" + language.IconUrl + "\" /> " + language.Title;
 		}
 

@@ -146,7 +146,7 @@ namespace Zeus.Web.Mvc.Html
 					else
 						builder.Append(""); //builder.Append("<li class=\"pagePrev\">previous</li>");
 
-					for (int i = 1; i <= _pagination.TotalPages; ++i)
+					for (var i = 1; i <= _pagination.TotalPages; ++i)
 					{
 						builder.Append("<li");
 						if (_pagination.PageNumber == i)
@@ -167,8 +167,8 @@ namespace Zeus.Web.Mvc.Html
 
 			private string CreatePageLink(int pageNumber, string text)
 			{
-				string queryString = CreateQueryString(_request.QueryString);
-				string filePath = _request.FilePath;
+				var queryString = CreateQueryString(_request.QueryString);
+				var filePath = _request.FilePath;
 				return string.Format("<a href=\"{0}?{1}={2}{3}\">{4}</a>", filePath, _pageQueryName, pageNumber, queryString, text);
 			}
 

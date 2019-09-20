@@ -38,12 +38,12 @@ namespace Zeus.Web
 
 		public virtual void Close()
 		{
-			object[] keys = new object[RequestItems.Keys.Count];
+			var keys = new object[RequestItems.Keys.Count];
 			RequestItems.Keys.CopyTo(keys, 0);
 
-			foreach (object key in keys)
+			foreach (var key in keys)
 			{
-				IClosable value = RequestItems[key] as IClosable;
+				var value = RequestItems[key] as IClosable;
 				if (value != null)
 					value.Dispose();
 			}

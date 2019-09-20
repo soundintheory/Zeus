@@ -14,22 +14,22 @@ namespace Zeus.BaseLibrary.Security
  
 		public static WindowsIdentity CreateIdentity(string user, string domain, string password)
 		{
-			IntPtr phToken = IntPtr.Zero;
+			var phToken = IntPtr.Zero;
 			if (!LogonUser(user, domain, password, 3, 0, ref phToken))
 			{
-				int num = Marshal.GetLastWin32Error();
+				var num = Marshal.GetLastWin32Error();
 				throw new Exception("LogonUser failed with error code: " + num);
 			}
-			WindowsIdentity identity = new WindowsIdentity(phToken);
+			var identity = new WindowsIdentity(phToken);
 			CloseHandle(phToken);
 			return identity;
 		}
 
 		public static void RunImpersonatedCode(string user, string domain, string password, Action callback)
 		{
-			using (WindowsIdentity wi = CreateIdentity(user, domain, password))
+			using (var wi = CreateIdentity(user, domain, password))
 			{
-				using (WindowsImpersonationContext wic = wi.Impersonate())
+				using (var wic = wi.Impersonate())
 				{
 					try
 					{

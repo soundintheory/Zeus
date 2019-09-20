@@ -9,7 +9,7 @@ namespace Zeus.Templates.Mvc.Html
 	{
 		public static string MarkItUpResources(this HtmlHelper helper, bool ensureJQuery)
 		{
-			StringBuilder result = new StringBuilder();
+			var result = new StringBuilder();
 			if (ensureJQuery)
 				result.Append(helper.RegisterJQuery());
 			result.Append(helper.Javascript("/assets/templates/typewatch/jquery.typewatch.js"));

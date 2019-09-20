@@ -12,23 +12,23 @@ namespace Zeus.Admin
 			base.OnPreRender(e);
 
 			Controls.Clear();
-			HtmlGenericControl ul = new HtmlGenericControl("ul");
+			var ul = new HtmlGenericControl("ul");
 			Controls.Add(ul);
 			AddChildrenRecursive(CurrentItem, ul);
 		}
 
 		private static void AddChildrenRecursive(ContentItem item, HtmlGenericControl container)
 		{
-			HtmlGenericControl li = new HtmlGenericControl("li");
+			var li = new HtmlGenericControl("li");
 			li.InnerHtml = string.Format("<a href='{0}'><img src='{1}'/>{2}</a>", Url.ToAbsolute(((INode) item).PreviewUrl), Url.ToAbsolute(item.IconUrl), item.Title);
 			container.Controls.Add(li);
 
 			if (item.Children.Count > 0)
 			{
-				HtmlGenericControl ul = new HtmlGenericControl("ul");
+				var ul = new HtmlGenericControl("ul");
 				li.Controls.Add(ul);
 
-				foreach (ContentItem child in item.Children)
+				foreach (var child in item.Children)
 					AddChildrenRecursive(child, ul);
 			}
 		}

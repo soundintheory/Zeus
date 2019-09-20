@@ -16,20 +16,20 @@ namespace Zeus.BaseLibrary.DependencyInjection
 		/// <param name="namingConvention">The naming convention to use for the controllers.</param>
 		public static void RegisterAllComponentsTransient<TService>(IKernel kernel, Assembly assembly, Func<Type, string> namingConvention)
 		{
-			foreach (Type type in assembly.GetExportedTypes().Where(IsComponent<TService>))
+			foreach (var type in assembly.GetExportedTypes().Where(IsComponent<TService>))
 				kernel.Bind<TService>().To(type).InTransientScope().Named(namingConvention(type));
 		}
 
 		public static void RegisterAllComponents<TService>(IKernel kernel, Assembly assembly)
 		{
-			foreach (Type type in assembly.GetExportedTypes().Where(IsComponent<TService>))
+			foreach (var type in assembly.GetExportedTypes().Where(IsComponent<TService>))
 				kernel.Bind<TService>().To(type);
 		}
 
 		public static void RegisterAllComponents<TService>(IKernel kernel, IEnumerable<string> filenames)
 		{
-			foreach (Assembly assembly in FindAssembliesWithComponents<TService>(filenames).Select(name => Assembly.Load(name)))
-				foreach (Type type in assembly.GetExportedTypes().Where(IsComponent<TService>))
+			foreach (var assembly in FindAssembliesWithComponents<TService>(filenames).Select(name => Assembly.Load(name)))
+				foreach (var type in assembly.GetExportedTypes().Where(IsComponent<TService>))
 					kernel.Bind<TService>().To(type);
 		}
 
@@ -40,9 +40,9 @@ namespace Zeus.BaseLibrary.DependencyInjection
 
 		private static IEnumerable<AssemblyName> FindAssembliesWithComponents<TService>(IEnumerable<string> filenames)
 		{
-			AppDomain temporaryDomain = CreateTemporaryAppDomain();
+			var temporaryDomain = CreateTemporaryAppDomain();
 
-			foreach (string file in filenames)
+			foreach (var file in filenames)
 			{
 				Assembly assembly;
 

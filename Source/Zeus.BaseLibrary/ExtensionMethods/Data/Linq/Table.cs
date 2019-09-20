@@ -28,7 +28,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Data.Linq
 		/// </remarks>
 		public static int DeleteBatch<TEntity>(this Table<TEntity> table, IQueryable<TEntity> entities) where TEntity : class
 		{
-			DbCommand delete = table.GetDeleteBatchCommand<TEntity>(entities);
+			var delete = table.GetDeleteBatchCommand<TEntity>(entities);
 
 			var parameters = from p in delete.Parameters.Cast<DbParameter>()
 			                 select p.Value;
@@ -46,7 +46,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Data.Linq
 		/// <remarks>This method is useful for debugging purposes or when used in other utilities such as LINQPad.</remarks>
 		public static string DeleteBatchPreview<TEntity>(this Table<TEntity> table, IQueryable<TEntity> entities) where TEntity : class
 		{
-			DbCommand delete = table.GetDeleteBatchCommand<TEntity>(entities);
+			var delete = table.GetDeleteBatchCommand<TEntity>(entities);
 			return delete.PreviewCommandText() + table.Context.GetLog();
 		}
 
@@ -61,7 +61,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Data.Linq
 		/// <remarks>This method is useful for debugging purposes or when used in other utilities such as LINQPad.</remarks>
 		public static string UpdateBatchPreview<TEntity>(this Table<TEntity> table, IQueryable<TEntity> entities, Expression<Func<TEntity, TEntity>> evaluator) where TEntity : class
 		{
-			DbCommand update = table.GetUpdateBatchCommand<TEntity>(entities, evaluator);
+			var update = table.GetUpdateBatchCommand<TEntity>(entities, evaluator);
 			return update.PreviewCommandText() + table.Context.GetLog();
 		}
 
@@ -79,7 +79,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Data.Linq
 		/// </remarks>
 		public static int UpdateBatch<TEntity>(this Table<TEntity> table, IQueryable<TEntity> entities, Expression<Func<TEntity, TEntity>> evaluator) where TEntity : class
 		{
-			DbCommand update = table.GetUpdateBatchCommand<TEntity>(entities, evaluator);
+			var update = table.GetUpdateBatchCommand<TEntity>(entities, evaluator);
 
 			var parameters = from p in update.Parameters.Cast<DbParameter>()
 			                 select p.Value;
@@ -98,7 +98,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Data.Linq
 			var updateCommand = table.Context.GetCommand(entities);
 
 			var setSB = new StringBuilder();
-			int memberInitCount = 1;
+			var memberInitCount = 1;
 
 			// Process the MemberInitExpression (there should only be one in the evaluator Lambda) to convert the expression tree
 			// into a valid DbCommand.  The Visit<> method will only process expressions of type MemberInitExpression and requires
@@ -159,7 +159,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Data.Linq
 				assignment.Expression.Visit<ParameterExpression>(delegate(ParameterExpression p) { if (p.Type == entityType) entityParam = p; return p; });
 
 				// Get the real database field name.
-				string name = binding.Member.Name;
+				var name = binding.Member.Name;
 				var dbCol = (from c in dbCols
 				             where c.MappedName == name
 				             select c).FirstOrDefault();
@@ -244,7 +244,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Data.Linq
 		private static void ValidateExpression(ITable table, Expression expression)
 		{
 			var context = table.Context;
-			PropertyInfo providerProperty = context.GetType().GetProperty("Provider", BindingFlags.Instance | BindingFlags.NonPublic);
+			var providerProperty = context.GetType().GetProperty("Provider", BindingFlags.Instance | BindingFlags.NonPublic);
 			var provider = providerProperty.GetValue(context, null);
 			var compileMI = provider.GetType().GetMethod("System.Data.Linq.Provider.IProvider.Compile", BindingFlags.Instance | BindingFlags.NonPublic);
 
@@ -331,7 +331,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Data.Linq
 
 			if (!tableName.StartsWith("["))
 			{
-				string[] parts = tableName.Split('.');
+				var parts = tableName.Split('.');
 				tableName = string.Format("[{0}]", string.Join("].[", parts));
 			}
 
@@ -340,14 +340,14 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Data.Linq
 
 		private static string GetLog(this DataContext context)
 		{
-			PropertyInfo providerProperty = context.GetType().GetProperty("Provider", BindingFlags.Instance | BindingFlags.NonPublic);
+			var providerProperty = context.GetType().GetProperty("Provider", BindingFlags.Instance | BindingFlags.NonPublic);
 			var provider = providerProperty.GetValue(context, null);
-			Type providerType = provider.GetType();
+			var providerType = provider.GetType();
 
-			PropertyInfo modeProperty = providerType.GetProperty("Mode", BindingFlags.Instance | BindingFlags.NonPublic);
-			FieldInfo servicesField = providerType.GetField("services", BindingFlags.Instance | BindingFlags.NonPublic);
-			object services = servicesField != null ? servicesField.GetValue(provider) : null;
-			PropertyInfo modelProperty = services != null ? services.GetType().GetProperty("Model", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.GetProperty) : null;
+			var modeProperty = providerType.GetProperty("Mode", BindingFlags.Instance | BindingFlags.NonPublic);
+			var servicesField = providerType.GetField("services", BindingFlags.Instance | BindingFlags.NonPublic);
+			var services = servicesField != null ? servicesField.GetValue(provider) : null;
+			var modelProperty = services != null ? services.GetType().GetProperty("Model", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.GetProperty) : null;
 
 			return string.Format("-- Context: {0}({1}) Model: {2} Build: {3}\r\n",
 				providerType.Name,

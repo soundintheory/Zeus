@@ -10,7 +10,7 @@ namespace Zeus.Globalization
 		{
 			if (!string.IsNullOrEmpty(languageCode))
 			{
-				string item = RemoveQualityIndicator(languageCode);
+				var item = RemoveQualityIndicator(languageCode);
 				if (!Contains(item))
 					Add(item);
 			}
@@ -25,13 +25,13 @@ namespace Zeus.Globalization
 		public void ConditionalAddRange(IEnumerable<string> range)
 		{
 			if (range != null)
-				foreach (string str in range)
+				foreach (var str in range)
 					ConditionalAdd(str);
 		}
 
 		public static string RemoveQualityIndicator(string browserLanguageCode)
 		{
-			int index = browserLanguageCode.IndexOf(';');
+			var index = browserLanguageCode.IndexOf(';');
 			if (index < 0)
 				return browserLanguageCode;
 			return browserLanguageCode.Remove(index);

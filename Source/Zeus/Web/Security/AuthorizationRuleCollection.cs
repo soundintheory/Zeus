@@ -9,9 +9,9 @@ namespace Zeus.Web.Security
 		{
 			if (user != null)
 			{
-				foreach (AuthorizationRule rule in this)
+				foreach (var rule in this)
 				{
-					int num = rule.IsUserAllowed(user, verb);
+					var num = rule.IsUserAllowed(user, verb);
 					if (num != 0)
 						return (num > 0);
 				}

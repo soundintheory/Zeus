@@ -20,13 +20,13 @@ namespace Zeus.Admin.Plugins.Globalization
 				return;
 
 			// Setup tree bottom toolbar.
-			Toolbar bottomToolbar = new Toolbar();
+			var bottomToolbar = new Toolbar();
 			treePanel.BottomBar.Add(bottomToolbar);
 
-			ToolbarTextItem textItem = new ToolbarTextItem { Text = "Language: " };
+			var textItem = new ToolbarTextItem { Text = "Language: " };
 			bottomToolbar.Items.Add(textItem);
 
-			IconCombo comboBox = new IconCombo
+			var comboBox = new IconCombo
 			{
 				EmptyText = "Select...",
 				Width = Unit.Pixel(100),
@@ -43,9 +43,9 @@ namespace Zeus.Admin.Plugins.Globalization
 				}});",
 				Context.AdminManager.GetAdminDefaultUrl());
 
-			foreach (Language language in Context.Current.Resolve<ILanguageManager>().GetAvailableLanguages())
+			foreach (var language in Context.Current.Resolve<ILanguageManager>().GetAvailableLanguages())
 			{
-				IconComboListItem listItem = new IconComboListItem(language.Title, language.Name, language.IconUrl);
+				var listItem = new IconComboListItem(language.Title, language.Name, language.IconUrl);
 				comboBox.Items.Add(listItem);
 				if (language.Name == Context.AdminManager.CurrentAdminLanguageBranch)
 				{

@@ -16,7 +16,7 @@ namespace Zeus.Web.Mvc.Html
 
 		public string RenderTemplate(HtmlHelper htmlHelper, ContentItem item, IContentItemContainer container, string action)
 		{
-			RouteValueDictionary routeValues = new RouteValueDictionary();
+			var routeValues = new RouteValueDictionary();
 			routeValues.Add(ContentRoute.ContentItemKey, item);
 			routeValues.Add(ContentRoute.AreaKey, _controllerMapper.GetAreaName(item.GetType()));
 

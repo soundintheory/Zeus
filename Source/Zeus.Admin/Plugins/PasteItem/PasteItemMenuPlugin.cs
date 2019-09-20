@@ -22,7 +22,7 @@ namespace Zeus.Admin.Plugins.PasteItem
 
 		public MenuItem GetMenuItem(ContentItem contentItem)
 		{
-			MenuItem menuItem = new MenuItem
+			var menuItem = new MenuItem
 			{
 				Text = "Paste",
 				IconUrl = Utility.GetCooliteIconUrl(Icon.PagePaste),

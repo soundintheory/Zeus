@@ -60,9 +60,9 @@ namespace Zeus.Admin.Install
 				ICollection<ContentType> fallbackRoots = new List<ContentType>();
 				ICollection<ContentType> fallbackStartPages = new List<ContentType>();
 
-				foreach (ContentType d in Zeus.Context.ContentTypes.GetContentTypes())
+				foreach (var d in Zeus.Context.ContentTypes.GetContentTypes())
 				{
-					InstallerHints hint = d.ContentTypeAttribute.Installer;
+					var hint = d.ContentTypeAttribute.Installer;
 
 					if (Is(hint, InstallerHints.PreferredRootPage))
 						preferredRoots.Add(d);
@@ -123,7 +123,7 @@ namespace Zeus.Admin.Install
 		{
 			lc.Items.Clear();
 			lc.Items.Add(initialText);
-			foreach (ContentType d in startPageDefinitions)
+			foreach (var d in startPageDefinitions)
 				lc.Items.Add(new ListItem(d.Title, d.ItemType.AssemblyQualifiedName));
 		}
 
@@ -131,7 +131,7 @@ namespace Zeus.Admin.Install
 		{
 			lc.Items.Clear();
 			lc.Items.Add(initialText);
-			foreach (ContentType d in rootDefinitions)
+			foreach (var d in rootDefinitions)
 				lc.Items.Add(new ListItem(d.Title, d.ItemType.AssemblyQualifiedName));
 		}
 
@@ -139,9 +139,9 @@ namespace Zeus.Admin.Install
 		{
 			try
 			{
-				InstallationManager im = CurrentInstallationManager;
+				var im = CurrentInstallationManager;
 
-				using (IDbConnection conn = im.GetConnection())
+				using (var conn = im.GetConnection())
 				{
 					conn.Open();
 					lblStatus.CssClass = "ok";
@@ -159,7 +159,7 @@ namespace Zeus.Admin.Install
 
 		protected void btnInstall_Click(object sender, EventArgs e)
 		{
-			InstallationManager im = CurrentInstallationManager;
+			var im = CurrentInstallationManager;
 			if (ExecuteWithErrorHandling(im.Install) != null)
 				if (ExecuteWithErrorHandling(im.Install) == null)
 					lblInstall.Text = "Database created, now insert root items.";
@@ -178,7 +178,7 @@ namespace Zeus.Admin.Install
 
 		protected void btnInsert_Click(object sender, EventArgs e)
 		{
-			InstallationManager im = CurrentInstallationManager;
+			var im = CurrentInstallationManager;
 
 			try
 			{
@@ -187,8 +187,8 @@ namespace Zeus.Admin.Install
 				if (!cvRootAndStart.IsValid)
 					return;
 
-				ContentItem root = im.InsertRootNode(Type.GetType(ddlRoot.SelectedValue), "root", "Root Node");
-				ContentItem startPage = im.InsertStartPage(Type.GetType(ddlStartPage.SelectedValue), root, "start", "Start Page", Zeus.Context.Current.LanguageManager.GetDefaultLanguage());
+				var root = im.InsertRootNode(Type.GetType(ddlRoot.SelectedValue), "root", "Root Node");
+				var startPage = im.InsertStartPage(Type.GetType(ddlStartPage.SelectedValue), root, "start", "Start Page", Zeus.Context.Current.LanguageManager.GetDefaultLanguage());
 
 				if (startPage.ID == Status.StartPageID && root.ID == Status.RootItemID)
 				{
@@ -212,7 +212,7 @@ namespace Zeus.Admin.Install
 		}
 		protected void btnInsertRootOnly_Click(object sender, EventArgs e)
 		{
-			InstallationManager im = CurrentInstallationManager;
+			var im = CurrentInstallationManager;
 
 			try
 			{
@@ -221,7 +221,7 @@ namespace Zeus.Admin.Install
 				if (!cvRoot.IsValid)
 					return;
 
-				ContentItem root = im.InsertRootNode(Type.GetType(ddlRootAndStart.SelectedValue), "start", "Start Page");
+				var root = im.InsertRootNode(Type.GetType(ddlRootAndStart.SelectedValue), "start", "Start Page");
 
 				if (root.ID == Status.RootItemID && root.ID == Status.StartPageID)
 				{
@@ -285,14 +285,14 @@ namespace Zeus.Admin.Install
 
 		private void SaveConfiguration()
 		{
-			System.Configuration.Configuration cfg = WebConfigurationManager.OpenWebConfiguration("~");
+			var cfg = WebConfigurationManager.OpenWebConfiguration("~");
 
-			HostSection host = (HostSection) cfg.GetSection("zeus/host");
+			var host = (HostSection) cfg.GetSection("zeus/host");
 			host.RootItemID = RootId;
 
 			host.Sites.Clear();
 
-			SiteElement site = new SiteElement
+			var site = new SiteElement
      	{
      		ID = "DefaultSite",
      		Description = "Default Site",
@@ -362,9 +362,9 @@ namespace Zeus.Admin.Install
 			}
 
 			// try to find a suitable start page
-			foreach (ContentItem item in root.Children)
+			foreach (var item in root.Children)
 			{
-				ContentType id = Zeus.Context.ContentTypes.GetContentType(item.GetType());
+				var id = Zeus.Context.ContentTypes.GetContentType(item.GetType());
 				if (Is(id.ContentTypeAttribute.Installer, InstallerHints.PreferredStartPage))
 				{
 					if (item.ID == Status.StartPageID && root.ID == Status.RootItemID)
@@ -434,10 +434,10 @@ namespace Zeus.Admin.Install
 			// Attempt to create user.
 			try
 			{
-				string connectionString = CurrentInstallationManager.CreateDatabase(txtDatabaseServer.Text, txtDatabaseName.Text);
+				var connectionString = CurrentInstallationManager.CreateDatabase(txtDatabaseServer.Text, txtDatabaseName.Text);
 
-				System.Configuration.Configuration cfg = WebConfigurationManager.OpenWebConfiguration("~");
-				ConnectionStringSettings connectionStringSettings = cfg.ConnectionStrings.ConnectionStrings[CurrentInstallationManager.GetConnectionStringName()];
+				var cfg = WebConfigurationManager.OpenWebConfiguration("~");
+				var connectionStringSettings = cfg.ConnectionStrings.ConnectionStrings[CurrentInstallationManager.GetConnectionStringName()];
 				connectionStringSettings.ConnectionString = connectionString;
 				cfg.Save();
 
@@ -453,8 +453,8 @@ namespace Zeus.Admin.Install
 		{
 			try
 			{
-				System.Configuration.Configuration cfg = WebConfigurationManager.OpenWebConfiguration("~");
-				AdminSection adminConfig = (AdminSection) cfg.GetSection("zeus/admin");
+				var cfg = WebConfigurationManager.OpenWebConfiguration("~");
+				var adminConfig = (AdminSection) cfg.GetSection("zeus/admin");
 				adminConfig.Installer.Mode = InstallationMode.Normal;
 				cfg.Save();
 
@@ -477,7 +477,7 @@ namespace Zeus.Admin.Install
 
 		private void InstallFromUpload()
 		{
-			ContentItem root = CurrentInstallationManager.InsertExportFile(fileUpload.FileContent, fileUpload.FileName);
+			var root = CurrentInstallationManager.InsertExportFile(fileUpload.FileContent, fileUpload.FileName);
 			InsertRoot(root);
 		}
 	}

@@ -21,7 +21,6 @@ namespace Zeus.Web.UI.WebControls
 		private PlaceHolder itemEditorsContainer;
 		private ContentItem parentItem;
 		private List<string> addedTypes = new List<string>();
-		private readonly List<ItemEditView> itemEditors = new List<ItemEditView>();
 		private readonly List<ImageButton> _deleteButtons = new List<ImageButton>();
 		private List<int> deletedIndexes = new List<int>();
 		private int itemEditorIndex = 0;
@@ -50,10 +49,7 @@ namespace Zeus.Web.UI.WebControls
 			get { return HtmlTextWriterTag.Div; }
 		}
 
-		public List<ItemEditView> ItemEditors
-		{
-			get { return itemEditors; }
-		}
+		public List<ItemEditView> ItemEditors { get; } = new List<ItemEditView>();
 
 		/// <summary>Gets the text to use for the "add new" label.</summary>
 		public string AddNewText
@@ -110,7 +106,7 @@ namespace Zeus.Web.UI.WebControls
 			{
 				EnsureChildControls();
 				_deleteButtons.ForEach(b => b.Enabled = value);
-				itemEditors.ForEach(ie => ie.Enabled = value);
+				ItemEditors.ForEach(ie => ie.Enabled = value);
 				base.Enabled = value;
 			}
 		}
@@ -121,7 +117,7 @@ namespace Zeus.Web.UI.WebControls
 		{
 			base.OnInit(e);
 
-			UpdatePanel updatePanel = AddUpdatePanel();
+			var updatePanel = AddUpdatePanel();
 
 			itemEditorsContainer = new PlaceHolder();
 			updatePanel.ContentTemplateContainer.Controls.Add(itemEditorsContainer);
@@ -132,7 +128,7 @@ namespace Zeus.Web.UI.WebControls
 
 		private UpdatePanel AddUpdatePanel()
 		{
-			UpdatePanel updatePanel = new UpdatePanel();
+			var updatePanel = new UpdatePanel();
 			updatePanel.ID = "updatePanel";
 			this.Controls.Add(updatePanel);
 			return updatePanel;
@@ -140,7 +136,7 @@ namespace Zeus.Web.UI.WebControls
 
 		protected override void LoadViewState(object savedState)
 		{
-			Triplet p = (Triplet) savedState;
+			var p = (Triplet) savedState;
 			base.LoadViewState(p.First);
 			addedTypes = (List<string>) p.Second;
 			deletedIndexes = (List<int>) p.Third;
@@ -151,18 +147,18 @@ namespace Zeus.Web.UI.WebControls
 
 		protected override void CreateChildControls()
 		{
-			foreach (ContentItem item in GetItems())
+			foreach (var item in GetItems())
 				CreateItemEditor(item);
 
 			IEnumerable<ContentType> allowedChildren = CurrentItemDefinition.AllowedChildren;
 			if (TypeFilter != null)
 			{
-				Type type = BuildManager.GetType(TypeFilter, true);
+				var type = BuildManager.GetType(TypeFilter, true);
 				allowedChildren = allowedChildren.Where(ct => type.IsAssignableFrom(ct.ItemType));
 			}
-			foreach (ContentType definition in allowedChildren)
+			foreach (var definition in allowedChildren)
 			{
-				ListItem li = new ListItem(definition.ContentTypeAttribute.Title, string.Format("{0},{1}", definition.ItemType.FullName, definition.ItemType.Assembly.FullName));
+				var li = new ListItem(definition.ContentTypeAttribute.Title, string.Format("{0},{1}", definition.ItemType.FullName, definition.ItemType.Assembly.FullName));
 				types.Items.Add(li);
 			}
 
@@ -181,12 +177,12 @@ namespace Zeus.Web.UI.WebControls
 				IList<ContentItem> items = ParentItem.GetChildren().ToList();
 				if (TypeFilter != null)
 				{
-					Type type = BuildManager.GetType(TypeFilter, true);
+					var type = BuildManager.GetType(TypeFilter, true);
 					items = items.Where(ci => type.IsAssignableFrom(ci.GetType())).ToList();
 				}
-				foreach (string itemTypeName in AddedTypes)
+				foreach (var itemTypeName in AddedTypes)
 				{
-					ContentItem item = CreateItem(BuildManager.GetType(itemTypeName, true));
+					var item = CreateItem(BuildManager.GetType(itemTypeName, true));
 					items.Add(item);
 				}
 				return items;
@@ -197,7 +193,7 @@ namespace Zeus.Web.UI.WebControls
 
 		private ContentItem CreateItem(Type itemType)
 		{
-			ContentItem item = Zeus.Context.Current.ContentTypes.CreateInstance(itemType, ParentItem);
+			var item = Zeus.Context.Current.ContentTypes.CreateInstance(itemType, ParentItem);
 			if (item is WidgetContentItem)
 				((WidgetContentItem) item).ZoneName = ZoneName;
 			return item;
@@ -207,12 +203,12 @@ namespace Zeus.Web.UI.WebControls
 		{
 			types = new System.Web.UI.WebControls.DropDownList { ID = "ddlTypes" };
 
-			string labelText = AddNewText ?? "Add New Child";
+			var labelText = AddNewText ?? "Add New Child";
 			container.ContentTemplateContainer.Controls.Add(new Label { Text = labelText, AssociatedControlID = types.ID, CssClass = "editorLabel" });
 
 			container.ContentTemplateContainer.Controls.Add(types);
 
-			ImageButton b = new ImageButton();
+			var b = new ImageButton();
 			b.ID = "addNew";
 			container.ContentTemplateContainer.Controls.Add(b);
 			b.ImageUrl = Utility.GetCooliteIconUrl(Icon.Add);
@@ -226,7 +222,7 @@ namespace Zeus.Web.UI.WebControls
 		{
 			AddedTypes.Add(types.SelectedValue);
 
-			ContentItem item = CreateItem(BuildManager.GetType(types.SelectedValue, true));
+			var item = CreateItem(BuildManager.GetType(types.SelectedValue, true));
 
 			CreateItemEditor(item);
 		}
@@ -240,7 +236,7 @@ namespace Zeus.Web.UI.WebControls
 
 		private void AddDeleteButton()
 		{
-			ImageButton b = new ImageButton();
+			var b = new ImageButton();
 			itemEditorsContainer.Controls.Add(b);
 			b.ID = ID + "_d_" + itemEditorIndex;
 			b.CssClass = " delete";
@@ -255,11 +251,11 @@ namespace Zeus.Web.UI.WebControls
 
 		private void DeleteItemClick(object sender, ImageClickEventArgs e)
 		{
-			ImageButton b = (ImageButton) sender;
+			var b = (ImageButton) sender;
 			b.Enabled = false;
 			b.CssClass += " deleted";
 
-			int index = int.Parse(b.CommandArgument);
+			var index = int.Parse(b.CommandArgument);
 			DeletedIndexes.Add(index);
 			((FieldSet) ItemEditors[index].Parent).CssClass = "deleted";
 			ItemEditors[index].Enabled = false;
@@ -268,17 +264,17 @@ namespace Zeus.Web.UI.WebControls
 
 		private void AddItemEditor(ContentItem item)
 		{
-			ItemEditView itemEditor = new ItemEditView();
+			var itemEditor = new ItemEditView();
 			itemEditor.ID = ID + "_ie_" + itemEditorIndex;
 			AddToContainer(itemEditorsContainer, itemEditor, item);
-			itemEditors.Add(itemEditor);
+			ItemEditors.Add(itemEditor);
 			itemEditor.CurrentItem = item;
 		}
 
 		protected virtual void AddToContainer(Control container, ItemEditView itemEditor, ContentItem item)
 		{
-			FieldSet fs = new FieldSet();
-			string status = (item.ID != 0) ? "ID #" + item.ID : "(Unsaved)";
+			var fs = new FieldSet();
+			var status = (item.ID != 0) ? "ID #" + item.ID : "(Unsaved)";
             fs.Title = (item.ID != 0) ? Zeus.Context.Current.ContentTypes[item.GetType()].ContentTypeAttribute.Title + " " + status : "New Item " + status;
 			container.Controls.Add(fs);
 			fs.ContentControls.Add(itemEditor);

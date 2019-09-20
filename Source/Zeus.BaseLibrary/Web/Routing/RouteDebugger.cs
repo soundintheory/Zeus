@@ -9,10 +9,10 @@ namespace Zeus.BaseLibrary.Web.Routing
 		{
 			using (routes.GetReadLock())
 			{
-				bool flag = false;
-				foreach (RouteBase base2 in routes)
+				var flag = false;
+				foreach (var base2 in routes)
 				{
-					Route route = base2 as Route;
+					var route = base2 as Route;
 					if (route != null)
 						route.RouteHandler = new DebugRouteHandler();
 					if (route == DebugRoute.Singleton)

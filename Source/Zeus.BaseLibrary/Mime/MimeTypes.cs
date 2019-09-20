@@ -234,9 +234,9 @@ namespace Zeus.BaseLibrary.Mime
                 return TXT;
 
             // compare the file header to the stored file headers
-            foreach (FileType type in Types)
+            foreach (var type in Types)
             {
-                int matchingCount = GetFileMatchingCount(fileHeader, type);
+                var matchingCount = GetFileMatchingCount(fileHeader, type);
 
                 if (type.Header.Length == matchingCount)
                 {
@@ -244,12 +244,12 @@ namespace Zeus.BaseLibrary.Mime
                     // there may be situations where the file name is not given
                     if (type.Equals(ZIP))
                     {
-                        using (Stream fileData = stream != null ? stream : new MemoryStream(data))
+                        using (var fileData = stream != null ? stream : new MemoryStream(data))
                         {
                             if (fileData.Position > 0)
                                 fileData.Seek(0, SeekOrigin.Begin);
 
-                            using (ZipArchive zipData = new ZipArchive(fileData))
+                            using (var zipData = new ZipArchive(fileData))
                             {
                                 //check for office xml formats
                                 var officeXml = CheckForDocxAndXlsxStream(zipData);
@@ -282,11 +282,11 @@ namespace Zeus.BaseLibrary.Mime
         /// <returns>List of FileTypes</returns>
         public static List<FileType> GetFileTypesByExtensions(string CSV)
         {
-            string[] extensions = CSV.ToUpper().Replace(" ", "").Split(',');
+            var extensions = CSV.ToUpper().Replace(" ", "").Split(',');
 
-            List<FileType> result = new List<FileType>();
+            var result = new List<FileType>();
 
-            foreach (FileType type in Types)
+            foreach (var type in Types)
             {
                 if (extensions.Contains(type.Extension.ToUpper()))
                     result.Add(type);
@@ -348,9 +348,9 @@ namespace Zeus.BaseLibrary.Mime
 
         private static int GetFileMatchingCount(IReadOnlyList<byte> fileHeader, FileType type)
         {
-            int matchingCount = 0;
+            var matchingCount = 0;
 
-            for (int i = 0; i < type.Header.Length; i++)
+            for (var i = 0; i < type.Header.Length; i++)
             {
                 // if file offset is not set to zero, we need to take this into account when comparing.
                 // if byte in type.header is set to null, means this byte is variable, ignore it
@@ -380,11 +380,11 @@ namespace Zeus.BaseLibrary.Mime
         /// <returns>Array of bytes</returns>
         internal static IReadOnlyList<byte> ReadFileHeader(FileInfo file, ushort MaxHeaderSize)
         {
-            byte[] header = new byte[MaxHeaderSize];
+            var header = new byte[MaxHeaderSize];
 
             try  // read file
             {
-                using (FileStream fsSource = new FileStream(file.FullName, FileMode.Open, FileAccess.Read))
+                using (var fsSource = new FileStream(file.FullName, FileMode.Open, FileAccess.Read))
                 {
                     // read first symbols from file into array of bytes.
                     fsSource.Read(header, 0, MaxHeaderSize);
@@ -406,7 +406,7 @@ namespace Zeus.BaseLibrary.Mime
         /// <returns></returns>
         internal static IReadOnlyList<byte> ReadHeaderFromStream(Stream stream, ushort MaxHeaderSize)
         {
-            byte[] header = new byte[MaxHeaderSize];
+            var header = new byte[MaxHeaderSize];
 
             try  // read stream
             {
@@ -431,7 +431,7 @@ namespace Zeus.BaseLibrary.Mime
             if (byteArray.Length < MaxHeaderSize)
                 throw new ArgumentException($"{nameof(byteArray)}:{byteArray} Is smaller than {nameof(MaxHeaderSize)}:{MaxHeaderSize}", nameof(byteArray));
 
-            byte[] header = new byte[MaxHeaderSize];
+            var header = new byte[MaxHeaderSize];
 
             Array.Copy(byteArray, header, MaxHeaderSize);
 

@@ -33,13 +33,13 @@ namespace Zeus.Serialization
 
 		public virtual IImportRecord Read(TextReader input)
 		{
-			XPathNavigator navigator = CreateNavigator(input);
+			var navigator = CreateNavigator(input);
 
 			navigator.MoveToRoot();
 			if (!navigator.MoveToFirstChild())
 				throw new DeserializationException("Expected root node 'zeus' not found");
 
-			int version = ReadExportVersion(navigator);
+			var version = ReadExportVersion(navigator);
 			if (version != 1)
 				throw new WrongVersionException("Invalid export version, expected 1 but was '" + version + "'");
 
@@ -69,7 +69,7 @@ namespace Zeus.Serialization
 				RemoveReferences(record.ReadItems, record.RootItem);
 				while (record.RootItem.Children.Count > 0)
 				{
-					ContentItem child = record.RootItem.Children[0];
+					var child = record.RootItem.Children[0];
 					child.AddTo(destination);
 					persister.Save(child);
 				}
@@ -82,7 +82,7 @@ namespace Zeus.Serialization
 
 		protected virtual void RemoveReferences(IEnumerable<ContentItem> items, ContentItem referenceToRemove)
 		{
-			foreach (ContentItem item in items)
+			foreach (var item in items)
 			{
 				RemoveDetailReferences(referenceToRemove, item);
 				RemoveReferencesInCollections(referenceToRemove, item);
@@ -91,10 +91,10 @@ namespace Zeus.Serialization
 
 		protected virtual void RemoveDetailReferences(ContentItem referenceToRemove, ContentItem item)
 		{
-			List<string> keys = new List<string>(item.Details.Keys);
-			foreach (string key in keys)
+			var keys = new List<string>(item.Details.Keys);
+			foreach (var key in keys)
 			{
-				PropertyData detail = item.Details[key];
+				var detail = item.Details[key];
 				if (detail.ValueType == typeof(ContentItem))
 					if (((LinkProperty) detail).LinkedItem == referenceToRemove)
 						item.Details.Remove(key);
@@ -103,10 +103,10 @@ namespace Zeus.Serialization
 
 		protected virtual void RemoveReferencesInCollections(ContentItem referenceToRemove, ContentItem item)
 		{
-			foreach (PropertyCollection collection in item.DetailCollections.Values)
-				for (int i = collection.Details.Count - 1; i >= 0; --i)
+			foreach (var collection in item.DetailCollections.Values)
+				for (var i = collection.Details.Count - 1; i >= 0; --i)
 				{
-					PropertyData detail = collection.Details[i];
+					var detail = collection.Details[i];
 					if (detail.ValueType == typeof(ContentItem))
 						if (((LinkProperty) detail).LinkedItem == referenceToRemove)
 							collection.Remove(referenceToRemove);
@@ -115,7 +115,7 @@ namespace Zeus.Serialization
 
 		protected virtual void ResetIDs(IEnumerable<ContentItem> items)
 		{
-			foreach (ContentItem item in items)
+			foreach (var item in items)
 				item.ID = 0;
 		}
 	}

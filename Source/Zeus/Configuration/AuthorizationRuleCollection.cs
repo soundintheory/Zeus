@@ -13,8 +13,8 @@ namespace Zeus.Configuration
 
 		protected override ConfigurationElement CreateNewElement(string elementName)
 		{
-			Zeus.Configuration.AuthorizationRule rule = new Zeus.Configuration.AuthorizationRule();
-			string str = elementName.ToLower(CultureInfo.InvariantCulture);
+			var rule = new Zeus.Configuration.AuthorizationRule();
+			var str = elementName.ToLower(CultureInfo.InvariantCulture);
 			if (str != null)
 			{
 				if (!(str == "allow"))
@@ -30,14 +30,14 @@ namespace Zeus.Configuration
 
 		protected override object GetElementKey(ConfigurationElement element)
 		{
-			Zeus.Configuration.AuthorizationRule rule = (Zeus.Configuration.AuthorizationRule) element;
+			var rule = (Zeus.Configuration.AuthorizationRule) element;
 			return rule.Action.ToString();
 		}
 
 		protected override bool IsElementName(string elementname)
 		{
 			string str;
-			bool flag = false;
+			var flag = false;
 			if (((str = elementname.ToLower(CultureInfo.InvariantCulture)) == null) || (!(str == "allow") && !(str == "deny")))
 				return flag;
 			return true;

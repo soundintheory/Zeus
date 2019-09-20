@@ -25,7 +25,7 @@ namespace Zeus.Design.Editors
 
 		protected override FancyFileUpload CreateEditor()
 		{            
-			FancyImageUpload uploader = new FancyImageUpload { MinimumWidth = MinimumWidth, MinimumHeight = MinimumHeight };
+			var uploader = new FancyImageUpload { MinimumWidth = MinimumWidth, MinimumHeight = MinimumHeight };
             //add crop tool if item is already saved
             
             //CroppedImage image = (CroppedImage)this.UnderlyingProperty.GetValue(;
@@ -40,16 +40,16 @@ namespace Zeus.Design.Editors
             if (((CroppedImage)item).Data != null)
             {
                 //check to see if the image is large enough...
-                CroppedImage image = (CroppedImage)item;
+                var image = (CroppedImage)item;
 
-                System.Drawing.Image imageForSize = System.Drawing.Image.FromStream(new MemoryStream(image.Data));
-                int ActualWidth = imageForSize.Width;
-                int ActualHeight = imageForSize.Height;
+                var imageForSize = System.Drawing.Image.FromStream(new MemoryStream(image.Data));
+                var ActualWidth = imageForSize.Width;
+                var ActualHeight = imageForSize.Height;
                 imageForSize.Dispose();
 
                 //if (ActualWidth > image.FixedWidthValue && ActualHeight > image.FixedHeightValue)
                 //{
-                    string selected = System.Web.HttpContext.Current.Request.QueryString["selected"];
+                    var selected = System.Web.HttpContext.Current.Request.QueryString["selected"];
                     editor.Controls.AddAt(editor.Controls.Count, new LiteralControl("<div><p>Preview of how the image will look on the page</p><br/><p><a href=\"/admin/ImageCrop.aspx?id=" + image.ID + "&selected=" + selected + "\">Edit Crop</a></p><br/>"));
                     editor.Controls.AddAt(editor.Controls.Count, new LiteralControl("<img src=\"" + ((CroppedImage)image).GetUrl(image.FixedWidthValue, image.FixedHeightValue, true, SoundInTheory.DynamicImage.DynamicImageFormat.Jpeg, false) + "?rand=" + new System.Random().Next(1000) + "\" /></div><br/><br/>"));
                 //}

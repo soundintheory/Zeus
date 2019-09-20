@@ -38,7 +38,7 @@ namespace Zeus.Engine
 		{
 			if (path == null || path.IsEmpty()) return null;
 
-			T controller = CreateAdapterInstance<T>(path);
+			var controller = CreateAdapterInstance<T>(path);
 			if (controller == null) return null;
 
 			controller.Path = path;
@@ -52,7 +52,7 @@ namespace Zeus.Engine
 		{
 			lock (this)
 			{
-				List<IAdapterDescriptor> references = new List<IAdapterDescriptor>(adapterDescriptors);
+				var references = new List<IAdapterDescriptor>(adapterDescriptors);
 				references.AddRange(descriptorsToAdd);
 				references.Sort();
 				adapterDescriptors = references.ToArray();
@@ -63,9 +63,9 @@ namespace Zeus.Engine
 
 		protected virtual T CreateAdapterInstance<T>(PathData path) where T : class, IContentAdapter
 		{
-			Type requestedType = typeof(T);
+			var requestedType = typeof(T);
 
-			foreach (IAdapterDescriptor reference in adapterDescriptors)
+			foreach (var reference in adapterDescriptors)
 				if (requestedType.IsAssignableFrom(reference.AdapterType) && reference.IsAdapterFor(path, requestedType))
 					return Activator.CreateInstance(reference.AdapterType) as T;
 
@@ -77,8 +77,8 @@ namespace Zeus.Engine
 
 		public void Initialize()
 		{
-			List<IAdapterDescriptor> references = new List<IAdapterDescriptor>();
-			foreach (Type controllerType in _typeFinder.Find(typeof(IContentAdapter)))
+			var references = new List<IAdapterDescriptor>();
+			foreach (var controllerType in _typeFinder.Find(typeof(IContentAdapter)))
 			{
 				foreach (IAdapterDescriptor reference in controllerType.GetCustomAttributes(typeof(IAdapterDescriptor), false))
 				{

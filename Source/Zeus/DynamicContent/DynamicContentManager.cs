@@ -33,7 +33,7 @@ namespace Zeus.DynamicContent
 
 		public IDynamicContent CreateDynamicContent(string name, string state)
 		{
-			IDynamicContent dynamicContent = InstantiateDynamicContent(name);
+			var dynamicContent = InstantiateDynamicContent(name);
 			dynamicContent.State = state;
 			return dynamicContent;
 		}
@@ -54,17 +54,17 @@ namespace Zeus.DynamicContent
 			 */
 
 			const string pattern = @"<span class=""nonEditable""><dynamiccontent state=""([\s\S]+?)"">{DynamicContent:([a-z ]+?)}</dynamiccontent></span>";
-			Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+			var regex = new Regex(pattern, RegexOptions.IgnoreCase);
 			return regex.Replace(value, OnPatternMatched);
 		}
 
 		private string OnPatternMatched(Match match)
 		{
-			string dynamicContentControlName = match.Groups[2].Value;
-			string state = match.Groups[1].Value;
+			var dynamicContentControlName = match.Groups[2].Value;
+			var state = match.Groups[1].Value;
 
 			// Instantiate dynamic content control for this match.
-			IDynamicContent dynamicContent = CreateDynamicContent(dynamicContentControlName, state);
+			var dynamicContent = CreateDynamicContent(dynamicContentControlName, state);
 			return dynamicContent.Render();
 		}
 
@@ -75,7 +75,7 @@ namespace Zeus.DynamicContent
 
 		public IDynamicContent InstantiateDynamicContent(string name)
 		{
-			Type type = NameToTypeMap[name];
+			var type = NameToTypeMap[name];
 			return (IDynamicContent) Activator.CreateInstance(type);
 		}
 	}

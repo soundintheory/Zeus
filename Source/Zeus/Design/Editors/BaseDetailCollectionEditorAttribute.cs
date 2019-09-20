@@ -16,17 +16,17 @@ namespace Zeus.Design.Editors
 
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
-			PropertyCollection detailCollection = item.GetDetailCollection(Name, true);
-			BaseDetailCollectionEditor detailCollectionEditor = (BaseDetailCollectionEditor) editor;
+			var detailCollection = item.GetDetailCollection(Name, true);
+			var detailCollectionEditor = (BaseDetailCollectionEditor) editor;
 
-			List<PropertyData> propertyDataToDelete = new List<PropertyData>();
+			var propertyDataToDelete = new List<PropertyData>();
 
 			// First pass saves or creates items.
-			for (int i = 0; i < detailCollectionEditor.Editors.Count; i++)
+			for (var i = 0; i < detailCollectionEditor.Editors.Count; i++)
 			{
 				if (!detailCollectionEditor.DeletedIndexes.Contains(i))
 				{
-					PropertyData existingDetail = (detailCollection.Count > i) ? detailCollection.Details[i] : null;
+					var existingDetail = (detailCollection.Count > i) ? detailCollection.Details[i] : null;
 					object newDetail;
 					CreateOrUpdateDetailCollectionItem((ContentItem) item, existingDetail, detailCollectionEditor.Editors[i], out newDetail);
 					if (newDetail != null)
@@ -42,7 +42,7 @@ namespace Zeus.Design.Editors
 			}
 
 			// Do a second pass to delete the items, this is so we don't mess with the indices on the first pass.
-			foreach (PropertyData propertyData in propertyDataToDelete)
+			foreach (var propertyData in propertyDataToDelete)
 				detailCollection.Remove(propertyData);
 
 			return detailCollectionEditor.DeletedIndexes.Count > 0 || detailCollectionEditor.AddedEditors;
@@ -53,7 +53,7 @@ namespace Zeus.Design.Editors
 
 		protected override Control AddEditor(Control container)
 		{
-			BaseDetailCollectionEditor detailCollectionEditor = CreateEditor();
+			var detailCollectionEditor = CreateEditor();
 			detailCollectionEditor.ID = Name;
 			container.Controls.Add(detailCollectionEditor);
 			return detailCollectionEditor;
@@ -66,9 +66,9 @@ namespace Zeus.Design.Editors
 
 		protected override void UpdateEditorInternal(IEditableObject item, Control editor)
 		{
-			BaseDetailCollectionEditor detailCollectionEditor = (BaseDetailCollectionEditor) editor;
-			PropertyCollection detailCollection = item.GetDetailCollection(Name, true);
-			PropertyData[] details = new PropertyData[detailCollection.Count];
+			var detailCollectionEditor = (BaseDetailCollectionEditor) editor;
+			var detailCollection = item.GetDetailCollection(Name, true);
+			var details = new PropertyData[detailCollection.Count];
 			detailCollection.CopyTo(details, 0);
 			detailCollectionEditor.Initialize(details);
 		}

@@ -15,9 +15,9 @@ namespace Zeus.Serialization
 
 		protected override IEnumerable<PropertyData> GetDetails(ContentItem item)
 		{
-			ContentType definition = definitions.GetContentType(item.GetType());
-			foreach (PropertyData detail in item.Details.Values)
-				foreach (IContentProperty property in definition.Properties)
+			var definition = definitions.GetContentType(item.GetType());
+			foreach (var detail in item.Details.Values)
+				foreach (var property in definition.Properties)
 					if (detail.Name == property.Name)
 					{
 						yield return detail;

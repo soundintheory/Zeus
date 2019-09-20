@@ -10,7 +10,7 @@ namespace Zeus.BaseLibrary.Web.UI.HtmlControls
 		{
 			get
 			{
-				object value = this.ViewState["IncludedInSort"];
+				var value = this.ViewState["IncludedInSort"];
 				if (value == null)
 					return false;
 				else
@@ -27,7 +27,7 @@ namespace Zeus.BaseLibrary.Web.UI.HtmlControls
 		{
 			get
 			{
-				object value = this.ViewState["SortDirection"];
+				var value = this.ViewState["SortDirection"];
 				if (value == null)
 					return SortDirection.Ascending;
 				else

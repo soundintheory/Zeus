@@ -9,7 +9,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Reflection
 		public static string GetStringResource(this Assembly assembly, string resourceName)
 		{
 			TextReader textReader = new StreamReader(assembly.GetManifestResourceStream(resourceName));
-			string result = textReader.ReadToEnd();
+			var result = textReader.ReadToEnd();
 			textReader.Close();
 
 			return result;

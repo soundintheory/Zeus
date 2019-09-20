@@ -80,7 +80,7 @@ namespace Zeus.Web
 				}
 			}
 
-			RequestAdapter controller = dispatcher.ResolveAdapter<RequestAdapter>();
+			var controller = dispatcher.ResolveAdapter<RequestAdapter>();
 			if (controller != null)
 			{
 				webContext.CurrentPath = controller.Path;
@@ -90,7 +90,7 @@ namespace Zeus.Web
 
 		private void CheckInstallation()
 		{
-			bool isEditing = webContext.ToAppRelative(webContext.Url.Path).StartsWith("~/" + _adminConfig.Path, StringComparison.InvariantCultureIgnoreCase);
+			var isEditing = webContext.ToAppRelative(webContext.Url.Path).StartsWith("~/" + _adminConfig.Path, StringComparison.InvariantCultureIgnoreCase);
 			if (!isEditing && !installer.GetStatus().IsInstalled)
 			{
 				webContext.Response.Redirect(installerUrl);
@@ -102,7 +102,7 @@ namespace Zeus.Web
 		{
 			if (webContext.CurrentPath == null || webContext.CurrentPath.IsEmpty()) return;
 
-			RequestAdapter controller = dispatcher.ResolveAdapter<RequestAdapter>();
+			var controller = dispatcher.ResolveAdapter<RequestAdapter>();
 			controller.InjectCurrentPage(webContext.Handler);
 		}
 
@@ -110,16 +110,16 @@ namespace Zeus.Web
 		{
 			if (webContext.CurrentPath == null || webContext.CurrentPath.IsEmpty()) return;
 
-			RequestAdapter controller = dispatcher.ResolveAdapter<RequestAdapter>();
+			var controller = dispatcher.ResolveAdapter<RequestAdapter>();
 			controller.AuthorizeRequest(webContext.User);
 		}
 
 		protected virtual void Application_Error(object sender, EventArgs e)
 		{
-			HttpApplication application = sender as HttpApplication;
+			var application = sender as HttpApplication;
 			if (application != null)
 			{
-				Exception ex = application.Server.GetLastError();
+				var ex = application.Server.GetLastError();
 				if (ex != null)
 				{
 					errors.Notify(ex);

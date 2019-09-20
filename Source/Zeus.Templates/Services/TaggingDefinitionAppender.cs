@@ -24,11 +24,11 @@ namespace Zeus.Templates.Services
 			if (_templatesConfig.Tagging == null || !_templatesConfig.Tagging.Enabled)
 				return;
 
-			foreach (ContentType contentType in _contentTypeManager.GetContentTypes())
+			foreach (var contentType in _contentTypeManager.GetContentTypes())
 			{
 				if (IsPage(contentType))
 				{
-					LinkedItemsCheckBoxListEditorAttribute tagEditable = new LinkedItemsCheckBoxListEditorAttribute();
+					var tagEditable = new LinkedItemsCheckBoxListEditorAttribute();
 					tagEditable.Name = "Tags";
 					tagEditable.Title = "Tags";
 					tagEditable.SortOrder = 500;

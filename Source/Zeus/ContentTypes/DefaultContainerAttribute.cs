@@ -16,9 +16,9 @@ namespace Zeus.ContentTypes
 
 		public void Refine(ContentType currentDefinition, IList<ContentType> allDefinitions)
 		{
-			IEditableHierarchyBuilder<IEditor> hierarchyBuilder = Context.Current.Resolve<IEditableHierarchyBuilder<IEditor>>();
-			bool updated = false;
-			foreach (IEditor editor in currentDefinition.Editors)
+			var hierarchyBuilder = Context.Current.Resolve<IEditableHierarchyBuilder<IEditor>>();
+			var updated = false;
+			foreach (var editor in currentDefinition.Editors)
 				if (string.IsNullOrEmpty(editor.ContainerName))
 				{
 					editor.ContainerName = Name;

@@ -6,7 +6,7 @@ namespace Zeus.BaseLibrary.Net
 	{
 		public static string GetHtml(string url)
 		{
-			using (WebClient webClient = new WebClient())
+			using (var webClient = new WebClient())
 			{
 				return webClient.DownloadString(url);
 			}

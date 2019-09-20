@@ -7,8 +7,8 @@ namespace Zeus.BaseLibrary.Security
 	{
 		public static string GenerateNonce()
 		{
-			RNGCryptoServiceProvider cryptoProvider = new RNGCryptoServiceProvider();
-			byte[] data = new byte[32];
+			var cryptoProvider = new RNGCryptoServiceProvider();
+			var data = new byte[32];
 			cryptoProvider.GetBytes(data);
 			return Convert.ToBase64String(data);
 		}

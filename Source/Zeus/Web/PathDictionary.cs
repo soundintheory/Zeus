@@ -32,7 +32,7 @@ namespace Zeus.Web
 		{
 			lock (Instance)
 			{
-				List<IPathFinder> newFinders = new List<IPathFinder>(GetFinders(itemType));
+				var newFinders = new List<IPathFinder>(GetFinders(itemType));
 				newFinders.Insert(0, finder);
 				Instance[itemType] = newFinders.ToArray();
 			}
@@ -45,7 +45,7 @@ namespace Zeus.Web
 		{
 			lock (Instance)
 			{
-				List<IPathFinder> newFinders = new List<IPathFinder>(GetFinders(itemType));
+				var newFinders = new List<IPathFinder>(GetFinders(itemType));
 				newFinders.Add(finder);
 				Instance[itemType] = newFinders.ToArray();
 			}
@@ -58,7 +58,7 @@ namespace Zeus.Web
 		{
 			lock (Instance)
 			{
-				List<IPathFinder> newFinders = new List<IPathFinder>(GetFinders(itemType));
+				var newFinders = new List<IPathFinder>(GetFinders(itemType));
 				newFinders.Remove(finder);
 				Instance[itemType] = newFinders.ToArray();
 			}
@@ -69,8 +69,8 @@ namespace Zeus.Web
 		/// <returns>A list of path finders that decorates the item class and it's base types.</returns>
 		static IPathFinder[] FindFinders(Type itemType)
 		{
-			object[] attributes = itemType.GetCustomAttributes(typeof(IPathFinder), true);
-			List<IPathFinder> pathFinders = new List<IPathFinder>(attributes.Length);
+			var attributes = itemType.GetCustomAttributes(typeof(IPathFinder), true);
+			var pathFinders = new List<IPathFinder>(attributes.Length);
 			foreach (IPathFinder finder in attributes)
 			{
 				pathFinders.Add(finder);

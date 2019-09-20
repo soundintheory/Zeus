@@ -26,7 +26,7 @@ namespace Coolite.Ext.UX
 		{
 			get
 			{
-				List<ResourceItem> baseList = base.Resources;
+				var baseList = base.Resources;
 				baseList.Capacity += 1;
 
 				baseList.Add(new ClientScriptItem(typeof(TinyMCE), "Coolite.Ext.UX.Extensions.TinyMCE.resources.Ext.ux.TinyMCE.js", "ux/extensions/tinymce/tinymce.js"));
@@ -110,7 +110,7 @@ namespace Coolite.Ext.UX
 		{
 			get
 			{
-				ConfigOptionsCollection list = base.ConfigOptions;
+				var list = base.ConfigOptions;
 				list.Add("tinymceSettings", new ConfigOption("tinymceSettings", new SerializationOptions("tinymceSettings", JsonMode.Object), null, Settings));
 				return list;
 			}
@@ -135,7 +135,7 @@ namespace Coolite.Ext.UX
 
 		protected virtual void OnTextChanged(EventArgs e)
 		{
-			EventHandler handler = (EventHandler) Events[EventTextChanged];
+			var handler = (EventHandler) Events[EventTextChanged];
 			if (handler != null)
 				handler(this, e);
 		}
@@ -147,11 +147,11 @@ namespace Coolite.Ext.UX
 
 		protected override bool LoadPostData(string postDataKey, NameValueCollection postCollection)
 		{
-			string val = postCollection[UniqueName];
+			var val = postCollection[UniqueName];
 
 			if (val != null && Text != val)
 			{
-				bool raise = val != (Text ?? string.Empty);
+				var raise = val != (Text ?? string.Empty);
 				try
 				{
 					ViewState.Suspend();

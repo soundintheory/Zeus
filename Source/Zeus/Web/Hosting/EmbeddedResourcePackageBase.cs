@@ -18,7 +18,7 @@ namespace Zeus.Web.Hosting
 
 		protected void RegisterStandardArea(RouteCollection routes, ResourceSettings resourceSettings, string areaName, string clientResourcePrefix)
 		{
-			Assembly assembly = GetType().Assembly;
+			var assembly = GetType().Assembly;
 			resourceSettings.AssemblyPathPrefixes.Add(areaName, assembly);
 			resourceSettings.ClientResourcePrefixes.Add(assembly, clientResourcePrefix);
 			RegisterStandardRoutes(routes, assembly, areaName, clientResourcePrefix);

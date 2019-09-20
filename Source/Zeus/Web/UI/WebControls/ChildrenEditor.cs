@@ -14,7 +14,6 @@ namespace Zeus.Web.UI.WebControls
 		#region Fields
 
 		private ContentItem _parentItem;
-		private readonly List<ItemEditView> _itemEditors = new List<ItemEditView>();
 		private int _itemEditorIndex = 0;
 		private Store _store;
 		private ChildrenEditorGridPanel _gridPanel;
@@ -67,10 +66,7 @@ namespace Zeus.Web.UI.WebControls
 			get { return Zeus.Context.ContentTypes[Type.GetType(ParentItemType)]; }
 		}
 
-		public List<ItemEditView> ItemEditors
-		{
-			get { return _itemEditors; }
-		}
+		public List<ItemEditView> ItemEditors { get; } = new List<ItemEditView>();
 
 		public IList<string> AddedTypes
 		{
@@ -86,7 +82,7 @@ namespace Zeus.Web.UI.WebControls
 
 		protected override void LoadViewState(object savedState)
 		{
-			Triplet p = (Triplet) savedState;
+			var p = (Triplet) savedState;
 			base.LoadViewState(p.First);
 			_addedTypes = (List<string>) p.Second;
 			_deletedIndexes = (List<int>) p.Third;
@@ -109,7 +105,7 @@ namespace Zeus.Web.UI.WebControls
 		{
 			// Store
 
-			JsonReader jsonReader = new JsonReader();
+			var jsonReader = new JsonReader();
 			jsonReader.IDProperty = "ID";
 			jsonReader.Fields.Add("ID");
 			jsonReader.Fields.Add("Title");
@@ -138,7 +134,7 @@ namespace Zeus.Web.UI.WebControls
 
 			// Editor Windows
 
-			foreach (ContentItem contentItem in items)
+			foreach (var contentItem in items)
 				AddEditorWindow(contentItem);
 
 			base.CreateChildControls();
@@ -148,8 +144,8 @@ namespace Zeus.Web.UI.WebControls
 		{
 			_addedTypes.Add(e.ItemType.FullName + "," + e.ItemType.Assembly.FullName);
 
-			ContentItem contentItem = CreateItem(e.ItemType);
-			Window editorWindow = AddEditorWindow(contentItem);
+			var contentItem = CreateItem(e.ItemType);
+			var editorWindow = AddEditorWindow(contentItem);
 			editorWindow.Render(this);
 
 			ExtNet.ResourceManager.RegisterOnReadyScript(string.Format(@"
@@ -179,12 +175,12 @@ namespace Zeus.Web.UI.WebControls
 				IList<ContentItem> items = ParentItem.GetChildren().ToList();
 				if (TypeFilter != null)
 				{
-					Type type = BuildManager.GetType(TypeFilter, true);
+					var type = BuildManager.GetType(TypeFilter, true);
 					items = items.Where(ci => type.IsAssignableFrom(ci.GetType())).ToList();
 				}
-				foreach (string itemTypeName in _addedTypes)
+				foreach (var itemTypeName in _addedTypes)
 				{
-					ContentItem item = CreateItem(BuildManager.GetType(itemTypeName, true));
+					var item = CreateItem(BuildManager.GetType(itemTypeName, true));
 					items.Add(item);
 				}
 				return items;
@@ -194,7 +190,7 @@ namespace Zeus.Web.UI.WebControls
 
 		private ContentItem CreateItem(Type itemType)
 		{
-			ContentItem item = Zeus.Context.Current.ContentTypes.CreateInstance(itemType, ParentItem);
+			var item = Zeus.Context.Current.ContentTypes.CreateInstance(itemType, ParentItem);
 			/*if (item is WidgetContentItem)
 				((WidgetContentItem) item).ZoneName = ZoneName;*/
 			return item;
@@ -202,7 +198,7 @@ namespace Zeus.Web.UI.WebControls
 
 		private Window AddEditorWindow(ContentItem contentItem)
 		{
-			Window editorWindow = new Window
+			var editorWindow = new Window
 			{
 				ID = ID + "editorWindow" + _itemEditorIndex,
 				Title = "Edit",
@@ -219,22 +215,22 @@ namespace Zeus.Web.UI.WebControls
 
 			// Item Editor
 
-			ItemEditView itemEditor = new ItemEditView();
+			var itemEditor = new ItemEditView();
 			itemEditor.ID = ID + "_ie_" + _itemEditorIndex;
 			editorWindow.ContentControls.Add(itemEditor);
 			itemEditor.CurrentItem = contentItem;
 
-			_itemEditors.Add(itemEditor);
+			ItemEditors.Add(itemEditor);
 
 			// Buttons
 
-			Ext.Net.Button saveButton = new Ext.Net.Button
+			var saveButton = new Ext.Net.Button
 			{
 				ID = ID + "btnSave" + _itemEditorIndex,
 				Text = "Update",
 				Icon = Icon.Disk
 			};
-			string titleValue = itemEditor.PropertyControls.ContainsKey("Title")
+			var titleValue = itemEditor.PropertyControls.ContainsKey("Title")
 				? string.Format("Ext.getDom('{0}').value", itemEditor.PropertyControls["Title"].ClientID)
 				: "'[No Title]'";
 			saveButton.Listeners.Click.Handler = string.Format(@"

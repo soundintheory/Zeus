@@ -57,7 +57,7 @@ jQuery(document).ready(function() {{
 		{
 			get
 			{
-                ContentItem selectedItem = GetFromViewState()
+                var selectedItem = GetFromViewState()
                     ?? GetFromUrl();
                 
                 //added code to stop the start page being returned if the url accessed is tampered with or data changed during edit, else home page was getting edited!!
@@ -110,7 +110,7 @@ jQuery(document).ready(function() {{
 
         public void RefreshNavigationPanel(ContentItem contentItem)
         {
-            string script = string.Format(@"
+            var script = string.Format(@"
             jQuery(document).ready(function() {{
 	            if (window.top.zeus) {{
 		            window.top.zeus.refreshNavigation('{0}');
@@ -128,7 +128,7 @@ jQuery(document).ready(function() {{
 
         public void RefreshEditPanel(ContentItem contentItem)
         {
-            string script = string.Format(@"
+            var script = string.Format(@"
             jQuery(document).ready(function() {{
 	            top.zeus.reloadContentPanel('Edit', '{0}');
             }});", GetEditUrl(contentItem));
@@ -189,7 +189,7 @@ jQuery(document).ready(function() {{
 
         protected virtual string GetEditUrl(ContentItem contentItem)
         {
-            IAdminAssemblyManager adminAssembly = Zeus.Context.Current.Resolve<IAdminAssemblyManager>();
+            var adminAssembly = Zeus.Context.Current.Resolve<IAdminAssemblyManager>();
             return Zeus.Context.Current.Resolve<IEmbeddedResourceManager>().GetServerResourceUrl(
                 adminAssembly.Assembly,
                 "Zeus.Admin.Plugins.EditItem.Default.aspx"
@@ -210,15 +210,15 @@ jQuery(document).ready(function() {{
 
 		private ContentItem GetFromUrl()
 		{
-			string selected = GetSelectedPath();
+			var selected = GetSelectedPath();
 			if (!string.IsNullOrEmpty(selected))
 				return Engine.Resolve<Navigator>().Navigate(selected);
 
-			string selectedUrl = Request["selectedUrl"];
+			var selectedUrl = Request["selectedUrl"];
 			if (!string.IsNullOrEmpty(selectedUrl))
 				return Engine.UrlParser.Parse(selectedUrl);
 
-			string itemId = Request[PathData.ItemQueryKey];
+			var itemId = Request[PathData.ItemQueryKey];
 			if (!string.IsNullOrEmpty(itemId))
 				return Engine.Persister.Get(int.Parse(itemId));
 
@@ -236,7 +236,7 @@ jQuery(document).ready(function() {{
 		{
 			Trace.Write(ex.ToString());
 
-			string message = string.Format("An item named '{0}' already exists below '{1}'",
+			var message = string.Format("An item named '{0}' already exists below '{1}'",
 				ex.SourceItem.Name,
 				ex.DestinationItem.Name);
 			SetErrorMessage(validator, message);
@@ -246,7 +246,7 @@ jQuery(document).ready(function() {{
 		{
 			Trace.Write(ex.ToString());
 
-			string message = string.Format("Cannot move an item to a destination onto or below itself",
+			var message = string.Format("Cannot move an item to a destination onto or below itself",
 				ex.SourceItem.Name,
 				ex.DestinationItem.Name);
 			SetErrorMessage(validator, message);
@@ -256,7 +256,7 @@ jQuery(document).ready(function() {{
 		{
 			//Trace.Write(ex.ToString());
 
-			string message = string.Format("The item of type '{0}' isn't allowed below a destination of type '{1}'",
+			var message = string.Format("The item of type '{0}' isn't allowed below a destination of type '{1}'",
 				ex.ContentType.Title,
 				Engine.ContentTypes.GetContentType(ex.ParentType).Title);
 			SetErrorMessage(validator, message);

@@ -48,7 +48,7 @@ namespace Zeus.Web.UI.WebControls
 			this._logOutImageButton.EnableTheming = false;
 			this._logOutLinkButton.CausesValidation = false;
 			this._logOutImageButton.CausesValidation = false;
-			CommandEventHandler handler = new CommandEventHandler(this.LogoutClicked);
+			var handler = new CommandEventHandler(this.LogoutClicked);
 			this._logOutLinkButton.Command += handler;
 			this._logOutImageButton.Command += handler;
 			handler = new CommandEventHandler(this.LoginClicked);
@@ -72,7 +72,7 @@ namespace Zeus.Web.UI.WebControls
 
 		private void LogoutClicked(object Source, CommandEventArgs e)
 		{
-			LoginCancelEventArgs args = new LoginCancelEventArgs();
+			var args = new LoginCancelEventArgs();
 			this.OnLoggingOut(args);
 			if (!args.Cancel)
 			{
@@ -93,7 +93,7 @@ namespace Zeus.Web.UI.WebControls
 
 					case System.Web.UI.WebControls.LogoutAction.Redirect:
 						{
-							string logoutPageUrl = this.LogoutPageUrl;
+							var logoutPageUrl = this.LogoutPageUrl;
 							if (string.IsNullOrEmpty(logoutPageUrl))
 								logoutPageUrl = CurrentAuthenticationService.LoginUrl;
 							else
@@ -153,7 +153,7 @@ namespace Zeus.Web.UI.WebControls
 			WebControl control = null;
 			if (LoggedIn)
 			{
-				string logoutImageUrl = this.LogoutImageUrl;
+				var logoutImageUrl = this.LogoutImageUrl;
 				if (logoutImageUrl.Length > 0)
 				{
 					this._logOutImageButton.AlternateText = this.LogoutText;
@@ -168,7 +168,7 @@ namespace Zeus.Web.UI.WebControls
 			}
 			else
 			{
-				string loginImageUrl = this.LoginImageUrl;
+				var loginImageUrl = this.LoginImageUrl;
 				if (loginImageUrl.Length > 0)
 				{
 					this._logInImageButton.AlternateText = this.LoginText;
@@ -190,7 +190,7 @@ namespace Zeus.Web.UI.WebControls
 		{
 			if (data != null)
 			{
-				object obj2 = data["LoggedIn"];
+				var obj2 = data["LoggedIn"];
 				if (obj2 != null)
 				{
 					this.LoggedIn = (bool) obj2;

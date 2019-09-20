@@ -37,18 +37,18 @@ namespace Zeus.Web
 		private void Global_AuthenticateRequest(object sender, EventArgs e)
 		{
 			// Emulate IIS directory redirection and default document handling.
-			string path = Request.Url.AbsolutePath;
+			var path = Request.Url.AbsolutePath;
 
 			// If we're referring to a directory but no document, try to find an existing default document.
 			if (path.EndsWith("/"))
 			{
 				// Get an array of possible choices for default documents.
-				string[] defaultDocuments = GetDefaultDocuments(Request.Url);
+				var defaultDocuments = GetDefaultDocuments(Request.Url);
 				if (defaultDocuments != null)
 				{
-					foreach (string defaultDocument in defaultDocuments)
+					foreach (var defaultDocument in defaultDocuments)
 					{
-						Url defaultUrl = new Url(Request.Url);
+						var defaultUrl = new Url(Request.Url);
 						defaultUrl = defaultUrl.AppendSegment(defaultDocument);
 						// If this path actually exists...
 						if (HostingEnvironment.VirtualPathProvider.FileExists(defaultUrl.Path))

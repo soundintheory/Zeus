@@ -7,7 +7,7 @@ namespace Zeus.Templates.Mvc.Controllers
 	{
 		public ActionResult Navigation(string url)
 		{
-			PathData pathData = Context.UrlParser.ResolvePath(url);
+			var pathData = Context.UrlParser.ResolvePath(url);
 			var viewData = new PageNavigationViewData
 			{
 				CurrentPage = pathData.CurrentItem
@@ -17,7 +17,7 @@ namespace Zeus.Templates.Mvc.Controllers
 
 		public ActionResult Breadcrumbs(string url)
 		{
-			PathData pathData = Context.UrlParser.ResolvePath(url);
+			var pathData = Context.UrlParser.ResolvePath(url);
 			var viewData = new PageNavigationViewData
 			{
 				CurrentPage = pathData.CurrentItem

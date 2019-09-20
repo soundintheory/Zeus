@@ -24,8 +24,8 @@ namespace Zeus.Design.Editors
 
 		protected override IEnumerable GetSelectedItems(IEnumerable<ListItem> selectedListItems)
 		{
-			List<ContentItem> result = new List<ContentItem>();
-			foreach (ListItem listItem in selectedListItems)
+			var result = new List<ContentItem>();
+			foreach (var listItem in selectedListItems)
 				result.Add(Context.Persister.Get(Convert.ToInt32(listItem.Value)));
 			return result;
 		}
@@ -37,7 +37,7 @@ namespace Zeus.Design.Editors
 
 		protected override ListItem[] GetListItems(IEditableObject item)
 		{
-			IQueryable<ContentItem> contentItems = Context.Current.Finder.QueryItems();
+			var contentItems = Context.Current.Finder.QueryItems();
 			var tempContentItems = ((IQueryable) contentItems).OfType(TypeFilter).OfType<object>();
 			return tempContentItems.ToArray().Cast<ContentItem>()
 				.Select(p => new ListItem(p.Title, p.ID.ToString()))

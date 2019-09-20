@@ -18,9 +18,9 @@ namespace Zeus.Admin.Plugins.ManageZones
 		[DirectMethod]
 		public void OpenZonesPanel(int id)
 		{
-			ContentItem contentItem = Engine.Persister.Get(id);
+			var contentItem = Engine.Persister.Get(id);
 
-			TreePanel treePanel = new TreePanel
+			var treePanel = new TreePanel
 			{
 				ID = "trpManageZones",
 				Icon = Icon.ApplicationSideBoxes,
@@ -39,7 +39,7 @@ namespace Zeus.Admin.Plugins.ManageZones
 				EnableDD = true
 			};
 
-			IMainInterface mainInterface = (IMainInterface) Page;
+			var mainInterface = (IMainInterface) Page;
 			mainInterface.Viewport.Items.Add(treePanel);
 
 			treePanel.Tools.Add(new Tool(ToolType.Close, "panel.hide(); " + mainInterface.Viewport.ClientID + ".doLayout();", string.Empty));
@@ -103,7 +103,7 @@ namespace Zeus.Admin.Plugins.ManageZones
 				mainInterface.StatusBar.ClientID,
 				Engine.AdminManager.GetAdminDefaultUrl());
 
-			ContentType definition = Zeus.Context.ContentTypes.GetContentType(contentItem.GetType());
+			var definition = Zeus.Context.ContentTypes.GetContentType(contentItem.GetType());
 
 			var rootNode = new TreeNode { Expanded = true };
 			foreach (var availableZone in definition.AvailableZones)
@@ -153,15 +153,15 @@ namespace Zeus.Admin.Plugins.ManageZones
 		[DirectMethod]
 		public void DeleteWidget(int id)
 		{
-			ContentItem parent = Engine.Persister.Get(id).Parent;
-			ContentItem item = Engine.Persister.Get(id);
+			var parent = Engine.Persister.Get(id).Parent;
+			var item = Engine.Persister.Get(id);
 			Zeus.Context.Persister.Delete(item);
 		}
 
 		[DirectMethod]
 		public void MoveWidget(int id, string destinationZone, int pos)
 		{
-			WidgetContentItem contentItem = (WidgetContentItem) Engine.Persister.Get(id);
+			var contentItem = (WidgetContentItem) Engine.Persister.Get(id);
 
 			// Change zone name.
 			contentItem.ZoneName = destinationZone;
@@ -175,12 +175,12 @@ namespace Zeus.Admin.Plugins.ManageZones
 			Utility.MoveToIndex(siblingWidgets, contentItem, pos);
 
 			// Get index of widget before this one in full Children collection.
-			IList<ContentItem> siblings = contentItem.Parent.Children;
-			WidgetContentItem previousWidget = siblingWidgets.Previous(contentItem) as WidgetContentItem;
-			int index = (previousWidget != null) ? siblings.IndexOf(previousWidget) : 0;
+			var siblings = contentItem.Parent.Children;
+			var previousWidget = siblingWidgets.Previous(contentItem) as WidgetContentItem;
+			var index = (previousWidget != null) ? siblings.IndexOf(previousWidget) : 0;
 			Utility.MoveToIndex(siblings, contentItem, index);
 
-			foreach (ContentItem updatedItem in Utility.UpdateSortOrder(siblings))
+			foreach (var updatedItem in Utility.UpdateSortOrder(siblings))
 				Zeus.Context.Persister.Save(updatedItem);
 
 			Engine.Persister.Save(contentItem);

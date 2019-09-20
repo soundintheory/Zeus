@@ -63,28 +63,28 @@ namespace Zeus.Web
 
 		public Tree OpenTo(ContentItem item)
 		{
-			IList<ContentItem> items = Find.ListParents(item);
+			var items = Find.ListParents(item);
 			return ClassProvider(c => (items.Contains(c) || c == item) ? "open" : string.Empty);
 		}
 
 		public TreeNode ToControl()
 		{
 			IHierarchyNavigator<ContentItem> navigator = new ItemHierarchyNavigator(_treeBuilder, _filter);
-			TreeNode rootNode = BuildNodesRecursive(navigator);
+			var rootNode = BuildNodesRecursive(navigator);
 			rootNode.ChildrenOnly = _excludeRoot;
 			return rootNode;
 		}
 
 		private TreeNode BuildNodesRecursive(IHierarchyNavigator<ContentItem> navigator)
 		{
-			ContentItem item = navigator.Current;
+			var item = navigator.Current;
 
-			TreeNode node = new TreeNode(item, _linkProvider(item));
+			var node = new TreeNode(item, _linkProvider(item));
 			node.LiClass = _classProvider(item);
 
-			foreach (IHierarchyNavigator<ContentItem> childNavigator in navigator.Children)
+			foreach (var childNavigator in navigator.Children)
 			{
-				TreeNode childNode = BuildNodesRecursive(childNavigator);
+				var childNode = BuildNodesRecursive(childNavigator);
 				node.Controls.Add(childNode);
 			}
 			return node;

@@ -30,7 +30,7 @@ namespace Zeus.Admin.Plugins.Permissions
 		{
 			get
 			{
-				IList<string> addedRoles = ViewState["AddedRoles"] as IList<string>;
+				var addedRoles = ViewState["AddedRoles"] as IList<string>;
 				if (addedRoles == null)
 					ViewState["AddedRoles"] = addedRoles = new List<string>();
 				return addedRoles;
@@ -41,7 +41,7 @@ namespace Zeus.Admin.Plugins.Permissions
 		{
 			get
 			{
-				IList<string> addedUsers = ViewState["AddedUsers"] as IList<string>;
+				var addedUsers = ViewState["AddedUsers"] as IList<string>;
 				if (addedUsers == null)
 					ViewState["AddedUsers"] = addedUsers = new List<string>();
 				return addedUsers;
@@ -71,8 +71,8 @@ namespace Zeus.Admin.Plugins.Permissions
 		private IEnumerable<string> GetAllowedOperations()
 		{
 			// Get all available operations.
-			List<string> allowedOperations = new List<string>();
-			foreach (string operation in Engine.SecurityManager.GetAvailableOperations())
+			var allowedOperations = new List<string>();
+			foreach (var operation in Engine.SecurityManager.GetAvailableOperations())
 				if (Engine.SecurityManager.IsAuthorized(SelectedItem, User, operation))
 					allowedOperations.Add(operation);
 			return allowedOperations;
@@ -80,7 +80,7 @@ namespace Zeus.Admin.Plugins.Permissions
 
 		private void CreatePermissionsTable()
 		{
-			IEnumerable<string> allowedOperations = GetAllowedOperations();
+			var allowedOperations = GetAllowedOperations();
 			CreateHeaderRow(allowedOperations);
 			CreateRows(allowedOperations);
 		}
@@ -88,10 +88,10 @@ namespace Zeus.Admin.Plugins.Permissions
 		private void CreateHeaderRow(IEnumerable<string> allowedOperations)
 		{
 			// The columns are the available operations.
-			TableHeaderRow headerRow = new TableHeaderRow();
+			var headerRow = new TableHeaderRow();
 			headerRow.Cells.Add(new TableHeaderCell());
 			headerRow.Cells.Add(new TableHeaderCell());
-			foreach (string operation in allowedOperations)
+			foreach (var operation in allowedOperations)
 				headerRow.Cells.Add(new TableHeaderCell { Text = operation });
 			headerRow.Cells.Add(new TableHeaderCell());
 			tblPermissions.Rows.Add(headerRow);
@@ -99,44 +99,44 @@ namespace Zeus.Admin.Plugins.Permissions
 
 		private void CreateRows(IEnumerable<string> allowedOperations)
 		{
-			foreach (string role in Engine.SecurityManager.GetAuthorizedRoles(SelectedItem))
+			foreach (var role in Engine.SecurityManager.GetAuthorizedRoles(SelectedItem))
 				CreateRow(role, AuthorizationType.Role, allowedOperations);
-			foreach (string user in Engine.SecurityManager.GetAuthorizedUsers(SelectedItem))
+			foreach (var user in Engine.SecurityManager.GetAuthorizedUsers(SelectedItem))
 				CreateRow(user, AuthorizationType.User, allowedOperations);
-			foreach (string role in AddedRoles)
+			foreach (var role in AddedRoles)
 				CreateRow(role, AuthorizationType.Role, allowedOperations);
-			foreach (string user in AddedUsers)
+			foreach (var user in AddedUsers)
 				CreateRow(user, AuthorizationType.User, allowedOperations);
 		}
 
 		private void CreateRow(string roleOrUser, AuthorizationType type, IEnumerable<string> allowedOperations)
 		{
-			int index = tblPermissions.Rows.Count;
-			Icon icon = (type == AuthorizationType.Role) ? Icon.Group : Icon.User;
-			GenericIdentity identity = new GenericIdentity((type == AuthorizationType.User) ? roleOrUser : string.Empty);
-			string[] roles = (type == AuthorizationType.Role) ? new[] { roleOrUser } : new string[] { };
+			var index = tblPermissions.Rows.Count;
+			var icon = (type == AuthorizationType.Role) ? Icon.Group : Icon.User;
+			var identity = new GenericIdentity((type == AuthorizationType.User) ? roleOrUser : string.Empty);
+			var roles = (type == AuthorizationType.Role) ? new[] { roleOrUser } : new string[] { };
 			IPrincipal user = new GenericPrincipal(identity, roles);
-			TableRow row = new TableRow();
-			TableCell imageCell = new TableCell();
+			var row = new TableRow();
+			var imageCell = new TableCell();
 			imageCell.Controls.Add(new LiteralControl("<img src=\"" + Utility.GetCooliteIconUrl(icon) + "\" />"));
 			imageCell.Controls.Add(new HiddenField { ID = "hdn" + index + "Type", Value = type.ToString() });
 			imageCell.Controls.Add(new HiddenField { ID = "hdn" + index + "RoleOrUser", Value = roleOrUser });
 			row.Cells.Add(imageCell);
 			row.Cells.Add(new TableCell { Text = roleOrUser });
-			foreach (string operation in allowedOperations)
+			foreach (var operation in allowedOperations)
 			{
-				CheckBox checkBox = new CheckBox
+				var checkBox = new CheckBox
 				{
 					ID = "chk" + index + operation,
 					Checked = Engine.SecurityManager.IsAuthorized(SelectedItem, user, operation)
 				};
-				TableCell cell = new TableCell { CssClass = "operation" };
+				var cell = new TableCell { CssClass = "operation" };
 				cell.Controls.Add(checkBox);
 				row.Cells.Add(cell);
 			}
 
-			TableCell deleteCell = new TableCell();
-			LinkButton deleteButton = new LinkButton { ID = "btnDelete" + index, Text = "Delete" };
+			var deleteCell = new TableCell();
+			var deleteButton = new LinkButton { ID = "btnDelete" + index, Text = "Delete" };
 			deleteButton.Click += deleteButton_Click;
 			deleteCell.Controls.Add(deleteButton);
 			row.Cells.Add(deleteCell);
@@ -166,8 +166,8 @@ namespace Zeus.Admin.Plugins.Permissions
 				ApplyRules(item, allowedOperations);
 
 			// Apply recursively.
-			ContentItem[] children = item.GetChildren().ToArray();
-			foreach (ContentItem child in children)
+			var children = item.GetChildren().ToArray();
+			foreach (var child in children)
 				ApplyRulesRecursive(child, allowedOperations);
 		}
 
@@ -177,20 +177,20 @@ namespace Zeus.Admin.Plugins.Permissions
 			item.AuthorizationRules.Clear();
 
 			// Create new rules.
-			for (int i = 1; i < tblPermissions.Rows.Count; ++i)
+			for (var i = 1; i < tblPermissions.Rows.Count; ++i)
 			{
-				TableRow row = tblPermissions.Rows[i];
+				var row = tblPermissions.Rows[i];
 				if (!row.Visible)
 					continue;
 
 				// Get user or role for this row.
-				string roleOrUser = ((HiddenField) row.FindControl("hdn" + i + "RoleOrUser")).Value;
-				AuthorizationType type = ((HiddenField) row.FindControl("hdn" + i + "Type")).Value.ToEnum<AuthorizationType>();
+				var roleOrUser = ((HiddenField) row.FindControl("hdn" + i + "RoleOrUser")).Value;
+				var type = ((HiddenField) row.FindControl("hdn" + i + "Type")).Value.ToEnum<AuthorizationType>();
 
 				// Loop through operations, creating an authorization rule for each one.
-				foreach (string operation in allowedOperations)
+				foreach (var operation in allowedOperations)
 				{
-					CheckBox checkBox = (CheckBox) row.FindControl("chk" + i + operation);
+					var checkBox = (CheckBox) row.FindControl("chk" + i + operation);
 					item.AuthorizationRules.Add(new Zeus.Security.AuthorizationRule(item, operation, roleOrUser, type, checkBox.Checked));
 				}
 			}

@@ -20,7 +20,7 @@ namespace Zeus.Web.Compilation
 		/// <returns>True if the expression would result in a non null or non empty-string value.</returns>
 		public static bool HasItems(string expression)
 		{
-			ContentItem item = Zeus.Context.CurrentPage;
+			var item = Zeus.Context.CurrentPage;
 			if (item != null)
 				return HasItems(item, expression);
 			else

@@ -174,14 +174,14 @@ public class NVPAPICaller
 
     public bool ShortcutExpressCheckout(string amt, ref string token, ref string retMsg, string returnURL, string cancelURL, List<PayPalItem> items, decimal shippingCost, string currency, bool forceReturnURLsOverHttps, decimal tax = 0)
     {
-        string host = "www.paypal.com";
+        var host = "www.paypal.com";
         if (StartPage.UseTestEnvironment)
         {
             pendpointurl = "https://api-3t.sandbox.paypal.com/nvp";
             host = "www.sandbox.paypal.com";
         }
 
-        string siteRoot = ConfigurationManager.AppSettings["SiteRoot"];
+        var siteRoot = ConfigurationManager.AppSettings["SiteRoot"];
 
         returnURL = "http://" + returnURL;
         cancelURL = "http://" + cancelURL;
@@ -190,7 +190,7 @@ public class NVPAPICaller
         //System.Web.HttpContext.Current.Response.Write(cancelURL + "<br/>");
         //System.Web.HttpContext.Current.Response.End();
 
-        NVPCodec encoder = new NVPCodec();
+        var encoder = new NVPCodec();
         encoder["METHOD"] = "SetExpressCheckout";
         encoder["RETURNURL"] = returnURL;
         encoder["CANCELURL"] = cancelURL;
@@ -212,8 +212,8 @@ public class NVPAPICaller
         encoder["PAYMENTREQUEST_0_ITEMAMT"] = items.Sum(i => i.Amount).ToString("0.00");
 
         // item vars        
-        int counter = 0;
-        foreach (PayPalItem item in items)
+        var counter = 0;
+        foreach (var item in items)
         {
             encoder["L_PAYMENTREQUEST_0_NAME" + counter] = item.Name;
             encoder["L_PAYMENTREQUEST_0_DESC" + counter] = item.Description;
@@ -223,18 +223,18 @@ public class NVPAPICaller
             counter++;
         }
 
-        string pStrrequestforNvp = encoder.Encode();
-        string pStresponsenvp = HttpCall(pStrrequestforNvp);
+        var pStrrequestforNvp = encoder.Encode();
+        var pStresponsenvp = HttpCall(pStrrequestforNvp);
 
-        NVPCodec decoder = new NVPCodec();
+        var decoder = new NVPCodec();
         decoder.Decode(pStresponsenvp);
 
-        string strAck = decoder["ACK"].ToLower();
+        var strAck = decoder["ACK"].ToLower();
         if (strAck != null && (strAck == "success" || strAck == "successwithwarning"))
         {
             token = decoder["TOKEN"];
 
-            string ECURL = "https://" + host + "/cgi-bin/webscr?cmd=_express-checkout" + "&token=" + token;
+            var ECURL = "https://" + host + "/cgi-bin/webscr?cmd=_express-checkout" + "&token=" + token;
 
             retMsg = ECURL;
             return true;
@@ -263,17 +263,17 @@ public class NVPAPICaller
             pendpointurl = "https://api-3t.sandbox.paypal.com/nvp";
         }
 
-        NVPCodec encoder = new NVPCodec();
+        var encoder = new NVPCodec();
         encoder["METHOD"] = "GetExpressCheckoutDetails";
         encoder["TOKEN"] = token;
 
-        string pStrrequestforNvp = encoder.Encode();
-        string pStresponsenvp = HttpCall(pStrrequestforNvp);
+        var pStrrequestforNvp = encoder.Encode();
+        var pStresponsenvp = HttpCall(pStrrequestforNvp);
 
-        NVPCodec decoder = new NVPCodec();
+        var decoder = new NVPCodec();
         decoder.Decode(pStresponsenvp);
 
-        string strAck = decoder["ACK"].ToLower();
+        var strAck = decoder["ACK"].ToLower();
         if (strAck != null && (strAck == "success" || strAck == "successwithwarning"))
         {
             ShippingAddress.FirstName = decoder["FIRSTNAME"];
@@ -315,7 +315,7 @@ public class NVPAPICaller
             pendpointurl = "https://api-3t.sandbox.paypal.com/nvp";
         }
 
-        NVPCodec encoder = new NVPCodec();
+        var encoder = new NVPCodec();
         encoder["METHOD"] = "DoExpressCheckoutPayment";
         encoder["TOKEN"] = token;
         encoder["PAYMENTREQUEST_0_PAYMENTACTION"] = "Sale";
@@ -324,13 +324,13 @@ public class NVPAPICaller
         //encoder["CURRENCYCODE"] = SoundInTheory.CatchTheLingo.Web.Classes.Currency.GetPayPalCurrencyCodeAsString();
         encoder["PAYMENTREQUEST_0_CURRENCYCODE"] = string.IsNullOrEmpty(currency) ? "GBP" : currency;
 
-        string pStrrequestforNvp = encoder.Encode();
-        string pStresponsenvp = HttpCall(pStrrequestforNvp);
+        var pStrrequestforNvp = encoder.Encode();
+        var pStresponsenvp = HttpCall(pStrrequestforNvp);
 
         decoder = new NVPCodec();
         decoder.Decode(pStresponsenvp);
 
-        string strAck = decoder["ACK"].ToLower();
+        var strAck = decoder["ACK"].ToLower();
         if (strAck != null && (strAck == "success" || strAck == "successwithwarning"))
         {
             return true;
@@ -352,20 +352,20 @@ public class NVPAPICaller
     /// <returns></returns>
     public string HttpCall(string NvpRequest) //CallNvpServer
     {
-        string url = pendpointurl;
+        var url = pendpointurl;
 
         //To Add the credentials from the profile
-        string strPost = NvpRequest + "&" + buildCredentialsNVPString();
+        var strPost = NvpRequest + "&" + buildCredentialsNVPString();
         strPost = strPost + "&BUTTONSOURCE=" + System.Web.HttpContext.Current.Server.UrlEncode(BNCode);
 
-        HttpWebRequest objRequest = (HttpWebRequest)WebRequest.Create(url);
+        var objRequest = (HttpWebRequest)WebRequest.Create(url);
         objRequest.Timeout = Timeout;
         objRequest.Method = "POST";
         objRequest.ContentLength = strPost.Length;
 
         try
         {
-            using (StreamWriter myWriter = new StreamWriter(objRequest.GetRequestStream()))
+            using (var myWriter = new StreamWriter(objRequest.GetRequestStream()))
             {
                 myWriter.Write(strPost);
             }
@@ -380,9 +380,9 @@ public class NVPAPICaller
         }
 
         //Retrieve the Response returned from the NVP API call to PayPal
-        HttpWebResponse objResponse = (HttpWebResponse)objRequest.GetResponse();
+        var objResponse = (HttpWebResponse)objRequest.GetResponse();
         string result;
-        using (StreamReader sr = new StreamReader(objResponse.GetResponseStream()))
+        using (var sr = new StreamReader(objResponse.GetResponseStream()))
         {
             result = sr.ReadToEnd();
         }
@@ -405,7 +405,7 @@ public class NVPAPICaller
     /// <returns></returns>
     private string buildCredentialsNVPString()
     {
-        NVPCodec codec = new NVPCodec();
+        var codec = new NVPCodec();
 
         if (!IsEmpty(APIUsername))
             codec["USER"] = APIUsername;
@@ -449,12 +449,12 @@ public sealed class NVPCodec : NameValueCollection
     /// <returns></returns>
     public string Encode()
     {
-        StringBuilder sb = new StringBuilder();
-        bool firstPair = true;
-        foreach (string kv in AllKeys)
+        var sb = new StringBuilder();
+        var firstPair = true;
+        foreach (var kv in AllKeys)
         {
-            string name = UrlEncode(kv);
-            string value = UrlEncode(this[kv]);
+            var name = UrlEncode(kv);
+            var value = UrlEncode(this[kv]);
             if (!firstPair)
             {
                 sb.Append(AMPERSAND);
@@ -472,13 +472,13 @@ public sealed class NVPCodec : NameValueCollection
     public void Decode(string nvpstring)
     {
         Clear();
-        foreach (string nvp in nvpstring.Split(AMPERSAND_CHAR_ARRAY))
+        foreach (var nvp in nvpstring.Split(AMPERSAND_CHAR_ARRAY))
         {
-            string[] tokens = nvp.Split(EQUALS_CHAR_ARRAY);
+            var tokens = nvp.Split(EQUALS_CHAR_ARRAY);
             if (tokens.Length >= 2)
             {
-                string name = UrlDecode(tokens[0]);
-                string value = UrlDecode(tokens[1]);
+                var name = UrlDecode(tokens[0]);
+                var value = UrlDecode(tokens[1]);
                 Add(name, value);
             }
         }

@@ -18,8 +18,8 @@ namespace Zeus.Design.Editors
 
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
-			ChildrenEditor childrenEditor = (ChildrenEditor) editor;
-			for (int i = 0; i < childrenEditor.ItemEditors.Count; i++)
+			var childrenEditor = (ChildrenEditor) editor;
+			for (var i = 0; i < childrenEditor.ItemEditors.Count; i++)
 			{
 				if (childrenEditor.DeletedIndexes.Contains(i))
 				{
@@ -28,8 +28,8 @@ namespace Zeus.Design.Editors
 				}
 				else
 				{
-					ItemEditView childEditor = childrenEditor.ItemEditors[i];
-					ItemEditView parentEditor = editor.Parent.FindParent<ItemEditView>();
+					var childEditor = childrenEditor.ItemEditors[i];
+					var parentEditor = editor.Parent.FindParent<ItemEditView>();
 					parentEditor.Saved += delegate { childEditor.Save(); };
 				}
 			}
@@ -38,13 +38,13 @@ namespace Zeus.Design.Editors
 
 		protected override void UpdateEditorInternal(IEditableObject item, Control editor)
 		{
-			ChildrenEditor listEditor = (ChildrenEditor) editor;
+			var listEditor = (ChildrenEditor) editor;
 			listEditor.ParentItem = (ContentItem) item;
 		}
 
 		protected override Control AddEditor(Control container)
 		{
-			ChildrenEditor childrenEditor = new ChildrenEditor
+			var childrenEditor = new ChildrenEditor
 			{
 				ID = Name,
 				ParentItem = (ContentItem) container.FindParent<IEditableObjectEditor>().CurrentItem,

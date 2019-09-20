@@ -22,19 +22,19 @@ namespace Zeus.FileSystem
 
 		public Folder EnsureFolder(Folder parentFolder, string folderName)
 		{
-			Folder currentFolder = parentFolder;
+			var currentFolder = parentFolder;
 
-			string[] folderNameParts = folderName.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-			foreach (string folderNamePart in folderNameParts)
+			var folderNameParts = folderName.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+			foreach (var folderNamePart in folderNameParts)
 			{
-				Folder existingFolder = currentFolder.GetChild(folderNamePart) as Folder;
+				var existingFolder = currentFolder.GetChild(folderNamePart) as Folder;
 				if (existingFolder != null)
 				{
 					currentFolder = existingFolder;
 					continue;
 				}
 
-				Folder newFolder = _contentTypeManager.CreateInstance<Folder>(currentFolder);
+				var newFolder = _contentTypeManager.CreateInstance<Folder>(currentFolder);
 				newFolder.Name = folderNamePart;
 				newFolder.AddTo(currentFolder);
 

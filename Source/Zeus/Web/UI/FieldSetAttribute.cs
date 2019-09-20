@@ -24,7 +24,7 @@ namespace Zeus.Web.UI
 		/// <returns>The newly added fieldset.</returns>
 		public override Control AddTo(Control container)
 		{
-			FieldSet fieldSet = new FieldSet
+			var fieldSet = new FieldSet
 			{
 				ID = "FieldSet" + Name,
 				Title = Legend,

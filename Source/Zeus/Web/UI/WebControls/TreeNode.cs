@@ -53,7 +53,7 @@ namespace Zeus.Web.UI.WebControls
 
 		protected override void Render(HtmlTextWriter writer)
 		{
-			bool isRoot = Parent is TreeNode == false;
+			var isRoot = Parent is TreeNode == false;
 
 			if (ChildrenOnly)
 			{

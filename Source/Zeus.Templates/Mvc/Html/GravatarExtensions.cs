@@ -21,7 +21,7 @@ namespace Zeus.Templates.Mvc.Html
 			if (string.IsNullOrEmpty(email))
 				email = "None";
 
-			string emailForUrl = email.ToLowerInvariant().Replace(" ", string.Empty);
+			var emailForUrl = email.ToLowerInvariant().Replace(" ", string.Empty);
 			emailForUrl = (FormsAuthentication.HashPasswordForStoringInConfigFile(emailForUrl, "md5") ?? string.Empty)
 				.ToLowerInvariant();
 

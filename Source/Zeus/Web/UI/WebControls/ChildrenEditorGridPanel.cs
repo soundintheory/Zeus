@@ -35,7 +35,7 @@ namespace Zeus.Web.UI.WebControls
 			CreateToolbar();
 			CreateColumnModel();
 
-			GridView gridView = new GridView();
+			var gridView = new GridView();
 			gridView.GetRowClass.Fn = "childrenEditorGetRowClass";
 			View.Add(gridView);
 
@@ -101,11 +101,11 @@ namespace Zeus.Web.UI.WebControls
 
 		private IEnumerable<ContentType> GetAllowedChildren()
 		{
-			ChildrenEditor parent = (ChildrenEditor) Parent;
+			var parent = (ChildrenEditor) Parent;
 			IEnumerable<ContentType> allowedChildren = parent.CurrentItemDefinition.AllowedChildren;
 			if (parent.TypeFilter != null)
 			{
-				Type type = BuildManager.GetType(parent.TypeFilter, true);
+				var type = BuildManager.GetType(parent.TypeFilter, true);
 				allowedChildren = allowedChildren.Where(ct => type.IsAssignableFrom(ct.ItemType));
 			}
 			return allowedChildren;
@@ -113,19 +113,19 @@ namespace Zeus.Web.UI.WebControls
 
 		private void CreateToolbar()
 		{
-			Toolbar topToolbar = new Toolbar();
+			var topToolbar = new Toolbar();
 
-			Button addItemButton = new Button("Add Item")
+			var addItemButton = new Button("Add Item")
 			{
 				ID = ID + "btnAdd",
 				Icon = Icon.Add
 			};
 
-			Menu addItemButtonMenu = new Menu();
-			IEnumerable<ContentType> allowedChildren = GetAllowedChildren();
-			foreach (ContentType definition in allowedChildren)
+			var addItemButtonMenu = new Menu();
+			var allowedChildren = GetAllowedChildren();
+			foreach (var definition in allowedChildren)
 			{
-				MenuItem menuItem = new MenuItem(definition.ContentTypeAttribute.Title)
+				var menuItem = new MenuItem(definition.ContentTypeAttribute.Title)
 				{
 					IconUrl = definition.IconUrl
 				};
@@ -161,14 +161,14 @@ namespace Zeus.Web.UI.WebControls
 
 		private void OnAddItemClick(object sender, DirectEventArgs e)
 		{
-			Type type = BuildManager.GetType(e.ExtraParams["Type"], true);
+			var type = BuildManager.GetType(e.ExtraParams["Type"], true);
 			OnInvokeAddItemButton(new ChildrenEditorGridPanelItemAddedEventArgs(type));
 		}
 
 		private void OnRemoveItemsClick(object sender, DirectEventArgs e)
 		{
-			string[] deletedItemsArray = e.ExtraParams["DeletedItems"].Split(',');
-			int[] deletedItems = deletedItemsArray.Select(s => Convert.ToInt32(s)).ToArray();
+			var deletedItemsArray = e.ExtraParams["DeletedItems"].Split(',');
+			var deletedItems = deletedItemsArray.Select(s => Convert.ToInt32(s)).ToArray();
 			OnItemsRemoved(new ChildrenEditorGridPanelItemsRemovedEventArgs(deletedItems));
 		}
 
@@ -176,7 +176,7 @@ namespace Zeus.Web.UI.WebControls
 		{
 			ColumnModel.Columns.Add(new RowNumbererColumn());
 
-			Column iconColumn = new Column
+			var iconColumn = new Column
 			{
 				ColumnID = "IconUrl",
 				DataIndex = "IconUrl",
@@ -200,7 +200,7 @@ namespace Zeus.Web.UI.WebControls
 				Width = 200
 			});
 
-			CommandColumn commandColumn = new CommandColumn
+			var commandColumn = new CommandColumn
 			{
 				Width = 120,
 				PrepareToolbar = { Fn = "childrenEditorPrepareCommandToolbar" }
@@ -247,7 +247,7 @@ namespace Zeus.Web.UI.WebControls
 
 		private static void AddCommand(CommandColumn commandColumn, Icon icon, string command, string text)
 		{
-			GridCommand gridCommand = new GridCommand
+			var gridCommand = new GridCommand
 			{
 				Icon = icon,
 				Text = text,

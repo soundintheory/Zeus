@@ -51,14 +51,14 @@ namespace Zeus.Persistence
 		/// <returns>The old version.</returns>
 		public virtual ContentItem SaveVersion(ContentItem item)
 		{
-			CancelItemEventArgs args = new CancelItemEventArgs(item);
+			var args = new CancelItemEventArgs(item);
 			if (ItemSavingVersion != null)
 				ItemSavingVersion.Invoke(this, args);
 			if (!args.Cancel)
 			{
 				item = args.AffectedItem;
 
-				ContentItem oldVersion = item.Clone(false);
+				var oldVersion = item.Clone(false);
 				oldVersion.Expires = Utility.CurrentTime().AddSeconds(-1);
 				oldVersion.Updated = Utility.CurrentTime().AddSeconds(-1);
 				oldVersion.Parent = null;
@@ -84,7 +84,7 @@ namespace Zeus.Persistence
 		/// <returns>A version of the previously published item.</returns>
 		public virtual ContentItem ReplaceVersion(ContentItem currentItem, ContentItem replacementItem)
 		{
-			CancelDestinationEventArgs args = new CancelDestinationEventArgs(currentItem, replacementItem);
+			var args = new CancelDestinationEventArgs(currentItem, replacementItem);
 			if (ItemReplacingVersion != null)
 				ItemReplacingVersion.Invoke(this, args);
 			if (!args.Cancel)
@@ -92,9 +92,9 @@ namespace Zeus.Persistence
 				currentItem = args.AffectedItem;
 				replacementItem = args.Destination;
 
-				using (ITransaction transaction = _itemRepository.BeginTransaction())
+				using (var transaction = _itemRepository.BeginTransaction())
 				{
-					ContentItem versionOfCurrentItem = SaveVersion(currentItem);
+					var versionOfCurrentItem = SaveVersion(currentItem);
 					ClearAllDetails(currentItem);
 
 					UpdateCurrentItemData(currentItem, replacementItem);
@@ -120,13 +120,13 @@ namespace Zeus.Persistence
 
 		private static void UpdateCurrentItemData(ContentItem currentItem, ContentItem replacementItem)
 		{
-			for (Type t = currentItem.GetType(); t.BaseType != null; t = t.BaseType)
+			for (var t = currentItem.GetType(); t.BaseType != null; t = t.BaseType)
 			{
-				foreach (PropertyInfo pi in t.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
+				foreach (var pi in t.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
 					if (pi.GetCustomAttributes(typeof(CopyAttribute), true).Length > 0)
 						pi.SetValue(currentItem, pi.GetValue(replacementItem, null), null);
 
-				foreach (FieldInfo fi in t.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
+				foreach (var fi in t.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance))
 				{
 					if (fi.GetCustomAttributes(typeof(CopyAttribute), true).Length > 0)
 						fi.SetValue(currentItem, fi.GetValue(replacementItem));
@@ -135,13 +135,13 @@ namespace Zeus.Persistence
 				}
 			}
 
-			foreach (PropertyData detail in replacementItem.Details.Values)
+			foreach (var detail in replacementItem.Details.Values)
 				currentItem[detail.Name] = detail.Value;
 
-			foreach (PropertyCollection collection in replacementItem.DetailCollections.Values)
+			foreach (var collection in replacementItem.DetailCollections.Values)
 			{
-				PropertyCollection newCollection = currentItem.GetDetailCollection(collection.Name, true);
-				foreach (PropertyData detail in collection.Details)
+				var newCollection = currentItem.GetDetailCollection(collection.Name, true);
+				foreach (var detail in collection.Details)
 					newCollection.Add(detail.Value);
 			}
 		}
@@ -149,7 +149,7 @@ namespace Zeus.Persistence
 		private void ClearAllDetails(ContentItem item)
 		{
 			item.Details.Clear();
-			foreach (PropertyCollection collection in item.DetailCollections.Values)
+			foreach (var collection in item.DetailCollections.Values)
 				collection.Details.Clear();
 			item.DetailCollections.Clear();
 		}

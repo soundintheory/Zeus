@@ -15,7 +15,7 @@ namespace Zeus.Templates.Web.Routing
 		{
 			public void ProcessRequest(HttpContext context)
 			{
-				string result = string.Empty;
+				var result = string.Empty;
 				if (!string.IsNullOrEmpty(context.Request.Form["bbCode"]))
 					result = Context.Current.Resolve<BBCodeService>().GetHtml(context.Request.Form["bbCode"]);
 				context.Response.Write(result);

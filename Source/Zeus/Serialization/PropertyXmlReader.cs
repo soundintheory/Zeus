@@ -12,16 +12,16 @@ namespace Zeus.Serialization
 	{
 		public void Read(XPathNavigator navigator, ContentItem item, ReadingJournal journal)
 		{
-			foreach (XPathNavigator detailElement in EnumerateChildren(navigator))
+			foreach (var detailElement in EnumerateChildren(navigator))
 				ReadDetail(detailElement, item, journal);
 		}
 
 		protected virtual void ReadDetail(XPathNavigator navigator, ContentItem item, ReadingJournal journal)
 		{
-			Dictionary<string, string> attributes = GetAttributes(navigator);
-			Type type = attributes["typeName"].ToType();
+			var attributes = GetAttributes(navigator);
+			var type = attributes["typeName"].ToType();
 
-			string name = attributes["name"];
+			var name = attributes["name"];
 
 			if (!typeof(ContentItem).IsAssignableFrom(type))
 			{
@@ -29,8 +29,8 @@ namespace Zeus.Serialization
 			}
 			else
 			{
-				int referencedItemID = int.Parse(navigator.Value);
-				ContentItem referencedItem = journal.Find(referencedItemID);
+				var referencedItemID = int.Parse(navigator.Value);
+				var referencedItem = journal.Find(referencedItemID);
 				if (referencedItem != null)
 					item[name] = referencedItem;
 				else

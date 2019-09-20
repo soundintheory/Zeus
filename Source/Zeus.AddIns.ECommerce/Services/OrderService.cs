@@ -32,10 +32,10 @@ namespace Zeus.AddIns.ECommerce.Services
 		/// </summary>
 		public string GetMaskedCardNumber(string cardNumber)
 		{
-			string result = "****";
+			var result = "****";
 			if (cardNumber.Length > 8)
 			{
-				string lastFour = cardNumber.Substring(cardNumber.Length - 4, 4);
+				var lastFour = cardNumber.Substring(cardNumber.Length - 4, 4);
 				result = "**** **** **** " + lastFour;
 			}
 			return result;
@@ -56,7 +56,7 @@ namespace Zeus.AddIns.ECommerce.Services
             decimal totalVatPrice, decimal totalPrice)
 		{
 			// Convert shopping basket into order, with unpaid status.
-			Order order = new Order
+			var order = new Order
 			{
 				User = (_webContext.User != null && (_webContext.User is WebPrincipal)) ? ((WebPrincipal) _webContext.User).MembershipUser : null,
 				DeliveryMethod = deliveryMethod,
@@ -73,7 +73,7 @@ namespace Zeus.AddIns.ECommerce.Services
                 TotalVatPrice = totalVatPrice,
                 TotalPrice = totalPrice
 			};
-			foreach (OrderItem orderItem in items)
+			foreach (var orderItem in items)
 				orderItem.AddTo(order);
 			order.AddTo(configuration.Orders);
 			_persister.Save(order);
@@ -82,13 +82,13 @@ namespace Zeus.AddIns.ECommerce.Services
             _persister.Save(order);
 
             // Process payment.
-            PaymentRequest paymentRequest = new PaymentRequest(
+            var paymentRequest = new PaymentRequest(
                 PaymentTransactionType.Payment, order.ID.ToString(), order.TotalPrice, order.Title,
                 order.BillingAddress, order.ShippingAddress,
                 order.PaymentCard, cardNumber, cardVerificationCode, 
                 order.TelephoneNumber, order.EmailAddress, _webContext.Request.UserHostAddress);
 			
-            PaymentResponse paymentResponse = _paymentGateway.TakePayment(paymentRequest);
+            var paymentResponse = _paymentGateway.TakePayment(paymentRequest);
             
             if (paymentResponse.Success)
 			{
@@ -123,7 +123,7 @@ namespace Zeus.AddIns.ECommerce.Services
 			{
 
 				// Convert shopping basket into order, with unpaid status.
-				Order order = new Order
+				var order = new Order
 				{
 					User = (_webContext.User != null && (_webContext.User is WebPrincipal)) ? ((WebPrincipal)_webContext.User).MembershipUser : null,
 					DeliveryMethod = deliveryMethod,
@@ -140,7 +140,7 @@ namespace Zeus.AddIns.ECommerce.Services
                     TotalVatPrice = totalVatPrice,
                     TotalPrice = totalPrice
 				};
-				foreach (OrderItem orderItem in items)
+				foreach (var orderItem in items)
 					orderItem.AddTo(order);
 
 				order.AddTo(configuration.Orders);
@@ -170,10 +170,10 @@ namespace Zeus.AddIns.ECommerce.Services
 		public Order PlaceOrder(Shop shop, string cardNumber, string cardVerificationCode,
 			ShoppingBasket shoppingBasket)
 		{
-			List<OrderItem> items = new List<OrderItem>();
+			var items = new List<OrderItem>();
 			foreach (IShoppingBasketItem shoppingBasketItem in items)
 			{
-				ProductOrderItem orderItem = new ProductOrderItem
+				var orderItem = new ProductOrderItem
 				{
 					WeakProductLink = shoppingBasketItem.Product.ID,
 					ProductTitle = shoppingBasketItem.Product.Title,
@@ -182,12 +182,12 @@ namespace Zeus.AddIns.ECommerce.Services
                     VATable = !(shoppingBasketItem.Product.VatZeroRated)
 				};
 				if (shoppingBasketItem.Variations != null)
-					foreach (Variation variation in shoppingBasketItem.Variations)
+					foreach (var variation in shoppingBasketItem.Variations)
 						orderItem.Variations.Add(variation.VariationSet.Title + ": " + variation.Title);
 				items.Add(orderItem);
 			}
 
-			Order order = PlaceOrder(shop, cardNumber, cardVerificationCode, shoppingBasket.DeliveryMethod,
+			var order = PlaceOrder(shop, cardNumber, cardVerificationCode, shoppingBasket.DeliveryMethod,
 				shoppingBasket.DeliveryMethod.Price, (Address) shoppingBasket.BillingAddress.Clone(true),
 				(Address) (shoppingBasket.ShippingAddress ?? shoppingBasket.BillingAddress).Clone(true),
 				(PaymentCard) shoppingBasket.PaymentCard.Clone(true), shoppingBasket.EmailAddress,

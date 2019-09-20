@@ -11,18 +11,14 @@ namespace Zeus.Web.Hosting
 	public class EmbeddedResourceBuilder : IInitializable, IEmbeddedResourceBuilder
 	{
 		private readonly IKernel _kernel;
-		private readonly ResourceSettings _resourceSettings;
 
 		public EmbeddedResourceBuilder(IKernel kernel)
 		{
 			_kernel = kernel;
-			_resourceSettings = new ResourceSettings();
+			ResourceSettings = new ResourceSettings();
 		}
 
-		public ResourceSettings ResourceSettings
-		{
-			get { return _resourceSettings; }
-		}
+		public ResourceSettings ResourceSettings { get; }
 
 		public void Initialize()
 		{
@@ -30,8 +26,8 @@ namespace Zeus.Web.Hosting
 			IEnumerable<string> filenames = Directory.GetFiles(searchPath, "*.dll");
 			DependencyInjectionUtility.RegisterAllComponents<IEmbeddedResourcePackage>(_kernel, filenames);
 
-			foreach (IEmbeddedResourcePackage package in _kernel.GetAll<IEmbeddedResourcePackage>())
-				package.Register(RouteTable.Routes, _resourceSettings);
+			foreach (var package in _kernel.GetAll<IEmbeddedResourcePackage>())
+				package.Register(RouteTable.Routes, ResourceSettings);
 		}
 	}
 }

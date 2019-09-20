@@ -90,11 +90,11 @@ namespace Zeus.Web
 				if (IsEmpty())
 					return null;
 
-				string templateUrl = !string.IsNullOrEmpty(TemplateUrl) ? TemplateUrl : "/";
+				var templateUrl = !string.IsNullOrEmpty(TemplateUrl) ? TemplateUrl : "/";
 				if (CurrentItem.IsPage)
 					return Url.Parse(templateUrl).UpdateQuery(QueryParameters).SetQueryParameter(PageQueryKey, CurrentItem.ID);
 
-				for (ContentItem ancestor = CurrentItem.Parent; ancestor != null; ancestor = ancestor.Parent)
+				for (var ancestor = CurrentItem.Parent; ancestor != null; ancestor = ancestor.Parent)
 					if (ancestor.IsPage)
 						return ancestor.FindPath(DefaultAction).RewrittenUrl.UpdateQuery(QueryParameters).SetQueryParameter(ItemQueryKey, CurrentItem.ID);
 
@@ -109,7 +109,7 @@ namespace Zeus.Web
 		{
 			get
 			{
-				Url result = new Url(CurrentItem.Url);
+				var result = new Url(CurrentItem.Url);
 				if (SslSecured)
 					result = result.SetScheme("https").SetAuthority(new Url(Url.ServerUrl).Authority);
 				if (!string.IsNullOrEmpty(Action))
@@ -124,22 +124,22 @@ namespace Zeus.Web
 
 		public virtual PathData UpdateParameters(IDictionary<string, string> queryString)
 		{
-			foreach (KeyValuePair<string, string> pair in queryString)
+			foreach (var pair in queryString)
 				QueryParameters[pair.Key] = pair.Value;
 			return this;
 		}
 
 		public virtual PathData Detach()
 		{
-			PathData data = new PathData(ID, Path, TemplateUrl, Action, Argument);
+			var data = new PathData(ID, Path, TemplateUrl, Action, Argument);
 			data.QueryParameters = new Dictionary<string, string>(data.QueryParameters);
 			return data;
 		}
 
 		public virtual PathData Attach(Persistence.IPersister persister)
 		{
-			ContentItem item = persister.Repository.Load(ID);
-			PathData data = new PathData(item, TemplateUrl, Action, Argument)
+			var item = persister.Repository.Load(ID);
+			var data = new PathData(item, TemplateUrl, Action, Argument)
     	{
     		QueryParameters = new Dictionary<string, string>(QueryParameters)
     	};

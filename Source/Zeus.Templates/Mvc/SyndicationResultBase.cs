@@ -56,14 +56,14 @@ namespace Zeus.Templates.Mvc
 		/// <returns></returns>
 		protected virtual bool IsLocalCacheOk()
 		{
-			string dt = LastModifiedHeader;
+			var dt = LastModifiedHeader;
 			if (dt != null)
 			{
 				try
 				{
-					DateTime feedDt = DateTime.Parse(dt, CultureInfo.InvariantCulture);
-					DateTime lastUpdated = Feed.LastModified;
-					TimeSpan ts = feedDt - lastUpdated;
+					var feedDt = DateTime.Parse(dt, CultureInfo.InvariantCulture);
+					var lastUpdated = Feed.LastModified;
+					var ts = feedDt - lastUpdated;
 
 					// We need to allow some margin of error.
 					return Math.Abs(ts.TotalMilliseconds) <= 500;

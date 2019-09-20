@@ -84,7 +84,7 @@ namespace Zeus.AddIns.ECommerce.ContentTypes.Data
         public string DescriptionForAdministrators
         {
             get {
-                string res = "Code was " + CouponCode + " which activated Discount named " + Title;
+                var res = "Code was " + CouponCode + " which activated Discount named " + Title;
                 if (DiscountIsFlatAmount)
                     res += ", a flat discount";
                 else

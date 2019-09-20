@@ -28,7 +28,7 @@ namespace Zeus
 		{
 			if (value != null)
 			{
-				TypeConverter converter = TypeDescriptor.GetConverter(destinationType);
+				var converter = TypeDescriptor.GetConverter(destinationType);
 				if (converter != null && converter.CanConvertFrom(value.GetType()))
 					return converter.ConvertFrom(value);
 				converter = TypeDescriptor.GetConverter(value.GetType());
@@ -42,7 +42,7 @@ namespace Zeus
 						throw new ZeusException("Cannot convert object of type '{0}' because it does not implement IConvertible", value.GetType());
 					if (destinationType.IsNullable())
 					{
-						NullableConverter nullableConverter = new NullableConverter(destinationType);
+						var nullableConverter = new NullableConverter(destinationType);
 						destinationType = nullableConverter.UnderlyingType;
 					}
 					return System.Convert.ChangeType(value, destinationType);
@@ -89,8 +89,8 @@ namespace Zeus
 			if (instance == null) throw new ArgumentNullException("instance");
 			if (propertyName == null) throw new ArgumentNullException("propertyName");
 
-			Type instanceType = instance.GetType();
-			PropertyInfo pi = instanceType.GetProperty(propertyName);
+			var instanceType = instance.GetType();
+			var pi = instanceType.GetProperty(propertyName);
 
 			if (pi == null)
 				throw new ZeusException("No property '{0}' found on the instance of type '{1}'.", propertyName, instanceType);
@@ -108,7 +108,7 @@ namespace Zeus
 		{
 			if (source == destination)
 				return true;
-			foreach (ContentItem ancestor in Find.EnumerateParents(destination))
+			foreach (var ancestor in Find.EnumerateParents(destination))
 				if (ancestor == source)
 					return true;
 			return false;
@@ -140,8 +140,8 @@ namespace Zeus
 				if (IsDestinationBelowSource(item, newParent))
 					throw new DestinationOnOrBelowItselfException(item, newParent);
 
-				IList<ContentItem> siblings = newParent.Children;
-				for (int i = 0; i < siblings.Count; i++)
+				var siblings = newParent.Children;
+				for (var i = 0; i < siblings.Count; i++)
 				{
 					if (comparer.Compare(item, siblings[i]) < 0)
 					{
@@ -171,8 +171,8 @@ namespace Zeus
 		/// <returns>A list of items whose sort order was changed.</returns>
 		public static IEnumerable<ContentItem> UpdateSortOrder(IEnumerable siblings)
 		{
-			List<ContentItem> updatedItems = new List<ContentItem>();
-			int lastSortOrder = int.MinValue;
+			var updatedItems = new List<ContentItem>();
+			var lastSortOrder = int.MinValue;
 			foreach (ContentItem sibling in siblings)
 			{
 				if (sibling.SortOrder <= lastSortOrder)
@@ -195,7 +195,7 @@ namespace Zeus
 		{
 			if (handler != null && item.VersionOf == null)
 			{
-				CancelItemEventArgs args = new CancelItemEventArgs(item, finalAction);
+				var args = new CancelItemEventArgs(item, finalAction);
 
 				handler.Invoke(sender, args);
 
@@ -217,7 +217,7 @@ namespace Zeus
 		{
 			if (handler != null && source.VersionOf == null)
 			{
-				CancelDestinationEventArgs args = new CancelDestinationEventArgs(source, destination, finalAction);
+				var args = new CancelDestinationEventArgs(source, destination, finalAction);
 
 				handler.Invoke(sender, args);
 

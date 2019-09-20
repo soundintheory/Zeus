@@ -17,7 +17,7 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageSettings
 
 		public MenuItem GetMenuItem(ContentItem contentItem)
 		{
-			MenuItem menuItem = new MenuItem
+			var menuItem = new MenuItem
 			{
 				Text = "Language Settings",
 				IconUrl = Utility.GetCooliteIconUrl(Icon.WorldEdit),

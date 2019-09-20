@@ -14,18 +14,18 @@ namespace Zeus.Admin.Plugins.Tree
 		public void ProcessRequest(HttpContext context)
 		{
 			context.Response.ContentType = "text/json";
-			string fromRootTemp = context.Request["fromRoot"];
-			bool fromRoot = false;
+			var fromRootTemp = context.Request["fromRoot"];
+			var fromRoot = false;
 			if (!string.IsNullOrEmpty(fromRootTemp))
 				fromRoot = Convert.ToBoolean(fromRootTemp);
-			bool sync = (context.Request["sync"] == "true");
-			int? nodeId = !string.IsNullOrEmpty(context.Request["node"]) ? Convert.ToInt32(context.Request["node"]) as int? : null;
-			int? overrideNodeId = !string.IsNullOrEmpty(context.Request["overrideNode"]) ? Convert.ToInt32(context.Request["overrideNode"]) as int? : null;
+			var sync = (context.Request["sync"] == "true");
+			var nodeId = !string.IsNullOrEmpty(context.Request["node"]) ? Convert.ToInt32(context.Request["node"]) as int? : null;
+			var overrideNodeId = !string.IsNullOrEmpty(context.Request["overrideNode"]) ? Convert.ToInt32(context.Request["overrideNode"]) as int? : null;
 
 			nodeId = overrideNodeId ?? nodeId;
 			if (nodeId != null)
 			{
-				ContentItem selectedItem = Context.Persister.Get(nodeId.Value);
+				var selectedItem = Context.Persister.Get(nodeId.Value);
 
 				SiteTree tree;
 				if (sync)
@@ -41,7 +41,7 @@ namespace Zeus.Admin.Plugins.Tree
 
 				//if (context.User.Identity.Name != "administrator")
 				//	filter = new CompositeSpecification<ContentItem>(new PageSpecification<ContentItem>(), filter);
-				TreeNodeBase treeNode = tree.Filter(items => items
+				var treeNode = tree.Filter(items => items
 						.Authorized(context.User, Context.SecurityManager, Operations.Read)
 						.Where(TreeMainInterfacePlugin.IsVisibleInTree)
 						.Where(ci => !(ci is WidgetContentItem)))
@@ -49,7 +49,7 @@ namespace Zeus.Admin.Plugins.Tree
 
 				if (treeNode is TreeNode)
 				{
-					string json = ((TreeNode) treeNode).Nodes.ToJson();
+					var json = ((TreeNode) treeNode).Nodes.ToJson();
 					context.Response.Write(json);
 					context.Response.End();
 				}

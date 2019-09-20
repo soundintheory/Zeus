@@ -28,7 +28,7 @@ namespace Zeus.Design.Editors
 
 		protected override Control AddEditor(Control container)
 		{
-			TimeRange range = new TimeRange {ID = Name + NameEndRange, StartTitle = StartTitle, StartRequired = StartRequired};
+			var range = new TimeRange {ID = Name + NameEndRange, StartTitle = StartTitle, StartRequired = StartRequired};
 			container.Controls.Add(range);
 			range.BetweenText = BetweenText;
 			return range;
@@ -41,14 +41,14 @@ namespace Zeus.Design.Editors
 
 		protected override void UpdateEditorInternal(IEditableObject item, Control editor)
 		{
-			TimeRange range = (TimeRange) editor;
+			var range = (TimeRange) editor;
 			range.From = (string) item[Name];
 			range.To = (string) item[NameEndRange];
 		}
 
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
-			TimeRange range = editor as TimeRange;
+			var range = editor as TimeRange;
 			if ((string) item[Name] != range.From || (string) item[NameEndRange] != range.To)
 			{
 				item[Name] = range.From;

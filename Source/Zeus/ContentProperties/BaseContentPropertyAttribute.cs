@@ -39,8 +39,8 @@ namespace Zeus.ContentProperties
 		public virtual IEditor GetDefaultEditor()
 		{
 			//PropertyData propertyData = (PropertyData) Activator.CreateInstance(GetPropertyDataType());
-			Type propertyType = GetPropertyType();
-			IEditor editor = GetDefaultEditorInternal(propertyType);
+			var propertyType = GetPropertyType();
+			var editor = GetDefaultEditorInternal(propertyType);
 			editor.Name = Name;
 			editor.PropertyType = propertyType;
 			editor.Shared = Shared;
@@ -59,7 +59,7 @@ namespace Zeus.ContentProperties
 
 		public PropertyData CreatePropertyData(ContentItem enclosingItem, object value)
 		{
-			Type propertyDataType = GetPropertyDataType();
+			var propertyDataType = GetPropertyDataType();
 			object untypedPropertyData;
 			try
 			{
@@ -69,7 +69,7 @@ namespace Zeus.ContentProperties
 			{
 				throw new Exception("Could not create instance of type '" + propertyDataType.FullName + "' for content property with name '" + Name + "'", ex);
 			}
-			PropertyData propertyData = (PropertyData) untypedPropertyData;
+			var propertyData = (PropertyData) untypedPropertyData;
 			propertyData.Name = Name;
 			propertyData.EnclosingItem = enclosingItem;
 			propertyData.Value = value;
@@ -78,7 +78,7 @@ namespace Zeus.ContentProperties
 
 		public override bool Equals(object obj)
 		{
-			BaseContentPropertyAttribute other = obj as BaseContentPropertyAttribute;
+			var other = obj as BaseContentPropertyAttribute;
 			if (other == null)
 				return false;
 

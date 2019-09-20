@@ -11,7 +11,7 @@ namespace Zeus.Templates.Mvc.Controllers
 		{
 			get
 			{
-				WebPrincipal webPrincipal = User as WebPrincipal;
+				var webPrincipal = User as WebPrincipal;
 				return (webPrincipal != null) ? webPrincipal.MembershipUser : null;
 			}
 		}

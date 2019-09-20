@@ -55,7 +55,7 @@ namespace Zeus.BaseLibrary.Reflection
 		{
 			if (method == null) throw new ArgumentNullException("method");
 
-			LambdaExpression lambda = method as LambdaExpression;
+			var lambda = method as LambdaExpression;
 			if (lambda == null) throw new ArgumentException("Not a lambda expression", "method");
 			if (lambda.Body.NodeType != ExpressionType.Call) throw new ArgumentException("Not a method call", "method");
 
@@ -69,7 +69,7 @@ namespace Zeus.BaseLibrary.Reflection
 		/// <exception cref="ArgumentException">The <paramref name="property"/> is not a lambda expression or it does not represent a property access.</exception>
 		public static PropertyInfo GetProperty(Expression<Func<TTarget, object>> property)
 		{
-			PropertyInfo info = GetMemberInfo(property) as PropertyInfo;
+			var info = GetMemberInfo(property) as PropertyInfo;
 			if (info == null) throw new ArgumentException("Member is not a property");
 
 			return info;
@@ -82,7 +82,7 @@ namespace Zeus.BaseLibrary.Reflection
 		/// <exception cref="ArgumentException">The <paramref name="field"/> is not a lambda expression or it does not represent a field access.</exception>
 		public static FieldInfo GetField(Expression<Func<TTarget, object>> field)
 		{
-			FieldInfo info = GetMemberInfo(field) as FieldInfo;
+			var info = GetMemberInfo(field) as FieldInfo;
 			if (info == null) throw new ArgumentException("Member is not a field");
 
 			return info;
@@ -92,7 +92,7 @@ namespace Zeus.BaseLibrary.Reflection
 		{
 			if (member == null) throw new ArgumentNullException("member");
 
-			LambdaExpression lambda = member as LambdaExpression;
+			var lambda = member as LambdaExpression;
 			if (lambda == null) throw new ArgumentException("Not a lambda expression", "member");
 
 			MemberExpression memberExpr = null;

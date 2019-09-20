@@ -49,8 +49,8 @@ namespace Zeus.FileSystem.Details
 
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
-			CompositeEditor ce = editor as CompositeEditor;
-			File f = item as File;
+			var ce = editor as CompositeEditor;
+			var f = item as File;
 			if (ce.Upload.PostedFile != null && ce.Upload.PostedFile.ContentLength > 0)
 			{
 				f.Name = System.IO.Path.GetFileName(ce.Upload.PostedFile.FileName);
@@ -68,8 +68,8 @@ namespace Zeus.FileSystem.Details
 
 		protected override void UpdateEditorInternal(IEditableObject item, Control editor)
 		{
-			CompositeEditor ce = editor as CompositeEditor;
-			File f = item as File;
+			var ce = editor as CompositeEditor;
+			var f = item as File;
 			if (f.Size != null)
 			{
 				ce.Upload.Visible = false;
@@ -83,7 +83,7 @@ namespace Zeus.FileSystem.Details
 
 		protected override Control AddEditor(Control container)
 		{
-			CompositeEditor editor = new CompositeEditor();
+			var editor = new CompositeEditor();
 			editor.ID = "compositeEditor";
 			container.Controls.Add(editor);
 			return editor;

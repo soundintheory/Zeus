@@ -8,7 +8,7 @@ namespace Zeus.Web.UI
 	{
 		public static ContentItem FindCurrentItem(this Control control)
 		{
-			IContentItemContainer container = FindParent<IContentItemContainer>(control.Parent);
+			var container = FindParent<IContentItemContainer>(control.Parent);
 			if (container != null)
 				return container.CurrentItem;
 			
@@ -17,7 +17,7 @@ namespace Zeus.Web.UI
 
 		public static IEditableObject FindCurrentEditableObject(this Control control)
 		{
-			IEditableObjectEditor container = FindParent<IEditableObjectEditor>(control.Parent);
+			var container = FindParent<IEditableObjectEditor>(control.Parent);
 			if (container != null)
 				return container.CurrentItem;
 

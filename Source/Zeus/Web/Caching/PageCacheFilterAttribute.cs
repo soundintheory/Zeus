@@ -24,7 +24,7 @@ namespace Zeus.Web.Caching
 				filterContext.Controller.ControllerContext.RouteData.Values[ContentRoute.ContentItemKey] as ContentItem;
 			if (_currentItem != null && _cachingService.IsPageCached(_currentItem))
 			{
-				string cachedHtml = _cachingService.GetCachedPage(_currentItem);
+				var cachedHtml = _cachingService.GetCachedPage(_currentItem);
 				filterContext.Result = new ContentResult { Content = cachedHtml };
 				return;
 			}
@@ -32,7 +32,7 @@ namespace Zeus.Web.Caching
 			if (_currentItem != null && _currentItem.GetPageCachingEnabled())
 			{
 				_originalOutputStream = filterContext.HttpContext.Response.Filter;
-				HttpResponseBase response = filterContext.HttpContext.Response;
+				var response = filterContext.HttpContext.Response;
 				response.Flush();
 				response.Filter = new CapturingResponseFilter(response.Filter);
 			}
@@ -42,11 +42,11 @@ namespace Zeus.Web.Caching
 		{
 			if (_originalOutputStream != null)
 			{
-				HttpResponseBase response = filterContext.HttpContext.Response;
+				var response = filterContext.HttpContext.Response;
 				response.Flush();
-				CapturingResponseFilter capturingResponseFilter = (CapturingResponseFilter) filterContext.HttpContext.Response.Filter;
+				var capturingResponseFilter = (CapturingResponseFilter) filterContext.HttpContext.Response.Filter;
 				response.Filter = _originalOutputStream;
-				string html = capturingResponseFilter.GetContents(filterContext.HttpContext.Response.ContentEncoding);
+				var html = capturingResponseFilter.GetContents(filterContext.HttpContext.Response.ContentEncoding);
 				response.Write(html);
 
 				_cachingService.InsertCachedPage(_currentItem, html);

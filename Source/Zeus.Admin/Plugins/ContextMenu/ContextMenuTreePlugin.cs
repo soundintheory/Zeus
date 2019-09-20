@@ -29,8 +29,8 @@ namespace Zeus.Admin.Plugins.ContextMenu
 
 		public override void ModifyTreeNode(TreeNodeBase treeNode, ContentItem contentItem)
 		{
-			foreach (ActionPluginGroupAttribute actionPluginGroup in Context.AdminManager.GetActionPluginGroups())
-				foreach (IContextMenuPlugin plugin in GetPlugins(actionPluginGroup.Name))
+			foreach (var actionPluginGroup in Context.AdminManager.GetActionPluginGroups())
+				foreach (var plugin in GetPlugins(actionPluginGroup.Name))
 					if (plugin.IsApplicable(contentItem) && (plugin.IsEnabled(contentItem) && plugin.IsDefault(contentItem)))
 					{
 						treeNode.Href = "javascript:(" + plugin.GetJavascriptHandler(contentItem) + ")();";

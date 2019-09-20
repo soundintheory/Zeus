@@ -13,9 +13,7 @@ namespace Zeus.Templates.Services.Syndication
 	public class SyndicatableDefinitionAppender : IInitializable
 	{
 		private readonly IContentTypeManager _contentTypeManager;
-		private string checkBoxText = "Make available for syndication.";
 		private string containerName = "Syndication";
-		private int sortOrder = 30;
 		public static readonly string SyndicatableDetailName = "Syndicate";
 
 		public SyndicatableDefinitionAppender(IContentTypeManager definitions)
@@ -23,11 +21,7 @@ namespace Zeus.Templates.Services.Syndication
 			_contentTypeManager = definitions;
 		}
 
-		public int SortOrder
-		{
-			get { return sortOrder; }
-			set { sortOrder = value; }
-		}
+		public int SortOrder { get; set; } = 30;
 
 		public string ContainerName
 		{
@@ -35,22 +29,18 @@ namespace Zeus.Templates.Services.Syndication
 			set { containerName = value; }
 		}
 
-		public string CheckBoxText
-		{
-			get { return checkBoxText; }
-			set { checkBoxText = value; }
-		}
+		public string CheckBoxText { get; set; } = "Make available for syndication.";
 
 		public void Initialize()
 		{
-			foreach (ContentType contentType in _contentTypeManager.GetContentTypes())
+			foreach (var contentType in _contentTypeManager.GetContentTypes())
 			{
 				if (typeof(ISyndicatable).IsAssignableFrom(contentType.ItemType))
 				{
-					FieldSetAttribute seoTab = new FieldSetAttribute("Syndication", "Syndication", 30);
+					var seoTab = new FieldSetAttribute("Syndication", "Syndication", 30);
 					contentType.Add(seoTab);
 
-					CheckBoxEditorAttribute ecb = new CheckBoxEditorAttribute(CheckBoxText, string.Empty, 10)
+					var ecb = new CheckBoxEditorAttribute(CheckBoxText, string.Empty, 10)
 					{
 						Name = SyndicatableDetailName,
 						ContainerName = ContainerName,

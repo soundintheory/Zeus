@@ -22,7 +22,7 @@ namespace Zeus.Admin
 				return;
 
 			// Dynamically add authorization rule for admin site.
-			List<string> authorizedRoles = new List<string>();
+			var authorizedRoles = new List<string>();
 			foreach (AuthorizedRoleElement authorizedRoleElement in _adminConfig.AuthorizedRoles)
 				authorizedRoles.Add(authorizedRoleElement.Role);
 			authorizationService.AddRule(_adminConfig.Path,

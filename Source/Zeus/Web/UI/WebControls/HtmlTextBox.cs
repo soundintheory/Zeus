@@ -82,7 +82,7 @@ namespace Zeus.Web.UI.WebControls
 
 		protected override void CreateChildControls()
 		{
-			TinyMCE tinyMce = new TinyMCE();
+			var tinyMce = new TinyMCE();
 			tinyMce.ID = ID + "TinyMCE";
 			tinyMce.Settings.Mode = "none";
 			tinyMce.Settings.Theme = "advanced";

@@ -23,11 +23,11 @@ namespace Zeus.Web.UI.WebControls
 
 		protected override void RenderContents(HtmlTextWriter writer)
 		{
-			string userName = UserName;
+			var userName = UserName;
 			if (!string.IsNullOrEmpty(userName))
 			{
 				userName = HttpUtility.HtmlEncode(userName);
-				string formatString = FormatString;
+				var formatString = FormatString;
 				if (formatString.Length == 0)
 				{
 					writer.Write(userName);

@@ -41,7 +41,7 @@ namespace Zeus.ContentTypes
 
 		public IDictionary<Type, ContentType> GetDefinitions()
 		{
-			IList<ContentType> definitions = FindDefinitions();
+			var definitions = FindDefinitions();
 			ExecuteRefiners(definitions);
 			return definitions.ToDictionary(ct => ct.ItemType);
 		}
@@ -49,19 +49,19 @@ namespace Zeus.ContentTypes
 		private IList<ContentType> FindDefinitions()
 		{
 			// Find definitions.
-			List<ContentType> definitions = new List<ContentType>();
-			foreach (Type type in EnumerateTypes())
+			var definitions = new List<ContentType>();
+			foreach (var type in EnumerateTypes())
 			{
-				ContentType itemDefinition = new ContentType(type);
+				var itemDefinition = new ContentType(type);
 
 				itemDefinition.Properties = _propertyExplorer.Find(itemDefinition.ItemType);
-				IList<IEditor> tempEditors = _editableExplorer.Find(itemDefinition.ItemType);
+				var tempEditors = _editableExplorer.Find(itemDefinition.ItemType);
 
 				// Get the "distinct" union of actual editors, and default editors for properties
-				List<IEditor> editors = new List<IEditor>();
-				foreach (IContentProperty property in itemDefinition.Properties)
+				var editors = new List<IEditor>();
+				foreach (var property in itemDefinition.Properties)
 				{
-					IEditor overrideEditor = tempEditors.SingleOrDefault(e => e.Name == property.Name);
+					var overrideEditor = tempEditors.SingleOrDefault(e => e.Name == property.Name);
 					if (overrideEditor != null)
 					{
 						overrideEditor.Title = property.Title;
@@ -75,13 +75,13 @@ namespace Zeus.ContentTypes
 					}
 					else
 					{
-						IEditor editor = property.GetDefaultEditor();
+						var editor = property.GetDefaultEditor();
 						if (editor != null)
 							editors.Add(editor);
 					}
 				}
 
-				foreach (IEditor editor in tempEditors.Where(e => !editors.Any(oe => e.Name == oe.Name)))
+				foreach (var editor in tempEditors.Where(e => !editors.Any(oe => e.Name == oe.Name)))
 					editors.Add(editor);
 
 				editors.Sort();
@@ -100,10 +100,10 @@ namespace Zeus.ContentTypes
 
 		protected void ExecuteRefiners(IList<ContentType> definitions)
 		{
-			foreach (ContentType definition in definitions)
+			foreach (var definition in definitions)
 				foreach (IDefinitionRefiner refiner in definition.ItemType.GetCustomAttributes(typeof(IDefinitionRefiner), false))
 					refiner.Refine(definition, definitions);
-			foreach (ContentType definition in definitions)
+			foreach (var definition in definitions)
 				foreach (IInheritableDefinitionRefiner refiner in definition.ItemType.GetCustomAttributes(typeof(IInheritableDefinitionRefiner), true))
 					refiner.Refine(definition, definitions);
 		}

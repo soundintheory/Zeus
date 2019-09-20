@@ -11,16 +11,16 @@ namespace Zeus.Web.Security.Details
 	{
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
-			CheckBoxList cbl = editor as CheckBoxList;
-			List<Items.Role> roles = new List<Items.Role>();
+			var cbl = editor as CheckBoxList;
+			var roles = new List<Items.Role>();
 			foreach (ListItem li in cbl.Items)
 				if (li.Selected)
 				{
-					Items.Role role = Context.Current.Resolve<IWebSecurityManager>().GetRole(li.Value);
+					var role = Context.Current.Resolve<IWebSecurityManager>().GetRole(li.Value);
 					roles.Add(role);
 				}
 
-			PropertyCollection dc = item.GetDetailCollection(Name, true);
+			var dc = item.GetDetailCollection(Name, true);
 			dc.Replace(roles);
 
 			return true;
@@ -28,13 +28,13 @@ namespace Zeus.Web.Security.Details
 
 		protected override void UpdateEditorInternal(IEditableObject item, Control editor)
 		{
-			CheckBoxList cbl = editor as CheckBoxList;
-			PropertyCollection dc = item.GetDetailCollection(Name, false);
+			var cbl = editor as CheckBoxList;
+			var dc = item.GetDetailCollection(Name, false);
 			if (dc != null)
 			{
 				foreach (Items.Role role in dc)
 				{
-					ListItem li = cbl.Items.FindByValue(role.Name);
+					var li = cbl.Items.FindByValue(role.Name);
 					if (li != null)
 					{
 						li.Selected = true;
@@ -52,8 +52,8 @@ namespace Zeus.Web.Security.Details
 
 		protected override Control AddEditor(Control container)
 		{
-			CheckBoxList cbl = new CheckBoxList();
-			foreach (Items.Role role in Context.Current.Resolve<IWebSecurityManager>().GetRoles(container.Page.User))
+			var cbl = new CheckBoxList();
+			foreach (var role in Context.Current.Resolve<IWebSecurityManager>().GetRoles(container.Page.User))
 				cbl.Items.Add(role.Name);
 			container.Controls.Add(cbl);
 			return cbl;

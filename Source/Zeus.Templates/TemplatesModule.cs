@@ -16,7 +16,7 @@ namespace Zeus.Templates
 			Bind<ITagService, TagService>();
 			Bind<IUserRegistrationService, UserRegistrationService>();
 
-			TemplatesSection configSection = ConfigurationManager.GetSection("zeus/templates") as TemplatesSection;
+			var configSection = ConfigurationManager.GetSection("zeus/templates") as TemplatesSection;
 			if (configSection != null)
 				Bind(typeof(TemplatesSection)).ToConstant(configSection);
 
@@ -33,7 +33,7 @@ namespace Zeus.Templates
 
 			if (configSection != null)
 			{
-				AntiSpamElement antiSpamSection = configSection.AntiSpam;
+				var antiSpamSection = configSection.AntiSpam;
 				if (antiSpamSection != null)
 				{
 					if (antiSpamSection.ReCaptcha != null)

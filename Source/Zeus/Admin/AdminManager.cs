@@ -141,7 +141,7 @@ namespace Zeus.Admin
 
 		private static string FormatSelectedUrl(ContentItem selectedItem, string path)
 		{
-			Url url = new Url(path);
+			var url = new Url(path);
 			if (selectedItem != null)
 				url = url.AppendQuery("selected=" + selectedItem.Path);
 			return url.ToString();
@@ -158,12 +158,12 @@ namespace Zeus.Admin
 			if (selected == null) throw new ArgumentNullException("selected");
 			if (definition == null) throw new ArgumentNullException("definition");
 
-			ContentItem parent = (position != CreationPosition.Below) ? selected.Parent : selected;
+			var parent = (position != CreationPosition.Below) ? selected.Parent : selected;
 
 			if (selected == null)
 				throw new ZeusException("Cannot insert item before or after the root page.");
 
-			Url url = new Url(EditItemUrl);
+			var url = new Url(EditItemUrl);
 			url = url.AppendQuery("selected", parent.Path);
 			url = url.AppendQuery("discriminator", definition.Discriminator);
 			url = url.AppendQuery("zoneName", zoneName);
@@ -227,7 +227,7 @@ namespace Zeus.Admin
 		/// <returns>An url.</returns>
 		public string GetPreviewUrl(INode selectedItem)
 		{
-			string url = string.Format("{0}",
+			var url = string.Format("{0}",
 				selectedItem.PreviewUrl,
 				HttpUtility.UrlEncode(selectedItem.PreviewUrl)
 				);
@@ -245,21 +245,21 @@ namespace Zeus.Admin
 			// when an unpublished version is saved and published
 			if (versioningMode == ItemEditorVersioningMode.SaveAsMaster)
 			{
-				using (ITransaction tx = _persister.Repository.BeginTransaction())
+				using (var tx = _persister.Repository.BeginTransaction())
 				{
-					ContentItem itemToUpdate = item.VersionOf;
+					var itemToUpdate = item.VersionOf;
 					if (itemToUpdate == null) throw new ArgumentException("Expected the current item to be a version of another item.", "item");
 
 					if (ShouldStoreVersion(item))
 						SaveVersion(itemToUpdate);
 
-					DateTime? published = itemToUpdate.Published;
-					bool wasUpdated = UpdateItem(itemToUpdate, addedEditors, user);
+					var published = itemToUpdate.Published;
+					var wasUpdated = UpdateItem(itemToUpdate, addedEditors, user);
 
 					if (wasUpdated || IsNew(itemToUpdate))
 					{
                         onSavingCallback(itemToUpdate);
-                        foreach (ContentItem child in item.Children.ToList())
+                        foreach (var child in item.Children.ToList())
                         {
                             if (!child.HasMinRequirementsForSaving())
                                 item.Children.Remove(child);
@@ -267,7 +267,7 @@ namespace Zeus.Admin
 						itemToUpdate.Published = published ?? Utility.CurrentTime();
 						_persister.Save(itemToUpdate);
 
-                        ContentItem theParent = itemToUpdate.Parent;
+                        var theParent = itemToUpdate.Parent;
                         while (theParent.Parent != null && (item.PropogateUpdate && theParent.PropogateUpdate))
                         { 
                             //go up the tree updating - if a child has been changed, so effectively has the parent
@@ -285,18 +285,18 @@ namespace Zeus.Admin
 			// when an item is saved without any new version
 			if (versioningMode == ItemEditorVersioningMode.SaveOnly)
 			{
-				bool wasUpdated = UpdateItem(item, addedEditors, user);
+				var wasUpdated = UpdateItem(item, addedEditors, user);
 				if (wasUpdated || IsNew(item))
 				{
 					onSavingCallback(item);
-                    foreach (ContentItem child in item.Children.ToList())
+                    foreach (var child in item.Children.ToList())
                     {
                         if (!child.HasMinRequirementsForSaving())
                             item.Children.Remove(child);
                     }
                     _persister.Save(item);
 
-                    ContentItem theParent = item.Parent;
+                    var theParent = item.Parent;
                     while (theParent.Parent != null && (item.PropogateUpdate && theParent.PropogateUpdate))
                     {
                         //go up the tree updating - if a child has been changed, so effectively has the parent
@@ -312,14 +312,14 @@ namespace Zeus.Admin
 			// when an item is saved but a version is stored before the item is updated
 			if (versioningMode == ItemEditorVersioningMode.VersionAndSave)
 			{
-				using (ITransaction tx = _persister.Repository.BeginTransaction())
+				using (var tx = _persister.Repository.BeginTransaction())
 				{
 					if (ShouldStoreVersion(item))
 						SaveVersion(item);
 
-					DateTime? initialPublished = item.Published;
-					bool wasUpdated = UpdateItem(item, addedEditors, user);
-					DateTime? updatedPublished = item.Published;
+					var initialPublished = item.Published;
+					var wasUpdated = UpdateItem(item, addedEditors, user);
+					var updatedPublished = item.Published;
 
 					// the item was the only version of an unpublished item - publish it
 					if (initialPublished == null && updatedPublished == null)
@@ -344,12 +344,12 @@ namespace Zeus.Admin
 			// when making a version without saving the item
 			if (versioningMode == ItemEditorVersioningMode.VersionOnly)
 			{
-				using (ITransaction tx = _persister.Repository.BeginTransaction())
+				using (var tx = _persister.Repository.BeginTransaction())
 				{
 					if (ShouldStoreVersion(item))
 						item = SaveVersion(item);
 
-					bool wasUpdated = UpdateItem(item, addedEditors, user);
+					var wasUpdated = UpdateItem(item, addedEditors, user);
 					if (wasUpdated || IsNew(item))
 					{
 						onSavingCallback(item);
@@ -369,11 +369,11 @@ namespace Zeus.Admin
 
 		private void IncrementVersion(ContentItem item)
 		{
-			ContentItem masterItem = item.VersionOf ?? item;
+			var masterItem = item.VersionOf ?? item;
 			var versions = _versionManager.GetVersionsOf(masterItem);
 			if (versions.Any())
 			{
-				int maxVersion = versions.Max(ci => ci.Version);
+				var maxVersion = versions.Max(ci => ci.Version);
 				item.Version = maxVersion + 1;
 			}
 		}
@@ -388,9 +388,9 @@ namespace Zeus.Admin
 			if (item == null) throw new ArgumentNullException("item");
 			if (addedEditors == null) throw new ArgumentNullException("addedEditors");
 
-			bool updated = false;
-			ContentType contentType = _contentTypeManager.GetContentType(item.GetType());
-			foreach (IEditor e in contentType.GetEditors(user))
+			var updated = false;
+			var contentType = _contentTypeManager.GetContentType(item.GetType());
+			foreach (var e in contentType.GetEditors(user))
             {
 				if (addedEditors.ContainsKey(e.Name))
                 {

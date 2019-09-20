@@ -35,9 +35,9 @@ namespace Zeus.AddIns.ECommerce.Admin.Plugins.ManageOrders
 
 		protected void btnProcess_Command(object sender, CommandEventArgs e)
 		{
-			int orderID = Convert.ToInt32(e.CommandArgument);
+			var orderID = Convert.ToInt32(e.CommandArgument);
 
-			Order order = Engine.Persister.Get<Order>(orderID);
+			var order = Engine.Persister.Get<Order>(orderID);
 			order.Status = OrderStatus.Processed;
 			Engine.Persister.Save(order);
 

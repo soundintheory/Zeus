@@ -104,7 +104,7 @@ namespace Zeus.Web.Security
 		public bool ValidateUser(string username, string password)
 		{
 			// Get user from store.
-			User user = _store.GetUser(FormatUsername(username));
+			var user = _store.GetUser(FormatUsername(username));
 			return (user != null && user.Password == EncryptPassword(password) && user.Verified);
 		}
 
@@ -127,8 +127,8 @@ namespace Zeus.Web.Security
 				throw new ArgumentException("Email body must contain " + VerificationLinkName, "emailBody");
 
 			// Construct nonce.
-			string nonce = NonceUtility.GenerateNonce();
-			string verificationLink = linkRoot + HttpUtility.UrlEncode(nonce);
+			var nonce = NonceUtility.GenerateNonce();
+			var verificationLink = linkRoot + HttpUtility.UrlEncode(nonce);
 
 			// Save nonce.
 			_store.SaveNonce(user, nonce);
@@ -171,7 +171,7 @@ namespace Zeus.Web.Security
 				throw new ArgumentException("Email body must contain " + PasswordResetLinkName, "emailBody");
 
 			// Check that user exists.
-			User user = GetUser(username);
+			var user = GetUser(username);
 			if (user == null)
 				return PasswordResetRequestResult.UserNotFound;
 
@@ -185,11 +185,11 @@ namespace Zeus.Web.Security
 				return PasswordResetRequestResult.TooManyRequests;
 
 			// Construct nonce.
-			string nonce = NonceUtility.GenerateNonce();
-			string passwordResetLink = linkRoot + HttpUtility.UrlEncode(nonce);
+			var nonce = NonceUtility.GenerateNonce();
+			var passwordResetLink = linkRoot + HttpUtility.UrlEncode(nonce);
 
 			// Create a password reset request.
-			PasswordResetRequest resetRequest = _contentTypeManager.CreateInstance<PasswordResetRequest>(user);
+			var resetRequest = _contentTypeManager.CreateInstance<PasswordResetRequest>(user);
 			resetRequest.Nonce = nonce;
 			_persister.Save(resetRequest);
 
@@ -233,7 +233,7 @@ namespace Zeus.Web.Security
 			if (CheckPasswordResetRequestValidity(nonce, out resetRequest) != PasswordResetRequestValidity.Valid)
 				return PasswordResetResult.Failed;
 
-			User user = (User) resetRequest.Parent;
+			var user = (User) resetRequest.Parent;
 			user.Password = EncryptPassword(newPassword);
 
 			resetRequest.Used = true;

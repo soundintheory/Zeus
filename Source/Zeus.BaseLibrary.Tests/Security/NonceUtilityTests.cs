@@ -10,7 +10,7 @@ namespace Zeus.BaseLibrary.Tests.Security
 		public void CanGenerateNonce()
 		{
 			// Act.
-			string result = NonceUtility.GenerateNonce();
+			var result = NonceUtility.GenerateNonce();
 
 			// Assert.
 			Assert.IsTrue(!string.IsNullOrEmpty(result));

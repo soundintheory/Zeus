@@ -25,11 +25,11 @@ namespace Zeus.Globalization
 		public CultureInfo DetermineCulture(LanguagePreferenceList preferenceList)
 		{
 			CultureInfo culture = null;
-			foreach (string languageCode in preferenceList)
+			foreach (var languageCode in preferenceList)
 			{
-                ILanguageManager languageManager = Context.Current.LanguageManager;
-                System.Collections.Generic.IEnumerable<Language> availableLanguages = languageManager.GetAvailableLanguages(false);
-                foreach (Language branch in availableLanguages)
+                var languageManager = Context.Current.LanguageManager;
+                var availableLanguages = languageManager.GetAvailableLanguages(false);
+                foreach (var branch in availableLanguages)
 				{
 					if (string.Compare(languageCode, branch.Name, StringComparison.OrdinalIgnoreCase) == 0)
 						return branch.Culture;
@@ -44,18 +44,18 @@ namespace Zeus.Globalization
 
 		public LanguagePreferenceList LanguagePreferenceList(string priorityLanguage)
 		{
-			LanguagePreferenceList list = new LanguagePreferenceList();
+			var list = new LanguagePreferenceList();
 			list.ConditionalAdd(priorityLanguage);
 			if (Context.Current.WebContext.IsWeb)
 			{
-				HttpRequestBase request = Context.Current.WebContext.Request;
+				var request = Context.Current.WebContext.Request;
 				list.ConditionalAdd(request.QueryString["zeuslanguage"]);
 				if (HttpRequestSupport.IsRequestSystemDirectory)
 					list.ConditionalAddCookie(request.Cookies["editlanguagebranch"]);
 				list.ConditionalAdd(Context.Current.Resolve<IHost>().GetLanguageFromHostName());
 				list.ConditionalAddCookie(request.Cookies["zeuslanguage"]);
 
-				GlobalizationSection globalizationConfig = ConfigurationManager.GetSection("zeus/globalization") as GlobalizationSection;
+				var globalizationConfig = ConfigurationManager.GetSection("zeus/globalization") as GlobalizationSection;
 				if (globalizationConfig != null && globalizationConfig.UseBrowserLanguagePreferences)
 					list.ConditionalAddRange(request.UserLanguages);
 
@@ -66,7 +66,7 @@ namespace Zeus.Globalization
 
 		public CultureInfo SetCulture(string priorityLanguage)
 		{
-			CultureInfo info = DetermineCulture(LanguagePreferenceList(priorityLanguage));
+			var info = DetermineCulture(LanguagePreferenceList(priorityLanguage));
 			PreferredCulture = info;
 			return info;
 		}
@@ -86,7 +86,7 @@ namespace Zeus.Globalization
 		{
 			get
 			{
-				CultureInfo info = Context.Current.WebContext.RequestItems["Zeus:ContentLanguage"] as CultureInfo;
+				var info = Context.Current.WebContext.RequestItems["Zeus:ContentLanguage"] as CultureInfo;
 				if (info == null)
 					info = Instance.SetCulture();
 				return info;

@@ -11,7 +11,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 
 		public static bool EqualsAny(this Enum value, params Enum[] valuesToCompare)
 		{
-			foreach (Enum enumValue in valuesToCompare)
+			foreach (var enumValue in valuesToCompare)
 				if (value.Equals(enumValue))
 					return true;
 			return false;

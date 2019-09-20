@@ -31,7 +31,7 @@ namespace Zeus.Templates.Mvc.Controllers
 			if (!ModelState.IsValid)
 				return Index();
 
-			PasswordResetRequestResult result = _credentialService.SendPasswordResetEmail(requestResetForm.Username,
+			var result = _credentialService.SendPasswordResetEmail(requestResetForm.Username,
 				_webContext.GetFullyQualifiedUrl(new Url(CurrentItem.Url).AppendSegment("reset").AppendQuery("n=")),
 				CurrentItem.PasswordResetEmailSender, CurrentItem.PasswordResetEmailSubject,
 				CurrentItem.PasswordResetEmailBody);
@@ -60,7 +60,7 @@ namespace Zeus.Templates.Mvc.Controllers
 		{
 			// Check that nonce exists.
 			PasswordResetRequest resetRequest;
-			bool valid = (_credentialService.CheckPasswordResetRequestValidity(n, out resetRequest) == PasswordResetRequestValidity.Valid);
+			var valid = (_credentialService.CheckPasswordResetRequestValidity(n, out resetRequest) == PasswordResetRequestValidity.Valid);
 
 			if (!valid)
 				return View("ResetError", new ForgottenPasswordPageResetViewModel(CurrentItem));
@@ -75,7 +75,7 @@ namespace Zeus.Templates.Mvc.Controllers
 				return Reset(n);
 
 			// Reset password.
-			PasswordResetResult result = _credentialService.ResetPassword(n, resetForm.Password);
+			var result = _credentialService.ResetPassword(n, resetForm.Password);
 
 			return View("ResetConfirmation", new ForgottenPasswordPageResetConfirmationViewModel(
 				CurrentItem, result == PasswordResetResult.Succeeded));

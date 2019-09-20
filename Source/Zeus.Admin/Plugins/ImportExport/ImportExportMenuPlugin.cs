@@ -43,7 +43,7 @@ namespace Zeus.Admin.Plugins.ImportExport
 
 		public MenuItem GetMenuItem(ContentItem contentItem)
 		{
-			MenuItem menuItem = new MenuItem
+			var menuItem = new MenuItem
 			{
 				Text = "Import / Export",
 				IconUrl = Utility.GetCooliteIconUrl(Icon.PackageGo),

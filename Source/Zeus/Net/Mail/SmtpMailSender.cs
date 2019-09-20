@@ -7,13 +7,13 @@ namespace Zeus.Net.Mail
 	{
 		public void Send(MailMessage mail)
 		{
-			SmtpClient client = GetSmtpClient();
+			var client = GetSmtpClient();
 			client.Send(mail);
 		}
 
 		public void Send(string from, string recipients, string subject, string body)
 		{
-			SmtpClient client = GetSmtpClient();
+			var client = GetSmtpClient();
 			client.Send(from, recipients, subject, body);
 		}
 

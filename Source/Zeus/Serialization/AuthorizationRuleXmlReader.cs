@@ -9,13 +9,13 @@ namespace Zeus.Serialization
 	{
 		public void Read(XPathNavigator navigator, ContentItem item, ReadingJournal journal)
 		{
-			foreach (XPathNavigator authorizationElement in EnumerateChildren(navigator))
+			foreach (var authorizationElement in EnumerateChildren(navigator))
 			{
-				Dictionary<string, string> attributes = GetAttributes(authorizationElement);
-				string operation = attributes["operation"];
-				string role = attributes["role"];
-				string user = attributes["user"];
-				bool allowed = Convert.ToBoolean(attributes["allowed"]);
+				var attributes = GetAttributes(authorizationElement);
+				var operation = attributes["operation"];
+				var role = attributes["role"];
+				var user = attributes["user"];
+				var allowed = Convert.ToBoolean(attributes["allowed"]);
 				item.AuthorizationRules.Add(new AuthorizationRule(item, operation, role, user, allowed));
 			}
 		}

@@ -26,7 +26,7 @@ namespace Zeus.Admin.Plugins.ImportExport
 
 		protected void btnExport_Command(object sender, CommandEventArgs e)
 		{
-			ExportOptions options = ExportOptions.Default;
+			var options = ExportOptions.Default;
 			if (chkDefinedDetails.Checked)
 				options |= ExportOptions.OnlyDefinedProperties;
 
@@ -40,7 +40,7 @@ namespace Zeus.Admin.Plugins.ImportExport
 
 			try
 			{
-				IImportRecord record = Engine.Resolve<Importer>().Read(UploadedFilePath);
+				var record = Engine.Resolve<Importer>().Read(UploadedFilePath);
 				importedItems.CurrentItem = record.RootItem;
 				ShowErrors(record);
 			}
@@ -48,7 +48,7 @@ namespace Zeus.Admin.Plugins.ImportExport
 			{
 				using (Stream s = File.OpenRead(UploadedFilePath))
 				{
-					FallbackXmlReader xr = new FallbackXmlReader(Zeus.Context.Current);
+					var xr = new FallbackXmlReader(Zeus.Context.Current);
 					importedItems.CurrentItem = xr.Read(s);
 				}
 			}
@@ -58,7 +58,7 @@ namespace Zeus.Admin.Plugins.ImportExport
 
 		protected void btnUploadImport_Click(object sender, EventArgs e)
 		{
-			Importer importer = Engine.Resolve<Importer>();
+			var importer = Engine.Resolve<Importer>();
 
 			IImportRecord record;
 			try
@@ -67,8 +67,8 @@ namespace Zeus.Admin.Plugins.ImportExport
 			}
 			catch (WrongVersionException)
 			{
-				FallbackXmlReader xr = new FallbackXmlReader(Zeus.Context.Current);
-				ContentItem item = xr.Read(fuImport.FileContent);
+				var xr = new FallbackXmlReader(Zeus.Context.Current);
+				var item = xr.Read(fuImport.FileContent);
 				record = CreateRecord(item);
 				ShowErrors(record);
 			}
@@ -78,7 +78,7 @@ namespace Zeus.Admin.Plugins.ImportExport
 
 		protected void btnImportUploaded_Click(object sender, EventArgs e)
 		{
-			Importer importer = Engine.Resolve<Importer>();
+			var importer = Engine.Resolve<Importer>();
 
 			IImportRecord record;
 			try
@@ -88,8 +88,8 @@ namespace Zeus.Admin.Plugins.ImportExport
 			}
 			catch (WrongVersionException)
 			{
-				FallbackXmlReader xr = new FallbackXmlReader(Zeus.Context.Current);
-				ContentItem item = xr.Read(File.OpenRead(UploadedFilePath));
+				var xr = new FallbackXmlReader(Zeus.Context.Current);
+				var item = xr.Read(File.OpenRead(UploadedFilePath));
 				record = CreateRecord(item);
 			}
 
@@ -98,7 +98,7 @@ namespace Zeus.Admin.Plugins.ImportExport
 
 		private static IImportRecord CreateRecord(ContentItem item)
 		{
-			ReadingJournal rj = new ReadingJournal();
+			var rj = new ReadingJournal();
 			rj.Report(item);
 			return rj;
 		}
@@ -137,8 +137,8 @@ namespace Zeus.Admin.Plugins.ImportExport
 		{
 			if (record.Errors.Count > 0)
 			{
-				StringBuilder errorText = new StringBuilder("<ul>");
-				foreach (Exception ex in record.Errors)
+				var errorText = new StringBuilder("<ul>");
+				foreach (var ex in record.Errors)
 					errorText.Append("<li>").Append(ex.Message).Append("</li>");
 				errorText.Append("</ul>");
 

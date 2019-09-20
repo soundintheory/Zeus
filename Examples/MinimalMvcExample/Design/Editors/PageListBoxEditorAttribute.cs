@@ -34,7 +34,7 @@ namespace Zeus.Examples.MinimalMvcExample.Design.Editors
 
         protected override Control AddEditor(Control container)
         {
-            ListControl ddl = CreateEditor();
+            var ddl = CreateEditor();
             container.Controls.Add(ddl);
             ddl.ID = Name;
                         
@@ -55,7 +55,7 @@ namespace Zeus.Examples.MinimalMvcExample.Design.Editors
 
         protected override object GetValue(IEditableObject item)
         {
-            string [] result = new string [0];
+            var result = new string [0];
 
             var linkedItems = item[Name] as IList<int>;
             if (linkedItems != null)

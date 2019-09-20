@@ -11,7 +11,7 @@ namespace Zeus.Admin
 	{
 		public override void Register(RouteCollection routes, ResourceSettings resourceSettings)
 		{
-			AdminSection adminSection = (AdminSection) ConfigurationManager.GetSection("zeus/admin");
+			var adminSection = (AdminSection) ConfigurationManager.GetSection("zeus/admin");
 			RegisterStandardArea(routes, resourceSettings, adminSection.Path, "Assets");
 		}
 	}

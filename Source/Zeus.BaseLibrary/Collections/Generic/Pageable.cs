@@ -5,12 +5,11 @@ namespace Zeus.BaseLibrary.Collections.Generic
 {
 	public class Pageable<T> : IPageable<T>
 	{
-		private readonly IEnumerable<T> _nonPagedItems;
 		private readonly IPagination<T> _pagedItems;
 
 		public Pageable(IEnumerable<T> items, bool paged, int pageNumber, int pageSize)
 		{
-			_nonPagedItems = items;
+			NonPagedItems = items;
 			if (paged)
 				_pagedItems = items.AsPagination(pageNumber, pageSize);
 			Paged = paged;
@@ -18,10 +17,7 @@ namespace Zeus.BaseLibrary.Collections.Generic
 
 		public bool Paged { get; private set; }
 
-		public IEnumerable<T> NonPagedItems
-		{
-			get { return _nonPagedItems; }
-		}
+		public IEnumerable<T> NonPagedItems { get; }
 
 		public IPagination<T> PagedItems
 		{

@@ -10,9 +10,9 @@ namespace Zeus.Admin.Plugins.ContextMenu
 	{
 		public override void ModifyInterface(IMainInterface mainInterface)
 		{
-			foreach (IContextMenuPlugin plugin in Context.Current.ResolveAll<IContextMenuPlugin>())
+			foreach (var plugin in Context.Current.ResolveAll<IContextMenuPlugin>())
 			{
-				string[] requiredUserControls = plugin.RequiredUserControls;
+				var requiredUserControls = plugin.RequiredUserControls;
 				if (requiredUserControls != null)
 					mainInterface.LoadUserControls(requiredUserControls);
 			}
@@ -24,11 +24,11 @@ namespace Zeus.Admin.Plugins.ContextMenu
 			scriptManager.RegisterClientScriptInclude("ActionPlugin",
 				WebResourceUtility.GetUrl(typeof(ContextMenuMainInterfacePlugin), "Zeus.Admin.Plugins.ContextMenu.Resources.Ext.ux.zeus.ContextMenuPlugin.js"));
 
-			foreach (IContextMenuPlugin plugin in Context.Current.ResolveAll<IContextMenuPlugin>())
+			foreach (var plugin in Context.Current.ResolveAll<IContextMenuPlugin>())
 			{
-				string[] requiredScripts = plugin.RequiredScripts;
+				var requiredScripts = plugin.RequiredScripts;
 				if (requiredScripts != null)
-					foreach (string requiredScript in requiredScripts)
+					foreach (var requiredScript in requiredScripts)
 						scriptManager.RegisterClientScriptInclude(plugin.GetType().FullName, requiredScript);
 			}
 		}

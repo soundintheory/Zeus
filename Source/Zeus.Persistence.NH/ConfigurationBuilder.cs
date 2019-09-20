@@ -13,7 +13,6 @@ namespace Zeus.Persistence.NH
 	public class ConfigurationBuilder : IConfigurationBuilder
 	{
 		private readonly IContentTypeManager _definitions;
-		private readonly NHibernate.Cfg.Configuration _configuration;
 		private const string _mappingFormat = @"<?xml version=""1.0"" encoding=""utf-16""?>
 <hibernate-mapping xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns=""urn:nhibernate-mapping-2.2""
 	auto-import=""false"">
@@ -26,10 +25,7 @@ namespace Zeus.Persistence.NH
 				<property name=""ZoneName"" access=""property"" length=""50"" />
 			</subclass>";
 
-		public NHibernate.Cfg.Configuration Configuration
-		{
-			get { return _configuration; }
-		}
+		public NHibernate.Cfg.Configuration Configuration { get; }
 
 		public ConfigurationBuilder(IContentTypeManager definitions, DatabaseSection databaseSectionConfig)
 		{
@@ -41,7 +37,7 @@ namespace Zeus.Persistence.NH
             var configuration = MsSqlConfiguration.MsSql2008
                 .ConnectionString(c => c.FromConnectionStringWithKey(databaseSectionConfig.ConnectionStringName));
 
-			IDictionary<string, string> properties = configuration.ToProperties();
+			var properties = configuration.ToProperties();
 			properties[NHibernate.Cfg.Environment.ConnectionStringName] = databaseSectionConfig.ConnectionStringName;
             properties[NHibernate.Cfg.Environment.CacheProvider] = databaseSectionConfig.CacheProviderClass;
 
@@ -54,9 +50,9 @@ namespace Zeus.Persistence.NH
             //ZeusPersistenceModel persistenceModel = new ZeusPersistenceModel();
             //persistenceModel.Mappings.(DefaultLazy.AlwaysTrue());
 
-            _configuration = new NHibernate.Cfg.Configuration().AddProperties(properties);
+            Configuration = new NHibernate.Cfg.Configuration().AddProperties(properties);
 
-            AddMapping(_configuration, "Zeus.Persistence.NH.Mappings.Default.hbm.xml");
+            AddMapping(Configuration, "Zeus.Persistence.NH.Mappings.Default.hbm.xml");
 			//_configuration.AddAssembly(Assembly.GetExecutingAssembly());
 
 			//persistenceModel.Configure(_configuration);
@@ -64,14 +60,14 @@ namespace Zeus.Persistence.NH
 			//persistenceModel.WriteMappingsTo(@"C:\mappings");
 
 			// For each definition, add a <subclass> element to mapping file.
-			StringBuilder mappings = new StringBuilder();
-			foreach (Type type in EnumerateDefinedTypes())
+			var mappings = new StringBuilder();
+			foreach (var type in EnumerateDefinedTypes())
 			{
-				string format = (typeof(WidgetContentItem) == type) ? _widgetClassFormat : _classFormat;
+				var format = (typeof(WidgetContentItem) == type) ? _widgetClassFormat : _classFormat;
 				mappings.AppendFormat(format, GetName(type), GetName(type.BaseType), GetDiscriminator(type));
 			}
-			string configurationXml = string.Format(_mappingFormat, mappings);
-			_configuration.AddXml(configurationXml);
+			var configurationXml = string.Format(_mappingFormat, mappings);
+			Configuration.AddXml(configurationXml);
 		}
 
 		/// <summary>Adds mappings to the configuration.</summary>
@@ -84,13 +80,13 @@ namespace Zeus.Persistence.NH
 
 		private IEnumerable<Type> EnumerateDefinedTypes()
 		{
-			List<Type> types = new List<Type>();
-			foreach (ContentType definition in _definitions.GetContentTypes())
-					foreach (Type t in EnumerateBaseTypes(definition.ItemType))
+			var types = new List<Type>();
+			foreach (var definition in _definitions.GetContentTypes())
+					foreach (var t in EnumerateBaseTypes(definition.ItemType))
 					{
 						if (t.IsSubclassOf(typeof(ContentItem)) && !types.Contains(t))
 						{
-							int index = types.IndexOf(t.BaseType);
+							var index = types.IndexOf(t.BaseType);
 							types.Insert(index + 1, t);
 						}
 					}
@@ -104,7 +100,7 @@ namespace Zeus.Persistence.NH
 		{
 			if (t != null)
 			{
-				foreach (Type baseType in EnumerateBaseTypes(t.BaseType))
+				foreach (var baseType in EnumerateBaseTypes(t.BaseType))
 					yield return baseType;
 				yield return t;
 			}
@@ -117,7 +113,7 @@ namespace Zeus.Persistence.NH
 
 		private string GetDiscriminator(Type itemType)
 		{
-			ContentType definition = _definitions[itemType];
+			var definition = _definitions[itemType];
 			if (definition != null)
 				return definition.Discriminator;
 			return itemType.Name;

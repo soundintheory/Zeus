@@ -24,8 +24,8 @@ namespace Zeus.Configuration
 
 		protected override ConfigurationElement CreateNewElement(string elementName)
 		{
-			ContentTypeRule rule = new ContentTypeRule();
-			string str = elementName.ToLower(CultureInfo.InvariantCulture);
+			var rule = new ContentTypeRule();
+			var str = elementName.ToLower(CultureInfo.InvariantCulture);
 			if (str != null)
 			{
 				if (str != "allow")
@@ -41,13 +41,13 @@ namespace Zeus.Configuration
 
 		protected override object GetElementKey(ConfigurationElement element)
 		{
-			ContentTypeRule rule = (ContentTypeRule) element;
+			var rule = (ContentTypeRule) element;
 			return rule.Action.ToString();
 		}
 
 		protected override bool IsElementName(string elementName)
 		{
-			string str = elementName.ToLower(CultureInfo.InvariantCulture);
+			var str = elementName.ToLower(CultureInfo.InvariantCulture);
 			return (str == "allow" || str == "deny");
 		}
 
@@ -59,7 +59,7 @@ namespace Zeus.Configuration
 			if (contentType != null)
 				foreach (ContentTypeRule rule in this)
 				{
-					int num = rule.IsContentTypeAllowed(contentType);
+					var num = rule.IsContentTypeAllowed(contentType);
 					if (num != 0)
 						return (num > 0);
 				}

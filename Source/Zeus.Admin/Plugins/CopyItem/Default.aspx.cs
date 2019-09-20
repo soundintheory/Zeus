@@ -16,7 +16,7 @@ namespace Zeus.Admin.Plugins.CopyItem
 					if (!Engine.SecurityManager.IsAuthorized(SelectedItem, User, Operations.Create))
 						throw new ZeusException("You are not authorised to copy an item to this location");
 
-					ContentItem newItem = Engine.Persister.Copy(MemorizedItem, SelectedItem);
+					var newItem = Engine.Persister.Copy(MemorizedItem, SelectedItem);
 					Refresh(newItem, AdminFrame.Both, false);
 				}
 				catch (Integrity.NameOccupiedException ex)
@@ -62,7 +62,7 @@ namespace Zeus.Admin.Plugins.CopyItem
 			try
 			{
 				pnlNewName.Visible = false;
-				ContentItem newItem = MemorizedItem.Clone(true);
+				var newItem = MemorizedItem.Clone(true);
 				newItem.Name = txtNewName.Text;
 				newItem = Engine.Persister.Copy(newItem, SelectedItem);
 				Refresh(newItem, AdminFrame.Both, false);

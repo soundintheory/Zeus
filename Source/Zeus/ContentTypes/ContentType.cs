@@ -14,19 +14,14 @@ namespace Zeus.ContentTypes
 	{
 		#region Fields
 
-		private readonly IList<ContentType> _allowedChildren = new List<ContentType>();
 		private readonly IList<AvailableZoneAttribute> _availableZones = new List<AvailableZoneAttribute>();
-		private IList<string> _allowedZoneNames = new List<string>();
 
 		#endregion
 
 		#region Properties
 
 		/// <summary>Gets or sets additional child types allowed below this item.</summary>
-		public IList<ContentType> AllowedChildren
-		{
-			get { return _allowedChildren; }
-		}
+		public IList<ContentType> AllowedChildren { get; } = new List<ContentType>();
 
 		public string Discriminator
 		{
@@ -43,11 +38,7 @@ namespace Zeus.ContentTypes
 		public Type ItemType { get; set; }
 
 		/// <summary>Gets zones this class of items can be placed in.</summary>
-		public IList<string> AllowedZoneNames
-		{
-			get { return _allowedZoneNames; }
-			internal set { _allowedZoneNames = value; }
-		}
+		public IList<string> AllowedZoneNames { get; internal set; } = new List<string>();
 
 		/// <summary>Gets zones available in this items of this class.</summary>
 		public IList<AvailableZoneAttribute> AvailableZones
@@ -147,7 +138,7 @@ namespace Zeus.ContentTypes
 
 		public IContentProperty GetProperty(string name, object value)
 		{
-			IContentProperty property = GetProperty(name);
+			var property = GetProperty(name);
 			if (property == null)
 			{
 				// Create a property, based on the type of value.
@@ -160,11 +151,11 @@ namespace Zeus.ContentTypes
 
 		public IDisplayer GetDisplayer(string propertyName)
 		{
-			IDisplayer displayer = Displayers.SingleOrDefault(d => d.Name == propertyName);
+			var displayer = Displayers.SingleOrDefault(d => d.Name == propertyName);
 			if (displayer != null)
 				return displayer;
 
-			IContentProperty property = Properties.SingleOrDefault(p => p.Name == propertyName);
+			var property = Properties.SingleOrDefault(p => p.Name == propertyName);
 			if (property != null)
 				return property.GetDefaultDisplayer();
 
@@ -200,7 +191,7 @@ namespace Zeus.ContentTypes
 			if (string.IsNullOrEmpty(zone))
 				return true;
 			if (AvailableZones != null)
-				foreach (AvailableZoneAttribute a in AvailableZones)
+				foreach (var a in AvailableZones)
 					if (a.ZoneName == zone)
 						return true;
 			return false;
@@ -229,7 +220,7 @@ namespace Zeus.ContentTypes
 		{
 			if (user == null || AuthorizedRoles == null)
 				return true;
-			foreach (string role in AuthorizedRoles)
+			foreach (var role in AuthorizedRoles)
 				if (string.Equals(user.Identity.Name, role, StringComparison.OrdinalIgnoreCase) || user.IsInRole(role))
 					return true;
 			return false;
@@ -256,7 +247,7 @@ namespace Zeus.ContentTypes
 			}
 			else
 			{
-				foreach (IEditorContainer container in Containers)
+				foreach (var container in Containers)
 				{
 					if (container.Name == containable.ContainerName)
 					{
@@ -281,7 +272,7 @@ namespace Zeus.ContentTypes
 
 		public void ReplaceEditor(string name, IEditor newEditor)
 		{
-			IEditor editor = Editors.SingleOrDefault(e => e.Name == name);
+			var editor = Editors.SingleOrDefault(e => e.Name == name);
 			if (editor == null)
 				return;
 
@@ -291,13 +282,13 @@ namespace Zeus.ContentTypes
 			// TODO: Remove this fudge
 			newEditor.PropertyType = editor.PropertyType;
 
-			List<IEditor> newEditors = new List<IEditor>(Editors);
+			var newEditors = new List<IEditor>(Editors);
 			newEditors.Remove(editor);
 			newEditors.Add(newEditor);
 			newEditors.Sort();
 			Editors = newEditors;
 
-			IEditorContainer container = Containers.SingleOrDefault(c => c.Contained.Contains(editor)) ?? RootContainer;
+			var container = Containers.SingleOrDefault(c => c.Contained.Contains(editor)) ?? RootContainer;
 			container.Contained.Remove(editor);
 			container.Contained.Add(newEditor);
 			container.Contained.Sort();

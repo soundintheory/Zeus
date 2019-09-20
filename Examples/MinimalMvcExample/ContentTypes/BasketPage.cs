@@ -24,7 +24,7 @@ namespace Zeus.Examples.MinimalMvcExample.ContentTypes
         public System.Collections.Generic.List<PayPalItem> BasketItems
         {
             get {
-                List<PayPalItem> items = new List<PayPalItem>();
+                var items = new List<PayPalItem>();
                 items.Add(new PayPalItem { Name = "First Item", Amount = 0.01m, Description = "My first item, what a beaut!", Quantity = 1, Url = "" });
                 items.Add(new PayPalItem { Name = "Second Item", Amount = 0.02m, Description = "My second item, not so good...", Quantity = 1, Url = "" });
                 return items;

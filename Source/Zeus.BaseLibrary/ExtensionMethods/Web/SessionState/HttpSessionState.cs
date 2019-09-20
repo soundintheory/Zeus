@@ -6,7 +6,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web.SessionState
 	{
 		public static T Item<T>(this HttpSessionState session, string name)
 		{
-			object value = session[name];
+			var value = session[name];
 			if (value == null)
 				return default(T);
 			else

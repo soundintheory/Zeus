@@ -23,7 +23,7 @@ namespace Zeus.Templates.Services
 
 		private void OnUrlParserPageNotFound(object sender, PageNotFoundEventArgs e)
 		{
-			WebsiteNode websiteNode = _urlParser.StartPage as WebsiteNode;
+			var websiteNode = _urlParser.StartPage as WebsiteNode;
 			if (websiteNode != null && websiteNode.PageNotFoundPage != null && !e.Url.StartsWith(_adminConfig.Path + "/", StringComparison.InvariantCultureIgnoreCase))
 				e.AffectedItem = websiteNode.PageNotFoundPage;
 		}

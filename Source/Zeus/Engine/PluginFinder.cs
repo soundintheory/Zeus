@@ -20,8 +20,8 @@ namespace Zeus.Engine
 
 		public IEnumerable<TPlugin> GetPlugins()
 		{
-			List<TPlugin> plugins = new List<TPlugin>();
-			foreach (Assembly assembly in _assemblyFinder.GetAssemblies())
+			var plugins = new List<TPlugin>();
+			foreach (var assembly in _assemblyFinder.GetAssemblies())
 			{
 				try
 				{
@@ -29,8 +29,8 @@ namespace Zeus.Engine
 				}
 				catch (ReflectionTypeLoadException ex)
 				{
-					string loaderErrors = string.Empty;
-					foreach (Exception loaderEx in ex.LoaderExceptions)
+					var loaderErrors = string.Empty;
+					foreach (var loaderEx in ex.LoaderExceptions)
 					{
 						Trace.TraceError(loaderEx.ToString());
 						loaderErrors += ", " + loaderEx.Message;
@@ -46,7 +46,7 @@ namespace Zeus.Engine
 		{
 			foreach (TPlugin attribute in a.GetCustomAttributes(typeof(TPlugin), false))
 				yield return ApplyContext(a, attribute);
-			foreach (Type t in a.GetTypes())
+			foreach (var t in a.GetTypes())
 				foreach (TPlugin attribute in t.GetCustomAttributes(typeof(TPlugin), false))
 					yield return ApplyContext(t, attribute);
 		}

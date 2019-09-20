@@ -28,17 +28,17 @@ namespace Zeus.Admin.Plugins
 
 		public virtual void RegisterScripts(ResourceManager scriptManager)
 		{
-			string[] requiredScripts = RequiredScripts;
+			var requiredScripts = RequiredScripts;
 			if (requiredScripts != null)
-				foreach (string requiredScript in requiredScripts)
+				foreach (var requiredScript in requiredScripts)
 					scriptManager.RegisterClientScriptInclude(GetType().FullName, requiredScript);
 		}
 
 		public virtual void RegisterStyles(ResourceManager scriptManager)
 		{
-			string[] requiredStyles = RequiredStyles;
+			var requiredStyles = RequiredStyles;
 			if (requiredStyles != null)
-				foreach (string requiredStyle in requiredStyles)
+				foreach (var requiredStyle in requiredStyles)
 					scriptManager.RegisterClientStyleInclude(GetType().FullName, requiredStyle);
 		}
 

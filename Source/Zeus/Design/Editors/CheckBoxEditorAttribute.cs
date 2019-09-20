@@ -31,7 +31,7 @@ namespace Zeus.Design.Editors
 		/// <returns>A checkbox.</returns>
 		protected override Control CreateEditor(Control container)
 		{
-			CheckBox cb = new CheckBox();
+			var cb = new CheckBox();
 			cb.Text = CheckBoxText;
 			cb.Checked = DefaultValue;
 			return cb;
@@ -39,7 +39,7 @@ namespace Zeus.Design.Editors
 
 		protected override void SetEditorValue(Control editor, object value)
 		{
-			CheckBox checkBox = (CheckBox) editor;
+			var checkBox = (CheckBox) editor;
 			if (value != null)
 				checkBox.Checked = (bool) value;
 		}

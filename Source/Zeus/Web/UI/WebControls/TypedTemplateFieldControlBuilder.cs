@@ -13,11 +13,11 @@ namespace Zeus.Web.UI.WebControls
 		public override void Init(TemplateParser parser, ControlBuilder parentBuilder, Type type, string tagName, string id, IDictionary attribs)
 		{
 			// Nasty hack to get internal property value.
-			TypedGridViewControlBuilder typedGridViewControlBuilder = parentBuilder.GetValue("ParentBuilder") as TypedGridViewControlBuilder;
-			Type fakeType = type;
+			var typedGridViewControlBuilder = parentBuilder.GetValue("ParentBuilder") as TypedGridViewControlBuilder;
+			var fakeType = type;
 			if (typedGridViewControlBuilder != null)
 			{
-				Type dataItemType = typedGridViewControlBuilder.DataItemType;
+				var dataItemType = typedGridViewControlBuilder.DataItemType;
 				if (dataItemType != null)
 					fakeType = new TypedTemplateFieldFakeType(dataItemType);
 			}

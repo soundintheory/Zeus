@@ -108,7 +108,7 @@ namespace Zeus.Security
 		/// <returns>A copy of this AuthorizedRole.</returns>
 		public virtual AuthorizationRule Clone()
 		{
-			AuthorizationRule cloned = (AuthorizationRule) MemberwiseClone();
+			var cloned = (AuthorizationRule) MemberwiseClone();
 			cloned.ID = 0;
 			cloned.EnclosingItem = null;
 			return cloned;

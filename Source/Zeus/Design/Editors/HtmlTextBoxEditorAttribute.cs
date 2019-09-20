@@ -38,7 +38,7 @@ namespace Zeus.Design.Editors
 		/// <returns>A text box control.</returns>
 		protected override Control AddEditor(Control container)
 		{
-			HtmlTextBox tb = new HtmlTextBox
+			var tb = new HtmlTextBox
 			{
 				DomainAbsoluteUrls = DomainAbsoluteUrls,
 				RootHtmlElementID = RootHtmlElementID,

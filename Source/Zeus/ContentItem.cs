@@ -33,8 +33,7 @@ namespace Zeus
         private DateTime? _expires;
         private IList<ContentItem> _children = new List<ContentItem>();
         private IList<ContentItem> _translations = new List<ContentItem>();
-        private IDictionary<string, PropertyData> _details = new Dictionary<string, PropertyData>();
-        private IDictionary<string, PropertyCollection> _detailCollections = new Dictionary<string, PropertyCollection>();
+		private IDictionary<string, PropertyCollection> _detailCollections = new Dictionary<string, PropertyCollection>();
         private string _url;
         private bool _visible;
 
@@ -143,16 +142,12 @@ namespace Zeus
         [Copy]
         public virtual string SavedBy { get; set; }
 
-        /// <summary>Gets or sets the details collection. These are usually accessed using the e.g. item["Detailname"]. This is a place to store content data.</summary>
-        [BsonIgnore]
-        public IDictionary<string, PropertyData> Details
-        {
-            get { return _details; }
-            set { _details = value; }
-        }
+		/// <summary>Gets or sets the details collection. These are usually accessed using the e.g. item["Detailname"]. This is a place to store content data.</summary>
+		[BsonIgnore]
+		public IDictionary<string, PropertyData> Details { get; set; } = new Dictionary<string, PropertyData>();
 
-        /// <summary>Gets or sets the details collection collection. These are details grouped into a collection.</summary>
-        [BsonIgnore]
+		/// <summary>Gets or sets the details collection collection. These are details grouped into a collection.</summary>
+		[BsonIgnore]
         public IDictionary<string, PropertyCollection> DetailCollections
         {
             get { return _detailCollections; }
@@ -255,7 +250,7 @@ namespace Zeus
 
         public virtual string GetUrl(ILanguageSelector languageSelector)
         {
-            LanguageSelectorContext args = new LanguageSelectorContext(this);
+            var args = new LanguageSelectorContext(this);
             languageSelector.LoadLanguage(args);
 
             if (_urlParser != null)
@@ -267,7 +262,7 @@ namespace Zeus
         {
             get
             {
-                string result = this.Title;
+                var result = this.Title;
                 if (Parent != null)
                     result = Parent.HierarchicalTitle + " - " + result;
                 return result;
@@ -290,11 +285,11 @@ namespace Zeus
         {
             get
             {
-                string path = "/";
-                ContentItem startingParent = (TranslationOf != null) ? TranslationOf.Parent : Parent;
+                var path = "/";
+                var startingParent = (TranslationOf != null) ? TranslationOf.Parent : Parent;
                 if (startingParent != null)
                     path += Name;
-                for (ContentItem item = startingParent; item != null && item.Parent != null; item = item.Parent)
+                for (var item = startingParent; item != null && item.Parent != null; item = item.Parent)
                     path = "/" + item.Name + path;
                 return path;
             }
@@ -362,7 +357,7 @@ namespace Zeus
                 if (string.IsNullOrEmpty(detailName))
                     throw new ArgumentNullException("detailName", "Parameter 'detailName' cannot be null or empty.");
 
-                PropertyInfo info = GetType().GetProperty(detailName);
+                var info = GetType().GetProperty(detailName);
                 if (info != null && info.CanWrite)
                 {
                     if (value != null && info.PropertyType != value.GetType())
@@ -399,7 +394,7 @@ namespace Zeus
         /// <returns>The value stored in the details bag or null if no item was found.</returns>
         public virtual object GetDetail(string detailName)
         {
-            IDictionary<string, PropertyData> source = GetCurrentOrMasterLanguageDetails(detailName);
+            var source = GetCurrentOrMasterLanguageDetails(detailName);
             lock (source)
             {
                 IDictionary<string, PropertyData> details = new Dictionary<string, PropertyData>(GetCurrentOrMasterLanguageDetails(detailName));
@@ -416,7 +411,7 @@ namespace Zeus
         /// <returns>The value stored in the details bag or null if no item was found.</returns>
         public virtual T GetDetail<T>(string detailName, T defaultValue)
         {
-            IDictionary<string, PropertyData> source = GetCurrentOrMasterLanguageDetails(detailName);
+            var source = GetCurrentOrMasterLanguageDetails(detailName);
             lock (source)
             {
                 IDictionary<string, PropertyData> details = new Dictionary<string, PropertyData>(source);
@@ -431,10 +426,10 @@ namespace Zeus
         private IDictionary<string, PropertyData> GetCurrentOrMasterLanguageDetails(string detailName)
         {
             // Look up content property matching this name.
-            IContentProperty property = Context.ContentTypes.GetContentType(GetType()).GetProperty(detailName);
+            var property = Context.ContentTypes.GetContentType(GetType()).GetProperty(detailName);
             if (property == null || property.Shared)
             {
-                ContentItem currentItem = VersionOf ?? this;
+                var currentItem = VersionOf ?? this;
                 if (currentItem.TranslationOf != null)
                     return currentItem.TranslationOf.Details;
             }
@@ -448,9 +443,9 @@ namespace Zeus
             if (string.IsNullOrEmpty(detailName))
                 throw new ArgumentNullException("detailName");
             
-            lock (_details)
+            lock (Details)
             {
-                PropertyData detail = Details.ContainsKey(detailName) ? Details[detailName] : null;
+                var detail = Details.ContainsKey(detailName) ? Details[detailName] : null;
 
                 if (detail != null && value != null && value.GetType().IsAssignableFrom(detail.ValueType))
                 {
@@ -465,7 +460,7 @@ namespace Zeus
                     if (value != null)
                     {
                         // add new detail
-                        PropertyData propertyData = Context.ContentTypes.GetContentType(GetType()).GetProperty(detailName, value).CreatePropertyData(this, value);
+                        var propertyData = Context.ContentTypes.GetContentType(GetType()).GetProperty(detailName, value).CreatePropertyData(this, value);
                         Details.Add(detailName, propertyData);
                     }
                 }
@@ -506,7 +501,7 @@ namespace Zeus
                 return DetailCollections[collectionName];
             else if (createWhenEmpty)
             {
-                PropertyCollection collection = new PropertyCollection(this, collectionName);
+                var collection = new PropertyCollection(this, collectionName);
                 DetailCollections.Add(collectionName, collection);
                 return collection;
             }
@@ -532,12 +527,12 @@ namespace Zeus
             //see if we care about ordering...
             if (newParent != null && !newParent.Children.Contains(this))
             {
-                IList<ContentItem> siblings = newParent.Children;
+                var siblings = newParent.Children;
                 if (siblings.Count > 0 && !newParent.IgnoreOrderOnSave)
                 {
-                    int lastOrder = siblings[siblings.Count - 1].SortOrder;
+                    var lastOrder = siblings[siblings.Count - 1].SortOrder;
 
-                    for (int i = siblings.Count - 2; i >= 0; i--)
+                    for (var i = siblings.Count - 2; i >= 0; i--)
                     {
                         if (siblings[i].SortOrder < lastOrder - SORT_ORDER_THRESHOLD)
                         {
@@ -569,7 +564,7 @@ namespace Zeus
         /// <returns>The cloned item with or without cloned child items.</returns>
         public virtual ContentItem Clone(bool includeChildren, bool includeTranslations)
         {
-            ContentItem cloned = (ContentItem)MemberwiseClone();
+            var cloned = (ContentItem)MemberwiseClone();
             cloned.ID = 0;
             cloned._url = null;
 
@@ -589,9 +584,9 @@ namespace Zeus
             if (AuthorizationRules != null)
             {
                 cloned.AuthorizationRules = new List<AuthorizationRule>();
-                foreach (AuthorizationRule rule in AuthorizationRules)
+                foreach (var rule in AuthorizationRules)
                 {
-                    AuthorizationRule clonedRule = rule.Clone();
+                    var clonedRule = rule.Clone();
                     clonedRule.EnclosingItem = cloned;
                     cloned.AuthorizationRules.Add(clonedRule);
                 }
@@ -603,9 +598,9 @@ namespace Zeus
             if (LanguageSettings != null)
             {
                 cloned.LanguageSettings = new List<LanguageSetting>();
-                foreach (LanguageSetting languageSetting in LanguageSettings)
+                foreach (var languageSetting in LanguageSettings)
                 {
-                    LanguageSetting clonedLanguageSetting = languageSetting.Clone();
+                    var clonedLanguageSetting = languageSetting.Clone();
                     clonedLanguageSetting.EnclosingItem = cloned;
                     cloned.LanguageSettings.Add(clonedLanguageSetting);
                 }
@@ -616,9 +611,9 @@ namespace Zeus
         {
             cloned.Children = new List<ContentItem>();
             if (includeChildren)
-                foreach (ContentItem child in Children)
+                foreach (var child in Children)
                 {
-                    ContentItem clonedChild = child.Clone(true);
+                    var clonedChild = child.Clone(true);
                     clonedChild.AddTo(cloned);
                 }
         }
@@ -627,9 +622,9 @@ namespace Zeus
         {
             cloned.Translations = new List<ContentItem>();
             if (includeTranslations)
-                foreach (ContentItem translation in Translations)
+                foreach (var translation in Translations)
                 {
-                    ContentItem clonedTranslation = translation.Clone(true);
+                    var clonedTranslation = translation.Clone(true);
                     clonedTranslation.AddTo(cloned);
                 }
         }
@@ -641,9 +636,9 @@ namespace Zeus
                 cloned[detail.Name] = detail.Value;
 
             cloned.DetailCollections = new Dictionary<string, PropertyCollection>();
-            foreach (PropertyCollection collection in DetailCollections.Values)
+            foreach (var collection in DetailCollections.Values)
             {
-                PropertyCollection clonedCollection = collection.Clone();
+                var clonedCollection = collection.Clone();
                 clonedCollection.EnclosingItem = cloned;
                 cloned.DetailCollections[collection.Name] = clonedCollection;
             }
@@ -708,9 +703,9 @@ namespace Zeus
 
         private IEnumerable<ContentItem> GetChildrenInternalWithLanguageSelection(ILanguageSelector languageSelector)
         {
-            IEnumerable<ContentItem> children = GetChildrenInternal();
+            var children = GetChildrenInternal();
 
-            LanguageSelectorContext args = new LanguageSelectorContext(this);
+            var args = new LanguageSelectorContext(this);
             languageSelector.LoadLanguage(args);
             return FilterLanguage(children, languageSelector);
         }
@@ -718,7 +713,7 @@ namespace Zeus
         private IEnumerable<ContentItem> GetChildrenInternal()
         {
             // Get the actual item this item represents.
-            ContentItem realItem = this;
+            var realItem = this;
             if (VersionOf != null)
                 realItem = realItem.VersionOf;
             if (TranslationOf != null)
@@ -729,10 +724,10 @@ namespace Zeus
 
         private static IEnumerable<ContentItem> FilterLanguage(IEnumerable<ContentItem> pages, ILanguageSelector langSelector)
         {
-            List<ContentItem> datas = new List<ContentItem>();
-            foreach (ContentItem page in pages)
+            var datas = new List<ContentItem>();
+            foreach (var page in pages)
             {
-                ContentItem translation = SelectLanguageBranch(page, langSelector);
+                var translation = SelectLanguageBranch(page, langSelector);
                 if (translation != null)
                     datas.Add(translation);
             }
@@ -741,7 +736,7 @@ namespace Zeus
 
         private static ContentItem SelectLanguageBranch(ContentItem page, ILanguageSelector selector)
         {
-            LanguageSelectorContext args = new LanguageSelectorContext(page);
+            var args = new LanguageSelectorContext(page);
             selector.SelectPageLanguage(args);
             if (string.IsNullOrEmpty(args.SelectedLanguage))
                 return null;
@@ -759,7 +754,7 @@ namespace Zeus
         public virtual PathData FindPath(string remainingUrl, string languageCode)
         {
             // Get correct translation.
-            ContentItem translation = Context.Current.LanguageManager.GetTranslation(this, languageCode) ?? this;
+            var translation = Context.Current.LanguageManager.GetTranslation(this, languageCode) ?? this;
 
             if (remainingUrl == null)
                 return translation.GetTemplate(string.Empty);
@@ -769,12 +764,12 @@ namespace Zeus
             if (remainingUrl.Length == 0)
                 return translation.GetTemplate(string.Empty);
 
-            int slashIndex = remainingUrl.IndexOf('/');
-            string nameSegment = slashIndex < 0 ? remainingUrl : remainingUrl.Substring(0, slashIndex);
-            foreach (ContentItem child in translation.GetChildrenInternal())
+            var slashIndex = remainingUrl.IndexOf('/');
+            var nameSegment = slashIndex < 0 ? remainingUrl : remainingUrl.Substring(0, slashIndex);
+            foreach (var child in translation.GetChildrenInternal())
             {
                 // Get correct translation.
-                ContentItem childTranslation = Context.Current.LanguageManager.GetTranslation(child, languageCode);
+                var childTranslation = Context.Current.LanguageManager.GetTranslation(child, languageCode);
                 if (childTranslation != null && childTranslation.Equals(nameSegment))
                 {
                     remainingUrl = slashIndex < 0 ? null : remainingUrl.Substring(slashIndex + 1);
@@ -787,11 +782,11 @@ namespace Zeus
 
         private PathData GetTemplate(string remainingUrl)
         {
-            IPathFinder[] finders = PathDictionary.GetFinders(GetType());
+            var finders = PathDictionary.GetFinders(GetType());
 
-            foreach (IPathFinder finder in finders)
+            foreach (var finder in finders)
             {
-                PathData data = finder.GetPath(this, remainingUrl);
+                var data = finder.GetPath(this, remainingUrl);
                 if (data != null)
                     return data;
             }
@@ -825,8 +820,8 @@ namespace Zeus
         /// <returns></returns>
         public virtual ContentItem GetParent(string languageName)
         {
-            ContentItem realItem = TranslationOf ?? this;
-            ContentItem parent = realItem.Parent;
+            var realItem = TranslationOf ?? this;
+            var parent = realItem.Parent;
 
             if (parent == null)
                 return null;
@@ -849,7 +844,7 @@ namespace Zeus
             if (string.IsNullOrEmpty(childName))
                 return null;
 
-            int slashIndex = childName.IndexOf('/');
+            var slashIndex = childName.IndexOf('/');
             if (slashIndex == 0) // starts with slash
             {
                 if (childName.Length == 1)
@@ -859,17 +854,17 @@ namespace Zeus
 
             if (slashIndex > 0) // contains a slash further down
             {
-                string nameSegment = childName.Substring(0, slashIndex);
-                foreach (ContentItem child in GetChildrenInternal())
-                    foreach (ContentItem translation in Context.Current.LanguageManager.GetTranslationsOf(child, true))
+                var nameSegment = childName.Substring(0, slashIndex);
+                foreach (var child in GetChildrenInternal())
+                    foreach (var translation in Context.Current.LanguageManager.GetTranslationsOf(child, true))
                         if (translation.Equals(nameSegment))
                             return translation.GetChild(childName.Substring(slashIndex));
                 return null;
             }
 
             // no slash, only a name
-            foreach (ContentItem child in GetChildrenInternal())
-                foreach (ContentItem translation in Context.Current.LanguageManager.GetTranslationsOf(child, true))
+            foreach (var child in GetChildrenInternal())
+                foreach (var translation in Context.Current.LanguageManager.GetTranslationsOf(child, true))
                     if (translation.Equals(childName))
                         return translation;
             return null;
@@ -879,7 +874,7 @@ namespace Zeus
         {
             if (this == obj) return true;
             if ((obj == null) || (obj.GetType() != GetType())) return false;
-            ContentItem item = obj as ContentItem;
+            var item = obj as ContentItem;
             if (ID != 0 && item.ID != 0)
                 return ID == item.ID;
             else
@@ -911,7 +906,7 @@ namespace Zeus
                 return true;
 
             // Iterate rules to find a rule that matches
-            foreach (AuthorizationRule auth in AuthorizationRules)
+            foreach (var auth in AuthorizationRules)
                 if (auth.IsAuthorized(user, operation))
                     return true;
 
@@ -961,7 +956,7 @@ namespace Zeus
         {
             get
             {
-                StringBuilder className = new StringBuilder();
+                var className = new StringBuilder();
 
                 if (!Published.HasValue || Published > DateTime.Now)
                     className.Append("unpublished ");

@@ -13,7 +13,7 @@ namespace Zeus.Admin.Plugins.Tree
 		public override void ModifyInterface(IMainInterface mainInterface)
 		{
 			// Add tree.
-			TreePanel treePanel = new TreePanel
+			var treePanel = new TreePanel
 			{
 				ID = "stpNavigation",
 				Width = 200,
@@ -33,10 +33,10 @@ namespace Zeus.Admin.Plugins.Tree
 			mainInterface.Viewport.Items.Add(treePanel);
 
 			// Setup tree top toolbar.
-			Toolbar topToolbar = new Toolbar();
+			var topToolbar = new Toolbar();
 			treePanel.TopBar.Add(topToolbar);
 
-			TriggerField filterField = new TriggerField
+			var filterField = new TriggerField
 			{
 				EnableKeyEvents = true,
 				Width = 100,
@@ -53,24 +53,24 @@ namespace Zeus.Admin.Plugins.Tree
 			topToolbar.Items.Add(filterField);
 			topToolbar.Items.Add(new ToolbarFill());
 
-			Button refreshButton = new Button { Icon = Icon.Reload };
+			var refreshButton = new Button { Icon = Icon.Reload };
 			refreshButton.ToolTips.Add(new ToolTip { Html = "Refresh" });
 			refreshButton.Listeners.Click.Handler = string.Format("{0}.getLoader().load({0}.getRootNode());", treePanel.ClientID);
 			topToolbar.Items.Add(refreshButton);
 
-			Button expandAllButton = new Button { IconCls = "icon-expand-all" };
+			var expandAllButton = new Button { IconCls = "icon-expand-all" };
 			expandAllButton.ToolTips.Add(new ToolTip { Html = "Expand All" });
 			expandAllButton.Listeners.Click.Handler = string.Format("{0}.expandAll();", treePanel.ClientID);
 			topToolbar.Items.Add(expandAllButton);
 
-			Button collapseAllButton = new Button { IconCls = "icon-collapse-all" };
+			var collapseAllButton = new Button { IconCls = "icon-collapse-all" };
 			collapseAllButton.ToolTips.Add(new ToolTip { Html = "Collapse All" });
 			collapseAllButton.Listeners.Click.Handler = string.Format("{0}.collapseAll();", treePanel.ClientID);
 			topToolbar.Items.Add(collapseAllButton);
 
 			topToolbar.Items.Add(new ToolbarSeparator());
 
-			Window helpWindow = new Window
+			var helpWindow = new Window
 				{
 					Modal = true,
 					Icon = Icon.Help,
@@ -84,7 +84,7 @@ namespace Zeus.Admin.Plugins.Tree
 				};
 			mainInterface.AddControl(helpWindow);
 
-			Button helpButton = new Button();
+			var helpButton = new Button();
 			helpButton.Icon = Icon.Help;
 			helpButton.ToolTips.Add(new ToolTip { Html = "Help" });
 			helpButton.Listeners.Click.Handler = string.Format("{0}.show();", helpWindow.ClientID);
@@ -101,9 +101,9 @@ namespace Zeus.Admin.Plugins.Tree
 			treePanel.Loader.Add(treeLoader);
 
 			// Call tree modification plugins and load tree plugin user controls.
-			foreach (ITreePlugin treePlugin in Context.Current.ResolveAll<ITreePlugin>())
+			foreach (var treePlugin in Context.Current.ResolveAll<ITreePlugin>())
 			{
-				string[] requiredUserControls = treePlugin.RequiredUserControls;
+				var requiredUserControls = treePlugin.RequiredUserControls;
 				if (requiredUserControls != null)
 					mainInterface.LoadUserControls(requiredUserControls);
 
@@ -112,7 +112,7 @@ namespace Zeus.Admin.Plugins.Tree
 
 			if (!ExtNet.IsAjaxRequest)
 			{
-				TreeNodeBase treeNode = SiteTree.Between(Find.StartPage, Find.RootItem, true)
+				var treeNode = SiteTree.Between(Find.StartPage, Find.RootItem, true)
 					.OpenTo(Find.StartPage)
 					.Filter(items => items.Authorized(Context.Current.WebContext.User, Context.SecurityManager, Operations.Read))
 					.ToTreeNode(true);
@@ -126,11 +126,11 @@ namespace Zeus.Admin.Plugins.Tree
 				WebResourceUtility.GetUrl(GetType(), "Zeus.Admin.Plugins.Tree.Resources.TreeCssInitializer.js"));
 
 			// Call tree modification plugins.
-			foreach (ITreePlugin treePlugin in Context.Current.ResolveAll<ITreePlugin>())
+			foreach (var treePlugin in Context.Current.ResolveAll<ITreePlugin>())
 			{
-				string[] requiredScripts = treePlugin.RequiredScripts;
+				var requiredScripts = treePlugin.RequiredScripts;
 				if (requiredScripts != null)
-					foreach (string requiredScript in requiredScripts)
+					foreach (var requiredScript in requiredScripts)
 						scriptManager.RegisterClientScriptInclude(treePlugin.GetType().FullName, requiredScript);
 			}
 		}

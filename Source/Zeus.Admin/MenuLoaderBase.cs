@@ -12,23 +12,23 @@ namespace Zeus.Admin
 		public void ProcessRequest(HttpContext context)
 		{
 			context.Response.ContentType = "text/json";
-			string nodeId = context.Request["node"];
+			var nodeId = context.Request["node"];
 
 			if (!string.IsNullOrEmpty(nodeId))
 			{
                 //use abs value due to placement folders needing to use negative value of their parent so sorting will work, also the folders needed unique IDs, so used 100000 as increment
-                int nodeID = Convert.ToInt32(nodeId);
+                var nodeID = Convert.ToInt32(nodeId);
                 if (nodeID < 0)
                     nodeID = -1 * (nodeID % 100000);
 
-				ContentItem selectedItem = Context.Persister.Get(Math.Abs(Convert.ToInt32(nodeId)));
+				var selectedItem = Context.Persister.Get(Math.Abs(Convert.ToInt32(nodeId)));
 
 				//if (context.User.Identity.Name != "administrator")
 				//	filter = new CompositeSpecification<ContentItem>(new PageSpecification<ContentItem>(), filter);
 
-                List<BaseMenuItem> menuItems = CreateMenuItems(selectedItem);
+                var menuItems = CreateMenuItems(selectedItem);
 
-				JArray serializedMenuItems = JArray.FromObject(menuItems.Select(mi => GetObjectForJsonSerialization(mi)));
+				var serializedMenuItems = JArray.FromObject(menuItems.Select(mi => GetObjectForJsonSerialization(mi)));
 				context.Response.Write(serializedMenuItems);
 				context.Response.End();
 			}
@@ -41,7 +41,7 @@ namespace Zeus.Admin
 
 			if (baseMenuItem is MenuItem)
 			{
-				MenuItem menuItem = (MenuItem)baseMenuItem;
+				var menuItem = (MenuItem)baseMenuItem;
 				if (menuItem.Menu != null && menuItem.Menu.Primary != null)
 				{
 					return new
@@ -78,19 +78,19 @@ namespace Zeus.Admin
 
 		private List<BaseMenuItem> CreateMenuItems(ContentItem currentItem)
 		{
-			List<BaseMenuItem> result = new List<BaseMenuItem>();
+			var result = new List<BaseMenuItem>();
 
-			bool first = false;
-			foreach (ActionPluginGroupAttribute actionPluginGroup in Context.AdminManager.GetActionPluginGroups())
+			var first = false;
+			foreach (var actionPluginGroup in Context.AdminManager.GetActionPluginGroups())
 			{
-				foreach (TPlugin plugin in GetPlugins(actionPluginGroup.Name))
+				foreach (var plugin in GetPlugins(actionPluginGroup.Name))
 				{
 					if (IsApplicable(plugin, currentItem))
 					{
 						if (first)
 							result.Add(new MenuSeparator());
 
-						MenuItem menuItem = GetMenuItem(plugin, currentItem);
+						var menuItem = GetMenuItem(plugin, currentItem);
 						menuItem.Enabled = IsEnabled(plugin, currentItem);
 
 						// Check if this is the default plugin for this content item.

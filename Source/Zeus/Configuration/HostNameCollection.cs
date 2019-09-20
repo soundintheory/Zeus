@@ -27,7 +27,7 @@ namespace Zeus.Configuration
 
 		public StringDictionary GetMappings()
 		{
-			StringDictionary dictionary = new StringDictionary();
+			var dictionary = new StringDictionary();
 			foreach (HostNameElement element in this)
 				if (!(element.Name == "*"))
 					dictionary.Add(element.Name, element.Language);

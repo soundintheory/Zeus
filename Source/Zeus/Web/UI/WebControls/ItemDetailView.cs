@@ -50,11 +50,11 @@ namespace Zeus.Web.UI.WebControls
 		protected override void CreateChildControls()
 		{
 			// Get current item.
-			ContentItem contentItem = this.CurrentItem;
+			var contentItem = this.CurrentItem;
 			
 			// Get selected property from content item.
-			ContentType contentType = Zeus.Context.Current.ContentTypes[contentItem.GetType()];
-			IDisplayer displayer = contentType.Displayers.SingleOrDefault(d => d.Name == this.PropertyName);
+			var contentType = Zeus.Context.Current.ContentTypes[contentItem.GetType()];
+			var displayer = contentType.Displayers.SingleOrDefault(d => d.Name == this.PropertyName);
 			if (displayer == null)
 				throw new ZeusException("Could not find Displayer on property '{0}' on content type '{1}'.", this.PropertyName, contentType.Discriminator);
 			//displayer.AddTo(this, contentItem, this.PropertyName);
@@ -73,7 +73,7 @@ namespace Zeus.Web.UI.WebControls
 
 		protected virtual void CreateLayoutTemplate()
 		{
-			Control container = new Control();
+			var container = new Control();
 			if (this.LayoutTemplate != null)
 			{
 				this.LayoutTemplate.InstantiateIn(container);

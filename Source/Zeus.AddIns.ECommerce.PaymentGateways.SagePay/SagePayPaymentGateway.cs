@@ -20,7 +20,7 @@ namespace Zeus.AddIns.ECommerce.PaymentGateways.SagePay
 		public SagePayPaymentGateway()
 		{
 			// Get configuration section.
-			SagePaySection configSection = ConfigurationManager.GetSection("zeus.addIns.ecommerce.paymentGateways/sagePay") as SagePaySection;
+			var configSection = ConfigurationManager.GetSection("zeus.addIns.ecommerce.paymentGateways/sagePay") as SagePaySection;
 			if (configSection == null)
 				configSection = new SagePaySection();
 			_vpsProtocol = configSection.VpsProtocol;
@@ -56,12 +56,12 @@ namespace Zeus.AddIns.ECommerce.PaymentGateways.SagePay
 
 		public PaymentResponse TakePayment(PaymentRequest paymentRequest)
 		{
-			WebClient webClient = new WebClient();
+			var webClient = new WebClient();
 			byte[] responseBytes = null;
 			try
 			{
-                NameValueCollection postData = BuildPostData(paymentRequest);
-                string test = postData.Join(pd => string.Format("{0} = {1}", pd, postData[pd]), "\n");
+                var postData = BuildPostData(paymentRequest);
+                var test = postData.Join(pd => string.Format("{0} = {1}", pd, postData[pd]), "\n");
                 responseBytes = webClient.UploadValues(_purchaseUrl, "POST", postData);
 			}
 			catch (WebException ex)
@@ -76,7 +76,7 @@ namespace Zeus.AddIns.ECommerce.PaymentGateways.SagePay
 			// No transport level errors, so the message got to Sage Pay.
 			// Analyse the response from Direct to check that everything is okay.
 			// Registration results come back in the Status and StatusDetail fields.
-			string response = Encoding.ASCII.GetString(responseBytes);
+			var response = Encoding.ASCII.GetString(responseBytes);
 			NameValueCollection responseData = null;
 			try
 			{
@@ -90,8 +90,8 @@ namespace Zeus.AddIns.ECommerce.PaymentGateways.SagePay
 				};
 			}
 
-			string status = responseData["Status"];
-			string statusDetail = responseData["StatusDetail"];
+			var status = responseData["Status"];
+			var statusDetail = responseData["StatusDetail"];
 
 			switch (status)
 			{
@@ -181,14 +181,14 @@ namespace Zeus.AddIns.ECommerce.PaymentGateways.SagePay
 
 		private static NameValueCollection ParseResponseData(string response)
 		{
-			string[] responseItems = response.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-			NameValueCollection responseData = new NameValueCollection();
-			foreach (string responseItem in responseItems)
+			var responseItems = response.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+			var responseData = new NameValueCollection();
+			foreach (var responseItem in responseItems)
 			{
-				string[] responseItemKeyValue = responseItem.Split(new[] { '=' }, StringSplitOptions.None);
+				var responseItemKeyValue = responseItem.Split(new[] { '=' }, StringSplitOptions.None);
                 //deal with = being part of the value
-                string val = "";
-                for (int i = 1; i <= responseItemKeyValue.GetUpperBound(0); i++)
+                var val = "";
+                for (var i = 1; i <= responseItemKeyValue.GetUpperBound(0); i++)
                 {
                     if (i > 1)
                         val += "=";
@@ -201,7 +201,7 @@ namespace Zeus.AddIns.ECommerce.PaymentGateways.SagePay
 
 		private NameValueCollection BuildPostData(PaymentRequest paymentRequest)
 		{
-			NameValueCollection postData = new NameValueCollection();
+			var postData = new NameValueCollection();
 
 			// Now to build the Direct POST.  For more details see the Direct Protocol 2.22.
 			// NB: Fields potentially containing non ASCII characters are URLEncoded when included in the POST

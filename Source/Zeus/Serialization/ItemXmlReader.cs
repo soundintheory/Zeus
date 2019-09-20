@@ -42,12 +42,12 @@ namespace Zeus.Serialization
 			if (navigator == null)
 				throw new ArgumentNullException("navigator");
 
-			ReadingJournal journal = new ReadingJournal();
-			foreach (XPathNavigator itemElement in EnumerateChildren(navigator))
+			var journal = new ReadingJournal();
+			foreach (var itemElement in EnumerateChildren(navigator))
 			{
 				try
 				{
-					ContentItem item = ReadSingleItem(itemElement, journal);
+					var item = ReadSingleItem(itemElement, journal);
 					journal.Report(item);
 				}
 				catch (ContentTypeNotFoundException ex)
@@ -64,11 +64,11 @@ namespace Zeus.Serialization
 		{
 			if (navigator.LocalName != "item") throw new DeserializationException("Expected element 'item' but was '" + navigator.LocalName + "'");
 
-			Dictionary<string, string> attributes = GetAttributes(navigator);
-			ContentItem item = CreateInstance(attributes);
+			var attributes = GetAttributes(navigator);
+			var item = CreateInstance(attributes);
 			ReadDefaultAttributes(attributes, item, journal);
 
-			foreach (XPathNavigator current in EnumerateChildren(navigator))
+			foreach (var current in EnumerateChildren(navigator))
 				if (readers.ContainsKey(current.LocalName))
 					readers[current.LocalName].Read(current, item, journal);
 
@@ -99,8 +99,8 @@ namespace Zeus.Serialization
 		{
 			if (!string.IsNullOrEmpty(parent))
 			{
-				int parentID = int.Parse(parent);
-				ContentItem parentItem = journal.Find(parentID);
+				var parentID = int.Parse(parent);
+				var parentItem = journal.Find(parentID);
 				item.AddTo(parentItem);
 			}
 		}
@@ -109,27 +109,27 @@ namespace Zeus.Serialization
 		{
 			if (!string.IsNullOrEmpty(translationOf))
 			{
-				int translationOfID = int.Parse(translationOf);
-				ContentItem masterItem = journal.Find(translationOfID);
+				var translationOfID = int.Parse(translationOf);
+				var masterItem = journal.Find(translationOfID);
 				item.TranslationOf = masterItem;
 			}
 		}
 
 		private ContentItem CreateInstance(Dictionary<string, string> attributes)
 		{
-			ContentType definition = FindDefinition(attributes);
+			var definition = FindDefinition(attributes);
 			return definitions.CreateInstance(definition.ItemType, null);
 		}
 
 		protected virtual ContentType FindDefinition(Dictionary<string, string> attributes)
 		{
-			string discriminator = attributes["discriminator"];
-			foreach (ContentType d in definitions.GetContentTypes())
+			var discriminator = attributes["discriminator"];
+			foreach (var d in definitions.GetContentTypes())
 				if (d.Discriminator == discriminator)
 					return d;
 
-			string title = attributes["title"];
-			string name = attributes["name"];
+			var title = attributes["title"];
+			var name = attributes["name"];
 			throw new ContentTypeNotFoundException(string.Format("No definition found for '{0}' with name '{1}' and discriminator '{2}'", title, name, discriminator), attributes);
 		}
 	}

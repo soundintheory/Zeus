@@ -7,12 +7,12 @@ namespace Zeus.BaseLibrary.IO
 	{
 		public static string GetValidFileName(string title, string extension)
 		{
-			string validFileName = title.Trim();
+			var validFileName = title.Trim();
 
-			foreach (char invalChar in Path.GetInvalidFileNameChars())
+			foreach (var invalChar in Path.GetInvalidFileNameChars())
 				validFileName = validFileName.Replace(invalChar.ToString(), string.Empty);
 
-			foreach (char invalChar in Path.GetInvalidPathChars())
+			foreach (var invalChar in Path.GetInvalidPathChars())
 				validFileName = validFileName.Replace(invalChar.ToString(), string.Empty);
 
 			if (validFileName.Length > 250) //safe value threshold is 255

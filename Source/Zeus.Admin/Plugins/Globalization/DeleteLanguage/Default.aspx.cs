@@ -28,7 +28,7 @@ namespace Zeus.Admin.Plugins.Globalization.DeleteLanguage
 		{
 			try
 			{
-				ContentItem translation = Engine.LanguageManager.GetTranslationDirect(SelectedItem, ddlLanguages.SelectedValue);
+				var translation = Engine.LanguageManager.GetTranslationDirect(SelectedItem, ddlLanguages.SelectedValue);
 				Zeus.Context.Persister.Delete(translation);
 
 				Refresh(SelectedItem, AdminFrame.Both, false);

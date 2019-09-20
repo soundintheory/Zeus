@@ -7,7 +7,7 @@ namespace Zeus.Web.UI.WebControls
 	{
 		protected override void AddPropertyControls()
 		{
-			foreach (IDisplayer displayer in this.CurrentItemDefinition.Displayers)
+			foreach (var displayer in this.CurrentItemDefinition.Displayers)
 			{
 				displayer.InstantiateIn(this);
 				displayer.SetValue(this, (ContentItem) CurrentItem, displayer.Name);

@@ -22,8 +22,8 @@ namespace Zeus.Design.Editors
 
 		protected override void CreateOrUpdateDetailCollectionItem(ContentItem contentItem, PropertyData existingDetail, Control editor, out object newDetail)
 		{
-			FancyFileUpload fileEditor = (FancyFileUpload)editor;
-			LinkProperty existingFileProperty = existingDetail as LinkProperty;
+			var fileEditor = (FancyFileUpload)editor;
+			var existingFileProperty = existingDetail as LinkProperty;
 			if (fileEditor.HasNewOrChangedFile)
 			{
 				// Add new file.
@@ -39,9 +39,9 @@ namespace Zeus.Design.Editors
 
 				// Populate FileData object.
 				newFile.FileName = fileEditor.FileName;
-				string uploadFolder = BaseFileUploadHandler.GetUploadFolder(fileEditor.Identifier);
-				string uploadedFile = Path.Combine(uploadFolder, fileEditor.FileName);
-				using (FileStream fs = new FileStream(uploadedFile, FileMode.Open))
+				var uploadFolder = BaseFileUploadHandler.GetUploadFolder(fileEditor.Identifier);
+				var uploadedFile = Path.Combine(uploadFolder, fileEditor.FileName);
+				using (var fs = new FileStream(uploadedFile, FileMode.Open))
 				{
 					newFile.Data = fs.ReadAllBytes();
                     newFile.ContentType = newFile.Data.GetMimeType();

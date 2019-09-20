@@ -31,10 +31,10 @@ namespace Zeus.Admin.DynamicContent
 
 		private void ChangeSelectedPlugin(string name)
 		{
-			DynamicContentControl control = Manager.GetAvailableControls().Single(dcc => dcc.Name == ddlPlugin.SelectedValue);
+			var control = Manager.GetAvailableControls().Single(dcc => dcc.Name == ddlPlugin.SelectedValue);
 			lblDescription.Text = control.Description ?? control.Name;
 
-			IDynamicContent dynamicContent = Manager.InstantiateDynamicContent(control.Name);
+			var dynamicContent = Manager.InstantiateDynamicContent(control.Name);
 			zeusItemEditor.CurrentItemDefinition = new SimpleTypeDefinition(
 				new EditableHierarchyBuilder<IEditor>(),
 				new AttributeExplorer<IEditorContainer>(),
@@ -51,7 +51,7 @@ namespace Zeus.Admin.DynamicContent
 		protected void btnOK_Click(object sender, EventArgs e)
 		{
 			// Populate properties on dynamic content.
-			IDynamicContent dynamicContent = (IDynamicContent) ((SimpleEditableObject) zeusItemEditor.Save()).WrappedObject;
+			var dynamicContent = (IDynamicContent) ((SimpleEditableObject) zeusItemEditor.Save()).WrappedObject;
 
 			// Return HTML string to TinyMCE editor.
 			ltlRenderedContentElement.Text = Manager.GetMarkup(dynamicContent);

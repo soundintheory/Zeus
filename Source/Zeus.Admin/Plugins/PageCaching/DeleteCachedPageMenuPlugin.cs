@@ -56,7 +56,7 @@ namespace Zeus.Admin.Plugins.PageCaching
 
 		public MenuItem GetMenuItem(ContentItem contentItem)
 		{
-			MenuItem menuItem = new MenuItem
+			var menuItem = new MenuItem
 			{
 				Text = "Delete Cached Page",
 				IconUrl = Utility.GetCooliteIconUrl(Icon.PackageDelete),

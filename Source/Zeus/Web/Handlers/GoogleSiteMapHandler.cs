@@ -48,20 +48,20 @@ namespace Zeus.Web.Handlers
 			if (context.Cache["GoogleSitemap"] != null)
 				return context.Cache["GoogleSitemap"].ToString();
 
-			string domain = "http://" + context.Request.Url.Authority;
+			var domain = "http://" + context.Request.Url.Authority;
 			IList<ContentItem> list = new List<ContentItem>();
-			ContentItem rootItem = Find.RootItem;
+			var rootItem = Find.RootItem;
 			RecurseTree(list, rootItem);
 
-			StringBuilder builder = new StringBuilder();
-			StringWriter stringWriter = new StringWriter(builder);
+			var builder = new StringBuilder();
+			var stringWriter = new StringWriter(builder);
 
-			XmlWriterSettings settings = new XmlWriterSettings();
+			var settings = new XmlWriterSettings();
 			settings.OmitXmlDeclaration = true;
 			settings.Indent = true;
 			settings.Encoding = Encoding.UTF8;
 
-			using (XmlWriter writer = XmlWriter.Create(stringWriter, settings))
+			using (var writer = XmlWriter.Create(stringWriter, settings))
 			{
 				writer.WriteStartDocument();
 

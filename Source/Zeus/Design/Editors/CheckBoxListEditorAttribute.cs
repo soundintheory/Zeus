@@ -25,9 +25,9 @@ namespace Zeus.Design.Editors
 
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
-			CheckBoxList cbl = (CheckBoxList) editor;
-			IEnumerable selected = GetSelectedItems(cbl.Items.Cast<ListItem>().Where(li => li.Selected));
-			PropertyCollection dc = item.GetDetailCollection(Name, true);
+			var cbl = (CheckBoxList) editor;
+			var selected = GetSelectedItems(cbl.Items.Cast<ListItem>().Where(li => li.Selected));
+			var dc = item.GetDetailCollection(Name, true);
 			dc.Replace(selected);
 			return true;
 		}
@@ -36,16 +36,16 @@ namespace Zeus.Design.Editors
 
 		protected override void UpdateEditorInternal(IEditableObject item, Control editor)
 		{
-			CheckBoxList cbl = (CheckBoxList) editor;
+			var cbl = (CheckBoxList) editor;
 			cbl.Items.AddRange(GetListItems(item));
 
-			PropertyCollection dc = item.GetDetailCollection(Name, false);
+			var dc = item.GetDetailCollection(Name, false);
 			if (dc != null)
 			{
-				foreach (object detail in dc)
+				foreach (var detail in dc)
 				{
-					string value = GetValue(detail);
-					ListItem li = cbl.Items.FindByValue(value);
+					var value = GetValue(detail);
+					var li = cbl.Items.FindByValue(value);
 					if (li != null)
 					{
 						li.Selected = true;
@@ -65,7 +65,7 @@ namespace Zeus.Design.Editors
 
 		protected override Control AddEditor(Control container)
 		{
-			CheckBoxList cbl = CreateEditor();
+			var cbl = CreateEditor();
 			cbl.CssClass += " checkBoxList";
 			cbl.RepeatLayout = RepeatLayout.Table;
 			container.Controls.Add(cbl);

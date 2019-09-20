@@ -42,7 +42,7 @@ namespace Zeus.Admin.Plugins.ManageZones
 
 		public override bool IsEnabled(ContentItem contentItem)
 		{
-			ContentType definition = Context.ContentTypes.GetContentType(contentItem.GetType());
+			var definition = Context.ContentTypes.GetContentType(contentItem.GetType());
 			if (!definition.AvailableZones.Any())
 				return false;
 

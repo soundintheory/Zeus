@@ -63,9 +63,9 @@ namespace Zeus.BaseLibrary.Web
 		/// </summary>
 		private string Encrypt(string serializedQueryString)
 		{
-			byte[] buffer = Encoding.ASCII.GetBytes(serializedQueryString);
-			TripleDESCryptoServiceProvider des = new TripleDESCryptoServiceProvider();
-			MD5CryptoServiceProvider MD5 = new MD5CryptoServiceProvider();
+			var buffer = Encoding.ASCII.GetBytes(serializedQueryString);
+			var des = new TripleDESCryptoServiceProvider();
+			var MD5 = new MD5CryptoServiceProvider();
 			des.Key = MD5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(_CryptoKey));
 			des.IV = _IV;
 			return Convert.ToBase64String(
@@ -84,9 +84,9 @@ namespace Zeus.BaseLibrary.Web
 		{
 			try
 			{
-				byte[] buffer = Convert.FromBase64String(encryptedQueryString);
-				TripleDESCryptoServiceProvider des = new TripleDESCryptoServiceProvider();
-				MD5CryptoServiceProvider MD5 = new MD5CryptoServiceProvider();
+				var buffer = Convert.FromBase64String(encryptedQueryString);
+				var des = new TripleDESCryptoServiceProvider();
+				var MD5 = new MD5CryptoServiceProvider();
 				des.Key = MD5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(_CryptoKey));
 				des.IV = _IV;
 				return Encoding.ASCII.GetString(
@@ -113,10 +113,10 @@ namespace Zeus.BaseLibrary.Web
 		/// </summary>
 		private void Deserialize(string decryptedQueryString)
 		{
-			string[] nameValuePairs = decryptedQueryString.Split('&');
-			for (int i = 0; i < nameValuePairs.Length; i++)
+			var nameValuePairs = decryptedQueryString.Split('&');
+			for (var i = 0; i < nameValuePairs.Length; i++)
 			{
-				string[] nameValue = nameValuePairs[i].Split('=');
+				var nameValue = nameValuePairs[i].Split('=');
 				if (nameValue.Length == 2)
 				{
 					base.Add(nameValue[0], nameValue[1]);
@@ -129,8 +129,8 @@ namespace Zeus.BaseLibrary.Web
 		/// </summary>
 		private string Serialize()
 		{
-			StringBuilder sb = new StringBuilder();
-			foreach (string key in base.AllKeys)
+			var sb = new StringBuilder();
+			foreach (var key in base.AllKeys)
 			{
 				sb.Append(key);
 				sb.Append('=');
@@ -143,7 +143,7 @@ namespace Zeus.BaseLibrary.Web
 
 		protected string GetRequiredString(string key)
 		{
-			string value = this[key];
+			var value = this[key];
 
 			if (value == null || value.Length == 0)
 				throw new InvalidOperationException("QueryString is invalid");
@@ -153,7 +153,7 @@ namespace Zeus.BaseLibrary.Web
 
 		protected string GetOptionalString(string key)
 		{
-			string value = this[key];
+			var value = this[key];
 
 			if (value == null || value.Length == 0)
 				return null;
@@ -163,7 +163,7 @@ namespace Zeus.BaseLibrary.Web
 
 		public int GetRequiredInt(string key)
 		{
-			string value = GetRequiredString(key);
+			var value = GetRequiredString(key);
 			try
 			{
 				return Convert.ToInt32(value);
@@ -176,7 +176,7 @@ namespace Zeus.BaseLibrary.Web
 
 		protected int? GetOptionalInt(string key)
 		{
-			string value = GetOptionalString(key);
+			var value = GetOptionalString(key);
 			if (value != null)
 			{
 				try

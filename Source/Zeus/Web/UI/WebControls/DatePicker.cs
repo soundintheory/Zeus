@@ -22,7 +22,7 @@ namespace Zeus.Web.UI.WebControls
 			Page.ClientScript.RegisterCssInclude(Utility.GetClientResourceUrl(GetType(), "jQuery/ui.css"));
 			Page.ClientScript.RegisterCssResource(typeof(DatePicker), "Zeus.Web.Resources.jQuery.DatePicker.css");
 
-			string script = @"if (!jQuery.browser.msie) jQuery('#" + ClientID + @"').datepicker({ 
+			var script = @"if (!jQuery.browser.msie) jQuery('#" + ClientID + @"').datepicker({ 
     duration: '', 
     showOn: 'both', 
     buttonImage: '" + Page.ClientScript.GetWebResourceUrl(GetType(), "Zeus.Web.Resources.jQuery.calendar.gif") + @"',

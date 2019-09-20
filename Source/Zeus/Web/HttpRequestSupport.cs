@@ -9,10 +9,10 @@ namespace Zeus.Web
 	{
 		public static bool IsSystemDirectory(string urlPath)
 		{
-			AdminSection adminSection = ConfigurationManager.GetSection("zeus/admin") as AdminSection;
+			var adminSection = ConfigurationManager.GetSection("zeus/admin") as AdminSection;
 			if (adminSection != null)
 			{
-				string adminPath = (!adminSection.Path.StartsWith("/")) ? "/" + adminSection.Path : adminSection.Path;
+				var adminPath = (!adminSection.Path.StartsWith("/")) ? "/" + adminSection.Path : adminSection.Path;
 				return (urlPath.StartsWith(adminPath, StringComparison.OrdinalIgnoreCase));
 			}
 			return false;

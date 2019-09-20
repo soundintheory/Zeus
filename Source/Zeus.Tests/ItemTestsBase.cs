@@ -32,7 +32,7 @@ namespace Zeus.Tests
 
 		protected virtual T CreateOneItem<T>(int id, string name, ContentItem parent) where T : ContentItem
 		{
-			T item = (T)Activator.CreateInstance(typeof(T), true);
+			var item = (T)Activator.CreateInstance(typeof(T), true);
 			item.ID = id;
 			item.Name = name;
 			item.Title = name;
@@ -49,7 +49,7 @@ namespace Zeus.Tests
 		protected IWebContext CreateWebContext(bool replay)
 		{
 			requestItems = new Dictionary<string, object>();
-			IWebContext context = mocks.StrictMock<IWebContext>();
+			var context = mocks.StrictMock<IWebContext>();
 			Expect.On(context).Call(context.RequestItems).Return(requestItems).Repeat.Any();
 
 			if (replay)

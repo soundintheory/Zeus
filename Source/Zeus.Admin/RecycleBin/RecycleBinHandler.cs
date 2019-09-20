@@ -41,8 +41,8 @@ namespace Zeus.Admin.RecycleBin
 
 		public RecycleBinContainer GetTrashContainer(bool create)
 		{
-			ContentItem rootItem = _persister.Get(_host.CurrentSite.RootItemID);
-			RecycleBinContainer trashContainer = rootItem.GetChild("RecycleBin") as RecycleBinContainer;
+			var rootItem = _persister.Get(_host.CurrentSite.RootItemID);
+			var trashContainer = rootItem.GetChild("RecycleBin") as RecycleBinContainer;
 			if (create && trashContainer == null)
 			{
 				trashContainer = _contentTypeManager.CreateInstance<RecycleBinContainer>(rootItem);
@@ -63,10 +63,10 @@ namespace Zeus.Admin.RecycleBin
 		/// <returns>True if the item may be thrown.</returns>
 		public bool CanThrow(ContentItem affectedItem)
 		{
-			RecycleBinContainer trash = GetTrashContainer(false);
-			bool enabled = trash == null || trash.Enabled;
-			bool alreadyThrown = IsInTrash(affectedItem);
-			bool throwable = affectedItem.GetType().GetCustomAttributes(typeof(NotThrowableAttribute), true).Length == 0;
+			var trash = GetTrashContainer(false);
+			var enabled = trash == null || trash.Enabled;
+			var alreadyThrown = IsInTrash(affectedItem);
+			var throwable = affectedItem.GetType().GetCustomAttributes(typeof(NotThrowableAttribute), true).Length == 0;
 			return enabled && !alreadyThrown && throwable;
 		}
 
@@ -74,7 +74,7 @@ namespace Zeus.Admin.RecycleBin
 		/// <param name="item">The item to throw.</param>
 		public virtual void Throw(ContentItem item)
 		{
-			CancelItemEventArgs args = Invoke(ItemThrowing, new CancelItemEventArgs(item));
+			var args = Invoke(ItemThrowing, new CancelItemEventArgs(item));
 			if (!args.Cancel)
 			{
 				item = args.AffectedItem;
@@ -106,7 +106,7 @@ namespace Zeus.Admin.RecycleBin
 			item.Expires = DateTime.Now;
 			item.Name = item.ID.ToString();
 
-			foreach (ContentItem child in item.Children)
+			foreach (var child in item.Children)
 				ExpireTrashedItem(child);
 		}
 
@@ -114,7 +114,7 @@ namespace Zeus.Admin.RecycleBin
 		/// <param name="item">The item to restore.</param>
 		public virtual void Restore(ContentItem item)
 		{
-			ContentItem parent = (ContentItem) item["FormerParent"];
+			var parent = (ContentItem) item["FormerParent"];
 			RestoreValues(item);
 			_persister.Save(item);
 			_persister.Move(item, parent);
@@ -132,7 +132,7 @@ namespace Zeus.Admin.RecycleBin
 			item["FormerExpires"] = null;
 			item["DeletedDate"] = null;
 
-			foreach (ContentItem child in item.Children)
+			foreach (var child in item.Children)
 				RestoreValues(child);
 		}
 
@@ -141,7 +141,7 @@ namespace Zeus.Admin.RecycleBin
 		/// <returns>True if the item is in the scraps.</returns>
 		public bool IsInTrash(ContentItem item)
 		{
-			RecycleBinContainer trash = GetTrashContainer(false);
+			var trash = GetTrashContainer(false);
 			return trash != null && Find.IsDescendantOrSelf(item, trash);
 		}
 

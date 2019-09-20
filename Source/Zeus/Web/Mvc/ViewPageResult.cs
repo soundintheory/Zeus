@@ -29,7 +29,7 @@ namespace Zeus.Web.Mvc
 		public override void ExecuteResult(ControllerContext context)
 		{
 			SetupZeusForNewPageRequest();
-			ControllerBase controller = BuildController(context);
+			var controller = BuildController(context);
 			_actionInvoker.InvokeAction(controller.ControllerContext, "Index");
 		}
 

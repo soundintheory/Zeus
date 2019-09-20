@@ -29,7 +29,7 @@ namespace Zeus.Web
 		static ThreadContext()
 		{
 			baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-			int binIndex = baseDirectory.IndexOf("\\bin\\");
+			var binIndex = baseDirectory.IndexOf("\\bin\\");
 			if (binIndex >= 0)
 				baseDirectory = baseDirectory.Substring(0, binIndex);
 			else if (baseDirectory.EndsWith("\\bin"))
@@ -72,12 +72,12 @@ namespace Zeus.Web
 
 		public virtual void Close()
 		{
-			string[] keys = new string[RequestItems.Keys.Count];
+			var keys = new string[RequestItems.Keys.Count];
 			RequestItems.Keys.CopyTo(keys, 0);
 
-			foreach (string key in keys)
+			foreach (var key in keys)
 			{
-				IClosable value = RequestItems[key] as IClosable;
+				var value = RequestItems[key] as IClosable;
 				if (value != null)
 				{
 					(value as IClosable).Dispose();

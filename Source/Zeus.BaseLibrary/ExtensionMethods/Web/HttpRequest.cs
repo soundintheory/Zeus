@@ -8,7 +8,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web
 	{
 		public static string GetOptionalString(this HttpRequest request, string key)
 		{
-			string value = request[key];
+			var value = request[key];
 
 			if (string.IsNullOrEmpty(value))
 				return null;
@@ -18,7 +18,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web
 
 		public static string GetRequiredString(this HttpRequest request, string key)
 		{
-			string value = GetOptionalString(request, key);
+			var value = GetOptionalString(request, key);
 			if (value == null)
 				throw new InvalidOperationException("QueryString is invalid");
 			else
@@ -27,7 +27,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web
 
 		public static int? GetOptionalInt(this HttpRequest request, string key)
 		{
-			string value = GetOptionalString(request, key);
+			var value = GetOptionalString(request, key);
 			if (value != null)
 			{
 				int result;
@@ -45,12 +45,12 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web
 		public static T? GetOptionalEnum<T>(this HttpRequest request, string key)
 			where T : struct
 		{
-			string value = GetOptionalString(request, key);
+			var value = GetOptionalString(request, key);
 			if (value != null)
 			{
 				try
 				{
-					T result = (T) Enum.Parse(typeof(T), value, true);
+					var result = (T) Enum.Parse(typeof(T), value, true);
 					return result;
 				}
 				catch (ArgumentException)
@@ -67,7 +67,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web
 		public static T GetRequiredEnum<T>(this HttpRequest request, string key)
 			where T : struct
 		{
-			T? value = GetOptionalEnum<T>(request, key);
+			var value = GetOptionalEnum<T>(request, key);
 			if (value == null)
 				throw new InvalidOperationException("QueryString is invalid");
 			else
@@ -76,7 +76,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web
 
 		public static int GetRequiredInt(this HttpRequest request, string key)
 		{
-			int? value = GetOptionalInt(request, key);
+			var value = GetOptionalInt(request, key);
 			if (value == null)
 				throw new InvalidOperationException("QueryString is invalid");
 			else
@@ -85,7 +85,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web
 
 		public static bool? GetOptionalBool(this HttpRequest request, string key)
 		{
-			string value = GetOptionalString(request, key);
+			var value = GetOptionalString(request, key);
 			if (value != null)
 			{
 				bool result;
@@ -102,7 +102,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web
 
 		public static bool GetRequiredBool(this HttpRequest request, string key)
 		{
-			bool? value = GetOptionalBool(request, key);
+			var value = GetOptionalBool(request, key);
 			if (value == null)
 				throw new InvalidOperationException("QueryString is invalid");
 			else

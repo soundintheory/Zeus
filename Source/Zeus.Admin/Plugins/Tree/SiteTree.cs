@@ -53,7 +53,7 @@ namespace Zeus.Admin.Plugins.Tree
 
 		public SiteTree OpenTo(ContentItem item)
 		{
-			IList<ContentItem> items = Find.ListParents(item);
+			var items = Find.ListParents(item);
 			//return ClassProvider(c => (items.Contains(c) || c == item) ? "open" : string.Empty);
 			return this;
 		}
@@ -66,7 +66,7 @@ namespace Zeus.Admin.Plugins.Tree
 		public TreeNodeBase ToTreeNode(bool rootOnly, bool withLinks)
 		{
 			IHierarchyNavigator<ContentItem> navigator = new ItemHierarchyNavigator(_treeBuilder, _filter);
-			TreeNodeBase rootNode = BuildNodesRecursive(navigator, rootOnly, withLinks, _filter);
+			var rootNode = BuildNodesRecursive(navigator, rootOnly, withLinks, _filter);
 			//rootNode.ChildrenOnly = _excludeRoot;
 			return rootNode;
 		}
@@ -74,16 +74,16 @@ namespace Zeus.Admin.Plugins.Tree
 		private static TreeNodeBase BuildNodesRecursive(IHierarchyNavigator<ContentItem> navigator, bool rootOnly, bool withLinks,
 			Func<IEnumerable<ContentItem>, IEnumerable<ContentItem>> filter)
 		{
-			ContentItem item = navigator.Current;
+			var item = navigator.Current;
 
 			ContentItem translatedItem;
-			TranslationStatus translationStatus = GetTranslationStatus(item, out translatedItem);
+			var translationStatus = GetTranslationStatus(item, out translatedItem);
 
 			var itemChildren = item.GetChildren();
 			if (filter != null)
 				itemChildren = filter(itemChildren);
-			bool hasAsyncChildren = ((!navigator.Children.Any() && itemChildren.Any()) || rootOnly);
-			TreeNodeBase node = (hasAsyncChildren) ? new AsyncTreeNode() as TreeNodeBase : new TreeNode();
+			var hasAsyncChildren = ((!navigator.Children.Any() && itemChildren.Any()) || rootOnly);
+			var node = (hasAsyncChildren) ? new AsyncTreeNode() as TreeNodeBase : new TreeNode();
 			node.Text = ((INode) translatedItem).Contents;
 
 			if (translationStatus == TranslationStatus.NotAvailableInSelectedLanguage || translationStatus == TranslationStatus.DisplayedInAnotherLanguage)
@@ -95,7 +95,7 @@ namespace Zeus.Admin.Plugins.Tree
 						node.Text += "<img src='" + WebResourceUtility.GetUrl(typeof(SiteTree), "Zeus.Admin.Assets.Images.Icons.LanguageMissing.gif") + "' title='Page is missing for the current language and will not be displayed.' />";
 						break;
 					case TranslationStatus.DisplayedInAnotherLanguage:
-						Language language = Context.Current.LanguageManager.GetLanguage(translatedItem.Language);
+						var language = Context.Current.LanguageManager.GetLanguage(translatedItem.Language);
 						node.Text += "<img src='" + language.IconUrl + "' title='Page is displayed in another language (" + language.Title + ").' />";
 						break;
 				}
@@ -110,7 +110,7 @@ namespace Zeus.Admin.Plugins.Tree
 			if (withLinks)
 			{
 				// Allow plugin to set the href (it will be based on whatever is the default context menu plugin).
-				foreach (ITreePlugin treePlugin in Context.Current.ResolveAll<ITreePlugin>())
+				foreach (var treePlugin in Context.Current.ResolveAll<ITreePlugin>())
 					treePlugin.ModifyTreeNode(node, item);
 			}
 
@@ -122,11 +122,11 @@ namespace Zeus.Admin.Plugins.Tree
 					.Where(s => s != null)
 					.Distinct();
 
-                int uniqueCount = 0;
-				foreach (string folderGroup in folderGroups)
+                var uniqueCount = 0;
+				foreach (var folderGroup in folderGroups)
 				{
                     uniqueCount += 100000;
-                    TreeNode folderNode = new TreeNode
+                    var folderNode = new TreeNode
                     {
                         Text = folderGroup,
                         IconFile = Utility.GetCooliteIconUrl(Icon.FolderGo),
@@ -138,15 +138,15 @@ namespace Zeus.Admin.Plugins.Tree
 					};
 
 					((TreeNode) node).Nodes.Add(folderNode);
-					foreach (IHierarchyNavigator<ContentItem> childNavigator in navigator.Children.Where(n => n.Current.FolderPlacementGroup == folderGroup))
+					foreach (var childNavigator in navigator.Children.Where(n => n.Current.FolderPlacementGroup == folderGroup))
 					{
-						TreeNodeBase childNode = BuildNodesRecursive(childNavigator, rootOnly, withLinks, filter);
+						var childNode = BuildNodesRecursive(childNavigator, rootOnly, withLinks, filter);
 						folderNode.Nodes.Add(childNode);
 					}
 				}
-				foreach (IHierarchyNavigator<ContentItem> childNavigator in navigator.Children.Where(n => n.Current.FolderPlacementGroup == null))
+				foreach (var childNavigator in navigator.Children.Where(n => n.Current.FolderPlacementGroup == null))
 				{
-					TreeNodeBase childNode = BuildNodesRecursive(childNavigator, rootOnly, withLinks, filter);
+					var childNode = BuildNodesRecursive(childNavigator, rootOnly, withLinks, filter);
 					((TreeNode) node).Nodes.Add(childNode);
 				}
 			}
@@ -173,8 +173,8 @@ namespace Zeus.Admin.Plugins.Tree
 			if (string.IsNullOrEmpty(contentItem.Language))
 				return TranslationStatus.Available;
 
-			string languageCode = Zeus.Context.AdminManager.CurrentAdminLanguageBranch;
-			ContentItem testTranslatedItem = Zeus.Context.Current.LanguageManager.GetTranslation(contentItem, languageCode);
+			var languageCode = Zeus.Context.AdminManager.CurrentAdminLanguageBranch;
+			var testTranslatedItem = Zeus.Context.Current.LanguageManager.GetTranslation(contentItem, languageCode);
 			if (testTranslatedItem != null)
 				translatedItem = testTranslatedItem;
 

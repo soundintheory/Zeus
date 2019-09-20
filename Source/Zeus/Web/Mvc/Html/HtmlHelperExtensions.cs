@@ -49,12 +49,12 @@ namespace Zeus.Web.Mvc.Html
 		public static string DisplayProperty<TItem>(this HtmlHelper helper, TItem contentItem, Expression<Func<TItem, object>> expression)
 			where TItem : ContentItem
 		{
-			MemberExpression memberExpression = (MemberExpression) expression.Body;
+			var memberExpression = (MemberExpression) expression.Body;
 
 			if (!contentItem.Details.ContainsKey(memberExpression.Member.Name))
 				return string.Empty;
 
-			PropertyData propertyData = contentItem.Details[memberExpression.Member.Name];
+			var propertyData = contentItem.Details[memberExpression.Member.Name];
 			return propertyData.GetXhtmlValue();
 		}
 
@@ -64,12 +64,12 @@ namespace Zeus.Web.Mvc.Html
 		{
 			ContentItem contentItem = helper.ViewData.Model.CurrentItem;
 
-			MemberExpression memberExpression = (MemberExpression)expression.Body;
+			var memberExpression = (MemberExpression)expression.Body;
 
 			if (!contentItem.Details.ContainsKey(memberExpression.Member.Name))
 				return string.Empty;
 
-			PropertyData propertyData = contentItem.Details[memberExpression.Member.Name];
+			var propertyData = contentItem.Details[memberExpression.Member.Name];
 			return propertyData.GetXhtmlValue();
 		}
 
@@ -99,15 +99,15 @@ namespace Zeus.Web.Mvc.Html
 			// Get area name and controller name.
 			var controllerMapper = Context.Current.Resolve<IControllerMapper>();
 
-			RouteValueDictionary routeValuesFromExpression = Microsoft.Web.Mvc.Internal.ExpressionHelper.GetRouteValuesFromExpression(action);
+			var routeValuesFromExpression = Microsoft.Web.Mvc.Internal.ExpressionHelper.GetRouteValuesFromExpression(action);
 			if (routeValuesFromExpression.ContainsKey(ContentRoute.ActionKey))
 			{
-				string actionName = routeValuesFromExpression[ContentRoute.ActionKey].ToString();
+				var actionName = routeValuesFromExpression[ContentRoute.ActionKey].ToString();
 				routeValuesFromExpression[ContentRoute.ActionKey] = actionName.Substring(0, 1).ToLower() + actionName.Substring(1);
 			}
 			routeValuesFromExpression.Add(ContentRoute.AreaKey, controllerMapper.GetAreaName(contentItem.GetType()));
 			routeValuesFromExpression.Add(ContentRoute.ContentItemKey, contentItem);
-			VirtualPathData virtualPath = html.RouteCollection.GetVirtualPath(html.ViewContext.RequestContext, routeValuesFromExpression);
+			var virtualPath = html.RouteCollection.GetVirtualPath(html.ViewContext.RequestContext, routeValuesFromExpression);
 
 			if (virtualPath != null)
 				return virtualPath.VirtualPath;
@@ -130,11 +130,11 @@ namespace Zeus.Web.Mvc.Html
             }
             else
             {
-                string newText = "";
+                var newText = "";
                 newText = theString.Substring(0, theLength);
 
                 // test whether the truncate has cut into an existing HTML tag. If it has, remove a character to newText and test again. Do this until false. 
-                Regex isItCutXP = new Regex(@"<[^>]*$");
+                var isItCutXP = new Regex(@"<[^>]*$");
                 while (isItCutXP.IsMatch(newText))
                 {
                     theLength--;
@@ -142,30 +142,30 @@ namespace Zeus.Web.Mvc.Html
                 }
 
                 //remove images from newText
-                Regex imagesRGX = new Regex(@"<img[^>]+>", RegexOptions.None);
+                var imagesRGX = new Regex(@"<img[^>]+>", RegexOptions.None);
                 newText = imagesRGX.Replace(newText, "");
 
                 // match all opening HTML tags (avoiding <br> tags) in newText and put in an array called 'theMatches'
-                Regex openTagsRGX = new Regex(@"<(?!\/)(?!br)[^>]+>", RegexOptions.IgnoreCase);
-                MatchCollection theMatches = openTagsRGX.Matches(newText);
+                var openTagsRGX = new Regex(@"<(?!\/)(?!br)[^>]+>", RegexOptions.IgnoreCase);
+                var theMatches = openTagsRGX.Matches(newText);
 
 
                 // for each opening tag, create a close tag
-                ArrayList theCloses = new ArrayList();
-                Regex inTagRGX = new Regex(@"\w+");
+                var theCloses = new ArrayList();
+                var inTagRGX = new Regex(@"\w+");
                 foreach (Match m in theMatches)
                 {
 
                     var theTag = inTagRGX.Match(m.ToString());
-                    string toAdd = "</" + theTag.ToString() + ">";
+                    var toAdd = "</" + theTag.ToString() + ">";
                     theCloses.Add(toAdd);
                 }
 
 
                 //find all currently existing close tags
-                Regex closeTagsRGX = new Regex(@"<\/[^>]+>", RegexOptions.IgnoreCase);
-                MatchCollection existingCloseTags = closeTagsRGX.Matches(newText);
-                string returningText = "";
+                var closeTagsRGX = new Regex(@"<\/[^>]+>", RegexOptions.IgnoreCase);
+                var existingCloseTags = closeTagsRGX.Matches(newText);
+                var returningText = "";
 
                 //if there are any, delete matches entries in theCloses in the order in which they appear
 
@@ -186,7 +186,7 @@ namespace Zeus.Web.Mvc.Html
                 theCloses.Reverse();
 
                 //concatentate theCloses into a string and tack it to the end of the truncated text.
-                StringBuilder theCloseString = new StringBuilder();
+                var theCloseString = new StringBuilder();
                 foreach (string m in theCloses)
                 {
                     theCloseString.Append(m);

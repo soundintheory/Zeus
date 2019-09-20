@@ -16,7 +16,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 
         public static string GetMimeType(this byte[] bytes)
         {
-            FileType type = bytes.GetFileType();
+            var type = bytes.GetFileType();
             return type != null && !string.IsNullOrEmpty(type.Mime) ? type.Mime : "application/octet-stream";
         }
     }

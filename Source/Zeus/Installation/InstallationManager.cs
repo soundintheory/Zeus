@@ -62,10 +62,10 @@ namespace Zeus.Installation
         /// <returns>A string with diagnostic information about the database.</returns>
         public string CheckDatabase()
         {
-            int itemCount = _finder.QueryItems().Count();
-            int detailCount = _finder.QueryDetails().Count();
-            int detailCollectionCount = _finder.QueryDetailCollections().Count();
-            int authorizationRuleCount = _finder.Query<AuthorizationRule>().Count();
+            var itemCount = _finder.QueryItems().Count();
+            var detailCount = _finder.QueryDetails().Count();
+            var detailCollectionCount = _finder.QueryDetailCollections().Count();
+            var authorizationRuleCount = _finder.Query<AuthorizationRule>().Count();
 
             return string.Format("Database OK, items: {0}, details: {1}, authorization rules: {2}, detail collections: {3}",
                                                      itemCount, detailCount, authorizationRuleCount, detailCollectionCount);
@@ -75,8 +75,8 @@ namespace Zeus.Installation
         /// <returns>A diagnostic string about the root node.</returns>
         public string CheckRootItem()
         {
-            int rootID = _host.CurrentSite.RootItemID;
-            ContentItem rootItem = _persister.Get(rootID);
+            var rootID = _host.CurrentSite.RootItemID;
+            var rootItem = _persister.Get(rootID);
             if (rootItem != null)
                 return string.Format("Root node OK, id: {0}, name: {1}, type: {2}, discriminator: {3}, published: {4} - {5}",
                     rootItem.ID, rootItem.Name, rootItem.GetType(),
@@ -88,8 +88,8 @@ namespace Zeus.Installation
         /// <returns>A diagnostic string about the root node.</returns>
         public string CheckStartPage()
         {
-            int startID = _host.CurrentSite.StartPageID;
-            ContentItem startPage = _persister.Get(startID);
+            var startID = _host.CurrentSite.StartPageID;
+            var startPage = _persister.Get(startID);
             if (startPage != null)
                 return string.Format("Start page OK, id: {0}, name: {1}, type: {2}, discriminator: {3}, published: {4} - {5}",
                     startPage.ID, startPage.Name, startPage.GetType(),
@@ -108,8 +108,8 @@ namespace Zeus.Installation
 
         public string CreateDatabase(string server, string name)
         {
-            Server dbServer = new Server(server);
-            Database db = new Database(dbServer, name);
+            var dbServer = new Server(server);
+            var db = new Database(dbServer, name);
             db.Create();
 
             return string.Format(@"Server={0};Database={1};Integrated Security=True", server, name);
@@ -117,7 +117,7 @@ namespace Zeus.Installation
 
         public DatabaseStatus GetStatus()
         {
-            DatabaseStatus status = new DatabaseStatus();
+            var status = new DatabaseStatus();
 
             UpdateConnection(status);
             UpdateSchema(status);
@@ -128,7 +128,7 @@ namespace Zeus.Installation
 
         public ContentItem InsertExportFile(Stream stream, string filename)
         {
-            IImportRecord record = _importer.Read(stream, filename);
+            var record = _importer.Read(stream, filename);
             _importer.Import(record, null, ImportOptions.AllItems);
 
             return record.RootItem;
@@ -136,7 +136,7 @@ namespace Zeus.Installation
 
         public ContentItem InsertRootNode(Type type, string name, string title)
         {
-            ContentItem item = _contentTypeManager.CreateInstance(type, null);
+            var item = _contentTypeManager.CreateInstance(type, null);
             item.Name = name;
             item.Title = title;
             _persister.Save(item);
@@ -145,7 +145,7 @@ namespace Zeus.Installation
 
         public ContentItem InsertStartPage(Type type, ContentItem root, string name, string title, string languageCode)
         {
-            ContentItem item = _contentTypeManager.CreateInstance(type, root);
+            var item = _contentTypeManager.CreateInstance(type, root);
             item.Name = name;
             item.Title = title;
             item.Language = languageCode;
@@ -157,11 +157,11 @@ namespace Zeus.Installation
         public void Install()
         {
             IMigrationProcessorFactory processorFactory = new SqlServerProcessorFactory();
-            IMigrationProcessor processor = processorFactory.Create(GetConnectionString(), new NullAnnouncer(), new ProcessorOptions());
+            var processor = processorFactory.Create(GetConnectionString(), new NullAnnouncer(), new ProcessorOptions());
             IRunnerContext context = new RunnerContext(new NullAnnouncer());
             context.Namespace = "Zeus.Installation.Migrations";
 
-            MigrationRunner runner = new MigrationRunner(
+            var runner = new MigrationRunner(
                 typeof(AddTables).Assembly,
                 context,
                 processor
@@ -173,7 +173,7 @@ namespace Zeus.Installation
         {
             try
             {
-                using (IDbConnection conn = GetConnection())
+                using (var conn = GetConnection())
                 {
                     conn.Open();
                     conn.Close();
@@ -241,10 +241,10 @@ namespace Zeus.Installation
 
         public string GetConnectionStringName()
         {
-            DatabaseSection configSection = ConfigurationManager.GetSection("zeus/database") as DatabaseSection;
+            var configSection = ConfigurationManager.GetSection("zeus/database") as DatabaseSection;
             if (configSection == null)
                 throw new ZeusException("Missing <zeus/database> configuration section");
-            ConnectionStringSettings connectionString = ConfigurationManager.ConnectionStrings[configSection.ConnectionStringName];
+            var connectionString = ConfigurationManager.ConnectionStrings[configSection.ConnectionStringName];
             if (connectionString == null)
                 throw new ZeusException("Missing connection string '" + configSection.ConnectionStringName + "'");
             return configSection.ConnectionStringName;

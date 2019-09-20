@@ -14,9 +14,9 @@ namespace Zeus.Templates.Services
 	{
 		public override IEnumerable<WidgetContentItem> GetItemsInZones(ContentItem parentItem, params string[] zoneNames)
 		{
-			List<WidgetContentItem> items = base.GetItemsInZones(parentItem, zoneNames).ToList();
-			ContentItem grandParentItem = parentItem;
-			foreach (string zoneName in zoneNames)
+			var items = base.GetItemsInZones(parentItem, zoneNames).ToList();
+			var grandParentItem = parentItem;
+			foreach (var zoneName in zoneNames)
 				if (zoneName.StartsWith("Recursive") && grandParentItem is PageContentItem)
 				{
 					if (parentItem.VersionOf == null)

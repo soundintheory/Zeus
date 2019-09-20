@@ -15,25 +15,25 @@ namespace Zeus.Admin.Plugins.DeleteItem
 			context.Response.ContentType = "text/json";
 
 			// "node" will be a comma-separated list of nodes that are going to be deleted.
-			string node = context.Request["node"];
+			var node = context.Request["node"];
 
 			if (!string.IsNullOrEmpty(node))
 			{
-				string[] nodeIDsTemp = node.Split(',');
+				var nodeIDsTemp = node.Split(',');
 				var nodeIDs = nodeIDsTemp.Select(s => Convert.ToInt32(s));
 
-				TreeNodeCollection treeNodes = new TreeNodeCollection();
+				var treeNodes = new TreeNodeCollection();
 
-				foreach (int nodeID in nodeIDs)
+				foreach (var nodeID in nodeIDs)
 				{
-					ContentItem selectedItem = Context.Persister.Get(nodeID);
+					var selectedItem = Context.Persister.Get(nodeID);
 
-					List<ContentItem> referrers = new List<ContentItem>();
+					var referrers = new List<ContentItem>();
 					AddReferencesRecursive(selectedItem, referrers);
 
-					foreach (ContentItem contentItem in referrers.Distinct(ci => ci.ID))
+					foreach (var contentItem in referrers.Distinct(ci => ci.ID))
 					{
-						TreeNode treeNode = new TreeNode();
+						var treeNode = new TreeNode();
 						treeNode.Text = ((INode) contentItem).Contents;
 						treeNode.IconFile = contentItem.IconUrl;
 						treeNode.NodeID = contentItem.ID.ToString();
@@ -43,7 +43,7 @@ namespace Zeus.Admin.Plugins.DeleteItem
 					}
 				}
 
-				string json = treeNodes.ToJson();
+				var json = treeNodes.ToJson();
 				context.Response.Write(json);
 				context.Response.End();
 			}
@@ -52,7 +52,7 @@ namespace Zeus.Admin.Plugins.DeleteItem
 		protected void AddReferencesRecursive(ContentItem current, List<ContentItem> referrers)
 		{
 			//referrers.AddRange(Context.Finder.QueryItems().Where(ci => ci.Details.OfType<LinkProperty>().Any(ld => ld.LinkedItem == current)));
-			foreach (ContentItem child in current.GetChildren())
+			foreach (var child in current.GetChildren())
 				AddReferencesRecursive(child, referrers);
 		}
 

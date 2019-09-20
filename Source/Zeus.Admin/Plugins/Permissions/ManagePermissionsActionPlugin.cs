@@ -33,7 +33,7 @@ namespace Zeus.Admin.Plugins.Permissions
 
 		public MenuItem GetMenuItem(ContentItem contentItem)
 		{
-			MenuItem menuItem = new MenuItem
+			var menuItem = new MenuItem
 			{
 				Text = "Permissions",
 				IconUrl = Utility.GetCooliteIconUrl(Icon.Lock),

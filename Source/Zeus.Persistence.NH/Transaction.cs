@@ -10,7 +10,7 @@ namespace Zeus.Persistence.NH
 
 		public Transaction(ISessionProvider sessionProvider)
 		{
-			ISession session = sessionProvider.OpenSession.Session;
+			var session = sessionProvider.OpenSession.Session;
 			transaction = session.Transaction;
 			if (transaction.IsActive)
 				isOriginator = false; // The method that first opened the transaction should also close it

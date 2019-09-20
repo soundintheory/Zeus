@@ -18,7 +18,7 @@ namespace Zeus.Web.UI.WebControls
 			Page.ClientScript.RegisterJavascriptResource(typeof(ColourPickerTextBox), "Zeus.Web.Resources.jQuery.Plugins.jquery.colorpicker.js");
 			Page.ClientScript.RegisterCssResource(GetType(), "Zeus.Web.Resources.jQuery.Plugins.jquery.colorpicker.css");
 
-			string script = @"$('#" + this.ClientID + @"').ColorPicker({
+			var script = @"$('#" + this.ClientID + @"').ColorPicker({
 	onSubmit: function(hsb, hex, rgb) {
 		$('#" + this.ClientID + @"').val(hex);
 	},

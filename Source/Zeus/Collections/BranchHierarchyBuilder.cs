@@ -32,13 +32,13 @@ namespace Zeus.Collections
 				return new HierarchyNode<ContentItem>(_initialItem);
 
 			HierarchyNode<ContentItem> previousNode = null;
-			foreach (ContentItem currentItem in Find.EnumerateParents(_initialItem, _lastAncestor, _appendAdditionalLevel))
+			foreach (var currentItem in Find.EnumerateParents(_initialItem, _lastAncestor, _appendAdditionalLevel))
 			{
-				HierarchyNode<ContentItem> currentNode = new HierarchyNode<ContentItem>(currentItem);
+				var currentNode = new HierarchyNode<ContentItem>(currentItem);
 				if (previousNode != null)
 					previousNode.Parent = currentNode;
 
-				foreach (ContentItem childItem in GetChildren(currentItem))
+				foreach (var childItem in GetChildren(currentItem))
 				{
 					if (previousNode != null && (previousNode.Current == childItem || previousNode.Current.TranslationOf == childItem))
 					{
@@ -46,7 +46,7 @@ namespace Zeus.Collections
 					}
 					else
 					{
-						HierarchyNode<ContentItem> childNode = new HierarchyNode<ContentItem>(childItem);
+						var childNode = new HierarchyNode<ContentItem>(childItem);
 						currentNode.Children.Add(childNode);
 						childNode.Parent = currentNode;
 					}

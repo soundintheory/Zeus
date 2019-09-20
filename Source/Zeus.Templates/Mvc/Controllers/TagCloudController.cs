@@ -25,16 +25,16 @@ namespace Zeus.Templates.Mvc.Controllers
 				.Select(t => new { Tag = t, ReferenceCount = _tagService.GetReferenceCount(t) });
 
 			// Get the min and max reference counts.
-			int minReferenceCount = activeTagsCounts.Min(atc => atc.ReferenceCount);
-			int maxReferenceCount = activeTagsCounts.Max(atc => atc.ReferenceCount);
-			double logMin = Math.Log(minReferenceCount);
-			double logDiff = Math.Log(maxReferenceCount) - logMin;
-			int diffFontSize = CurrentItem.MaxFontSize - CurrentItem.MinFontSize;
+			var minReferenceCount = activeTagsCounts.Min(atc => atc.ReferenceCount);
+			var maxReferenceCount = activeTagsCounts.Max(atc => atc.ReferenceCount);
+			var logMin = Math.Log(minReferenceCount);
+			var logDiff = Math.Log(maxReferenceCount) - logMin;
+			var diffFontSize = CurrentItem.MaxFontSize - CurrentItem.MinFontSize;
 
 			var tagCloudEntries = activeTagsCounts.Select(atc =>
 			{
-				double weight = (Math.Log(atc.ReferenceCount) - logMin)/logDiff;
-				int fontSize = CurrentItem.MinFontSize + (int) Math.Round(diffFontSize*weight);
+				var weight = (Math.Log(atc.ReferenceCount) - logMin)/logDiff;
+				var fontSize = CurrentItem.MinFontSize + (int) Math.Round(diffFontSize*weight);
 				return new TagCloudEntry(atc.Tag, fontSize);
 			});
 

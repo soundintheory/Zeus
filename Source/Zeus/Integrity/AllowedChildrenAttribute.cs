@@ -29,9 +29,9 @@ namespace Zeus.Integrity
 
 		public override void Refine(ContentType currentDefinition, IList<ContentType> allDefinitions)
 		{
-			foreach (ContentType definition in allDefinitions)
+			foreach (var definition in allDefinitions)
 			{
-				bool assignable = IsAssignable(definition.ItemType);
+				var assignable = IsAssignable(definition.ItemType);
 				if (assignable)
 					currentDefinition.AddAllowedChild(definition);
 			}

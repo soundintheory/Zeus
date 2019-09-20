@@ -10,7 +10,6 @@ namespace Zeus.ContentProperties
 		#region Private fields
 
 		private ContentItem _enclosingItem;
-		private IList<PropertyData> _details = new List<PropertyData>();
 
 		#endregion
 
@@ -23,11 +22,7 @@ namespace Zeus.ContentProperties
 		public virtual string Name { get; set; }
 
 		/// <summary>Gets or sets the details collection. To access the objects directly you can use e.g. collection[index].</summary>
-		public IList<PropertyData> Details
-		{
-			get { return _details; }
-			set { _details = value; }
-		}
+		public IList<PropertyData> Details { get; set; } = new List<PropertyData>();
 
 		/// <summary>Gets or sets the the item containing this collection.</summary>
 		public virtual ContentItem EnclosingItem
@@ -38,7 +33,7 @@ namespace Zeus.ContentProperties
 				if (value == null)
 					throw new ArgumentNullException("value");
 				_enclosingItem = value;
-				foreach (PropertyData detail in Details)
+				foreach (var detail in Details)
 					detail.EnclosingItem = value;
 			}
 		}
@@ -60,7 +55,7 @@ namespace Zeus.ContentProperties
 		{
 			EnclosingItem = item;
 			Name = name;
-			foreach (object value in values)
+			foreach (var value in values)
 				Add(value);
 		}
 
@@ -84,12 +79,12 @@ namespace Zeus.ContentProperties
 
 		public void Replace(IEnumerable values)
 		{
-			bool[] valuesToKeep = new bool[Count];
+			var valuesToKeep = new bool[Count];
 
 			// Add new items and mark items that should be kept.
-			foreach (object value in values)
+			foreach (var value in values)
 			{
-				int i = IndexOf(value);
+				var i = IndexOf(value);
 				if (i < 0)
 					Add(value);
 				else
@@ -97,7 +92,7 @@ namespace Zeus.ContentProperties
 			}
 
 			// Remove items that are not present in the supplied collection
-			for (int i = valuesToKeep.Length - 1; i >= 0; i--)
+			for (var i = valuesToKeep.Length - 1; i >= 0; i--)
 			{
 				if (!valuesToKeep[i])
 					RemoveAt(i);
@@ -113,7 +108,7 @@ namespace Zeus.ContentProperties
 		/// <returns>The index or -1 if the item isn't in the collection.</returns>
 		public int IndexOf(object value)
 		{
-			for (int i = 0; i < Details.Count; i++)
+			for (var i = 0; i < Details.Count; i++)
 				if (Details[i] == value || Details[i].Value == value)
 					return i;
 			return -1;
@@ -124,7 +119,7 @@ namespace Zeus.ContentProperties
 		/// <param name="value">The value to insert.</param>
 		public void Insert(int index, object value)
 		{
-			PropertyData detail = GetDetail(value);
+			var detail = GetDetail(value);
 			Insert(index, detail);
 		}
 
@@ -159,7 +154,7 @@ namespace Zeus.ContentProperties
 		/// <returns>the index of the added value.</returns>
 		public int Add(object value)
 		{
-			PropertyData detail = GetDetail(value);
+			var detail = GetDetail(value);
 			Details.Add(detail);
 			return Details.Count - 1;
 		}
@@ -178,7 +173,7 @@ namespace Zeus.ContentProperties
 			if (value == null)
 				return false;
 
-			foreach (PropertyData detail in Details)
+			foreach (var detail in Details)
 				if (value.Equals(detail.Value))
 					return true;
 			return false;
@@ -189,7 +184,7 @@ namespace Zeus.ContentProperties
 		/// <param name="index">The start index to copy from.</param>
 		public void CopyTo(Array array, int index)
 		{
-			for (int i = index; i < array.Length; i++)
+			for (var i = index; i < array.Length; i++)
 				array.SetValue(Details[i], i);
 		}
 
@@ -209,7 +204,7 @@ namespace Zeus.ContentProperties
 		/// <param name="value">The value to remove.</param>
 		public void Remove(object value)
 		{
-			int index = IndexOf(value);
+			var index = IndexOf(value);
 			if (index >= 0)
 				RemoveAt(index);
 		}
@@ -288,13 +283,13 @@ namespace Zeus.ContentProperties
 		/// <returns></returns>
 		public PropertyCollection Clone()
 		{
-			PropertyCollection collection = new PropertyCollection();
+			var collection = new PropertyCollection();
 			collection.ID = 0;
 			collection.Name = Name;
 			collection.EnclosingItem = EnclosingItem;
-			foreach (PropertyData detail in Details)
+			foreach (var detail in Details)
 			{
-				PropertyData cloned = detail.Clone();
+				var cloned = detail.Clone();
 				cloned.EnclosingCollection = collection;
 				collection.Add(cloned);
 			}

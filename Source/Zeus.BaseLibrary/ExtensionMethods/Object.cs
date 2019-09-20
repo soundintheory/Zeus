@@ -16,13 +16,13 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		{
 			if (item == null) return null;
 
-			PropertyInfo info = item.GetType().GetProperty(expression, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+			var info = item.GetType().GetProperty(expression, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 			if (info != null)
 				return info.GetValue(item, new object[0]);
 			if (expression.IndexOf('.') > 0)
 			{
-				int dotIndex = expression.IndexOf('.');
-				object obj = GetValue(item, expression.Substring(0, dotIndex));
+				var dotIndex = expression.IndexOf('.');
+				var obj = GetValue(item, expression.Substring(0, dotIndex));
 				if (obj != null)
 					return GetValue(obj, expression.Substring(dotIndex + 1, expression.Length - dotIndex - 1));
 			}
@@ -48,10 +48,10 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 				return;
 
 			// Get property.
-			string[] propertyNames = hierarchicalPropertyName.Split(new string[] { separator }, StringSplitOptions.RemoveEmptyEntries);
-			BindingFlags propertySearchBindingFlags = ((ignoreCase) ? BindingFlags.IgnoreCase : BindingFlags.Default) | BindingFlags.Instance | BindingFlags.Public;
-			object currentObject = parentObject; PropertyInfo currentProperty = null;
-			for (int i = 0; i < propertyNames.Length; i++)
+			var propertyNames = hierarchicalPropertyName.Split(new string[] { separator }, StringSplitOptions.RemoveEmptyEntries);
+			var propertySearchBindingFlags = ((ignoreCase) ? BindingFlags.IgnoreCase : BindingFlags.Default) | BindingFlags.Instance | BindingFlags.Public;
+			var currentObject = parentObject; PropertyInfo currentProperty = null;
+			for (var i = 0; i < propertyNames.Length; i++)
 			{
 				currentProperty = currentObject.GetType().GetProperty(propertyNames[i], propertySearchBindingFlags);
 				if (currentProperty == null)
@@ -74,9 +74,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 
 		public static string ToBase64String(this object value)
 		{
-			using (MemoryStream stream = new MemoryStream())
+			using (var stream = new MemoryStream())
 			{
-				BinaryFormatter binaryFormatter = new BinaryFormatter();
+				var binaryFormatter = new BinaryFormatter();
 				binaryFormatter.Serialize(stream, value);
 				return Convert.ToBase64String(stream.ToArray());
 			}
@@ -84,9 +84,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 
 		public static byte[] ToSerializedBytes(this object value)
 		{
-			using (MemoryStream stream = new MemoryStream())
+			using (var stream = new MemoryStream())
 			{
-				BinaryFormatter binaryFormatter = new BinaryFormatter();
+				var binaryFormatter = new BinaryFormatter();
 				binaryFormatter.Serialize(stream, value);
 				return stream.ToArray();
 			}
@@ -94,12 +94,12 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 
 		public static string ToXml(this object value)
 		{
-			StringWriter stringWriter = new StringWriter();
+			var stringWriter = new StringWriter();
 
-			XmlSerializer xmlSerializer = new XmlSerializer(value.GetType());
+			var xmlSerializer = new XmlSerializer(value.GetType());
 			xmlSerializer.Serialize(stringWriter, value);
 
-			string result = stringWriter.ToString();
+			var result = stringWriter.ToString();
 			stringWriter.Close();
 
 			return result;

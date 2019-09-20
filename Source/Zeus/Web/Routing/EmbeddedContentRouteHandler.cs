@@ -49,7 +49,7 @@ namespace Zeus.Web.Routing
 				DateTime lastModified;
 				if (!_assemblyLastModifiedCache.TryGetValue(assembly, out lastModified))
 				{
-					AssemblyName x = assembly.GetName();
+					var x = assembly.GetName();
 					lastModified = new DateTime(File.GetLastWriteTime(new Uri(x.CodeBase).LocalPath).Ticks);
 					_assemblyLastModifiedCache.Add(assembly, lastModified);
 				}
@@ -58,7 +58,7 @@ namespace Zeus.Web.Routing
 
 			public void ProcessRequest(HttpContext context)
 			{
-				HttpCachePolicy cache = context.Response.Cache;
+				var cache = context.Response.Cache;
 				cache.SetCacheability(HttpCacheability.Public);
 				cache.SetOmitVaryStar(true);
 				cache.SetExpires(DateTime.Now + TimeSpan.FromDays(365.0));

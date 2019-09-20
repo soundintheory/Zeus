@@ -22,14 +22,14 @@ namespace Zeus.Admin.Plugins.DeleteItem
 
 		public override void ModifyGrid(Button button, GridPanel gridPanel)
 		{
-			CheckboxSelectionModel selectionModel = (CheckboxSelectionModel) gridPanel.SelectionModel.Primary;
+			var selectionModel = (CheckboxSelectionModel) gridPanel.SelectionModel.Primary;
 			selectionModel.Listeners.RowSelect.Handler = string.Format("{0}.enable();", button.ClientID);
 			selectionModel.Listeners.RowDeselect.Handler = string.Format("if (!{0}.hasSelection()) {{{1}.disable();}}", gridPanel.ClientID, button.ClientID);
 		}
 
 		public override Button GetToolbarButton(ContentItem contentItem, GridPanel gridPanel)
 		{
-			Button toolbarButton = new Button
+			var toolbarButton = new Button
 			{
 				Text = "Delete",
 				Icon = Icon.Delete,

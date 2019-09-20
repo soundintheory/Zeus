@@ -14,20 +14,20 @@ namespace Zeus.Admin.Plugins.FileManager
 		public void ProcessRequest(HttpContext context)
 		{
 			context.Response.ContentType = "text/json";
-			int? nodeId = !string.IsNullOrEmpty(context.Request["node"]) ? Convert.ToInt32(context.Request["node"]) as int? : null;
+			var nodeId = !string.IsNullOrEmpty(context.Request["node"]) ? Convert.ToInt32(context.Request["node"]) as int? : null;
 
 			if (nodeId != null)
 			{
-				ContentItem selectedItem = Context.Persister.Get(nodeId.Value);
+				var selectedItem = Context.Persister.Get(nodeId.Value);
 
-				SiteTree tree = SiteTree.From(selectedItem.TranslationOf ?? selectedItem, 2);
+				var tree = SiteTree.From(selectedItem.TranslationOf ?? selectedItem, 2);
 
-				TreeNodeBase treeNode = tree.Filter(items => items.Authorized(context.User, Context.SecurityManager, Operations.Read).Where(ci => !(ci is WidgetContentItem)))
+				var treeNode = tree.Filter(items => items.Authorized(context.User, Context.SecurityManager, Operations.Read).Where(ci => !(ci is WidgetContentItem)))
 					.ToTreeNode(false, false);
 
 				if (treeNode is TreeNode)
 				{
-					string json = ((TreeNode) treeNode).Nodes.ToJson();
+					var json = ((TreeNode) treeNode).Nodes.ToJson();
 					context.Response.Write(json);
 					context.Response.End();
 				}

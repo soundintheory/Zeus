@@ -19,7 +19,7 @@ namespace Zeus.AddIns.ECommerce.Services
 
 		public void SendOrderConfirmationToCustomer(IECommerceConfiguration shop, Order order)
 		{
-			string orderConfirmationCustomerText = _messageBuilder.Transform("OrderConfirmationCustomer",
+			var orderConfirmationCustomerText = _messageBuilder.Transform("OrderConfirmationCustomer",
 					new { order = order, text = shop.ConfirmationEmailText });
 			_mailSender.Send(shop.ConfirmationEmailFrom, order.EmailAddress, "Order Confirmation",
 				orderConfirmationCustomerText);
@@ -27,7 +27,7 @@ namespace Zeus.AddIns.ECommerce.Services
 
 		public void SendOrderConfirmationToVendor(IECommerceConfiguration shop, Order order)
 		{
-			string orderConfirmationVendorText = _messageBuilder.Transform("OrderConfirmationVendor",
+			var orderConfirmationVendorText = _messageBuilder.Transform("OrderConfirmationVendor",
 					new { order = order });
 			_mailSender.Send(shop.ConfirmationEmailFrom, shop.VendorEmail, "Order Confirmation",
 				orderConfirmationVendorText);

@@ -31,7 +31,7 @@ namespace Zeus.BaseLibrary.Drawing
 				if (value != null)
 				{
 					Bitmap convertedBitmap = null;
-					bool conversionRequired = false;
+					var conversionRequired = false;
 					switch (value.PixelFormat)
 					{
 						case PixelFormat.Format8bppIndexed:
@@ -87,7 +87,7 @@ namespace Zeus.BaseLibrary.Drawing
 		{
 			get
 			{
-				byte* b = (byte*) _bitmapData.Scan0 + (y * _bitmapData.Stride) + (x * _bitsPerPixel);
+				var b = (byte*) _bitmapData.Scan0 + (y * _bitmapData.Stride) + (x * _bitsPerPixel);
 
 				switch (_bitsPerPixel)
 				{
@@ -107,7 +107,7 @@ namespace Zeus.BaseLibrary.Drawing
 				if (x < 0 || y < 0 || x >= this.Width || y >= this.Height)
 					throw new ArgumentOutOfRangeException();
 
-				byte* b = (byte*) _bitmapData.Scan0 + (y * _bitmapData.Stride) + (x * _bitsPerPixel);
+				var b = (byte*) _bitmapData.Scan0 + (y * _bitmapData.Stride) + (x * _bitsPerPixel);
 
 				switch (_bitsPerPixel)
 				{
@@ -186,7 +186,7 @@ namespace Zeus.BaseLibrary.Drawing
 
 		public object Clone()
 		{
-			FastBitmap clone = new FastBitmap();
+			var clone = new FastBitmap();
 			clone.InnerBitmap = (Bitmap) this.InnerBitmap.Clone();
 			return clone;
 		}
@@ -227,18 +227,18 @@ namespace Zeus.BaseLibrary.Drawing
 
 		private unsafe Bitmap ConvertBitmapFromIndexedToFormat24bppRgb(Bitmap value)
 		{
-			BitmapData bitmapData = value.LockBits(
+			var bitmapData = value.LockBits(
 				new Rectangle(0, 0, value.Width, value.Height),
 				ImageLockMode.ReadOnly,
 				value.PixelFormat);
 
-			int bytesPerPixel = 1;
-			FastBitmap destination = new FastBitmap(value.Width, value.Height, PixelFormat.Format24bppRgb);
+			var bytesPerPixel = 1;
+			var destination = new FastBitmap(value.Width, value.Height, PixelFormat.Format24bppRgb);
 			destination.Lock();
-			for (int y = 0; y < value.Height; y++)
-				for (int x = 0; x < value.Width; x++)
+			for (var y = 0; y < value.Height; y++)
+				for (var x = 0; x < value.Width; x++)
 				{
-					byte* b = (byte*) bitmapData.Scan0 + (y * bitmapData.Stride) + (x * bytesPerPixel);
+					var b = (byte*) bitmapData.Scan0 + (y * bitmapData.Stride) + (x * bytesPerPixel);
 					destination[x, y] = value.Palette.Entries[*b];
 				}
 			destination.Unlock();

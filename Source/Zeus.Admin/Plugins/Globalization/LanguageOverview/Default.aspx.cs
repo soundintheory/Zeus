@@ -27,7 +27,7 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageOverview
 
 		private void CreateTranslationsTable()
 		{
-			IEnumerable<Language> availableLanguages = Engine.Resolve<ILanguageManager>().GetAvailableLanguages();
+			var availableLanguages = Engine.Resolve<ILanguageManager>().GetAvailableLanguages();
 			CreateHeaderRow(availableLanguages);
 			CreateRows(availableLanguages);
 		}
@@ -35,9 +35,9 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageOverview
 		private void CreateHeaderRow(IEnumerable<Language> languages)
 		{
 			// The columns are the available languages.
-			TableHeaderRow headerRow = new TableHeaderRow { CssClass = "titles" };
+			var headerRow = new TableHeaderRow { CssClass = "titles" };
 			headerRow.Cells.Add(new TableHeaderCell { Text = "Page" });
-			foreach (Language language in languages)
+			foreach (var language in languages)
 				headerRow.Cells.Add(new TableHeaderCell { Text = "<img src=\"" + language.IconUrl + "\" /> " + language.Title });
 			tblPageTranslations.Rows.Add(headerRow);
 		}
@@ -45,24 +45,24 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageOverview
 		private void CreateRows(IEnumerable<Language> languages)
 		{
 			CreateRow(SelectedItem, languages, 5);
-			foreach (ContentItem child in SelectedItem.GetChildren().Where(ci => Engine.LanguageManager.CanBeTranslated(ci)))
+			foreach (var child in SelectedItem.GetChildren().Where(ci => Engine.LanguageManager.CanBeTranslated(ci)))
 				CreateRow(child, languages, 15);
 		}
 
 		private void CreateRow(ContentItem item, IEnumerable<Language> languages, int paddingLeft)
 		{
-			TableRow row = new TableRow();
-			TableCell titleCell = new TableCell { Text = "<a href=\"languageoverview.aspx?selected=" + item.Path + "\">" + item.Title + "</a>" };
+			var row = new TableRow();
+			var titleCell = new TableCell { Text = "<a href=\"languageoverview.aspx?selected=" + item.Path + "\">" + item.Title + "</a>" };
 			titleCell.Style[HtmlTextWriterStyle.PaddingLeft] = paddingLeft + "px";
 			row.Cells.Add(titleCell);
-			foreach (Language language in languages)
+			foreach (var language in languages)
 			{
 				string text;
 				if (Engine.LanguageManager.TranslationExists(item, language.Name))
 					text = string.Format("<img src=\"{0}\" />", Utility.GetCooliteIconUrl(Ext.Net.Icon.Tick));
 				else
 					text = "Create";
-				string link = string.Format("<a href=\"{0}\">{1}</a>", Engine.AdminManager.GetEditExistingItemUrl(item, language.Name), text);
+				var link = string.Format("<a href=\"{0}\">{1}</a>", Engine.AdminManager.GetEditExistingItemUrl(item, language.Name), text);
 				row.Cells.Add(new TableCell { Text = link });
 			}
 			tblPageTranslations.Rows.Add(row);

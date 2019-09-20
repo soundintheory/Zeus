@@ -38,7 +38,7 @@ namespace Zeus.Admin.Plugins.Versions
 
 		public MenuItem GetMenuItem(ContentItem contentItem)
 		{
-			MenuItem menuItem = new MenuItem
+			var menuItem = new MenuItem
 			{
 				Text = "Versions",
 				IconUrl = Utility.GetCooliteIconUrl(Icon.BookPrevious),

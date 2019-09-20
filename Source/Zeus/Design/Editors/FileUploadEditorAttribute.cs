@@ -34,16 +34,16 @@ namespace Zeus.Design.Editors
 
 		public static string GetUploadedFilePath(FancyFileUpload fileUpload)
 		{
-			string uploadFolder = BaseFileUploadHandler.GetUploadFolder(fileUpload.Identifier);
+			var uploadFolder = BaseFileUploadHandler.GetUploadFolder(fileUpload.Identifier);
 			return Path.Combine(uploadFolder, HttpUtility.UrlDecode(fileUpload.FileName));
 		}
 
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
-            FancyFileUpload fileUpload = (FancyFileUpload) editor;
-			File file = (File) item;
+            var fileUpload = (FancyFileUpload) editor;
+			var file = (File) item;
 
-			bool result = false;
+			var result = false;
 			if (fileUpload.HasDeletedFile)
 			{
 				file.Data = null;
@@ -53,8 +53,8 @@ namespace Zeus.Design.Editors
 			{
                 // Populate File object.
 				file.FileName = fileUpload.FileName;
-				string uploadedFile = GetUploadedFilePath(fileUpload);
-				using (FileStream fs = new FileStream(uploadedFile, FileMode.Open))
+				var uploadedFile = GetUploadedFilePath(fileUpload);
+				using (var fs = new FileStream(uploadedFile, FileMode.Open))
 				{
 					file.Data = fs.ReadAllBytes();
                     file.ContentType = file.Data.GetMimeType();
@@ -80,7 +80,7 @@ namespace Zeus.Design.Editors
 		/// <returns>A text box control.</returns>
 		protected override Control AddEditor(Control container)
 		{
-			FancyFileUpload fileUpload = CreateEditor();
+			var fileUpload = CreateEditor();
 			fileUpload.ID = Name;
 			if (!string.IsNullOrEmpty(TypeFilterDescription))
 				fileUpload.TypeFilterDescription = TypeFilterDescription;
@@ -100,8 +100,8 @@ namespace Zeus.Design.Editors
         
 		protected override void UpdateEditorInternal(IEditableObject item, Control editor)
 		{
-			FancyFileUpload fileUpload = (FancyFileUpload)editor;
-			File file = (File)item;
+			var fileUpload = (FancyFileUpload)editor;
+			var file = (File)item;
             if (!file.IsEmpty())
             {
                 CurrentID = file.ID;

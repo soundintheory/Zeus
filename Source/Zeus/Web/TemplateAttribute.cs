@@ -76,7 +76,7 @@ namespace Zeus.Web
 		/// <returns>The matching template data if found, otherwise null.</returns>
 		public PathData GetPath(ContentItem item, string remainingUrl)
 		{
-			string newTemplateUrl = GetTemplateUrl(item);
+			var newTemplateUrl = GetTemplateUrl(item);
 
 			if (string.IsNullOrEmpty(remainingUrl))
 				return new PathData(item, newTemplateUrl);
@@ -86,8 +86,8 @@ namespace Zeus.Web
 
 			if (remainingUrl.StartsWith(nameWithSlash))
 			{
-				string extension = item.Extension;
-				string arguments = remainingUrl.Substring(nameLength + 1);
+				var extension = item.Extension;
+				var arguments = remainingUrl.Substring(nameLength + 1);
 				if (arguments.EndsWith(extension, StringComparison.InvariantCultureIgnoreCase))
 					arguments = arguments.Substring(0, arguments.Length - extension.Length);
 

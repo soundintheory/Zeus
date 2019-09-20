@@ -9,9 +9,9 @@ namespace Zeus.Admin.Plugins.Children
 		protected override void OnInit(EventArgs e)
 		{
 			// Render grid toolbar action plugin buttons.
-			foreach (IGridToolbarPlugin toolbarPlugin in Engine.ResolveAll<IGridToolbarPlugin>())
+			foreach (var toolbarPlugin in Engine.ResolveAll<IGridToolbarPlugin>())
 			{
-				Button button = toolbarPlugin.GetToolbarButton(SelectedItem, gpaChildren);
+				var button = toolbarPlugin.GetToolbarButton(SelectedItem, gpaChildren);
 				TopToolbar.Items.Add(button);
 
 				toolbarPlugin.ModifyGrid(button, gpaChildren);

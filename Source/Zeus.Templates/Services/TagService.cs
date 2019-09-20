@@ -22,11 +22,11 @@ namespace Zeus.Templates.Services
 
 		public Tag EnsureTag(TagGroup tagGroup, string tagName)
 		{
-			foreach (Tag childTag in tagGroup.GetChildren<Tag>())
+			foreach (var childTag in tagGroup.GetChildren<Tag>())
 				if (childTag.Title == tagName)
 					return childTag;
 
-			Tag tag = _contentTypeManager.CreateInstance<Tag>(tagGroup);
+			var tag = _contentTypeManager.CreateInstance<Tag>(tagGroup);
 			tag.Name = Utility.GetSafeName(tagName);
 			tag.Title = tagName;
 			_persister.Save(tag);
@@ -36,7 +36,7 @@ namespace Zeus.Templates.Services
 
 		public void AddTagToItem(Tag tag, ContentItem item)
 		{
-			PropertyCollection tags = item.GetDetailCollection("Tags", true);
+			var tags = item.GetDetailCollection("Tags", true);
 			if (!tags.Contains(tag))
 				tags.Add(tag);
 		}
@@ -56,9 +56,9 @@ namespace Zeus.Templates.Services
 		{
 			// Look up in the tree from the current item until we find an item with a
 			// TagGroup child.
-			foreach (ContentItem ancestor in Find.EnumerateParents(currentItem, null, true))
+			foreach (var ancestor in Find.EnumerateParents(currentItem, null, true))
 			{
-				IEnumerable<TagGroup> tagGroups = ancestor.GetChildren<TagGroup>();
+				var tagGroups = ancestor.GetChildren<TagGroup>();
 				if (tagGroups.Any())
 					return tagGroups.First();
 			}

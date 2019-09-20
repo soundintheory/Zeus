@@ -93,7 +93,7 @@ namespace Zeus.ContentProperties
 		/// <returns>A new ContentDetail with the same Name and Value.</returns>
 		public virtual PropertyData Clone()
 		{
-			PropertyData cloned = (PropertyData) Activator.CreateInstance(GetType());
+			var cloned = (PropertyData) Activator.CreateInstance(GetType());
 			cloned.ID = 0;
 			cloned.Name = Name;
 			cloned.Value = Value;

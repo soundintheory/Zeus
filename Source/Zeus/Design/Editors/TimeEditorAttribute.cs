@@ -17,7 +17,7 @@ namespace Zeus.Design.Editors
 
 		protected override Control AddEditor(Control container)
 		{
-			TimePicker range = new TimePicker { ID = Name };
+			var range = new TimePicker { ID = Name };
 			container.Controls.Add(range);
 			return range;
 		}
@@ -29,13 +29,13 @@ namespace Zeus.Design.Editors
 
 		protected override void UpdateEditorInternal(IEditableObject item, Control editor)
 		{
-			TimePicker range = (TimePicker) editor;
+			var range = (TimePicker) editor;
 			range.Text = (string) item[Name];
 		}
 
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
-			TimePicker range = (TimePicker) editor;
+			var range = (TimePicker) editor;
 			if ((string) item[Name] != range.Text)
 			{
 				item[Name] = range.Text;

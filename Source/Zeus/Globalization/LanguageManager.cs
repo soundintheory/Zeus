@@ -49,7 +49,7 @@ namespace Zeus.Globalization
 
 		public IEnumerable<Language> GetAvailableLanguages(bool create)
 		{
-			LanguageContainer container = GetLanguageContainer(create);
+			var container = GetLanguageContainer(create);
 			if (container != null)
 				return container.GetChildren<Language>().Where(l => l.Enabled);
 			return new List<Language>();
@@ -77,13 +77,13 @@ namespace Zeus.Globalization
 				contentItem = contentItem.TranslationOf;
 
 			// 1. If the content item is available in the requested language, return that translation.
-			ContentItem translatedItem = GetTranslationDirect(contentItem, languageCode);
+			var translatedItem = GetTranslationDirect(contentItem, languageCode);
 			if (translatedItem != null)
 				return translatedItem;
 
 			// 2. If the language settings for the current item indicate that we can fallback
 			// to another language, check if a translation for that fallback language exists.
-			LanguageSetting languageSetting = GetLanguageSetting(contentItem, languageCode);
+			var languageSetting = GetLanguageSetting(contentItem, languageCode);
 			if (languageSetting != null && !string.IsNullOrEmpty(languageSetting.FallbackLanguage))
 			{
 				translatedItem = GetTranslationDirect(contentItem, languageSetting.FallbackLanguage);
@@ -131,7 +131,7 @@ namespace Zeus.Globalization
 		/// <returns>A list of translations of the item.</returns>
 		public IList<ContentItem> GetTranslationsOf(ContentItem originalLanguageItem, bool includeOriginal)
 		{
-			List<ContentItem> result = new List<ContentItem>();
+			var result = new List<ContentItem>();
 			if (originalLanguageItem.ID == 0)
 				return result;
 
@@ -173,8 +173,8 @@ namespace Zeus.Globalization
 
 		private LanguageContainer GetLanguageContainer(bool create)
 		{
-			ContentItem parent = _persister.Get(LanguageContainerParentID);
-			LanguageContainer languageContainer = parent.GetChild("languages") as LanguageContainer;
+			var parent = _persister.Get(LanguageContainerParentID);
+			var languageContainer = parent.GetChild("languages") as LanguageContainer;
 			if (languageContainer == null && create)
 				languageContainer = CreateLanguageContainer(parent);
 			return languageContainer;
@@ -182,7 +182,7 @@ namespace Zeus.Globalization
 
 		private LanguageContainer CreateLanguageContainer(ContentItem parent)
 		{
-			LanguageContainer languageContainer = Context.ContentTypes.CreateInstance<LanguageContainer>(parent);
+			var languageContainer = Context.ContentTypes.CreateInstance<LanguageContainer>(parent);
 
 			AddLanguage(languageContainer, "English", "en", Icon.FlagGb, true);
 
@@ -192,7 +192,7 @@ namespace Zeus.Globalization
 
 		private void AddLanguage(LanguageContainer languageContainer, string languageTitle, string languageCode, Icon icon, bool enabled)
 		{
-			Language language = Context.ContentTypes.CreateInstance<Language>(languageContainer);
+			var language = Context.ContentTypes.CreateInstance<Language>(languageContainer);
 			language.AddTo(languageContainer);
 
 			language.Title = languageTitle;

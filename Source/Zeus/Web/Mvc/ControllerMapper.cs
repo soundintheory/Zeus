@@ -10,18 +10,17 @@ namespace Zeus.Web.Mvc
 {
 	public class ControllerMapper : IControllerMapper
 	{
-		private readonly IDictionary<Type, string> _controllerMap = new Dictionary<Type, string>();
 		private readonly IDictionary<Type, string> _areaMap = new Dictionary<Type, string>();
 
 		public ControllerMapper(ITypeFinder typeFinder, IContentTypeManager definitionManager, IKernel kernel)
 		{
-			IList<ControlsAttribute> controllerDefinitions = FindControllers(typeFinder);
-			foreach (ContentType id in definitionManager.GetContentTypes())
+			var controllerDefinitions = FindControllers(typeFinder);
+			foreach (var id in definitionManager.GetContentTypes())
 			{
-				IAdapterDescriptor controllerDefinition = GetControllerFor(id.ItemType, controllerDefinitions);
+				var controllerDefinition = GetControllerFor(id.ItemType, controllerDefinitions);
 				if (controllerDefinition != null)
 				{
-					string controllerName = GetControllerName(controllerDefinition.AdapterType, controllerDefinition.AreaName);
+					var controllerName = GetControllerName(controllerDefinition.AdapterType, controllerDefinition.AreaName);
 
 					ControllerMap[id.ItemType] = controllerDefinition.ControllerName;
 					AreaMap[id.ItemType] = controllerDefinition.AreaName;
@@ -45,7 +44,7 @@ namespace Zeus.Web.Mvc
 
 		private static string GetControllerName(Type type, string areaName)
 		{
-			string name = type.Name.ToLowerInvariant();
+			var name = type.Name.ToLowerInvariant();
 
 			if (name.EndsWith("controller"))
 				name = name.Substring(0, name.IndexOf("controller"));
@@ -70,10 +69,7 @@ namespace Zeus.Web.Mvc
 			return name;
 		}
 
-		private IDictionary<Type, string> ControllerMap
-		{
-			get { return _controllerMap; }
-		}
+		private IDictionary<Type, string> ControllerMap { get; } = new Dictionary<Type, string>();
 
 		private IDictionary<Type, string> AreaMap
 		{
@@ -82,8 +78,8 @@ namespace Zeus.Web.Mvc
 
 		private static IAdapterDescriptor GetControllerFor(Type itemType, IList<ControlsAttribute> controllerDefinitions)
 		{
-			List<ControlsAttribute> controllers = new List<ControlsAttribute>();
-			foreach (ControlsAttribute controllerDefinition in controllerDefinitions)
+			var controllers = new List<ControlsAttribute>();
+			foreach (var controllerDefinition in controllerDefinitions)
 				if (controllerDefinition.ItemType.IsAssignableFrom(itemType))
 					controllers.Add(controllerDefinition);
 			return controllers.OrderByDescending(c => c.Priority).FirstOrDefault();
@@ -92,7 +88,7 @@ namespace Zeus.Web.Mvc
 		private static IList<ControlsAttribute> FindControllers(ITypeFinder typeFinder)
 		{
 			var controllerDefinitions = new List<ControlsAttribute>();
-			foreach (Type controllerType in typeFinder.Find(typeof(IController)))
+			foreach (var controllerType in typeFinder.Find(typeof(IController)))
 			{
 				foreach (ControlsAttribute attr in controllerType.GetCustomAttributes(typeof(ControlsAttribute), false))
 				{

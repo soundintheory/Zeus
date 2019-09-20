@@ -16,7 +16,7 @@ namespace Zeus.ContentTypes
 	{
 		public IList<T> Find(Type typeToExplore)
 		{
-			List<T> attributes = new List<T>();
+			var attributes = new List<T>();
 
 			AddEditablesDefinedOnProperties(typeToExplore, attributes);
 			AddEditablesDefinedOnClass(typeToExplore, attributes);
@@ -29,9 +29,9 @@ namespace Zeus.ContentTypes
 
 		public IDictionary<string, T> Map(Type typeToExplore)
 		{
-			IList<T> attributes = Find(typeToExplore);
-			Dictionary<string, T> map = new Dictionary<string, T>();
-			foreach (T a in attributes)
+			var attributes = Find(typeToExplore);
+			var map = new Dictionary<string, T>();
+			foreach (var a in attributes)
 				map[a.Name] = a;
 			return map;
 		}
@@ -40,7 +40,7 @@ namespace Zeus.ContentTypes
 
 		private static void AddEditablesDefinedOnProperties(Type exploredType, ICollection<T> attributes)
 		{
-			foreach (PropertyInfo propertyOnItem in exploredType.GetProperties())
+			foreach (var propertyOnItem in exploredType.GetProperties())
 				foreach (T attributeOnProperty in propertyOnItem.GetCustomAttributes(typeof(T), false))
 					if (!attributes.Contains(attributeOnProperty))
 					{
@@ -48,12 +48,12 @@ namespace Zeus.ContentTypes
 						if (attributeOnProperty is ISecurable)
 							foreach (PropertyAuthorizedRolesAttribute rolesAttribute in propertyOnItem.GetCustomAttributes(typeof(PropertyAuthorizedRolesAttribute), false))
 							{
-								ISecurable s = attributeOnProperty as ISecurable;
+								var s = attributeOnProperty as ISecurable;
 								s.AuthorizedRoles = rolesAttribute.Roles;
 							}
 						if (attributeOnProperty is IPropertyAwareAttribute)
 						{
-							IPropertyAwareAttribute a = attributeOnProperty as IPropertyAwareAttribute;
+							var a = attributeOnProperty as IPropertyAwareAttribute;
 							a.UnderlyingProperty = propertyOnItem;
 						}
 						attributes.Add(attributeOnProperty);
@@ -62,7 +62,7 @@ namespace Zeus.ContentTypes
 
 		private static void AddEditablesDefinedOnClass(Type exploredType, ICollection<T> attributes)
 		{
-			foreach (Type t in EnumerateTypeAncestralHierarchy(exploredType))
+			foreach (var t in EnumerateTypeAncestralHierarchy(exploredType))
 				foreach (T editableOnClass in t.GetCustomAttributes(typeof(T), true))
 					if (!attributes.Contains(editableOnClass))
 					{

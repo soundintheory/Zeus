@@ -30,8 +30,8 @@ namespace Zeus.Templates.Mvc.Html
 		{
 			var navigationItems = NavigationPages(html, startItem);
 
-			string result = string.Empty;
-			foreach (ContentItem contentItem in navigationItems)
+			var result = string.Empty;
+			foreach (var contentItem in navigationItems)
 				result += string.Format("<li class=\"{0}\"><span><a href=\"{1}\">{2}</a></span></li>",
 					cssClassCallback(contentItem, contentItem == navigationItems.First(), contentItem == navigationItems.Last()),
 					contentItem.Url, contentItem.Title);
@@ -47,7 +47,7 @@ namespace Zeus.Templates.Mvc.Html
 				nl => "<ul>" + nl + "</ul>",
 				(ci, isFirst, isLast) =>
 				{
-					string result = string.Empty;
+					var result = string.Empty;
 					if (IsCurrentBranch(html, ci, currentPage))
 						result += "on";
 					if (isLast)
@@ -63,7 +63,7 @@ namespace Zeus.Templates.Mvc.Html
 				nl => "<ul id=\"" + listClientId + "\">" + nl + "</ul>",
 				(ci, isFirst, isLast) =>
 				{
-					string result = string.Empty;
+					var result = string.Empty;
 					if (IsCurrentBranch(html, ci, currentPage))
 						result += "on";
 					if (isLast)
@@ -87,7 +87,7 @@ namespace Zeus.Templates.Mvc.Html
 		{
 			if ((itemToCheck is Redirect))
 			{
-				Redirect redirect = (Redirect) itemToCheck;
+				var redirect = (Redirect) itemToCheck;
 				if (redirect.RedirectItem == currentPage)
 					return true;
 				if (redirect.CheckChildrenForNavigationState && Find.IsAccessibleChildOrSelf(((Redirect)itemToCheck).RedirectItem, currentPage))
@@ -108,19 +108,19 @@ namespace Zeus.Templates.Mvc.Html
 		public static string Breadcrumbs(this HtmlHelper html, ContentItem currentPage, string prefix, string postfix, int startLevel, int visibilityLevel, string separatorText,
 			Func<ILink, string> itemCallback, Func<ILink, string> lastItemCallback)
 		{
-			string result = postfix;
+			var result = postfix;
 
-			int added = 0;
+			var added = 0;
 			var parents = Find.EnumerateParents(currentPage, Find.StartPage, true);
 			if (startLevel != 1 && parents.Count() >= startLevel)
 				parents = parents.Take(parents.Count() - startLevel);
-			foreach (ContentItem page in parents)
+			foreach (var page in parents)
 			{
-				IBreadcrumbAppearance appearance = page as IBreadcrumbAppearance;
-				bool visible = appearance == null || appearance.VisibleInBreadcrumb;
+				var appearance = page as IBreadcrumbAppearance;
+				var visible = appearance == null || appearance.VisibleInBreadcrumb;
 				if (visible && page.IsPage)
 				{
-					ILink link = appearance ?? (ILink)page;
+					var link = appearance ?? (ILink)page;
 					if (added > 0)
 					{
 						result = separatorText + Environment.NewLine + result;
@@ -150,8 +150,8 @@ namespace Zeus.Templates.Mvc.Html
 
 		public static string Sitemap(this HtmlHelper html)
 		{
-			StringBuilder sb = new StringBuilder();
-			foreach (ContentItem contentItem in Find.StartPage.GetChildren().Pages().Visible())
+			var sb = new StringBuilder();
+			foreach (var contentItem in Find.StartPage.GetChildren().Pages().Visible())
 			{
 				sb.AppendFormat("<h4><a href=\"{0}\">{1}</a></h4>", contentItem.Url, contentItem.Title);
 				SitemapRecursive(contentItem, sb);
@@ -163,18 +163,18 @@ namespace Zeus.Templates.Mvc.Html
 		{
 			var childItems = contentItem.GetChildren().Visible();
 
-			bool foundSomething = false;
+			var foundSomething = false;
 
-			StringBuilder sbInner = new StringBuilder();
+			var sbInner = new StringBuilder();
 
 			if (childItems.Any())
 			{
 				sbInner.Append("<ul>");
-				foreach (ContentItem childItem in childItems)
+				foreach (var childItem in childItems)
 				{
-					ISitemapAppearance appearance = childItem as ISitemapAppearance;
+					var appearance = childItem as ISitemapAppearance;
 					//the appearance != null bit means that by default items won't show as links
-					bool visible = childItem.Visible && (childItem.IsPage || (appearance != null && appearance.VisibleInSitemap));
+					var visible = childItem.Visible && (childItem.IsPage || (appearance != null && appearance.VisibleInSitemap));
 					
 					if (visible)
 					{
@@ -184,7 +184,7 @@ namespace Zeus.Templates.Mvc.Html
 						foundSomething = true;
 
 						//something has been found on this tree path, but still possibility of dead ends, so start again!
-						StringBuilder sbInnerFurther = new StringBuilder();
+						var sbInnerFurther = new StringBuilder();
 						SitemapRecursive(childItem, sbInnerFurther);
 						sbInner.Append(sbInnerFurther.ToString());
 
@@ -193,7 +193,7 @@ namespace Zeus.Templates.Mvc.Html
 					else
 					{
 						//nothing found yet, so don't add anything but keep checking - progress so far needs to be saved to the new stringbuilder
-						StringBuilder sbInnerFurther = new StringBuilder();
+						var sbInnerFurther = new StringBuilder();
 						sbInnerFurther.Append("<li>");
 						sbInnerFurther.Append(childItem.Title);
 
@@ -222,31 +222,31 @@ namespace Zeus.Templates.Mvc.Html
 
         public static IList<NavigationItem> LoadNav(this HtmlHelper html, bool includeRootItem)
         {
-            string Lang = Zeus.Globalization.ContentLanguage.PreferredCulture.TwoLetterISOLanguageName;
-            DateTime lastChecked = System.Web.HttpContext.Current.Cache["primaryNavLastLoaded" + Lang] == null ? DateTime.MinValue : (DateTime)System.Web.HttpContext.Current.Cache["primaryNavLastLoaded" + Lang];
+            var Lang = Zeus.Globalization.ContentLanguage.PreferredCulture.TwoLetterISOLanguageName;
+            var lastChecked = System.Web.HttpContext.Current.Cache["primaryNavLastLoaded" + Lang] == null ? DateTime.MinValue : (DateTime)System.Web.HttpContext.Current.Cache["primaryNavLastLoaded" + Lang];
             if (System.Web.HttpContext.Current.Cache["primaryNav" + Lang] == null || DateTime.Now.Subtract(lastChecked) > TimeSpan.FromHours(1) || Find.StartPage.Updated > lastChecked)
             {
                 var result = new List<NavigationItem>();
 
                 if (includeRootItem)
                 {
-                    foreach (ContentItem item in html.NavigationPages(Find.RootItem))
+                    foreach (var item in html.NavigationPages(Find.RootItem))
                     {
                         result.Add(new NavigationItem { Title = item.Title, Url = item.Url, ID = item.ID });
                     }
                 }
 
-                foreach (ContentItem item in html.NavigationPages())
+                foreach (var item in html.NavigationPages())
                 {
                     result.Add(new NavigationItem { Title = item.Title, Url = item.Url, ID = item.ID });
                 }
 
-                foreach (NavigationItem item in result)
+                foreach (var item in result)
                 {
-                    ContentItem theItem = Zeus.Context.Persister.Get(item.ID);
+                    var theItem = Zeus.Context.Persister.Get(item.ID);
                     if (theItem != Zeus.Find.StartPage)
                     {
-                        foreach (ContentItem subNavItem in html.NavigationPages(theItem))
+                        foreach (var subNavItem in html.NavigationPages(theItem))
                         {
                             if (item.SubNav == null) item.SubNav = new List<NavigationItem>();
                             item.SubNav.Add(new NavigationItem { Title = subNavItem.Title, Url = subNavItem.Url, ID = subNavItem.ID, ParentUrl = item.Url, SubNav = GetTertiaryNav(html, subNavItem, true) });
@@ -266,8 +266,8 @@ namespace Zeus.Templates.Mvc.Html
 
         private static IList<NavigationItem> GetTertiaryNav(HtmlHelper html, ContentItem subNavItem, bool continueLoop)
         {
-            List<NavigationItem> result = new List<NavigationItem>();
-            foreach (ContentItem tertiaryItem in html.NavigationPages(subNavItem))
+            var result = new List<NavigationItem>();
+            foreach (var tertiaryItem in html.NavigationPages(subNavItem))
             {
                 result.Add(new NavigationItem { Title = tertiaryItem.Title, Url = tertiaryItem.Url, ID = tertiaryItem.ID, ParentUrl = subNavItem.Url, SubNav = continueLoop ? GetTertiaryNav(html, tertiaryItem, false) : null });
             }
@@ -276,7 +276,7 @@ namespace Zeus.Templates.Mvc.Html
 
         public static string GetCacheKey(this HtmlHelper html, int ContentID, string Key, bool Lang)
         {
-            string LangCode = "";
+            var LangCode = "";
 
             if (Lang)
                 LangCode = Zeus.Globalization.ContentLanguage.PreferredCulture.TwoLetterISOLanguageName;
@@ -286,7 +286,7 @@ namespace Zeus.Templates.Mvc.Html
 
         public static string GetCacheKey(this HtmlHelper html, string ContentID, string Key, bool Lang)
         {
-            string LangCode = "";
+            var LangCode = "";
 
             if (Lang)
                 LangCode = Zeus.Globalization.ContentLanguage.PreferredCulture.TwoLetterISOLanguageName;

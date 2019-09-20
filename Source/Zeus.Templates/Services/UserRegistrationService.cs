@@ -28,7 +28,7 @@ namespace Zeus.Templates.Services
 		{
 			// Create user.
 			UserCreateStatus status;
-			User user = _credentialService.CreateUser(username, password, email,
+			var user = _credentialService.CreateUser(username, password, email,
 				new[] { _templatesConfig.UserRegistration.DefaultRole },
 				!_templatesConfig.UserRegistration.EmailVerificationRequired,
 				out status);

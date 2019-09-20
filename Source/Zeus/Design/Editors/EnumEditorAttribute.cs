@@ -31,12 +31,12 @@ namespace Zeus.Design.Editors
 
 		protected override ListItem[] GetListItems(IEditableObject contentItem)
 		{
-			Array values = Enum.GetValues(_enumType);
-			ListItem[] items = new ListItem[values.Length];
-			for (int i = 0; i < values.Length; i++)
+			var values = Enum.GetValues(_enumType);
+			var items = new ListItem[values.Length];
+			for (var i = 0; i < values.Length; i++)
 			{
-				int value = (int) values.GetValue(i);
-				string name = EnumHelper.GetEnumValueDescription(_enumType, Enum.GetName(_enumType, value));
+				var value = (int) values.GetValue(i);
+				var name = EnumHelper.GetEnumValueDescription(_enumType, Enum.GetName(_enumType, value));
 				items[i] = new ListItem(name, value.ToString());
 			}
 			return items;
@@ -44,7 +44,7 @@ namespace Zeus.Design.Editors
 
 		protected override object GetValue(IEditableObject item)
 		{
-			object value = item[Name];
+			var value = item[Name];
 
 			if (value == null)
 				return null;
@@ -70,7 +70,7 @@ namespace Zeus.Design.Editors
 
 		private object GetEnumValue(int value)
 		{
-			foreach (object e in Enum.GetValues(_enumType))
+			foreach (var e in Enum.GetValues(_enumType))
 				if ((int) e == value)
 					return e;
 			return null;
@@ -78,8 +78,8 @@ namespace Zeus.Design.Editors
 
         public override bool UpdateItem(IEditableObject item, Control editor)
         {
-            ListControl ddl = (ListControl)editor;
-            string selectedText = "";
+            var ddl = (ListControl)editor;
+            var selectedText = "";
             if (!string.IsNullOrEmpty(ddl.SelectedValue))
                 selectedText = Enum.GetName(_enumType, Convert.ToInt32(ddl.SelectedValue));
 

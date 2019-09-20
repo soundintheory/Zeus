@@ -8,7 +8,7 @@ namespace Zeus.Templates.Mvc.Html
 	{
 		public static string FormLabel(this HtmlHelper html, string @for, string text, bool required)
 		{
-			string format = @"<label for=""{0}"">{1}";
+			var format = @"<label for=""{0}"">{1}";
 			if (required)
 				format += "<span>*</span>";
 			format += "</label>";
@@ -31,7 +31,7 @@ namespace Zeus.Templates.Mvc.Html
 		{
             if (contentItem is PageContentItem)
             {
-                PageContentItem thePage = contentItem as PageContentItem;
+                var thePage = contentItem as PageContentItem;
                 if (thePage.UseProgrammableSEOAssets)
                     return thePage.ProgrammableHtmlTitle;
             }
@@ -42,7 +42,7 @@ namespace Zeus.Templates.Mvc.Html
 		{
             if (contentItem is PageContentItem)
             {
-                PageContentItem thePage = contentItem as PageContentItem;
+                var thePage = contentItem as PageContentItem;
                 if (thePage.UseProgrammableSEOAssets)
                     return thePage.ProgrammableMetaKeywords;
             }
@@ -53,7 +53,7 @@ namespace Zeus.Templates.Mvc.Html
 		{
             if (contentItem is PageContentItem)
             {
-                PageContentItem thePage = contentItem as PageContentItem;
+                var thePage = contentItem as PageContentItem;
                 if (thePage.UseProgrammableSEOAssets)
                     return thePage.ProgrammableMetaDescription;
             }

@@ -40,11 +40,11 @@ namespace Zeus.Tests.Integrity
 
 			parser = mocks.StrictMock<IUrlParser>();
 
-			ITypeFinder typeFinder = CreateTypeFinder();
-			ContentTypeBuilder builder = new ContentTypeBuilder(typeFinder, new EditableHierarchyBuilder<IEditor>(),
+			var typeFinder = CreateTypeFinder();
+			var builder = new ContentTypeBuilder(typeFinder, new EditableHierarchyBuilder<IEditor>(),
 				new AttributeExplorer<IDisplayer>(), new AttributeExplorer<IEditor>(),
 				new AttributeExplorer<IContentProperty>(), new AttributeExplorer<IEditorContainer>());
-			IItemNotifier notifier = mocks.DynamicMock<IItemNotifier>();
+			var notifier = mocks.DynamicMock<IItemNotifier>();
 			mocks.Replay(notifier);
 			definitions = new ContentTypeManager(builder, notifier);
 
@@ -56,10 +56,10 @@ namespace Zeus.Tests.Integrity
             );
 
             // Mock the request
-            HttpRequest httpRequest = new HttpRequest("", "http://zeus-test/", "");
-            StringWriter stringWriter = new StringWriter();
-            HttpResponse httpResponse = new HttpResponse(stringWriter);
-            HttpContext httpContextMock = new HttpContext(httpRequest, httpResponse);
+            var httpRequest = new HttpRequest("", "http://zeus-test/", "");
+            var stringWriter = new StringWriter();
+            var httpResponse = new HttpResponse(stringWriter);
+            var httpContextMock = new HttpContext(httpRequest, httpResponse);
             HttpContext.Current = httpContextMock;
 
             // Mock the context
@@ -71,13 +71,13 @@ namespace Zeus.Tests.Integrity
                 languageManager,
                 (Zeus.Configuration.AdminSection)ConfigurationManager.GetSection("zeus/admin")
             );
-			IntegrityEnforcer enforcer = new IntegrityEnforcer(persister, integrityManger);
+			var enforcer = new IntegrityEnforcer(persister, integrityManger);
 			enforcer.Start();
 		}
 
 		private ITypeFinder CreateTypeFinder()
 		{
-			IAssemblyFinder assemblyFinder = mocks.StrictMock<IAssemblyFinder>();
+			var assemblyFinder = mocks.StrictMock<IAssemblyFinder>();
 			Expect.On(assemblyFinder)
 				.Call(assemblyFinder.GetAssemblies())
 				.Return(new[] {
@@ -86,7 +86,7 @@ namespace Zeus.Tests.Integrity
                 })
 				.Repeat.Any();
 
-			ITypeFinder typeFinder = mocks.StrictMock<ITypeFinder>();
+			var typeFinder = mocks.StrictMock<ITypeFinder>();
 			Expect.On(typeFinder)
 				.Call(typeFinder.Find(typeof (ContentItem)))
 				.Return(new[]
@@ -130,17 +130,17 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void CanMoveItem()
 		{
-			StartPage startPage = new StartPage();
-			Page page = new Page();
-			bool canMove = integrityManger.CanMove(page, startPage);
+			var startPage = new StartPage();
+			var page = new Page();
+			var canMove = integrityManger.CanMove(page, startPage);
 			Assert.IsTrue(canMove, "The page couldn't be moved to the destination.");
 		}
 
 		[Test]
 		public void CanMoveItemEvent()
 		{
-			StartPage startPage = new StartPage();
-			Page page = new Page();
+			var startPage = new StartPage();
+			var page = new Page();
 
 			moving.Raise(persister, new CancelDestinationEventArgs(page, startPage));
 		}
@@ -148,15 +148,15 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void CannotMoveItemOntoItself()
 		{
-			Page page = new Page();
-			bool canMove = integrityManger.CanMove(page, page);
+			var page = new Page();
+			var canMove = integrityManger.CanMove(page, page);
 			Assert.IsFalse(canMove, "The page could be moved onto itself.");
 		}
 
 		[Test]
 		public void CannotMoveItemOntoItselfEvent()
 		{
-			Page page = new Page();
+			var page = new Page();
             Assert.Throws(typeof(DestinationOnOrBelowItselfException), () => {
                 moving.Raise(persister, new CancelDestinationEventArgs(page, page));
             });
@@ -165,18 +165,18 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void CannotMoveItemBelowItself()
 		{
-			Page page = new Page();
-			Page page2 = CreateOneItem<Page>(2, "Rutger", page);
+			var page = new Page();
+			var page2 = CreateOneItem<Page>(2, "Rutger", page);
 
-			bool canMove = integrityManger.CanMove(page, page2);
+			var canMove = integrityManger.CanMove(page, page2);
 			Assert.IsFalse(canMove, "The page could be moved below itself.");
 		}
 
 		[Test]
 		public void CannotMoveItemBelowItselfEvent()
 		{
-			Page page = new Page();
-			Page page2 = CreateOneItem<Page>(2, "Rutger", page);
+			var page = new Page();
+			var page2 = CreateOneItem<Page>(2, "Rutger", page);
 
             Assert.Throws(typeof(DestinationOnOrBelowItselfException), () => {
                 moving.Raise(persister, new CancelDestinationEventArgs(page, page2));
@@ -186,20 +186,20 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void CannotMoveIfNameIsOccupied()
 		{
-			StartPage startPage = CreateOneItem<StartPage>(1, "start", null);
-			Page page2 = CreateOneItem<Page>(2, "Sasha", startPage);
-			Page page3 = CreateOneItem<Page>(3, "Sasha", null);
+			var startPage = CreateOneItem<StartPage>(1, "start", null);
+			var page2 = CreateOneItem<Page>(2, "Sasha", startPage);
+			var page3 = CreateOneItem<Page>(3, "Sasha", null);
 
-			bool canMove = integrityManger.CanMove(page3, startPage);
+			var canMove = integrityManger.CanMove(page3, startPage);
 			Assert.IsFalse(canMove, "The page could be moved even though the name was occupied.");
 		}
 
 		[Test]
 		public void CannotMoveIfNameIsOccupiedEvent()
 		{
-			StartPage startPage = CreateOneItem<StartPage>(1, "start", null);
-			Page page2 = CreateOneItem<Page>(2, "Sasha", startPage);
-			Page page3 = CreateOneItem<Page>(3, "Sasha", null);
+			var startPage = CreateOneItem<StartPage>(1, "start", null);
+			var page2 = CreateOneItem<Page>(2, "Sasha", startPage);
+			var page3 = CreateOneItem<Page>(3, "Sasha", null);
 
             Assert.Throws(typeof(NameOccupiedException), () => {
                 moving.Raise(persister, new CancelDestinationEventArgs(page3, startPage));
@@ -209,18 +209,18 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void CannotMoveIfTypeIsntAllowed()
 		{
-			StartPage startPage = new StartPage();
-			Page page = new Page();
+			var startPage = new StartPage();
+			var page = new Page();
 
-			bool canMove = integrityManger.CanMove(startPage, page);
+			var canMove = integrityManger.CanMove(startPage, page);
 			Assert.IsFalse(canMove, "The start page could be moved even though a page isn't an allowed destination.");
 		}
 
 		[Test]
 		public void CannotMoveIfTypeIsntAllowedEvent()
 		{
-			StartPage startPage = new StartPage();
-			Page page = new Page();
+			var startPage = new StartPage();
+			var page = new Page();
 
             Assert.Throws(typeof(NotAllowedParentException), () => {
                 moving.Raise(persister, new CancelDestinationEventArgs(startPage, page));
@@ -234,17 +234,17 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void CanCopyItem()
 		{
-			StartPage startPage = new StartPage();
-			Page page = new Page();
-			bool canCopy = integrityManger.CanCopy(page, startPage);
+			var startPage = new StartPage();
+			var page = new Page();
+			var canCopy = integrityManger.CanCopy(page, startPage);
 			Assert.IsTrue(canCopy, "The page couldn't be copied to the destination.");
 		}
 
 		[Test]
 		public void CanCopyItemEvent()
 		{
-			StartPage startPage = new StartPage();
-			Page page = new Page();
+			var startPage = new StartPage();
+			var page = new Page();
 
 			copying.Raise(persister, new CancelDestinationEventArgs(page, startPage));
 		}
@@ -252,20 +252,20 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void CannotCopyIfNameIsOccupied()
 		{
-			StartPage startPage = CreateOneItem<StartPage>(1, "start", null);
-			Page page2 = CreateOneItem<Page>(2, "Sasha", startPage);
-			Page page3 = CreateOneItem<Page>(3, "Sasha", null);
+			var startPage = CreateOneItem<StartPage>(1, "start", null);
+			var page2 = CreateOneItem<Page>(2, "Sasha", startPage);
+			var page3 = CreateOneItem<Page>(3, "Sasha", null);
 
-			bool canCopy = integrityManger.CanCopy(page3, startPage);
+			var canCopy = integrityManger.CanCopy(page3, startPage);
 			Assert.IsFalse(canCopy, "The page could be copied even though the name was occupied.");
 		}
 
 		[Test]
 		public void CannotCopyIfNameIsOccupiedEvent()
 		{
-			StartPage startPage = CreateOneItem<StartPage>(1, "start", null);
-			Page page2 = CreateOneItem<Page>(2, "Sasha", startPage);
-			Page page3 = CreateOneItem<Page>(3, "Sasha", null);
+			var startPage = CreateOneItem<StartPage>(1, "start", null);
+			var page2 = CreateOneItem<Page>(2, "Sasha", startPage);
+			var page3 = CreateOneItem<Page>(3, "Sasha", null);
 
             Assert.Throws(typeof(NameOccupiedException), () => {
                 copying.Raise(persister, new CancelDestinationEventArgs(page3, startPage));
@@ -275,18 +275,18 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void CannotCopyIfTypeIsntAllowed()
 		{
-			StartPage startPage = new StartPage();
-			Page page = new Page();
+			var startPage = new StartPage();
+			var page = new Page();
 
-			bool canCopy = integrityManger.CanCopy(startPage, page);
+			var canCopy = integrityManger.CanCopy(startPage, page);
 			Assert.IsFalse(canCopy, "The start page could be copied even though a page isn't an allowed destination.");
 		}
 
 		[Test]
 		public void CannotCopyIfTypeIsntAllowedEvent()
 		{
-			StartPage startPage = new StartPage();
-			Page page = new Page();
+			var startPage = new StartPage();
+			var page = new Page();
 
             Assert.Throws(typeof(NotAllowedParentException), () => {
                 copying.Raise(persister, new CancelDestinationEventArgs(startPage, page));
@@ -300,13 +300,13 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void CanDelete()
 		{
-			Page page = new Page();
+			var page = new Page();
 
 			mocks.Record();
 			Expect.On(parser).Call(parser.IsRootOrStartPage(page)).Return(false);
 			mocks.Replay(parser);
 
-			bool canDelete = integrityManger.CanDelete(page);
+			var canDelete = integrityManger.CanDelete(page);
 			Assert.IsTrue(canDelete, "Page couldn't be deleted");
 
 			mocks.Verify(parser);
@@ -315,7 +315,7 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void CanDeleteEvent()
 		{
-			Page page = new Page();
+			var page = new Page();
 
 			mocks.Record();
 			Expect.On(parser).Call(parser.IsRootOrStartPage(page)).Return(false);
@@ -329,13 +329,13 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void CannotDeleteStartPage()
 		{
-			StartPage startPage = new StartPage();
+			var startPage = new StartPage();
 
 			mocks.Record();
 			Expect.On(parser).Call(parser.IsRootOrStartPage(startPage)).Return(true);
 			mocks.Replay(parser);
 
-			bool canDelete = integrityManger.CanDelete(startPage);
+			var canDelete = integrityManger.CanDelete(startPage);
 			Assert.IsFalse(canDelete, "Start page could be deleted");
 
 			mocks.Verify(parser);
@@ -344,7 +344,7 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void CannotDeleteStartPageEvent()
 		{
-			StartPage startPage = new StartPage();
+			var startPage = new StartPage();
 
 			mocks.Record();
 			Expect.On(parser).Call(parser.IsRootOrStartPage(startPage)).Return(true);
@@ -363,16 +363,16 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void CanSave()
 		{
-			StartPage startPage = new StartPage();
+			var startPage = new StartPage();
 
-			bool canSave = integrityManger.CanSave(startPage);
+			var canSave = integrityManger.CanSave(startPage);
 			Assert.IsTrue(canSave, "Couldn't save");
 		}
 
 		[Test]
 		public void CanSaveEvent()
 		{
-			StartPage startPage = new StartPage();
+			var startPage = new StartPage();
 
 			saving.Raise(persister, new CancelItemEventArgs(startPage));
 		}
@@ -380,34 +380,34 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void CannotSaveNotLocallyUniqueItem()
 		{
-			StartPage startPage = CreateOneItem<StartPage>(1, "start", null);
+			var startPage = CreateOneItem<StartPage>(1, "start", null);
 
-			Page page2 = CreateOneItem<Page>(2, "Sasha", startPage);
-			Page page3 = CreateOneItem<Page>(3, "Sasha", startPage);
+			var page2 = CreateOneItem<Page>(2, "Sasha", startPage);
+			var page3 = CreateOneItem<Page>(3, "Sasha", startPage);
 
-			bool canSave = integrityManger.CanSave(page3);
+			var canSave = integrityManger.CanSave(page3);
 			Assert.IsFalse(canSave, "Could save even though the item isn't the only sibling with the same name.");
 		}
 
 		[Test]
 		public void LocallyUniqueItemThatWithoutNameYet()
 		{
-			StartPage startPage = CreateOneItem<StartPage>(1, "start", null);
+			var startPage = CreateOneItem<StartPage>(1, "start", null);
 
-			Page page2 = CreateOneItem<Page>(2, null, startPage);
-			Page page3 = CreateOneItem<Page>(3, "Sasha", startPage);
+			var page2 = CreateOneItem<Page>(2, null, startPage);
+			var page3 = CreateOneItem<Page>(3, "Sasha", startPage);
 
-			bool isUnique = integrityManger.IsLocallyUnique("Sasha", page2);
+			var isUnique = integrityManger.IsLocallyUnique("Sasha", page2);
 			Assert.IsFalse(isUnique, "Shouldn't have been locally unique.");
 		}
 
 		[Test]
 		public void CannotSaveNotLocallyUniqueItemEvent()
 		{
-			StartPage startPage = CreateOneItem<StartPage>(1, "start", null);
+			var startPage = CreateOneItem<StartPage>(1, "start", null);
 
-			Page page2 = CreateOneItem<Page>(2, "Sasha", startPage);
-			Page page3 = CreateOneItem<Page>(3, "Sasha", startPage);
+			var page2 = CreateOneItem<Page>(2, "Sasha", startPage);
+			var page3 = CreateOneItem<Page>(3, "Sasha", startPage);
 
             Assert.Throws(typeof(NameOccupiedException), () => {
                 saving.Raise(persister, new CancelItemEventArgs(page3));
@@ -417,18 +417,18 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void CannotSaveUnallowedItem()
 		{
-			Page page = CreateOneItem<Page>(1, "John", null);
-			StartPage startPage = CreateOneItem<StartPage>(2, "Leonidas", page);
+			var page = CreateOneItem<Page>(1, "John", null);
+			var startPage = CreateOneItem<StartPage>(2, "Leonidas", page);
 
-			bool canSave = integrityManger.CanSave(startPage);
+			var canSave = integrityManger.CanSave(startPage);
 			Assert.IsFalse(canSave, "Could save even though the start page isn't below a page.");
 		}
 
 		[Test]
 		public void CannotSaveUnallowedItemEvent()
 		{
-			Page page = CreateOneItem<Page>(1, "John", null);
-			StartPage startPage = CreateOneItem<StartPage>(2, "Leonidas", page);
+			var page = CreateOneItem<Page>(1, "John", null);
+			var startPage = CreateOneItem<StartPage>(2, "Leonidas", page);
 
             Assert.Throws(typeof(NotAllowedParentException), () => {
                 saving.Raise(persister, new CancelItemEventArgs(startPage));
@@ -442,7 +442,7 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void UserCanEditAccessibleDetail()
 		{
-			ContentType definition = definitions.GetContentType(typeof(Page));
+			var definition = definitions.GetContentType(typeof(Page));
 			Assert.AreEqual(1,
 				definition.GetEditors(SecurityUtilities.CreatePrincipal("UserNotInTheGroup", "ACertainGroup")).
 				Count);
@@ -451,7 +451,7 @@ namespace Zeus.Tests.Integrity
 		[Test]
 		public void UserCannotEditInaccessibleDetail()
 		{
-			ContentType definition = definitions.GetContentType(typeof(Page));
+			var definition = definitions.GetContentType(typeof(Page));
 			Assert.AreEqual(0,
 				definition.GetEditors(SecurityUtilities.CreatePrincipal("UserNotInTheGroup", "Administrator")).
 				Count);

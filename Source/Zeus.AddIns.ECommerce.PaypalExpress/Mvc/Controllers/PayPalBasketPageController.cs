@@ -23,11 +23,11 @@ namespace Zeus.AddIns.ECommerce.PaypalExpress.Mvc.Controllers
 
             string token = null;
             string retMsg = null;
-            string amt = CurrentItem.BasketTotal.ToString().TrimEnd('0');
+            var amt = CurrentItem.BasketTotal.ToString().TrimEnd('0');
 
             //pass in the amount to take here, as well as the yay (success) and boo (failure) pages
-            NVPAPICaller payPalCaller = new NVPAPICaller();
-            bool ret = payPalCaller.ShortcutExpressCheckout(amt, ref token, ref retMsg,
+            var payPalCaller = new NVPAPICaller();
+            var ret = payPalCaller.ShortcutExpressCheckout(amt, ref token, ref retMsg,
                                                             ReturnUrl + "/PayPalConfirmation",
                                                             ReturnUrl + "/CheckoutFailed",
                                                             CurrentItem.BasketItems,
@@ -63,25 +63,25 @@ namespace Zeus.AddIns.ECommerce.PaypalExpress.Mvc.Controllers
 
         public virtual ActionResult CheckoutSuccessful()
         {
-            NVPAPICaller test = new NVPAPICaller();
+            var test = new NVPAPICaller();
 
-            string retMsg = "";
-            string token = "";
-            string finalPaymentAmount = "";
-            string payerId = "";
-            NVPCodec decoder = new NVPCodec();
+            var retMsg = "";
+            var token = "";
+            var finalPaymentAmount = "";
+            var payerId = "";
+            var decoder = new NVPCodec();
 
             token = System.Web.HttpContext.Current.Session["ppToken"].ToString();
             payerId = System.Web.HttpContext.Current.Session["ppID"].ToString();
             finalPaymentAmount = CurrentItem.BasketTotal.ToString().TrimEnd('0');
 
-            bool ret = test.ConfirmPayment(finalPaymentAmount, token, payerId, ref decoder, ref retMsg, CurrentItem.Currency);
+            var ret = test.ConfirmPayment(finalPaymentAmount, token, payerId, ref decoder, ref retMsg, CurrentItem.Currency);
 
             if (ret)
             {
                 var basketPageViewModel = GetViewModel(CurrentItem);
                 var shippingAddress = (Address)System.Web.HttpContext.Current.Session["shippingAddress"];
-                string noteToSeller = (string)System.Web.HttpContext.Current.Session["ppNoteToSeller"];
+                var noteToSeller = (string)System.Web.HttpContext.Current.Session["ppNoteToSeller"];
 
                 try
                 {
@@ -133,12 +133,12 @@ namespace Zeus.AddIns.ECommerce.PaypalExpress.Mvc.Controllers
         public virtual ActionResult PayPalConfirmation(string token, string PayerID)
         {
             //get shipping address
-            NVPAPICaller test = new NVPAPICaller();
+            var test = new NVPAPICaller();
 
-            Address shippingAddress = new Address();
-            string retMsg = "";
-            string noteToSeller = "";
-            bool pass = test.GetShippingDetails(token, ref PayerID, ref shippingAddress, ref noteToSeller, ref retMsg);
+            var shippingAddress = new Address();
+            var retMsg = "";
+            var noteToSeller = "";
+            var pass = test.GetShippingDetails(token, ref PayerID, ref shippingAddress, ref noteToSeller, ref retMsg);
 
             if (pass)
             {

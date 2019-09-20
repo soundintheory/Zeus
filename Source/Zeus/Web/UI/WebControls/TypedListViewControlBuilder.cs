@@ -13,12 +13,12 @@ namespace Zeus.Web.UI.WebControls
 	{
 		public override void Init(TemplateParser parser, ControlBuilder parentBuilder, Type type, string tagName, string id, IDictionary attribs)
 		{
-			string dataItemTypeName = attribs["DataItemTypeName"] as string;
+			var dataItemTypeName = attribs["DataItemTypeName"] as string;
 
 			Type dataItemType;
 			if (this.InDesigner)
 			{
-				ITypeResolutionService typeResolutionService = (ITypeResolutionService) this.ServiceProvider.GetService(typeof(ITypeResolutionService));
+				var typeResolutionService = (ITypeResolutionService) this.ServiceProvider.GetService(typeof(ITypeResolutionService));
 				dataItemType = typeResolutionService.GetType(dataItemTypeName);
 			}
 			else

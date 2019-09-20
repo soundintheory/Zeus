@@ -41,7 +41,7 @@ namespace Zeus.Admin.Plugins.FileManager
 
 		public MenuItem GetMenuItem(ContentItem contentItem)
 		{
-			MenuItem menuItem = new MenuItem
+			var menuItem = new MenuItem
 			{
 				Text = "File Manager",
 				IconUrl = Utility.GetCooliteIconUrl(Icon.Folder),

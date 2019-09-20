@@ -74,12 +74,12 @@ namespace Zeus.Web.UI.WebControls
 
 		private void AddPropertyControlsRecursive(Control control, IContainable contained)
 		{            
-            Control addedControl = contained.AddTo(control);
+            var addedControl = contained.AddTo(control);
             
             if (contained is IEditor)
 				PropertyControls.Add(contained.Name, addedControl);
 			if (contained is IEditorContainer)
-				foreach (IContainable subContained in ((IEditorContainer) contained).GetContained(Page.User))
+				foreach (var subContained in ((IEditorContainer) contained).GetContained(Page.User))
 					AddPropertyControlsRecursive(addedControl, subContained);
 		}
 
@@ -91,7 +91,7 @@ namespace Zeus.Web.UI.WebControls
 
 		private void UpdateEditors()
 		{
-            foreach (IEditor editor in CurrentItemDefinition.GetEditors(Page.User))
+            foreach (var editor in CurrentItemDefinition.GetEditors(Page.User))
             {
                 editor.UpdateEditor(CurrentItem, PropertyControls[editor.Name]);
             }

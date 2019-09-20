@@ -30,7 +30,7 @@ namespace Zeus.FileSystem.Images
 
 		public static Image FromStream(Stream stream, string filename)
 		{
-			byte[] fileBytes = stream.ReadAllBytes();
+			var fileBytes = stream.ReadAllBytes();
 			return new Image
 			{
 				ContentType = fileBytes.GetMimeType(),
@@ -42,27 +42,27 @@ namespace Zeus.FileSystem.Images
 
 		public string GetUrl(int width, int height, bool fill, DynamicImageFormat format)
 		{
-            string appKey = "ZeusImage_" + this.ID + "_" + width + "_" + height + "_" + fill.ToString();
-            string res = System.Web.HttpContext.Current.Cache[appKey] == null ? null : System.Web.HttpContext.Current.Cache[appKey].ToString();
-            DateTime lastUpdated = res != null ? (DateTime)System.Web.HttpContext.Current.Cache[appKey + "_timer"] : DateTime.MinValue;
+            var appKey = "ZeusImage_" + this.ID + "_" + width + "_" + height + "_" + fill.ToString();
+            var res = System.Web.HttpContext.Current.Cache[appKey] == null ? null : System.Web.HttpContext.Current.Cache[appKey].ToString();
+            var lastUpdated = res != null ? (DateTime)System.Web.HttpContext.Current.Cache[appKey + "_timer"] : DateTime.MinValue;
 
             if (res != null && lastUpdated == this.Updated)
             {
                 return res;
             }
 
-            Composition image = new Composition {
+            var image = new Composition {
                 ImageFormat = format
             };
 
-            ImageLayer imageLayer = new ImageLayer
+            var imageLayer = new ImageLayer
             {
                 Source = new ZeusImageSource {
                     ContentID = ID
                 }
             };
 
-            ResizeFilter resizeFilter = new ResizeFilter
+            var resizeFilter = new ResizeFilter
             {
                 Mode = fill ? ResizeMode.UniformFill : ResizeMode.Uniform,
                 Width = Unit.Pixel(width),
@@ -72,7 +72,7 @@ namespace Zeus.FileSystem.Images
             imageLayer.Filters.Add(resizeFilter);
             image.Layers.Add(imageLayer);
 
-            string url = ImageUrlGenerator.GetImageUrl(image);
+            var url = ImageUrlGenerator.GetImageUrl(image);
 
             System.Web.HttpContext.Current.Cache[appKey] = url;
             System.Web.HttpContext.Current.Cache[appKey + "_timer"] = this.Updated;

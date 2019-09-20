@@ -18,7 +18,6 @@ namespace Zeus.Web
 
 		private readonly IDictionary<string, Site> _hostToSites;
 		private readonly IWebContext _context;
-		private IList<Site> _sites;
 
 		#endregion
 
@@ -29,7 +28,7 @@ namespace Zeus.Web
 			_context = context;
 
 			_hostToSites = new Dictionary<string, Site>(StringComparer.OrdinalIgnoreCase);
-			_sites = new List<Site>();
+			Sites = new List<Site>();
 			foreach (SiteElement element in config.Sites)
 				AddSite(config, element);
 			if (!_hostToSites.ContainsKey("*"))
@@ -42,7 +41,7 @@ namespace Zeus.Web
 		{
 			if (!_context.Request.Url.IsAbsoluteUri)
 				return null;
-			string host = _context.Request.Url.Host;
+			var host = _context.Request.Url.Host;
 			if (string.IsNullOrEmpty(host))
 				return null;
 			return CurrentSite.GetHostLanguageMappings()[host];
@@ -50,9 +49,9 @@ namespace Zeus.Web
 
 		private void AddSite(HostSection hostSection, SiteElement element)
 		{
-			Site site = new Site(hostSection.RootItemID, element.StartPageID, element.SiteHosts);
+			var site = new Site(hostSection.RootItemID, element.StartPageID, element.SiteHosts);
 			site.Wildcards = hostSection.Wildcards || element.Wildcards;
-			_sites.Add(site);
+			Sites.Add(site);
 
 			if (element.SiteHosts == null || element.SiteHosts.Count == 0)
 				SetFallbackSettings(site);
@@ -81,10 +80,7 @@ namespace Zeus.Web
 			get { return GetSite(_context.Url.HostUrl); }
 		}
 
-		public IList<Site> Sites
-		{
-			get { return _sites; }
-		}
+		public IList<Site> Sites { get; }
 
 		public Site GetSite(Url url)
 		{

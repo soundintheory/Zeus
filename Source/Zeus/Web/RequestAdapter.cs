@@ -22,7 +22,7 @@ namespace Zeus.Web
 			if (Path == null || Path.IsEmpty())
 				return;
 
-			string templateUrl = GetHandlerPath();
+			var templateUrl = GetHandlerPath();
 			if (rewriteMethod == RewriteMethod.RewriteRequest)
 				Engine.Resolve<IWebContext>().RewritePath(templateUrl);
 			else if (rewriteMethod == RewriteMethod.TransferRequest)
@@ -40,7 +40,7 @@ namespace Zeus.Web
 		/// <param name="handler">The handler executing the request.</param>
 		public virtual void InjectCurrentPage(IHttpHandler handler)
 		{
-			IContentTemplate template = handler as IContentTemplate;
+			var template = handler as IContentTemplate;
 			if (template != null && Path != null)
 			{
 				template.CurrentItem = Path.CurrentItem;

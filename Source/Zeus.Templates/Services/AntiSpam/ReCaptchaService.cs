@@ -47,9 +47,9 @@ namespace Zeus.Templates.Services.AntiSpam
 		/// <param name="error"></param>
 		public bool Check(HttpContextBase httpContext, out string error)
 		{
-			using (WebClient webClient = new WebClient())
+			using (var webClient = new WebClient())
 			{
-				NameValueCollection values = new NameValueCollection();
+				var values = new NameValueCollection();
 
 				// Your private key.
 				values["privatekey"] = _configuration.PrivateKey;
@@ -63,7 +63,7 @@ namespace Zeus.Templates.Services.AntiSpam
 				// The value of "recaptcha_response_field" sent via the form.
 				values["response"] = httpContext.Request["recaptcha_response_field"];
 
-				byte[] responseBytes = webClient.UploadValues(
+				var responseBytes = webClient.UploadValues(
 					"http://api-verify.recaptcha.net/verify",
 					values);
 
@@ -71,12 +71,12 @@ namespace Zeus.Templates.Services.AntiSpam
 				// To read the string, split the line and read each field.
 				// New lines may be added in the future.
 				// Implementations should ignore these lines.
-				string response = webClient.Encoding.GetString(responseBytes);
+				var response = webClient.Encoding.GetString(responseBytes);
 
-				string[] responseLines = response.Split(new[] { '\n' }, StringSplitOptions.None);
+				var responseLines = response.Split(new[] { '\n' }, StringSplitOptions.None);
 
 				// Line 1 - "true" or "false". True if the reCAPTCHA was successful.
-				bool success = Convert.ToBoolean(responseLines[0]);
+				var success = Convert.ToBoolean(responseLines[0]);
 
 				error = null;
 				if (success)

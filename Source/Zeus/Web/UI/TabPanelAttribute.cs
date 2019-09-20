@@ -17,7 +17,7 @@ namespace Zeus.Web.UI
 		public override Control AddTo(Control container)
 		{
 			// If the current container doesn't already contain a TabControl, create one now.
-			CustomTabPanel tabControl = container.FindControl("TabControl") as CustomTabPanel;
+			var tabControl = container.FindControl("TabControl") as CustomTabPanel;
 			if (tabControl == null)
 			{
 				tabControl = new CustomTabPanel { ID = "TabControl" };
@@ -27,7 +27,7 @@ namespace Zeus.Web.UI
 					container.Controls.Add(tabControl);
 			}
 
-			Panel tabItem = new Panel
+			var tabItem = new Panel
 			{
 				AutoScroll = true,
 				AutoHeight = true,

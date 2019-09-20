@@ -24,17 +24,17 @@ namespace Zeus.Serialization
 		{
 			WriteSingleItem(item, options, writer);
 
-			foreach (ContentItem child in item.Children)
+			foreach (var child in item.Children)
 				Write(child, options, writer);
 		}
 
 		public virtual void WriteSingleItem(ContentItem item, ExportOptions options, XmlTextWriter writer)
 		{
-			using (ElementWriter itemElement = new ElementWriter("item", writer))
+			using (var itemElement = new ElementWriter("item", writer))
 			{
 				WriteDefaultAttributes(itemElement, item);
 
-				foreach (IXmlWriter xmlWriter in GetWriters(options))
+				foreach (var xmlWriter in GetWriters(options))
 					xmlWriter.Write(item, writer);
 			}
 		}

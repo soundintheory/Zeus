@@ -55,7 +55,7 @@ namespace Zeus.Web.Mvc
 
         public override RouteData GetRouteData(HttpContextBase httpContext)
         {
-            string path = httpContext.Request.AppRelativeCurrentExecutionFilePath;
+            var path = httpContext.Request.AppRelativeCurrentExecutionFilePath;
             if (path.StartsWith("~/" + _adminSection + "/", StringComparison.InvariantCultureIgnoreCase))
                 return null;
             if (path.EndsWith(".axd", StringComparison.InvariantCultureIgnoreCase))
@@ -66,9 +66,9 @@ namespace Zeus.Web.Mvc
 
         public RouteData GetRouteDataForPath(HttpRequestBase request)
         {
-            PathData td = engine.UrlParser.ResolvePath(request.Url.ToString());
+            var td = engine.UrlParser.ResolvePath(request.Url.ToString());
 
-            string extraParam = "";
+            var extraParam = "";
 
             if (td.CurrentItem != null && !td.Is404)
             {
@@ -76,18 +76,18 @@ namespace Zeus.Web.Mvc
             }
             else
             {
-                bool originalLookUpWas404 = td.Is404;
+                var originalLookUpWas404 = td.Is404;
                 PathData originalPathData = null;
                 if (originalLookUpWas404)
                     originalPathData = td;
 
                 //test for extra param being passed in...so /item/myParam - needs to ignore querystring of course
-                string fullPath = request.Url.ToString();
+                var fullPath = request.Url.ToString();
                 if (fullPath.IndexOf('?') > -1)
                     fullPath = fullPath.Substring(0, fullPath.IndexOf('?'));
 
-                Uri thePath = new Uri(fullPath);
-                string thePathWithOutLastParam = new Uri(thePath.AbsoluteUri.Remove(thePath.AbsoluteUri.Length - (thePath.Segments.Last().Length + 1))).PathAndQuery;
+                var thePath = new Uri(fullPath);
+                var thePathWithOutLastParam = new Uri(thePath.AbsoluteUri.Remove(thePath.AbsoluteUri.Length - (thePath.Segments.Last().Length + 1))).PathAndQuery;
                 td = engine.UrlParser.ResolvePath(thePathWithOutLastParam);
 
                 //check to see if the content item has been and is a page and if so, if it allows the Index(Param) option
@@ -131,7 +131,7 @@ namespace Zeus.Web.Mvc
             if (controllerName == null)
                 return null;
 
-            string areaName = controllerMapper.GetAreaName(item.GetType());
+            var areaName = controllerMapper.GetAreaName(item.GetType());
 
             var data = new RouteData(this, routeHandler);
             data.Values[ContentItemKey] = item;
@@ -164,8 +164,8 @@ namespace Zeus.Web.Mvc
             if (item == null)
                 return null;
 
-            string requestedController = values[ControllerKey] as string;
-            string itemController = controllerMapper.GetControllerName(item.GetType());
+            var requestedController = values[ControllerKey] as string;
+            var itemController = controllerMapper.GetControllerName(item.GetType());
             if (!string.Equals(requestedController, itemController, StringComparison.InvariantCultureIgnoreCase))
                 return null;
 

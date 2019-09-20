@@ -35,17 +35,17 @@ namespace Zeus.AddIns.ECommerce.Services
 
         public virtual void AddItem(Shop shop, Product product, IEnumerable<Variation> variations)
 		{
-			ShoppingBasket shoppingBasket = GetCurrentShoppingBasketInternal(shop, true);
+			var shoppingBasket = GetCurrentShoppingBasketInternal(shop, true);
 
 			// If card is already in basket, just increment quantity, otherwise create a new item.
-			ShoppingBasketItem item = shoppingBasket.GetChildren<ShoppingBasketItem>().SingleOrDefault(i => i.Product == product && ((variations == null && i.Variations == null) || EnumerableUtility.Equals(i.Variations, variations)));
+			var item = shoppingBasket.GetChildren<ShoppingBasketItem>().SingleOrDefault(i => i.Product == product && ((variations == null && i.Variations == null) || EnumerableUtility.Equals(i.Variations, variations)));
 			if (item == null)
 			{
 				VariationPermutation variationPermutation = null;
 				if (variations != null && variations.Any())
 				{
 					variationPermutation = new VariationPermutation();
-					foreach (Variation variation in variations)
+					foreach (var variation in variations)
 						variationPermutation.Variations.Add(variation);
                 
                     variationPermutation.PriceOverride = GetPriceOverride(variationPermutation, product);				
@@ -77,8 +77,8 @@ namespace Zeus.AddIns.ECommerce.Services
 			if (newQuantity < 0)
 				throw new ArgumentOutOfRangeException("newQuantity", "Quantity must be greater than or equal to 0.");
 
-			ShoppingBasket shoppingBasket = GetCurrentShoppingBasketInternal(shop, true);
-			ShoppingBasketItem item = shoppingBasket.GetChildren<ShoppingBasketItem>().SingleOrDefault(i => i.Product == product && i.VariationPermutation == variationPermutation);
+			var shoppingBasket = GetCurrentShoppingBasketInternal(shop, true);
+			var item = shoppingBasket.GetChildren<ShoppingBasketItem>().SingleOrDefault(i => i.Product == product && i.VariationPermutation == variationPermutation);
 
 			if (item == null)
 				return;
@@ -101,7 +101,7 @@ namespace Zeus.AddIns.ECommerce.Services
 
         public virtual void ClearBasket(Shop shop)
 		{
-			ShoppingBasket shoppingBasket = GetCurrentShoppingBasketInternal(shop, false);
+			var shoppingBasket = GetCurrentShoppingBasketInternal(shop, false);
 			if (shoppingBasket != null && shoppingBasket.ID > 0)
 			{
 				_persister.Delete(shoppingBasket);
@@ -111,9 +111,9 @@ namespace Zeus.AddIns.ECommerce.Services
 
         public virtual bool ApplyDiscount(Shop shop, string code, out string message)
         {
-            ShoppingBasket shoppingBasket = GetCurrentShoppingBasketInternal(shop, true);
+            var shoppingBasket = GetCurrentShoppingBasketInternal(shop, true);
 
-            IEnumerable<Discount> discounts = Zeus.Find.StartPage.GetChildren<DiscountContainer>().Single().GetChildren<Discount>().Where(d => d.ValidFrom <= DateTime.Now.Date && d.ValidTo >= DateTime.Now.Date && d.CouponCode.ToLowerInvariant() == code.ToLowerInvariant());
+            var discounts = Zeus.Find.StartPage.GetChildren<DiscountContainer>().Single().GetChildren<Discount>().Where(d => d.ValidFrom <= DateTime.Now.Date && d.ValidTo >= DateTime.Now.Date && d.CouponCode.ToLowerInvariant() == code.ToLowerInvariant());
             if (!discounts.Any())
             {
                 message = "No valid discount was found with the code you entered, please try again";
@@ -125,7 +125,7 @@ namespace Zeus.AddIns.ECommerce.Services
             }
             else
             {
-                Discount discount = discounts.Single();
+                var discount = discounts.Single();
                 if (discount.MaxGlobalUses > 0 && discount.UsesSoFar >= discount.MaxGlobalUses)
                 {
                     message = "The discount code has surpassed it's maximum amount of uses and so is no longer valid";
@@ -191,26 +191,26 @@ namespace Zeus.AddIns.ECommerce.Services
 
 		private ShoppingBasket GetShoppingBasketFromCookie(Shop shop)
 		{
-			HttpCookie cookie = _webContext.Request.Cookies[GetCookieKey(shop)];
+			var cookie = _webContext.Request.Cookies[GetCookieKey(shop)];
 			if (cookie == null)
 				return null;
 
-			string shopperID = cookie.Value;
+			var shopperID = cookie.Value;
 			return _finder.QueryItems<ShoppingBasket>().SingleOrDefault(sb => sb.Name == shopperID);
 		}
 
 		private ShoppingBasket GetCurrentShoppingBasketInternal(Shop shop, bool createBasket)
 		{
-			ShoppingBasket shoppingBasket = GetShoppingBasketFromCookie(shop);
+			var shoppingBasket = GetShoppingBasketFromCookie(shop);
 
 			if (shoppingBasket != null)
 			{
 				// Check that products in shopping cart still exist, and if not remove those shopping cart items.
-				List<ShoppingBasketItem> itemsToRemove = new List<ShoppingBasketItem>();
-				foreach (ShoppingBasketItem item in shoppingBasket.GetChildren<ShoppingBasketItem>())
+				var itemsToRemove = new List<ShoppingBasketItem>();
+				foreach (var item in shoppingBasket.GetChildren<ShoppingBasketItem>())
 					if (item.Product == null)
 						itemsToRemove.Add(item);
-				foreach (ShoppingBasketItem item in itemsToRemove)
+				foreach (var item in itemsToRemove)
 					shoppingBasket.Children.Remove(item);
 				_persister.Save(shoppingBasket);
 			}
@@ -227,7 +227,7 @@ namespace Zeus.AddIns.ECommerce.Services
                     shoppingBasket.AddTo(shop.ShoppingBaskets);
                     _persister.Save(shoppingBasket);
 
-                    HttpCookie cookie = new HttpCookie(GetCookieKey(shop), shoppingBasket.Name);
+                    var cookie = new HttpCookie(GetCookieKey(shop), shoppingBasket.Name);
                     if (shop.PersistentShoppingBaskets)
                         cookie.Expires = DateTime.Now.AddYears(1);
                     _webContext.Response.Cookies.Add(cookie);

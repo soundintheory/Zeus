@@ -14,23 +14,18 @@ namespace Zeus.Integrity
 		public AvailableZoneAttribute(string title, string zoneName)
 		{
 			this.title = title;
-			this.zoneName = zoneName;
+			this.ZoneName = zoneName;
 		}
 
 		#region Private Members
 
-		private string zoneName;
 		private string title;
 
 		#endregion
 
 		#region Properties
 		/// <summary>Gets or sets the name of the zone in question.</summary>
-		public string ZoneName
-		{
-			get { return zoneName; }
-			set { zoneName = value; }
-		}
+		public string ZoneName { get; set; }
 
 		/// <summary>Gets or sets the title displayed to editors.</summary>
 		public string Title
@@ -46,13 +41,13 @@ namespace Zeus.Integrity
 		public override bool Equals(object obj)
 		{
 			if (obj is AvailableZoneAttribute)
-				return zoneName.Equals(((AvailableZoneAttribute) obj).ZoneName);
+				return ZoneName.Equals(((AvailableZoneAttribute) obj).ZoneName);
 			return base.Equals(obj);
 		}
 
 		public override int GetHashCode()
 		{
-			return zoneName.GetHashCode();
+			return ZoneName.GetHashCode();
 		}
 
 		#endregion

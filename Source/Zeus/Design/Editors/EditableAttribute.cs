@@ -58,7 +58,7 @@ namespace Zeus.Design.Editors
 		/// <returns>The editor control.</returns>
 		protected override Control AddEditor(Control container)
 		{
-			Control editor = CreateEditor(container);
+			var editor = CreateEditor(container);
 			editor.ID = Name;
 			container.Controls.Add(editor);
 			if (DataBind || Focus)
@@ -71,7 +71,7 @@ namespace Zeus.Design.Editors
 
 		private void editor_PreRender(object sender, EventArgs e)
 		{
-			Control c = sender as Control;
+			var c = sender as Control;
 			if (!c.Page.IsPostBack)
 				Modify(c);
 		}
@@ -91,8 +91,8 @@ namespace Zeus.Design.Editors
 		/// <param name="editor">The editor contorl whose values to update the item with.</param>
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
-			object editorValue = GetEditorValue(editor);
-			object itemValue = item[Name];
+			var editorValue = GetEditorValue(editor);
+			var itemValue = item[Name];
 			if (!AreEqual(editorValue, itemValue))
 			{
 				item[Name] = editorValue;
@@ -130,7 +130,7 @@ namespace Zeus.Design.Editors
 		{
 			if (editor == null) throw new ArgumentNullException("editor");
 
-			PropertyInfo pi = editor.GetType().GetProperty(ControlPropertyName);
+			var pi = editor.GetType().GetProperty(ControlPropertyName);
 			if (pi == null)
 				throw new ZeusException("No property '{0}' found on the editor control '{1}'.", ControlPropertyName,
 				                        editor.GetType());

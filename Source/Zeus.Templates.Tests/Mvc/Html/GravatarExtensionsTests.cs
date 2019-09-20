@@ -13,12 +13,12 @@ namespace Zeus.Templates.Tests.Mvc.Html
 		public void CanGenerateGravatarImageUrl()
 		{
 			// Arrange.
-			WebClient webClient = new WebClient();
+			var webClient = new WebClient();
 
 			// Act.
-			string imageUrl = GravatarExtensions.GravatarImageUrl(null, 50, "test@sitdap.com");
-			byte[] imageData = webClient.DownloadData(imageUrl);
-			Bitmap image = new Bitmap(new MemoryStream(imageData));
+			var imageUrl = GravatarExtensions.GravatarImageUrl(null, 50, "test@sitdap.com");
+			var imageData = webClient.DownloadData(imageUrl);
+			var image = new Bitmap(new MemoryStream(imageData));
 
 			// Assert.
 			Assert.IsNotNull(imageUrl);

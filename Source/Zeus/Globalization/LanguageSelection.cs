@@ -8,8 +8,8 @@ namespace Zeus.Globalization
 	{
 		public static bool IsCandidateMatch(string languageCode1, string languageCode2)
 		{
-			int index = languageCode1.IndexOf('-');
-			int length = languageCode2.IndexOf('-');
+			var index = languageCode1.IndexOf('-');
+			var length = languageCode2.IndexOf('-');
 			if (index < 0)
 				index = languageCode1.Length;
 			if (length < 0)

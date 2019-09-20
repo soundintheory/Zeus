@@ -27,12 +27,12 @@ namespace Zeus.Web.UI.WebControls
 		protected override void CreateChildControls()
 		{
 			this.Controls.Clear();
-			Page page = this.Page;
+			var page = this.Page;
 			if (((page != null) && !page.IsPostBack) && !base.DesignMode)
 			{
 				this._templateIndex = this.GetTemplateIndex();
 			}
-			int templateIndex = this.TemplateIndex;
+			var templateIndex = this.TemplateIndex;
 			ITemplate anonymousTemplate = null;
 			switch (templateIndex)
 			{
@@ -46,8 +46,8 @@ namespace Zeus.Web.UI.WebControls
 
 				default:
 					{
-						int num2 = templateIndex - 2;
-						RoleGroupCollection roleGroups = this.RoleGroups;
+						var num2 = templateIndex - 2;
+						var roleGroups = this.RoleGroups;
 						if ((0 <= num2) && (num2 < roleGroups.Count))
 						{
 							anonymousTemplate = roleGroups[num2].ContentTemplate;
@@ -57,7 +57,7 @@ namespace Zeus.Web.UI.WebControls
 			}
 			if (anonymousTemplate != null)
 			{
-				Control container = new Control();
+				var container = new Control();
 				anonymousTemplate.InstantiateIn(container);
 				this.Controls.Add(container);
 			}
@@ -82,8 +82,8 @@ namespace Zeus.Web.UI.WebControls
 			{
 				return 0;
 			}
-			IPrincipal user = Page.User;
-			int matchingRoleGroupInternal = -1;
+			var user = Page.User;
+			var matchingRoleGroupInternal = -1;
 			if (user != null)
 			{
 				matchingRoleGroupInternal = this.RoleGroups.IndexOf(this.RoleGroups.GetMatchingRoleGroup(user));
@@ -99,7 +99,7 @@ namespace Zeus.Web.UI.WebControls
 		{
 			if (savedState != null)
 			{
-				Pair pair = (Pair) savedState;
+				var pair = (Pair) savedState;
 				if (pair.First != null)
 				{
 					base.LoadControlState(pair.First);
@@ -147,7 +147,7 @@ namespace Zeus.Web.UI.WebControls
 
 		protected override object SaveControlState()
 		{
-			object x = base.SaveControlState();
+			var x = base.SaveControlState();
 			if ((x == null) && (this._templateIndex == 0))
 			{
 				return null;
@@ -164,7 +164,7 @@ namespace Zeus.Web.UI.WebControls
 		{
 			if (data != null)
 			{
-				object obj2 = data["TemplateIndex"];
+				var obj2 = data["TemplateIndex"];
 				if (obj2 != null)
 				{
 					this.TemplateIndex = (int) obj2;

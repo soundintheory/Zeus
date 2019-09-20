@@ -9,8 +9,6 @@ namespace Zeus.ContentTypes
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
 	public abstract class EditorContainerAttribute : Attribute, IEditorContainer
 	{
-		private readonly List<IContainable> _contained = new List<IContainable>();
-
 		public EditorContainerAttribute(string name, int sortOrder)
 		{
 			Name = name;
@@ -38,26 +36,23 @@ namespace Zeus.ContentTypes
 			if (user == null)
 				return false;
 
-			foreach (string role in AuthorizedRoles)
+			foreach (var role in AuthorizedRoles)
 				if (user.IsInRole(role))
 					return true;
 			return false;
 		}
 
-		public List<IContainable> Contained
-		{
-			get { return _contained; }
-		}
+		public List<IContainable> Contained { get; } = new List<IContainable>();
 
 		public IList<IContainable> GetContained(IPrincipal user)
 		{
-			return _contained.Where(c => c.IsAuthorized(user)).ToList();
+			return Contained.Where(c => c.IsAuthorized(user)).ToList();
 		}
 
 		public void AddContained(IContainable containable)
 		{
-			_contained.Add(containable);
-			_contained.Sort();
+			Contained.Add(containable);
+			Contained.Sort();
 		}
 
 		#region IComparable x 2 Members

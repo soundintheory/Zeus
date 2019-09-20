@@ -25,32 +25,32 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 
 		public static object Deserialize(this string serializedValue, Type type)
 		{
-			byte[] serialisedBytes = Convert.FromBase64String(serializedValue);
-			using (MemoryStream stream = new MemoryStream(serialisedBytes))
+			var serialisedBytes = Convert.FromBase64String(serializedValue);
+			using (var stream = new MemoryStream(serialisedBytes))
 			{
-				BinaryFormatter binaryFormatter = new BinaryFormatter();
+				var binaryFormatter = new BinaryFormatter();
 				return binaryFormatter.Deserialize(stream);
 			}
 		}
 
 		public static string FromBase64String(this string value)
 		{
-			ASCIIEncoding encoding = new ASCIIEncoding();
-			Decoder decoder = encoding.GetDecoder();
-			byte[] toDecodeBytes = Convert.FromBase64String(value);
-			int charCount = decoder.GetCharCount(toDecodeBytes, 0, toDecodeBytes.Length);
-			char[] decodedChars = new char[charCount];
+			var encoding = new ASCIIEncoding();
+			var decoder = encoding.GetDecoder();
+			var toDecodeBytes = Convert.FromBase64String(value);
+			var charCount = decoder.GetCharCount(toDecodeBytes, 0, toDecodeBytes.Length);
+			var decodedChars = new char[charCount];
 			decoder.GetChars(toDecodeBytes, 0, toDecodeBytes.Length, decodedChars, 0);
-			string result = new string(decodedChars);
+			var result = new string(decodedChars);
 			return result;
 		}
 
 		public static T FromXml<T>(this string xml)
 		{
-			StringReader stringReader = new StringReader(xml);
+			var stringReader = new StringReader(xml);
 
-			XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-			T result = (T)xmlSerializer.Deserialize(stringReader);
+			var xmlSerializer = new XmlSerializer(typeof(T));
+			var result = (T)xmlSerializer.Deserialize(stringReader);
 
 			stringReader.Close();
 
@@ -64,13 +64,13 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 
 		public static string Paragraph(this string value, int paragraphIndex)
 		{
-			string[] paragraphs = value.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+			var paragraphs = value.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 			return paragraphs.Length > paragraphIndex ? paragraphs[paragraphIndex] : string.Empty;
 		}
 
 		public static string Paragraphs(this string value, int paragraphIndex)
 		{
-			string[] paragraphs = value.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+			var paragraphs = value.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 			if (paragraphs.Length > paragraphIndex)
 				return string.Join(Environment.NewLine, paragraphs, paragraphIndex, paragraphs.Length - paragraphIndex);
 			else
@@ -95,8 +95,8 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 
 		public static string ToBase64String(this string value)
 		{
-			byte[] encodedDataBytes = Encoding.ASCII.GetBytes(value);
-			string encodedData = Convert.ToBase64String(encodedDataBytes);
+			var encodedDataBytes = Encoding.ASCII.GetBytes(value);
+			var encodedData = Convert.ToBase64String(encodedDataBytes);
 			return encodedData;
 		}
 
@@ -118,12 +118,12 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 			if (string.IsNullOrEmpty(value))
 				return string.Empty;
 
-            string temp = value.ToLower().Trim();
+            var temp = value.ToLower().Trim();
             //temp = temp.Replace("  ", " ").Replace("  ", " ").Trim();
 			temp = Regex.Replace(temp, "[ ]+", "-");
 
-			string result = string.Empty;
-			foreach (char c in temp)
+			var result = string.Empty;
+			foreach (var c in temp)
 			{
 				switch (CharUnicodeInfo.GetUnicodeCategory(c))
 				{
@@ -158,7 +158,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 			if (typeName == null)
 				throw new ArgumentNullException("name");
 
-			Type t = Type.GetType(typeName);
+			var t = Type.GetType(typeName);
 			if (t == null)
 				throw new Exception(string.Format("Couldn't find any type with the name '{0}'", typeName));
 
@@ -178,12 +178,12 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 			if (value.Length <= length)
 				return value;
 
-			string[] words = value.Split(' ');
-			int currentLength = 0;
-			StringBuilder sb = new StringBuilder();
+			var words = value.Split(' ');
+			var currentLength = 0;
+			var sb = new StringBuilder();
 			for (int i = 0, arrayLength = words.Length; i < arrayLength && currentLength < length - 3; ++i)
 			{
-				string newEntry = words[i] + " ";
+				var newEntry = words[i] + " ";
 				sb.Append(newEntry);
 				currentLength += newEntry.Length;
 			}
@@ -238,7 +238,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 			if (search.Length > original.Length || search.Length == 0)
 				return original;
 
-			int searchIndex = original.IndexOf(search, 0, comparisonType);
+			var searchIndex = original.IndexOf(search, 0, comparisonType);
 
 			if (searchIndex < 0)
 				return original;
@@ -283,7 +283,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 			if (search.Length > original.Length || search.Length == 0)
 				return original;
 
-			int searchIndex = original.IndexOf(search, 0, comparisonType);
+			var searchIndex = original.IndexOf(search, 0, comparisonType);
 
 			if (searchIndex < 0)
 				return original;
@@ -329,7 +329,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 			if (search.Length > original.Length || search.Length == 0)
 				return original;
 
-			int searchIndex = original.LastIndexOf(search, startIndex, comparisonType);
+			var searchIndex = original.LastIndexOf(search, startIndex, comparisonType);
 
 			if (searchIndex < 0)
 				return original;
@@ -344,7 +344,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 
             try
             {
-                Match match = Regex.Match(original, @"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
+                var match = Regex.Match(original, @"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
                 return ((match.Success && (match.Index == 0)) && (match.Length == original.Length));
             }
             catch
@@ -381,11 +381,11 @@ namespace Zeus.BaseLibrary.ExtensionMethods
             }
             else
             {
-                string newText = "";
+                var newText = "";
                 newText = theString.Substring(0, theLength);
 
                 // test whether the truncate has cut into an existing HTML tag. If it has, remove a character to newText and test again. Do this until false. 
-                Regex isItCutXP = new Regex(@"<[^>]*$");
+                var isItCutXP = new Regex(@"<[^>]*$");
                 while (isItCutXP.IsMatch(newText))
                 {
                     theLength--;
@@ -393,30 +393,30 @@ namespace Zeus.BaseLibrary.ExtensionMethods
                 }
 
                 //remove images from newText
-                Regex imagesRGX = new Regex(@"<img[^>]+>", RegexOptions.None);
+                var imagesRGX = new Regex(@"<img[^>]+>", RegexOptions.None);
                 newText = imagesRGX.Replace(newText, "");
 
                 // match all opening HTML tags (avoiding <br> tags) in newText and put in an array called 'theMatches'
-                Regex openTagsRGX = new Regex(@"<(?!\/)(?!br)[^>]+>", RegexOptions.IgnoreCase);
-                MatchCollection theMatches = openTagsRGX.Matches(newText);
+                var openTagsRGX = new Regex(@"<(?!\/)(?!br)[^>]+>", RegexOptions.IgnoreCase);
+                var theMatches = openTagsRGX.Matches(newText);
 
 
                 // for each opening tag, create a close tag
-                ArrayList theCloses = new ArrayList();
-                Regex inTagRGX = new Regex(@"\w+");
+                var theCloses = new ArrayList();
+                var inTagRGX = new Regex(@"\w+");
                 foreach (Match m in theMatches)
                 {
 
                     var theTag = inTagRGX.Match(m.ToString());
-                    string toAdd = "</" + theTag.ToString() + ">";
+                    var toAdd = "</" + theTag.ToString() + ">";
                     theCloses.Add(toAdd);
                 }
 
 
                 //find all currently existing close tags
-                Regex closeTagsRGX = new Regex(@"<\/[^>]+>", RegexOptions.IgnoreCase);
-                MatchCollection existingCloseTags = closeTagsRGX.Matches(newText);
-                string returningText = "";
+                var closeTagsRGX = new Regex(@"<\/[^>]+>", RegexOptions.IgnoreCase);
+                var existingCloseTags = closeTagsRGX.Matches(newText);
+                var returningText = "";
 
                 //if there are any, delete matches entries in theCloses in the order in which they appear
 
@@ -437,7 +437,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods
                 theCloses.Reverse();
 
                 //concatentate theCloses into a string and tack it to the end of the truncated text.
-                StringBuilder theCloseString = new StringBuilder();
+                var theCloseString = new StringBuilder();
                 foreach (string m in theCloses)
                 {
                     theCloseString.Append(m);

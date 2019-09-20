@@ -8,7 +8,7 @@ namespace Zeus.Web
 		public string ResolvePermanentLinks(string value)
 		{
 			const string pattern = @"href=""/?~/link/([\d]+?)""";
-			Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+			var regex = new Regex(pattern, RegexOptions.IgnoreCase);
 			return regex.Replace(value, OnPatternMatched);
 			
 		}
@@ -16,10 +16,10 @@ namespace Zeus.Web
 		private string OnPatternMatched(Match match)
 		{
 			// Get ContentID from link.
-			int contentID = Convert.ToInt32(match.Groups[1].Value);
+			var contentID = Convert.ToInt32(match.Groups[1].Value);
 
 			// Load content item and get URL.
-			ContentItem contentItem = Context.Persister.Get(contentID);
+			var contentItem = Context.Persister.Get(contentID);
 			return string.Format(@"href=""{0}""", (contentItem != null) ? contentItem.Url : "#");
 		}
 	}

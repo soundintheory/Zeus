@@ -56,7 +56,7 @@ namespace Zeus.BaseLibrary.IO
 
 		public override int Read(byte[] buffer, int offset, int count)
 		{
-			int result = file.Read(buffer, offset, count);
+			var result = file.Read(buffer, offset, count);
 			bytesRead += result;
 			if (ProgressChanged != null)
 				ProgressChanged(this, new ProgressChangedEventArgs(bytesRead, length, _fileName));

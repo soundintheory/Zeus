@@ -21,19 +21,19 @@ namespace Zeus.BaseLibrary.Navigation
                 return true;
             else if (this.SubNav != null)
             {
-                foreach (NavigationItem subNavItem in this.SubNav)
+                foreach (var subNavItem in this.SubNav)
                 {
                     if (subNavItem.Url == url)
                         return true;
                     if (subNavItem.SubNav != null)
                     {
-                        foreach (NavigationItem tertiaryNavItem in subNavItem.SubNav)
+                        foreach (var tertiaryNavItem in subNavItem.SubNav)
                         {
                             if (tertiaryNavItem.Url == url)
                                 return true;
                             if (tertiaryNavItem.SubNav != null)
                             {
-                                foreach (NavigationItem fourthLevelNavItem in tertiaryNavItem.SubNav)
+                                foreach (var fourthLevelNavItem in tertiaryNavItem.SubNav)
                                 {
                                     if (fourthLevelNavItem.Url == url)
                                         return true;

@@ -17,10 +17,10 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web.UI
 			if (cssUrl.StartsWith("~"))
 				cssUrl = VirtualPathUtility.ToAbsolute(cssUrl);
 
-			Page page = (Page)HttpContext.Current.Handler;
+			var page = (Page)HttpContext.Current.Handler;
 			if (page.Items[cssUrl] == null)
 			{
-				HtmlLink link = new HtmlLink();
+				var link = new HtmlLink();
 				link.Href = cssUrl;
 				link.Attributes["type"] = "text/css";
 				link.Attributes["rel"] = "stylesheet";
@@ -30,7 +30,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web.UI
 				{
 					case ResourceInsertPosition.HeaderTop:
 						{
-							int index = (int)(page.Items["__CssResourceIndex"] ?? 0);
+							var index = (int)(page.Items["__CssResourceIndex"] ?? 0);
 							page.Header.Controls.AddAt(index, link);
 							page.Items["__CssResourceIndex"] = ++index;
 						}
@@ -54,7 +54,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web.UI
 
 		public static void RegisterCssResource(this ClientScriptManager clientScriptManager, Type type, string resourceName, ResourceInsertPosition position)
 		{
-			string cssUrl = clientScriptManager.GetWebResourceUrl(type, resourceName);
+			var cssUrl = clientScriptManager.GetWebResourceUrl(type, resourceName);
 			RegisterCssInclude(clientScriptManager, cssUrl, position);
 		}
 
@@ -74,17 +74,17 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web.UI
 			if (javascriptUrl.StartsWith("~"))
 				javascriptUrl = VirtualPathUtility.ToAbsolute(javascriptUrl);
 
-			Page page = (Page)HttpContext.Current.Handler;
+			var page = (Page)HttpContext.Current.Handler;
 			if (page.Items[javascriptUrl] == null)
 			{
-				string script = string.Format(@"{0}<script src=""{1}"" type=""text/javascript""></script>{2}{3}", prefix, javascriptUrl, postfix, Environment.NewLine);
-				LiteralControl jsControl = new LiteralControl(script);
+				var script = string.Format(@"{0}<script src=""{1}"" type=""text/javascript""></script>{2}{3}", prefix, javascriptUrl, postfix, Environment.NewLine);
+				var jsControl = new LiteralControl(script);
 
 				switch (position)
 				{
 					case ResourceInsertPosition.HeaderTop:
 						{
-							int index = (int)(page.Items["__ScriptResourceIndex"] ?? 0);
+							var index = (int)(page.Items["__ScriptResourceIndex"] ?? 0);
 							page.Header.Controls.AddAt(index, jsControl);
 							page.Items["__ScriptResourceIndex"] = ++index;
 						}
@@ -118,7 +118,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Web.UI
 
 		public static void RegisterJavascriptResource(this ClientScriptManager clientScriptManager, Type type, string resourceName, ResourceInsertPosition position, string prefix, string postfix)
 		{
-			string javascriptUrl = clientScriptManager.GetWebResourceUrl(type, resourceName);
+			var javascriptUrl = clientScriptManager.GetWebResourceUrl(type, resourceName);
 			RegisterJavascriptInclude(clientScriptManager, javascriptUrl, position, prefix, postfix);
 		}
 	}

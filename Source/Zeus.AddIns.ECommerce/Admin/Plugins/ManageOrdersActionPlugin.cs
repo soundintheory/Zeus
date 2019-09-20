@@ -35,7 +35,7 @@ namespace Zeus.AddIns.ECommerce.ActionPlugins
 
 		public MenuItem GetMenuItem(ContentItem contentItem)
 		{
-			MenuItem menuItem = new MenuItem
+			var menuItem = new MenuItem
 			{
 				Text = "Manage Orders",
 				IconUrl = Utility.GetCooliteIconUrl(Icon.Basket),

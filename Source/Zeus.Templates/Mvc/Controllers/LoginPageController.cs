@@ -53,10 +53,10 @@ namespace Zeus.Templates.Mvc.Controllers
         {
             try
             {
-                HttpWebRequest webRequest = HttpWebRequest.Create("http://" + System.Web.HttpContext.Current.Request.Url.Host + url) as HttpWebRequest;
+                var webRequest = HttpWebRequest.Create("http://" + System.Web.HttpContext.Current.Request.Url.Host + url) as HttpWebRequest;
                 webRequest.Method = WebRequestMethods.Http.Get;
                 webRequest.ContentType = "application/x-www-form-urlencoded";
-                using (HttpWebResponse response = webRequest.GetResponse() as HttpWebResponse)
+                using (var response = webRequest.GetResponse() as HttpWebResponse)
                 {
                     if (response.StatusCode == HttpStatusCode.OK)
                     {

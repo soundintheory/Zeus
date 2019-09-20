@@ -23,19 +23,19 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Data.Common
 			output.AppendLine(cmd.CommandText);
 			foreach (DbParameter parameter in cmd.Parameters)
 			{
-				int num = 0;
-				int num2 = 0;
-				PropertyInfo property = parameter.GetType().GetProperty("Precision");
+				var num = 0;
+				var num2 = 0;
+				var property = parameter.GetType().GetProperty("Precision");
 				if (property != null)
 				{
 					num = (int) Convert.ChangeType(property.GetValue(parameter, null), typeof(int), CultureInfo.InvariantCulture);
 				}
-				PropertyInfo info2 = parameter.GetType().GetProperty("Scale");
+				var info2 = parameter.GetType().GetProperty("Scale");
 				if (info2 != null)
 				{
 					num2 = (int) Convert.ChangeType(info2.GetValue(parameter, null), typeof(int), CultureInfo.InvariantCulture);
 				}
-				SqlParameter parameter2 = parameter as SqlParameter;
+				var parameter2 = parameter as SqlParameter;
 				output.AppendFormat("-- {0}: {1} {2} (Size = {3}; Prec = {4}; Scale = {5}) [{6}]\r\n", new object[] { parameter.ParameterName, parameter.Direction, (parameter2 == null) ? parameter.DbType.ToString() : parameter2.SqlDbType.ToString(), parameter.Size.ToString(CultureInfo.CurrentCulture), num, num2, (parameter2 == null) ? parameter.Value : parameter2.SqlValue });
 			}
 

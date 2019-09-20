@@ -39,7 +39,7 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageSettings
 
 		private void CreateHeaderRow()
 		{
-			TableHeaderRow headerRow = new TableHeaderRow { CssClass = "titles" };
+			var headerRow = new TableHeaderRow { CssClass = "titles" };
 			headerRow.Cells.Add(new TableHeaderCell { Text = "Visitor Language" });
 			headerRow.Cells.Add(new TableHeaderCell { Text = "Fallback Language" });
 			tblFallbackLanguages.Rows.Add(headerRow);
@@ -47,24 +47,24 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageSettings
 
 		private void CreateRows()
 		{
-			IEnumerable<Language> availableLanguages = Engine.Resolve<ILanguageManager>().GetAvailableLanguages();
-			foreach (Language language in availableLanguages)
+			var availableLanguages = Engine.Resolve<ILanguageManager>().GetAvailableLanguages();
+			foreach (var language in availableLanguages)
 				CreateRow(language, availableLanguages);
 		}
 
 		private void CreateRow(Language language, IEnumerable<Language> availableLanguages)
 		{
-			TableRow row = new TableRow();
+			var row = new TableRow();
 			row.Cells.Add(new TableCell { Text = language.Title });
 
-			DropDownList ddl = new DropDownList { ID = "ddlFallbackLanguage" + language.ID, Width = Unit.Pixel(200) };
+			var ddl = new DropDownList { ID = "ddlFallbackLanguage" + language.ID, Width = Unit.Pixel(200) };
 			ddl.Items.Add(string.Empty);
-			foreach (Language availableLanguage in availableLanguages.Where(l => l != language))
+			foreach (var availableLanguage in availableLanguages.Where(l => l != language))
 				ddl.Items.Add(new ListItem(availableLanguage.Title, availableLanguage.Name));
-			LanguageSetting languageSetting = SelectedItem.LanguageSettings.SingleOrDefault(ls => ls.Language == language.Name);
+			var languageSetting = SelectedItem.LanguageSettings.SingleOrDefault(ls => ls.Language == language.Name);
 			if (languageSetting != null && !string.IsNullOrEmpty(languageSetting.FallbackLanguage))
 				ddl.SelectedValue = languageSetting.FallbackLanguage;
-			TableCell cell = new TableCell();
+			var cell = new TableCell();
 			cell.Controls.Add(ddl);
 			row.Cells.Add(cell);
 
@@ -80,11 +80,11 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageSettings
 			}
 			else
 			{
-				IEnumerable<Language> availableLanguages = Engine.Resolve<ILanguageManager>().GetAvailableLanguages();
-				foreach (Language language in availableLanguages)
+				var availableLanguages = Engine.Resolve<ILanguageManager>().GetAvailableLanguages();
+				foreach (var language in availableLanguages)
 				{
-					DropDownList ddl = (DropDownList) tblFallbackLanguages.FindControl("ddlFallbackLanguage" + language.ID);
-					LanguageSetting languageSetting = SelectedItem.LanguageSettings.SingleOrDefault(ls => ls.Language == language.Name);
+					var ddl = (DropDownList) tblFallbackLanguages.FindControl("ddlFallbackLanguage" + language.ID);
+					var languageSetting = SelectedItem.LanguageSettings.SingleOrDefault(ls => ls.Language == language.Name);
 					if (languageSetting == null)
 					{
 						languageSetting = new LanguageSetting(SelectedItem, language.Name);

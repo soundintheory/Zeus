@@ -37,8 +37,8 @@ namespace Zeus.ContentTypes
 			_definitions = contentTypeBuilder.GetDefinitions();
 
 			// Verify that content types have unique names.
-			List<string> discriminators = new List<string>();
-			foreach (ContentType contentType in _definitions.Values)
+			var discriminators = new List<string>();
+			foreach (var contentType in _definitions.Values)
 			{
 				if (discriminators.Contains(contentType.Discriminator))
 					throw new ZeusException("Duplicate content type discriminator. The discriminator '{0}' is already in use.", contentType.Discriminator);
@@ -62,7 +62,7 @@ namespace Zeus.ContentTypes
 		public T CreateInstance<T>(ContentItem parentItem)
 			where T : ContentItem
 		{
-			T item = Activator.CreateInstance<T>();
+			var item = Activator.CreateInstance<T>();
 			OnItemCreating(item, parentItem);
 			return item;
 		}
@@ -71,7 +71,7 @@ namespace Zeus.ContentTypes
 		/// <returns>A new instance of an item.</returns>
 		public ContentItem CreateInstance(Type itemType, ContentItem parentItem)
 		{
-			ContentItem item = Activator.CreateInstance(itemType) as ContentItem;
+			var item = Activator.CreateInstance(itemType) as ContentItem;
 			OnItemCreating(item, parentItem);
 			return item;
 		}
@@ -80,14 +80,14 @@ namespace Zeus.ContentTypes
 		{
 			if (parentItem != null)
 			{
-				ContentType parentDefinition = GetContentType(parentItem.GetType());
-				ContentType itemDefinition = GetContentType(item.GetType());
+				var parentDefinition = GetContentType(parentItem.GetType());
+				var itemDefinition = GetContentType(item.GetType());
 
 				if (!parentDefinition.IsChildAllowed(itemDefinition))
 					throw new NotAllowedParentException(itemDefinition, parentItem.GetType());
 
 				item.Parent = parentItem;
-				foreach (AuthorizationRule rule in parentItem.AuthorizationRules)
+				foreach (var rule in parentItem.AuthorizationRules)
 					item.AuthorizationRules.Add(new AuthorizationRule(item, rule.Operation, rule.Role, rule.User, rule.Allowed));
 			}
 
@@ -117,8 +117,8 @@ namespace Zeus.ContentTypes
 			if (!contentType.HasZone(zone))
 				throw new ZeusException("The content type '{0}' does not allow a zone named '{1}'.", contentType.Title, zone);
 
-			List<ContentType> allowedChildren = new List<ContentType>();
-			foreach (ContentType childItem in contentType.AllowedChildren)
+			var allowedChildren = new List<ContentType>();
+			foreach (var childItem in contentType.AllowedChildren)
 			{
 				if (!childItem.IsDefined)
 					continue;

@@ -18,7 +18,7 @@ namespace Zeus.Admin.Plugins.Globalization.LanguageOverview
 
 		public MenuItem GetMenuItem(ContentItem contentItem)
 		{
-			MenuItem menuItem = new MenuItem
+			var menuItem = new MenuItem
 			{
 				Text = "Language Overview",
 				IconUrl = Utility.GetCooliteIconUrl(Icon.WorldGo),

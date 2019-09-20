@@ -17,7 +17,7 @@ namespace Zeus.Tests.Definitions
 		{
 			IAssemblyFinder assemblyFinder = new AssemblyFinder();
 			ITypeFinder typeFinder = new TypeFinder(assemblyFinder);
-			ContentTypeBuilder contentTypeBuilder = new ContentTypeBuilder(
+			var contentTypeBuilder = new ContentTypeBuilder(
                 typeFinder,
                 new EditableHierarchyBuilder<Design.Editors.IEditor>(),
                 new AttributeExplorer<Design.Displayers.IDisplayer>(),
@@ -31,7 +31,7 @@ namespace Zeus.Tests.Definitions
 		[Test]
 		public void CanCreateNewItemInstance()
 		{
-			TestTextPage item = _definitionManager.CreateInstance<TestTextPage>(null);
+			var item = _definitionManager.CreateInstance<TestTextPage>(null);
 			Assert.IsNotNull(item, "Couldn't create item");
 		}
 	}

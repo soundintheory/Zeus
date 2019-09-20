@@ -23,7 +23,7 @@ namespace Zeus.Collections
 		/// <param name="sortExpression">The name of the property to sort on. DESC can be appended to the string to reverse the sort order.</param>
 		public ItemComparer(string sortExpression)
 		{
-			string[] pair = sortExpression.Split(' ');
+			var pair = sortExpression.Split(' ');
 			DetailToCompare = pair[0];
 			if (pair.Length > 1 && string.Compare(pair[1], "DESC", true) == 0)
 				Inverse = true;
@@ -50,8 +50,8 @@ namespace Zeus.Collections
 		/// <returns>The compared difference.</returns>
 		public static int Compare(T x, T y, string detailToCompare, bool inverse)
 		{
-			object ox = x[detailToCompare];
-			object oy = y[detailToCompare];
+			var ox = x[detailToCompare];
+			var oy = y[detailToCompare];
 			if (inverse)
 				return System.Collections.Comparer.Default.Compare(oy, ox);
 			else

@@ -107,35 +107,35 @@ namespace Zeus.AddIns.ECommerce.ContentTypes.Pages
 
 		void ISelfPopulator.Populate()
 		{
-			VariationSetContainer variationsSet = new VariationSetContainer
+			var variationsSet = new VariationSetContainer
 			{
 				Name = VARIATION_CONTAINER_NAME,
 				Title = "VariationsSet"
 			};
 			variationsSet.AddTo(this);
 
-			ShoppingBasketContainer shoppingBaskets = new ShoppingBasketContainer
+			var shoppingBaskets = new ShoppingBasketContainer
 			{
 				Name = SHOPPING_BASKETS_NAME,
 				Title = "Shopping Baskets"
 			};
 			shoppingBaskets.AddTo(this);
 
-			OrderContainer orders = new OrderContainer
+			var orders = new OrderContainer
 			{
 				Name = ORDERS_NAME,
 				Title = "Orders"
 			};
 			orders.AddTo(this);
 
-			DeliveryMethodContainer deliveryMethods = new DeliveryMethodContainer
+			var deliveryMethods = new DeliveryMethodContainer
 			{
 				Name = DELIVERY_METHODS_NAME,
 				Title = "Delivery Methods"
 			};
 			deliveryMethods.AddTo(this);
 
-			CheckoutPage checkoutPage = new CheckoutPage
+			var checkoutPage = new CheckoutPage
 			{
 				Name = CHECKOUT_NAME,
 				Title = "Checkout"

@@ -19,7 +19,7 @@ namespace Zeus.Web.Mvc
 			if (button == null)
 				throw new ZeusException("No image button found");
 
-			string buttonName = button.Substring(0, button.Length - 2);
+			var buttonName = button.Substring(0, button.Length - 2);
 			return (Name == buttonName);
 		}
 	}

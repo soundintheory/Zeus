@@ -78,9 +78,9 @@ namespace Zeus.Web.UI.WebControls
 
 			_labelPanel.Controls.Add(new LiteralControl("<br /><span class=\"edit\"><a href=\"#\" onclick=\"jQuery('#" + _label.ClientID + "').hide();jQuery('#" + _textBox.ClientID + "').show();return false;\">Edit</a></span>"));
 
-			ItemView itemView = Parent.FindParent<ItemView>();
-			Control titleEditor = itemView.PropertyControls["Title"];
-			string script = string.Format(@"jQuery(document).ready(function() {{
+			var itemView = Parent.FindParent<ItemView>();
+			var titleEditor = itemView.PropertyControls["Title"];
+			var script = string.Format(@"jQuery(document).ready(function() {{
 					jQuery('#{0}, #{1}').nameEditor({{titleEditorID: '{2}'}});
 				}});", _label.ClientID, _textBox.ClientID, titleEditor.ClientID);
 			this.Page.ClientScript.RegisterStartupScript(typeof(NameEditor), "InitNameEditor", script, true);
@@ -105,7 +105,7 @@ namespace Zeus.Web.UI.WebControls
 		/// <summary>Validates the name editor's value checking uniqueness and lenght.</summary>
 		public void Validate()
 		{
-			ContentItem currentItem = this.FindCurrentItem();
+			var currentItem = this.FindCurrentItem();
 
 			if (currentItem != null)
 			{
@@ -123,7 +123,7 @@ namespace Zeus.Web.UI.WebControls
 					// Ensure that the path isn't longer than 260 characters
 					if (currentItem.Parent != null)
 					{
-						ContentItem parentDocument = currentItem.Parent;
+						var parentDocument = currentItem.Parent;
 						if (parentDocument.Url.Length > 248 || parentDocument.Url.Length + _textBox.Text.Length > 260)
 						{
 							ErrorMessage = string.Format("Name too long, the full url cannot exceed 260 characters: {0}", _textBox.Text);

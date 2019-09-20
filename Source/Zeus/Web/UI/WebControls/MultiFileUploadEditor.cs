@@ -17,9 +17,9 @@ namespace Zeus.Web.UI.WebControls
 
 		protected override Control CreateDetailEditor(int id, PropertyData detail)
 		{
-			LinkProperty linkDetail = detail as LinkProperty;
+			var linkDetail = detail as LinkProperty;
 
-			FancyFileUpload fileUpload = CreateEditor();
+			var fileUpload = CreateEditor();
 			fileUpload.ID = ID + "_upl_" + id;
 
 			if (linkDetail != null)

@@ -26,7 +26,7 @@ namespace Zeus.Design.Editors
 
 		protected override ListItem[] GetListItems(IEditableObject contentItem)
 		{
-			List<ListItem> items = Enumerable.Range(_min, _max - _min + 1).Select(i => new ListItem(i.ToString())).ToList();
+			var items = Enumerable.Range(_min, _max - _min + 1).Select(i => new ListItem(i.ToString())).ToList();
 			if (!Required)
 				items.Insert(0, new ListItem(string.Empty));
 			return items.ToArray();

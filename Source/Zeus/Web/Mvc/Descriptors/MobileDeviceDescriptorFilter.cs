@@ -58,7 +58,7 @@ namespace Zeus.Web.Mvc.Descriptors
 			// The locations collection contains items of this form:
 			// Home/Index.spark
 			// We need to insert the mobile stuff between the final "/", and the filename.
-			string device = extra["device"] as string;
+			var device = extra["device"] as string;
 			var locations1 = locations.Select(x => InsertMobileStuffInViewLocation(x, "Mobile\\" + device + "\\"));
 			var locations2 = locations.Select(x => InsertMobileStuffInViewLocation(x, "Mobile\\"));
 			return locations1.Concat(locations2).Concat(locations);

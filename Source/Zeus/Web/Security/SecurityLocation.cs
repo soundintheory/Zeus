@@ -18,7 +18,7 @@ namespace Zeus.Web.Security
 			if (string.IsNullOrEmpty(path))
 				return this;
 
-			int slashIndex = path.IndexOf('/');
+			var slashIndex = path.IndexOf('/');
 			if (slashIndex == 0) // starts with slash
 			{
 				if (path.Length == 1)
@@ -28,15 +28,15 @@ namespace Zeus.Web.Security
 
 			if (slashIndex > 0) // contains a slash further down
 			{
-				string nameSegment = path.Substring(0, slashIndex);
-				foreach (SecurityLocation child in ChildLocations)
+				var nameSegment = path.Substring(0, slashIndex);
+				foreach (var child in ChildLocations)
 					if (LocationPathMatches(child.Path, path))
 						return child.GetChild(path.Substring(slashIndex));
 				return this;
 			}
 
 			// no slash, only a name
-			foreach (SecurityLocation child in ChildLocations)
+			foreach (var child in ChildLocations)
 				if (LocationPathMatches(child.Path, path))
 					return child;
 

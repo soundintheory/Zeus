@@ -6,7 +6,7 @@ namespace Zeus.Web.Mvc.ActionFilters
 	{
 		public override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
-			ModelStateDictionary modelState = filterContext.Controller.TempData[Key] as ModelStateDictionary;
+			var modelState = filterContext.Controller.TempData[Key] as ModelStateDictionary;
 
 			if (modelState != null)
 			{

@@ -19,19 +19,19 @@ namespace Zeus.BaseLibrary.Reflection
 		/// <returns>A list of types found in the app domain.</returns>
 		public IEnumerable<Type> Find(Type requestedType)
 		{
-			List<Type> types = new List<Type>();
-			foreach (Assembly assembly in _assemblyFinder.GetAssemblies())
+			var types = new List<Type>();
+			foreach (var assembly in _assemblyFinder.GetAssemblies())
 			{
 				try
 				{
-					foreach (Type type in assembly.GetTypes())
+					foreach (var type in assembly.GetTypes())
 						if (requestedType.IsAssignableFrom(type))
 							types.Add(type);
 				}
 				catch (ReflectionTypeLoadException ex)
 				{
-					string loaderErrors = string.Empty;
-					foreach (Exception loaderEx in ex.LoaderExceptions)
+					var loaderErrors = string.Empty;
+					foreach (var loaderEx in ex.LoaderExceptions)
 					{
 						Trace.TraceError(loaderEx.ToString());
 						loaderErrors += ", " + loaderEx.Message;

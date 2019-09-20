@@ -36,7 +36,7 @@ namespace Zeus.Web.Security
 
 		public int IsUserAllowed(IPrincipal user, string verb)
 		{
-			int num = (Action == AuthorizationRuleAction.Allow) ? 1 : -1;
+			var num = (Action == AuthorizationRuleAction.Allow) ? 1 : -1;
 			if (Everyone)
 				return num;
 

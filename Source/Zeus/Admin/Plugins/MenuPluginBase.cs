@@ -43,7 +43,7 @@ namespace Zeus.Admin.Plugins
 
 			// Now check if any overrides are present in web.config. If this plugin is
 			// not specifically enabled, then don't show it.
-			AdminSection adminSection = Context.Current.Resolve<AdminSection>();
+			var adminSection = Context.Current.Resolve<AdminSection>();
 			if (adminSection == null || adminSection.MenuPlugins == null)
 				return false;
 

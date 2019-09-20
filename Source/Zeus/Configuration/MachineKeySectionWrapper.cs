@@ -14,12 +14,12 @@ namespace Zeus.Configuration
 
 		static MachineKeySectionWrapper()
 		{
-			MachineKeySection config = (MachineKeySection) ConfigurationManager.GetSection("system.web/machineKey");
-			Type machineKeyType = config.GetType();
+			var config = (MachineKeySection) ConfigurationManager.GetSection("system.web/machineKey");
+			var machineKeyType = config.GetType();
 
-			BindingFlags bf = BindingFlags.NonPublic | BindingFlags.Static;
+			var bf = BindingFlags.NonPublic | BindingFlags.Static;
 
-			Type[] typeArray = new Type[5];
+			var typeArray = new Type[5];
 			typeArray.SetValue(typeof(Boolean), 0);
 			typeArray.SetValue(typeof(Byte[]), 1);
 			typeArray.SetValue(typeof(Byte[]), 2);

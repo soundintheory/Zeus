@@ -25,14 +25,14 @@ namespace Zeus.ContentProperties
 		public override string GetXhtmlValue()
 		{
 			// TODO: Make this pluggable, so we don't explicitly call DynamicContent, and allow other things to hook in here.
-			string result = StringValue;
+			var result = StringValue;
 
 			// Squirt DynamicContent in here.
-			IDynamicContentManager dynamicContentManager = Context.Current.Resolve<IDynamicContentManager>();
+			var dynamicContentManager = Context.Current.Resolve<IDynamicContentManager>();
 			result = dynamicContentManager.RenderDynamicContent(result);
 
 			// Resolve permanent links.
-			IPermanentLinkManager permanentLinkManager = Context.Current.Resolve<IPermanentLinkManager>();
+			var permanentLinkManager = Context.Current.Resolve<IPermanentLinkManager>();
 			result = permanentLinkManager.ResolvePermanentLinks(result);
 
 			return result;

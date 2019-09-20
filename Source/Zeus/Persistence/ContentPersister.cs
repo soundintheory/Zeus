@@ -9,7 +9,6 @@ namespace Zeus.Persistence
 	{
 		#region Fields
 
-		private readonly IRepository<int, ContentItem> _contentRepository;
 		private readonly IRepository<int, LinkProperty> _linkRepository;
 		private readonly IFinder _linkFinder;
 
@@ -19,7 +18,7 @@ namespace Zeus.Persistence
 
 		public ContentPersister(IRepository<int, ContentItem> contentRepository, IRepository<int, LinkProperty> linkRepository, IFinder linkFinder)
 		{
-			_contentRepository = contentRepository;
+			Repository = contentRepository;
 			_linkRepository = linkRepository;
 			_linkFinder = linkFinder;
 		}
@@ -28,10 +27,7 @@ namespace Zeus.Persistence
 
 		#region Properties
 
-		public IRepository<int, ContentItem> Repository
-		{
-			get { return _contentRepository; }
-		}
+		public IRepository<int, ContentItem> Repository { get; }
 
 		#endregion
 
@@ -86,7 +82,7 @@ namespace Zeus.Persistence
 				if (source is ISelfPersister)
 					return (source as ISelfPersister).CopyTo(destination);
 
-				ContentItem cloned = source.Clone(includeChildren);
+				var cloned = source.Clone(includeChildren);
 
 				cloned.Parent = destination;
 				Save(cloned);
@@ -110,7 +106,7 @@ namespace Zeus.Persistence
 			}
 			else
 			{
-				using (ITransaction transaction = _contentRepository.BeginTransaction())
+				using (var transaction = Repository.BeginTransaction())
 				{
 					DeleteRecursive(itemNoMore);
 					transaction.Commit();
@@ -121,25 +117,25 @@ namespace Zeus.Persistence
 
 		private void DeleteRecursive(ContentItem contentItem)
 		{
-			List<ContentItem> children = new List<ContentItem>(contentItem.Children);
-			foreach (ContentItem child in children)
+			var children = new List<ContentItem>(contentItem.Children);
+			foreach (var child in children)
 				DeleteRecursive(child);
 
 			contentItem.AddTo(null);
 
 			DeleteInboundLinks(contentItem);
 
-			_contentRepository.Delete(contentItem);
+			Repository.Delete(contentItem);
 		}
 
 		private void DeleteInboundLinks(ContentItem itemNoMore)
 		{
-			foreach (LinkProperty detail in _linkFinder.QueryDetails<LinkProperty>().Where(ld => ld.LinkedItem == itemNoMore))
+			foreach (var detail in _linkFinder.QueryDetails<LinkProperty>().Where(ld => ld.LinkedItem == itemNoMore))
 			{
 				if (detail.EnclosingCollection != null)
 					detail.EnclosingCollection.Remove(detail);
-				IDictionary<string, PropertyData> test = detail.EnclosingItem.Details; // TODO: Investigate why this is necessary, on a PersistentGenericMap
-				int count = test.Count;
+				var test = detail.EnclosingItem.Details; // TODO: Investigate why this is necessary, on a PersistentGenericMap
+				var count = test.Count;
 				detail.EnclosingItem.Details.Remove(detail.Name);
 				_linkRepository.Delete(detail);
 			}
@@ -147,23 +143,23 @@ namespace Zeus.Persistence
 
 		public ContentItem Get(int id)
 		{
-			return _contentRepository.Get(id);
+			return Repository.Get(id);
 		}
 
 		public T Get<T>(int id)
 			where T : ContentItem
 		{
-			return _contentRepository.Get<T>(id);
+			return Repository.Get<T>(id);
 		}
 
 		public T Get<T>(Func<T, bool> condition) where T : ContentItem
 		{
-			return _contentRepository.Get(condition);
+			return Repository.Get(condition);
 		}
 
 		public ContentItem Load(int id)
 		{
-			return _contentRepository.Load(id);
+			return Repository.Load(id);
 		}
 
 		public void Move(ContentItem toMove, ContentItem newParent)
@@ -179,10 +175,10 @@ namespace Zeus.Persistence
 			}
 			else
 			{
-				using (ITransaction transaction = _contentRepository.BeginTransaction())
+				using (var transaction = Repository.BeginTransaction())
 				{
 					toMove.AddTo(newParent);
-					_contentRepository.Save(toMove);
+					Repository.Save(toMove);
 					transaction.Commit();
 				}
 			}
@@ -196,14 +192,14 @@ namespace Zeus.Persistence
 			IEnumerable<ContentItem> previousSiblings = siblings.Where(c => c.SortOrder <= newPos).OrderBy(c => c.SortOrder);
 			IEnumerable<ContentItem> nextSiblings = siblings.Where(c => c.SortOrder >= newPos).OrderBy(c => c.SortOrder);
 
-			int currentSortOrder = 0;
-			foreach (ContentItem sibling in previousSiblings)
+			var currentSortOrder = 0;
+			foreach (var sibling in previousSiblings)
 				sibling.SortOrder = currentSortOrder++;
 			contentItem.SortOrder = currentSortOrder++;
-			foreach (ContentItem sibling in nextSiblings)
+			foreach (var sibling in nextSiblings)
 				sibling.SortOrder = currentSortOrder++;
 
-			foreach (ContentItem item in siblings)
+			foreach (var item in siblings)
 				Save(item);
         }
 
@@ -222,9 +218,9 @@ namespace Zeus.Persistence
             {
                 contentItem.Updated = DateTime.Now;
                 
-                using (ITransaction transaction = _contentRepository.BeginTransaction())
+                using (var transaction = Repository.BeginTransaction())
                 {
-                    _contentRepository.SaveOrUpdate(contentItem);
+                    Repository.SaveOrUpdate(contentItem);
                     contentItem.AddTo(contentItem.Parent);
                     EnsureSortOrder(contentItem);                    
                     transaction.Commit();
@@ -236,9 +232,9 @@ namespace Zeus.Persistence
         public void SetUpdatedToNow(ContentItem contentItem)
         {
             contentItem.Updated = DateTime.Now;
-            using (ITransaction transaction = _contentRepository.BeginTransaction())
+            using (var transaction = Repository.BeginTransaction())
             {
-                _contentRepository.SaveOrUpdate(contentItem);
+                Repository.SaveOrUpdate(contentItem);
                 transaction.Commit();
             }
         }
@@ -247,9 +243,9 @@ namespace Zeus.Persistence
 		{
 			if (unsavedItem.Parent != null && !unsavedItem.Parent.IgnoreOrderOnSave)
 			{
-				IEnumerable<ContentItem> updatedItems = Utility.UpdateSortOrder(unsavedItem.Parent.Children);
-				foreach (ContentItem updatedItem in updatedItems)
-					_contentRepository.SaveOrUpdate(updatedItem);
+				var updatedItems = Utility.UpdateSortOrder(unsavedItem.Parent.Children);
+				foreach (var updatedItem in updatedItems)
+					Repository.SaveOrUpdate(updatedItem);
 			}
 		}
 

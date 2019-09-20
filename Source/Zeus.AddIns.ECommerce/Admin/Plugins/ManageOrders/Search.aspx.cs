@@ -21,7 +21,7 @@ namespace Zeus.AddIns.ECommerce.Admin.Plugins.ManageOrders
             if (!string.IsNullOrEmpty(txtOrderNumber.Text))
             {
                 //see if valid order number
-                int OrderID = Convert.ToInt32(txtOrderNumber.Text);
+                var OrderID = Convert.ToInt32(txtOrderNumber.Text);
                 lsvOrders.DataSource = SelectedItem.GetChildren<Order>().Where(o => o.ID == OrderID).ToList();
             }
             else

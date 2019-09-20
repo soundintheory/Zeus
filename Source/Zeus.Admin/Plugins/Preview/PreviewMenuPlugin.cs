@@ -41,7 +41,7 @@ namespace Zeus.Admin.Plugins.Preview
 
 		public MenuItem GetMenuItem(ContentItem contentItem)
 		{
-			MenuItem menuItem = new MenuItem
+			var menuItem = new MenuItem
 			{
 				Text = "Preview",
 				IconUrl = Utility.GetCooliteIconUrl(Icon.Magnifier),

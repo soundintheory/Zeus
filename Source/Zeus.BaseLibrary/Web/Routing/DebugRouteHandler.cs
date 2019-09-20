@@ -7,7 +7,7 @@ namespace Zeus.BaseLibrary.Web.Routing
 	{
 		public IHttpHandler GetHttpHandler(RequestContext requestContext)
 		{
-			DebugHttpHandler handler = new DebugHttpHandler();
+			var handler = new DebugHttpHandler();
 			handler.RequestContext = requestContext;
 			return handler;
 		}

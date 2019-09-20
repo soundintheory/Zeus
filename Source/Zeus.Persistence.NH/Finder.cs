@@ -62,7 +62,7 @@ namespace Zeus.Persistence.NH
 
 		public IQueryable Query(Type resultType)
 		{
-			MethodInfo genericQueryMethod = GetType().GetMethod("Query", Type.EmptyTypes).MakeGenericMethod(resultType);
+			var genericQueryMethod = GetType().GetMethod("Query", Type.EmptyTypes).MakeGenericMethod(resultType);
 			return (IQueryable)genericQueryMethod.Invoke(this, null);
 		}
 

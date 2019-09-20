@@ -5,23 +5,21 @@ namespace Zeus.Globalization
 {
 	public class LanguageSelectorContext
 	{
-		// Fields
-		private readonly ContentItem _page;
 		private string _selectedLanguage;
 		private Language _selectedLanguageBranch;
 
 		// Methods
 		public LanguageSelectorContext(ContentItem page)
 		{
-			_page = page;
+			Page = page;
 		}
 
 		public bool IsLanguagePublished(string language)
 		{
-			if (_page == null)
+			if (Page == null)
 				throw new ZeusException("IsLanguagePublished is only supported in SelectPageLanguage where a page must exist");
 
-			ContentItem pageLanguage = Context.Current.LanguageManager.GetTranslationDirect(_page, language);
+			var pageLanguage = Context.Current.LanguageManager.GetTranslationDirect(Page, language);
 			if (pageLanguage == null)
 				return false;
 
@@ -33,8 +31,8 @@ namespace Zeus.Globalization
 		{
 			get
 			{
-				if (_page != null && _page.TranslationOf != null && !string.IsNullOrEmpty(_page.TranslationOf.Language))
-					return CultureInfo.GetCultureInfo(_page.TranslationOf.Language).Name;
+				if (Page != null && Page.TranslationOf != null && !string.IsNullOrEmpty(Page.TranslationOf.Language))
+					return CultureInfo.GetCultureInfo(Page.TranslationOf.Language).Name;
 				return null;
 			}
 		}
@@ -43,23 +41,20 @@ namespace Zeus.Globalization
 		{
 			get
 			{
-				if (_page != null && !string.IsNullOrEmpty(_page.Language))
-					return CultureInfo.GetCultureInfo(_page.Language).Name;
+				if (Page != null && !string.IsNullOrEmpty(Page.Language))
+					return CultureInfo.GetCultureInfo(Page.Language).Name;
 				return null;
 			}
 		}
 
-		public ContentItem Page
-		{
-			get { return _page; }
-		}
+		public ContentItem Page { get; }
 
 		public ContentItem ParentLink
 		{
 			get
 			{
-				if (_page != null)
-					return _page.Parent;
+				if (Page != null)
+					return Page.Parent;
 				return null;
 			}
 		}

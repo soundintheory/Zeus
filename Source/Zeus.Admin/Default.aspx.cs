@@ -33,9 +33,9 @@ namespace Zeus.Admin
 			ltlAdminName1.Text = ltlAdminName2.Text = ((AdminSection) ConfigurationManager.GetSection("zeus/admin")).Name;
 
 			// Allow plugins to modify interface.
-			foreach (IMainInterfacePlugin plugin in Engine.ResolveAll<IMainInterfacePlugin>())
+			foreach (var plugin in Engine.ResolveAll<IMainInterfacePlugin>())
 			{
-				string[] requiredUserControls = plugin.RequiredUserControls;
+				var requiredUserControls = plugin.RequiredUserControls;
 				if (requiredUserControls != null)
 					LoadUserControls(requiredUserControls);
 
@@ -57,7 +57,7 @@ namespace Zeus.Admin
 			Page.ClientScript.RegisterCssResource(typeof(Default), "Zeus.Admin.Assets.Css.default.css", ResourceInsertPosition.HeaderBottom);
 
             // Render plugin scripts.
-			foreach (IMainInterfacePlugin plugin in Engine.ResolveAll<IMainInterfacePlugin>())
+			foreach (var plugin in Engine.ResolveAll<IMainInterfacePlugin>())
 			{
 				plugin.RegisterScripts(ScriptManager);
 				plugin.RegisterStyles(ScriptManager);
@@ -86,7 +86,7 @@ namespace Zeus.Admin
 
 		public void LoadUserControls(string[] virtualPaths)
 		{
-			foreach (string virtualPath in virtualPaths)
+			foreach (var virtualPath in virtualPaths)
 				Controls.Add(LoadControl(virtualPath));
 		}
 

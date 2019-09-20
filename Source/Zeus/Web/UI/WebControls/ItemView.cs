@@ -29,7 +29,7 @@ namespace Zeus.Web.UI.WebControls
 			{
 				if (_currentItem == null)
 				{
-					ItemViewEditableObjectEventArgs args = new ItemViewEditableObjectEventArgs(null);
+					var args = new ItemViewEditableObjectEventArgs(null);
 					OnItemCreating(args);
 					_currentItem = args.AffectedItem;
 				}
@@ -76,7 +76,7 @@ namespace Zeus.Web.UI.WebControls
 					}
 					else
 					{
-						ItemViewTypeDefinitionEventArgs args = new ItemViewTypeDefinitionEventArgs(null);
+						var args = new ItemViewTypeDefinitionEventArgs(null);
 						OnDefinitionCreating(args);
 						_currentTypeDefinition = args.TypeDefinition;
 					}

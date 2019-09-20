@@ -21,7 +21,7 @@ namespace Zeus.BaseLibrary.Drawing
 			try
 			{
 				stream = new MemoryStream(bytes);
-				Image result = (Image) Image.FromStream(stream).Clone();
+				var result = (Image) Image.FromStream(stream).Clone();
 				return result;
 			}
 			catch
@@ -43,7 +43,7 @@ namespace Zeus.BaseLibrary.Drawing
 			{
 				stream = new MemoryStream();
 				image.Save(stream, format);
-				byte[] result = stream.ToArray();
+				var result = stream.ToArray();
 				return result;
 			}
 			finally

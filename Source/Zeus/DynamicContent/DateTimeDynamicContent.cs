@@ -26,8 +26,8 @@ namespace Zeus.DynamicContent
 
 		public string Render()
 		{
-			DateTime current = DateTime.Now;
-			string result = current.ToShortDateString();
+			var current = DateTime.Now;
+			var result = current.ToShortDateString();
 			if (IncludeTime)
 				result += " " + current.ToShortTimeString();
 			return result;

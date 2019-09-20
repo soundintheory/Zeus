@@ -10,14 +10,14 @@ namespace Zeus.Serialization
 			using (new ElementWriter("authorizationRules", writer))
 			{
 				if (item.AuthorizationRules != null)
-					foreach (AuthorizationRule ar in item.AuthorizationRules)
+					foreach (var ar in item.AuthorizationRules)
 						WriteRule(writer, ar);
 			}
 		}
 
 		protected virtual void WriteRule(XmlTextWriter writer, AuthorizationRule ar)
 		{
-			using (ElementWriter role = new ElementWriter("rule", writer))
+			using (var role = new ElementWriter("rule", writer))
 			{
 				role.WriteAttribute("operation", ar.Operation);
 				role.WriteAttribute("role", ar.Role);

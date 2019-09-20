@@ -49,7 +49,7 @@ namespace Zeus.Globalization
 			context.SelectedLanguage = _languageBranch;
 			if (_languageBranch != null && _auto)
 			{
-				ContentItem translation = Context.Current.LanguageManager.GetTranslation(context.Page, context.SelectedLanguage);
+				var translation = Context.Current.LanguageManager.GetTranslation(context.Page, context.SelectedLanguage);
 				if (translation != null)
 					context.SelectedLanguage = translation.Language;
 				else
@@ -67,7 +67,7 @@ namespace Zeus.Globalization
 			context.SelectedLanguage = _languageBranch ?? context.MasterLanguageBranch;
 			if (_auto)
 			{
-				ContentItem translation = Context.Current.LanguageManager.GetTranslation(context.Page, context.SelectedLanguage);
+				var translation = Context.Current.LanguageManager.GetTranslation(context.Page, context.SelectedLanguage);
 				if (translation != null)
 					context.SelectedLanguage = translation.Language ?? Context.Current.LanguageManager.GetDefaultLanguage();
 				else

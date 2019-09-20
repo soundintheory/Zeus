@@ -7,7 +7,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Configuration
 	{
 		public static NameValueCollection ToNameValueCollection(this NameValueConfigurationCollection collection)
 		{
-			NameValueCollection result = new NameValueCollection();
+			var result = new NameValueCollection();
 			foreach (string key in collection)
 				result.Add(key, collection[key].Value);
 			return result;

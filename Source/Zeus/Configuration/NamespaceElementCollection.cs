@@ -22,7 +22,7 @@ namespace Zeus.Configuration
 
         public string[] ToArray()
         {
-            List<string> output = new List<string>();
+            var output = new List<string>();
 
             foreach (NamespaceElement element in this)
                 output.Add(element.Namespace + ".*");

@@ -17,7 +17,7 @@ namespace Zeus.Design.Editors
 
 		protected override Control AddEditor(Control container)
 		{
-			NameEditor nameEditor = new NameEditor { ID = "txtNameEditor" };
+			var nameEditor = new NameEditor { ID = "txtNameEditor" };
 			if (Required)
 				nameEditor.CssClass += " required";
 			container.Controls.Add(nameEditor);
@@ -32,7 +32,7 @@ namespace Zeus.Design.Editors
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
             object editorValue = ((NameEditor)editor).Text;
-            object itemValue = item[Name];
+            var itemValue = item[Name];
             if (!AreEqual(editorValue, itemValue))
             {
                 item[Name] = ((NameEditor)editor).Text;
@@ -43,8 +43,8 @@ namespace Zeus.Design.Editors
 
 		protected override void UpdateEditorInternal(IEditableObject item, Control editor)
 		{
-			ContentItem contentItem = (ContentItem) item;
-			NameEditor ne = (NameEditor) editor;
+			var contentItem = (ContentItem) item;
+			var ne = (NameEditor) editor;
 			ne.Text = contentItem.Name;
 			ne.Prefix = "/";
 			ne.Suffix = contentItem.Extension;
@@ -57,13 +57,13 @@ namespace Zeus.Design.Editors
 				}
 				else if (Context.UrlParser.StartPage != contentItem.GetParent())
 				{
-					string parentUrl = contentItem.GetParent().GetUrl(contentItem.Language);
+					var parentUrl = contentItem.GetParent().GetUrl(contentItem.Language);
 					if (!parentUrl.Contains("?"))
 					{
-						string prefix = parentUrl;
+						var prefix = parentUrl;
 						if (!string.IsNullOrEmpty(contentItem.Extension))
 						{
-							int aspxIndex = parentUrl.IndexOf(contentItem.Extension, StringComparison.InvariantCultureIgnoreCase);
+							var aspxIndex = parentUrl.IndexOf(contentItem.Extension, StringComparison.InvariantCultureIgnoreCase);
 							prefix = parentUrl.Substring(0, aspxIndex);
 						}
 						prefix += "/";

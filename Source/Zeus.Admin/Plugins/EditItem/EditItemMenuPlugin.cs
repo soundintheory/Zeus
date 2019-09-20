@@ -28,7 +28,7 @@ namespace Zeus.Admin.Plugins.EditItem
 
 		public MenuItem GetMenuItem(ContentItem contentItem)
 		{
-			MenuItem menuItem = new MenuItem
+			var menuItem = new MenuItem
 			{
 				Text = "Edit",
 				IconUrl = Utility.GetCooliteIconUrl(Icon.PageEdit),

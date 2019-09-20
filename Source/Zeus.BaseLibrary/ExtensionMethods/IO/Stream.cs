@@ -6,9 +6,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods.IO
 	{
 		public static byte[] ReadAllBytes(this Stream stream)
 		{
-			using (MemoryStream ms = new MemoryStream((int) stream.Length))
+			using (var ms = new MemoryStream((int) stream.Length))
 			{
-				byte[] buffer = new byte[4096];
+				var buffer = new byte[4096];
 				int bytesRead;
 				while ((bytesRead = stream.Read(buffer, 0, buffer.Length)) != 0)
 				{
@@ -21,7 +21,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.IO
 		public static void CopyTo(this Stream input, Stream output)
 		{
 			const int size = 4096;
-			byte[] bytes = new byte[4096];
+			var bytes = new byte[4096];
 			int numBytes;
 			while ((numBytes = input.Read(bytes, 0, size)) > 0)
 				output.Write(bytes, 0, numBytes);

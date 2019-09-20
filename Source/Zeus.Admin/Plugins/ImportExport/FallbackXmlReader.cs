@@ -47,19 +47,19 @@ namespace Zeus.Admin.Plugins.ImportExport
 
 		public ContentItem Read(TextReader input)
 		{
-			XPathDocument xpd = new XPathDocument(input);
+			var xpd = new XPathDocument(input);
 			return ReadDocument(xpd);
 		}
 
 		public ContentItem Read(Stream input)
 		{
-			XPathDocument xpd = new XPathDocument(input);
+			var xpd = new XPathDocument(input);
 			return ReadDocument(xpd);
 		}
 
 		private ContentItem ReadDocument(XPathDocument xpd)
 		{
-			XPathNavigator navigator = xpd.CreateNavigator();
+			var navigator = xpd.CreateNavigator();
 			OnMovingToRootItem(navigator);
 
 			return OnReadingItem(navigator);
@@ -76,10 +76,10 @@ namespace Zeus.Admin.Plugins.ImportExport
 
 		protected virtual ContentItem OnReadingItem(XPathNavigator navigator)
 		{
-			Dictionary<string, string> attributes = GetAttributes(navigator);
+			var attributes = GetAttributes(navigator);
 
-			ContentType definition = FindDefinition(attributes);
-			ContentItem item = engine.ContentTypes.CreateInstance(definition.ItemType, null);
+			var definition = FindDefinition(attributes);
+			var item = engine.ContentTypes.CreateInstance(definition.ItemType, null);
 
 			OnSettingDefaultAttributes(attributes, item);
 
@@ -107,16 +107,16 @@ namespace Zeus.Admin.Plugins.ImportExport
 		{
 			if (!UseDiscriminator)
 			{
-				string typeName = attributes["typeName"];
-				Type t = Type.GetType(typeName);
-				ContentType d = engine.ContentTypes.GetContentType(t);
+				var typeName = attributes["typeName"];
+				var t = Type.GetType(typeName);
+				var d = engine.ContentTypes.GetContentType(t);
 				if (d == null)
 					throw new ContentTypeNotFoundException("No definition found for type: " + typeName);
 				return d;
 			}
 
-			string discriminator = attributes["discriminator"];
-			foreach (ContentType d in engine.ContentTypes.GetContentTypes())
+			var discriminator = attributes["discriminator"];
+			foreach (var d in engine.ContentTypes.GetContentTypes())
 				if (d.Discriminator == discriminator)
 					return d;
 			throw new ContentTypeNotFoundException("No definition found for discriminator: " + discriminator);
@@ -146,7 +146,7 @@ namespace Zeus.Admin.Plugins.ImportExport
 		{
 			if (!navigator.MoveToFirstAttribute())
 				throw new InvalidXmlException("node has no attributes: " + navigator.Name);
-			Dictionary<string, string> attributes = new Dictionary<string, string>();
+			var attributes = new Dictionary<string, string>();
 			do
 			{
 				attributes.Add(navigator.Name, navigator.Value);
@@ -164,7 +164,7 @@ namespace Zeus.Admin.Plugins.ImportExport
 				do
 				{
 					Console.WriteLine(navigator.Value);
-					Dictionary<string, string> attributes = GetAttributes(navigator);
+					var attributes = GetAttributes(navigator);
 					item.AuthorizationRules.Add(new AuthorizationRule(item, attributes["operation"], attributes["role"], attributes["user"], Convert.ToBoolean(attributes["user"])));
 				} while (navigator.MoveToNext());
 				navigator.MoveToParent();
@@ -189,9 +189,9 @@ namespace Zeus.Admin.Plugins.ImportExport
 
 		protected virtual void OnAddingDetail(XPathNavigator navigator, ContentItem item)
 		{
-			Dictionary<string, string> attributes = GetAttributes(navigator);
-			string name = attributes["name"];
-			Type type = attributes["typeName"].ToType();
+			var attributes = GetAttributes(navigator);
+			var name = attributes["name"];
+			var type = attributes["typeName"].ToType();
 			if (type != typeof(ContentItem))
 				item[name] = ParseValue(navigator.Value, type);
 			else
@@ -226,8 +226,8 @@ namespace Zeus.Admin.Plugins.ImportExport
 		{
 			if (navigator.MoveToFirstChild())
 			{
-				Dictionary<string, string> attributes = GetAttributes(navigator);
-				PropertyCollection collection = item.GetDetailCollection(attributes["name"], true);
+				var attributes = GetAttributes(navigator);
+				var collection = item.GetDetailCollection(attributes["name"], true);
 				do
 				{
 					OnAddingDetail(navigator, collection);
@@ -238,9 +238,9 @@ namespace Zeus.Admin.Plugins.ImportExport
 
 		protected virtual void OnAddingDetail(XPathNavigator navigator, PropertyCollection collection)
 		{
-			Dictionary<string, string> attributes = GetAttributes(navigator);
-			string name = attributes["name"];
-			Type type = attributes["typeName"].ToType();
+			var attributes = GetAttributes(navigator);
+			var name = attributes["name"];
+			var type = attributes["typeName"].ToType();
 			if (type != typeof(ContentItem))
 				collection.Add(ParseValue(navigator.Value, type));
 			else
@@ -257,7 +257,7 @@ namespace Zeus.Admin.Plugins.ImportExport
 			{
 				do
 				{
-					ContentItem child = OnReadingItem(navigator);
+					var child = OnReadingItem(navigator);
 					child.AddTo(item);
 				} while (navigator.MoveToNext());
 				navigator.MoveToParent();

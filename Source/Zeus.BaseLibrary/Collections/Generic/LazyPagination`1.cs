@@ -70,7 +70,7 @@ namespace Zeus.BaseLibrary.Collections.Generic
 		/// <returns>The paged set of results.</returns>
 		protected virtual IList<T> ExecuteQuery()
 		{
-			int numberToSkip = (PageNumber - 1) * PageSize;
+			var numberToSkip = (PageNumber - 1) * PageSize;
 			return Query.Skip(numberToSkip).Take(PageSize).ToList();
 		}
 

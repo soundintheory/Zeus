@@ -12,7 +12,7 @@ namespace Zeus.Serialization
 		{
 			using (new ElementWriter("properties", writer))
 			{
-				foreach (PropertyData detail in GetDetails(item))
+				foreach (var detail in GetDetails(item))
 					WriteDetail(detail, writer);
 			}
 		}
@@ -24,14 +24,14 @@ namespace Zeus.Serialization
 
 		public virtual void WriteDetail(PropertyData detail, XmlTextWriter writer)
 		{
-			using (ElementWriter detailElement = new ElementWriter("property", writer))
+			using (var detailElement = new ElementWriter("property", writer))
 			{
 				detailElement.WriteAttribute("name", detail.Name);
 				detailElement.WriteAttribute("typeName", detail.Value.GetType().GetTypeAndAssemblyName());
 
 				if (detail is ObjectProperty)
 				{
-					string base64representation = detail.Value.ToBase64String();
+					var base64representation = detail.Value.ToBase64String();
 					detailElement.Write(base64representation);
 				}
 				else if (detail.ValueType == typeof(ContentItem))
@@ -40,7 +40,7 @@ namespace Zeus.Serialization
 				}
 				else if (detail.ValueType == typeof(string))//was detail.Value a typo?
 				{
-					string value = ((StringProperty) detail).StringValue;
+					var value = ((StringProperty) detail).StringValue;
 
 					if (!string.IsNullOrEmpty(value))
 						detailElement.WriteCData(value);

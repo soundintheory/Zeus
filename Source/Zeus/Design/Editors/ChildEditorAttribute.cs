@@ -63,7 +63,7 @@ namespace Zeus.Design.Editors
 
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
-			ItemEditView itemEditor = (ItemEditView) editor;
+			var itemEditor = (ItemEditView) editor;
 			//itemEditor.Update();
 			itemEditor.Saving += ((sender, args) =>
 			{
@@ -96,14 +96,14 @@ namespace Zeus.Design.Editors
 
 		public override Control AddTo(Control container)
 		{
-			Control panel = AddPanel(container);
+			var panel = AddPanel(container);
 
 			return AddEditor(panel);
 		}
 
 		protected override Control AddEditor(Control panel)
 		{
-			ItemEditView editor = new ItemEditView();
+			var editor = new ItemEditView();
 			editor.ID = Name;
             //editor.ZoneName = DefaultChildZoneName;
             editor.Init += OnChildEditorInit;
@@ -115,14 +115,14 @@ namespace Zeus.Design.Editors
 
 		protected virtual void OnChildEditorInit(object sender, EventArgs e)
 		{
-			ItemEditView itemEditor = sender as ItemEditView;
-            ItemEditView parentEditor = ItemUtility.FindInParents<ItemEditView>(itemEditor.Parent);
+			var itemEditor = sender as ItemEditView;
+            var parentEditor = ItemUtility.FindInParents<ItemEditView>(itemEditor.Parent);
 			itemEditor.CurrentItem = GetChild((ContentItem) parentEditor.CurrentItem);
 		}
 
 		protected virtual ContentItem GetChild(ContentItem item)
 		{
-			ContentItem childItem = Utility.GetProperty(item, Name) as ContentItem;
+			var childItem = Utility.GetProperty(item, Name) as ContentItem;
 
             if (childItem as AcceptArgsFromChildEditor != null)
             {
@@ -138,7 +138,7 @@ namespace Zeus.Design.Editors
 
 			if (childItem == null)
 			{
-				PropertyInfo pi = item.GetType().GetProperty(Name);
+				var pi = item.GetType().GetProperty(Name);
 
 				if (pi == null)
 					throw new ZeusException("The item should have had a property named '{0}'", Name);

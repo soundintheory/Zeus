@@ -37,18 +37,18 @@ namespace Zeus.Admin.NavigationFlag
             //any time anything is saved or changed, delete all the primary nav app cache data
             if (contentItem.IsPage)
             {
-                List<string> keysToRemove = new List<string>();
-                IDictionaryEnumerator enumerator = System.Web.HttpContext.Current.Cache.GetEnumerator();
+                var keysToRemove = new List<string>();
+                var enumerator = System.Web.HttpContext.Current.Cache.GetEnumerator();
                 while (enumerator.MoveNext())
                 {
-                    string key = (string)enumerator.Key;
+                    var key = (string)enumerator.Key;
                     if (key.StartsWith("primaryNav"))
                     {
                         keysToRemove.Add(key);
                     }
                 }
 
-                foreach (string key in keysToRemove)
+                foreach (var key in keysToRemove)
                 {
                     System.Web.HttpContext.Current.Cache.Remove(key);
                 }

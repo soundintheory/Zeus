@@ -33,7 +33,7 @@ namespace Zeus.DynamicContent
 			get { return _contentID + "," + _detailName; }
 			set
 			{
-				string[] values = value.Split(new[] { ',' });
+				var values = value.Split(new[] { ',' });
 				_contentID = Convert.ToInt32(values[0]);
 				_detailName = values[1];
 			}
@@ -45,8 +45,8 @@ namespace Zeus.DynamicContent
 
 		public string Render()
 		{
-			ContentItem contentItem = Context.Persister.Get(_contentID);
-			object value = contentItem[_detailName];
+			var contentItem = Context.Persister.Get(_contentID);
+			var value = contentItem[_detailName];
 			if (value != null)
 				return value.ToString();
 			return string.Empty;

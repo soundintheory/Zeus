@@ -39,7 +39,7 @@ namespace Zeus.Design.Editors
 
 		protected override object GetValue(IEditableObject item)
 		{
-			ContentItem linkedItem = (ContentItem) item[Name];
+			var linkedItem = (ContentItem) item[Name];
 			if (linkedItem != null)
 				return linkedItem.ID.ToString();
 			return string.Empty;
@@ -47,9 +47,9 @@ namespace Zeus.Design.Editors
 
         public override bool UpdateItem(IEditableObject item, Control editor)
         {
-            ListControl ddl = (ListControl)editor;
-            object one = GetValue(ddl);
-            object two = GetValue(item);
+            var ddl = (ListControl)editor;
+            var one = GetValue(ddl);
+            var two = GetValue(item);
             
             if (one == null && two.ToString() == string.Empty)
             {//do nothing - this means the same as them being equal
@@ -79,8 +79,8 @@ namespace Zeus.Design.Editors
 
 		protected override ListItem[] GetListItems(IEditableObject item)
 		{
-            IQueryable<ContentItem> items = Context.Current.Finder.QueryItems();
-            IEnumerable<ContentItem> itemsAsEnum = items.AsEnumerable();
+            var items = Context.Current.Finder.QueryItems();
+            var itemsAsEnum = items.AsEnumerable();
             if (TypeFilter != null)
             {
                 // THIS DOESN'T WORK WITH NHIBERNATE UPGRADE - items = ((IQueryable)items).OfType(TypeFilter).OfType<ContentItem>();

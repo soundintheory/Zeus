@@ -50,7 +50,7 @@ namespace Zeus.AddIns.ECommerce.ContentTypes.Data
 
 		void ISelfPopulator.Populate()
 		{
-			OrderContainer orders = new OrderContainer
+			var orders = new OrderContainer
 			{
 				Name = ORDERS_NAME,
 				Title = "Orders"

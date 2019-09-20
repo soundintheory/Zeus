@@ -15,7 +15,7 @@ namespace Zeus.Web.Compilation
 	{
 		public static object GetCurrentPageValue(string expression)
 		{
-			ContentItem item = Zeus.Context.CurrentPage;
+			var item = Zeus.Context.CurrentPage;
 			if (item != null)
 				return item[expression];
 			else

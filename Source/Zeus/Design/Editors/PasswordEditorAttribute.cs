@@ -13,8 +13,8 @@ namespace Zeus.Design.Editors
 
 		public override bool UpdateItem(ContentTypes.IEditableObject item, System.Web.UI.Control editor)
 		{
-			TextBox tb = editor as TextBox;
-			string value = (tb.Text == DefaultValue) ? null : tb.Text;
+			var tb = editor as TextBox;
+			var value = (tb.Text == DefaultValue) ? null : tb.Text;
 			if (string.IsNullOrEmpty(value))
 				return false;
 			value = Context.Current.Resolve<ICredentialService>().EncryptPassword(value);
@@ -28,7 +28,7 @@ namespace Zeus.Design.Editors
 
         protected override Control AddEditor(Control container)
         {
-            TextBox tb = (TextBox)base.AddEditor(container);
+            var tb = (TextBox)base.AddEditor(container);
             tb.TextMode = TextBoxMode.Password;
             return tb;
         }

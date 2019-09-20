@@ -102,7 +102,7 @@ namespace Zeus.AddIns.ECommerce.ContentTypes.Data
         {
             //get { return Items.Where(p => !p.Product.OutOfStock).Sum(i => (i.VariationPermutation != null && i.VariationPermutation.Variations.Any(v => ((Variation)v).PriceOverride != null) ? ((Variation)i.VariationPermutation.Variations.First(v => ((Variation)v).PriceOverride != null)).PriceOverride.Value : i.Product.CurrentPrice) * i.Quantity); }
             get {
-                decimal amountPreDiscount = Items.Where(p => !p.Product.OutOfStock).Sum(i => ((i.VariationPermutation != null && i.VariationPermutation.PriceOverride != null) ? i.VariationPermutation.PriceOverride.Value : i.Product.CurrentPrice) * i.Quantity); 
+                var amountPreDiscount = Items.Where(p => !p.Product.OutOfStock).Sum(i => ((i.VariationPermutation != null && i.VariationPermutation.PriceOverride != null) ? i.VariationPermutation.PriceOverride.Value : i.Product.CurrentPrice) * i.Quantity); 
                 if (DiscountApplied)
                     return Discount.ProcessPrice(amountPreDiscount);
                 else
@@ -113,7 +113,7 @@ namespace Zeus.AddIns.ECommerce.ContentTypes.Data
         public virtual decimal SubTotalPriceForVatCalculation
         {
             get { 
-                decimal amountPreDiscount = Items.Where(p => !p.Product.OutOfStock && !p.Product.VatZeroRated).Sum(i => ((i.VariationPermutation != null && i.VariationPermutation.PriceOverride != null) ? i.VariationPermutation.PriceOverride.Value : i.Product.CurrentPrice) * i.Quantity);
+                var amountPreDiscount = Items.Where(p => !p.Product.OutOfStock && !p.Product.VatZeroRated).Sum(i => ((i.VariationPermutation != null && i.VariationPermutation.PriceOverride != null) ? i.VariationPermutation.PriceOverride.Value : i.Product.CurrentPrice) * i.Quantity);
                 if (DiscountApplied)
                     return Discount.ProcessPrice(amountPreDiscount);
                 else

@@ -32,9 +32,9 @@ namespace Zeus.Web.Parts
 		/// <returns>Item definitions allowed by zone, parent restrictions and security.</returns>
 		public virtual IEnumerable<ContentType> GetAllowedDefinitions(ContentItem parentItem, string zoneName, IPrincipal user)
 		{
-			ContentType containerDefinition = Engine.ContentTypes.GetContentType(parentItem.GetType());
+			var containerDefinition = Engine.ContentTypes.GetContentType(parentItem.GetType());
 
-			foreach (ContentType childDefinition in containerDefinition.AllowedChildren)
+			foreach (var childDefinition in containerDefinition.AllowedChildren)
 				if (childDefinition.IsAllowedInZone(zoneName) && childDefinition.Enabled && childDefinition.IsAuthorized(user))
 					yield return childDefinition;
 		}

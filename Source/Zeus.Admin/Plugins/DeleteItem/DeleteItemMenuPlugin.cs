@@ -48,7 +48,7 @@ namespace Zeus.Admin.Plugins.DeleteItem
 
 		public MenuItem GetMenuItem(ContentItem contentItem)
 		{
-			MenuItem menuItem = new MenuItem
+			var menuItem = new MenuItem
 			{
 				Text = "Delete",
 				IconUrl = Utility.GetCooliteIconUrl(Icon.PageDelete),

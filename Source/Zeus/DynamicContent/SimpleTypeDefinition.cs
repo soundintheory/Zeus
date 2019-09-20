@@ -20,7 +20,7 @@ namespace Zeus.DynamicContent
 		{
 			_objectToWrap = objectToWrap;
 
-			IEnumerable<Property> properties = _objectToWrap.GetType().GetProperties().Select(pi => new Property(pi));
+			var properties = _objectToWrap.GetType().GetProperties().Select(pi => new Property(pi));
 			IEnumerable<IEditorContainer> containers = containerExplorer.Find(objectToWrap.GetType());
 
 			_editors = editorExplorer.Find(objectToWrap.GetType());

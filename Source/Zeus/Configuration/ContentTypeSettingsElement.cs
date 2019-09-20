@@ -26,7 +26,7 @@ namespace Zeus.Configuration
 
 		internal Type GetSystemType()
 		{
-			Type type = System.Type.GetType(Type);
+			var type = System.Type.GetType(Type);
 			if (type == null)
 				throw new ArgumentException("Could not load type: '" + Type + "'", "Type");
 			return type;

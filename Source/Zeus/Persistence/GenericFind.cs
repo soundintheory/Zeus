@@ -26,7 +26,7 @@ namespace Zeus.Persistence
 			get
 			{
 				ContentItem startPage = StartPage;
-				ContentItem item = CurrentPage;
+				var item = CurrentPage;
 				return EnumerateParents(item, startPage);
 			}
 		}
@@ -76,10 +76,10 @@ namespace Zeus.Persistence
 		{
 			if (item.VersionOf != null) item = item.VersionOf;
 
-			foreach (ContentItem child in item.Children)
+			foreach (var child in item.Children)
 			{
 				yield return child;
-				foreach (ContentItem childItem in EnumerateChildren(child))
+				foreach (var childItem in EnumerateChildren(child))
 					yield return childItem;
 			}
 		}
@@ -89,13 +89,13 @@ namespace Zeus.Persistence
 		/// <returns>An enumeration of all children of an item.</returns>
 		public static IEnumerable<ContentItem> EnumerateAccessibleChildren(ContentItem item)
 		{
-            int depth = 200;
+            var depth = 200;
 			if (item.VersionOf != null) item = item.VersionOf;
 
-			foreach (ContentItem child in item.GetGlobalizedChildren())
+			foreach (var child in item.GetGlobalizedChildren())
 			{
 				yield return child;
-				foreach (ContentItem childItem in EnumerateAccessibleChildren(child, depth))
+				foreach (var childItem in EnumerateAccessibleChildren(child, depth))
 					yield return childItem;
 			}
 		}
@@ -107,12 +107,12 @@ namespace Zeus.Persistence
         {
             if (item.VersionOf != null) item = item.VersionOf;
 
-            foreach (ContentItem child in item.GetGlobalizedChildren())
+            foreach (var child in item.GetGlobalizedChildren())
             {
                 yield return child;
                 if (depth > 1)
                 {                    
-                    foreach (ContentItem childItem in EnumerateAccessibleChildren(child, depth - 1))
+                    foreach (var childItem in EnumerateAccessibleChildren(child, depth - 1))
                         yield return childItem;
                 }
             }
@@ -192,7 +192,7 @@ namespace Zeus.Persistence
 			if (wantedItem == null) throw new ArgumentNullException("wantedItem");
 			if (linedUpItems == null) throw new ArgumentNullException("linedUpItems");
 
-			foreach (ContentItem enumeratedItem in linedUpItems)
+			foreach (var enumeratedItem in linedUpItems)
 			{
 				if (enumeratedItem == wantedItem)
 					return true;

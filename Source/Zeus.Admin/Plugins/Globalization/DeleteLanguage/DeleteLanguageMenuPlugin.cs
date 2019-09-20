@@ -28,7 +28,7 @@ namespace Zeus.Admin.Plugins.Globalization.DeleteLanguage
 
 		public MenuItem GetMenuItem(ContentItem contentItem)
 		{
-			MenuItem menuItem = new MenuItem
+			var menuItem = new MenuItem
 			{
 				Text = "Delete Language",
 				IconUrl = Utility.GetCooliteIconUrl(Icon.WorldDelete),

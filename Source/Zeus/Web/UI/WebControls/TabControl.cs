@@ -27,12 +27,12 @@ namespace Zeus.Web.UI.WebControls
 					_tabItemAnchorDictionary = new Dictionary<TabItem, HtmlAnchor>();
 				}
 
-				TabItem tabItem = (TabItem) control;
+				var tabItem = (TabItem) control;
 
-				HtmlGenericControl li = new HtmlGenericControl("li");
+				var li = new HtmlGenericControl("li");
 				_ul.Controls.Add(li);
 
-				HtmlAnchor a = new HtmlAnchor();
+				var a = new HtmlAnchor();
 				li.Controls.Add(a);
 
 				a.HRef = "#" + tabItem.ClientID;
@@ -51,7 +51,7 @@ namespace Zeus.Web.UI.WebControls
 
 			Page.ClientScript.RegisterCssInclude(Utility.GetClientResourceUrl(GetType(), "jQuery/ui.css"));
 
-			string script = string.Format(@"
+			var script = string.Format(@"
 				function handlePostbacks(tabID) {{
 					if (tabID && document.forms.length > 0) {{
 						var f = document.forms[0];
@@ -72,7 +72,7 @@ namespace Zeus.Web.UI.WebControls
 				}});", ClientID);
 			Page.ClientScript.RegisterStartupScript(typeof(TabControl), ClientID, script, true);
 
-			foreach (TabItem tabItem in Controls.OfType<TabItem>())
+			foreach (var tabItem in Controls.OfType<TabItem>())
 				_tabItemAnchorDictionary[tabItem].HRef = "#" + tabItem.ClientID;
 
 			Visible = Controls.OfType<TabItem>().Any(ti => ti.Controls.Count > 0);

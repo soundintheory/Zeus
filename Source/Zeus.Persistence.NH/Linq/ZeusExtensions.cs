@@ -18,7 +18,7 @@ namespace Zeus.Persistence.NH.Linq
         /// <returns>An <see cref="T:NHibernate.Linq.NHibernateQueryProvider"/> used to evaluate an expression tree.</returns>
         public static NhQueryable<T> Linq<T>(this ISessionImplementor session)
         {
-            NhQueryable<T> intermediate = new NhQueryable<T>(session);
+            var intermediate = new NhQueryable<T>(session);
             return new NhQueryable<T>(new ZeusQueryProvider(session), intermediate.Expression);
         }
     }

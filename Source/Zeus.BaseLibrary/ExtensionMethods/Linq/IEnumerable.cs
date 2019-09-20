@@ -30,14 +30,14 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 
 			public bool Equals(T x, T y)
 			{
-				TResult result1 = _selector(x);
-				TResult result2 = _selector(y);
+				var result1 = _selector(x);
+				var result2 = _selector(y);
 				return result1.Equals(result2);
 			}
 
 			public int GetHashCode(T obj)
 			{
-				TResult result = _selector(obj);
+				var result = _selector(obj);
 				return result.GetHashCode();
 			}
 		}
@@ -95,9 +95,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 		public static bool Contains<TSource, TResult>(
 			this IEnumerable<TSource> source, TResult value, Func<TSource, TResult> selector)
 		{
-			foreach (TSource sourceItem in source)
+			foreach (var sourceItem in source)
 			{
-				TResult sourceValue = selector(sourceItem);
+				var sourceValue = selector(sourceItem);
 				if (sourceValue.Equals(value))
 					return true;
 			}
@@ -106,31 +106,31 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 
 		public static DataTable ToDataTable(this IEnumerable enumeration)
 		{
-			DataTable dataTable = new DataTable();
+			var dataTable = new DataTable();
 
 			// Base the properties on the first item in the list.
-			object value = enumeration.Cast<object>().FirstOrDefault();
+			var value = enumeration.Cast<object>().FirstOrDefault();
 			if (value != null)
 			{
-				PropertyInfo[] properties = value.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+				var properties = value.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
 				// Create the columns in the DataTable.
-				foreach (PropertyInfo pi in properties)
+				foreach (var pi in properties)
 				{
-					Type underlyingType = Nullable.GetUnderlyingType(pi.PropertyType);
-					Type columnType = underlyingType ?? pi.PropertyType;
+					var underlyingType = Nullable.GetUnderlyingType(pi.PropertyType);
+					var columnType = underlyingType ?? pi.PropertyType;
 					dataTable.Columns.Add(pi.Name, columnType);
 				}
 
 				// Populate the table.
-				foreach (object item in enumeration)
+				foreach (var item in enumeration)
 				{
-					DataRow dataRow = dataTable.NewRow();
+					var dataRow = dataTable.NewRow();
 					dataRow.BeginEdit();
-					foreach (PropertyInfo pi in properties)
+					foreach (var pi in properties)
 						if (pi.GetIndexParameters() == null || pi.GetIndexParameters().Length == 0) // exclude indexers
 						{
-							object propertyValue = pi.GetValue(item, null);
+							var propertyValue = pi.GetValue(item, null);
 							dataRow[pi.Name] = propertyValue ?? DBNull.Value;
 						}
 					dataRow.EndEdit();
@@ -148,7 +148,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 
 		public static string Join(this IEnumerable<string> source, string separator, string prefix, string suffix)
 		{
-			string[] values = source.ToArray();
+			var values = source.ToArray();
 			for (int i = 0, length = values.Length; i < length; i++)
 				values[i] = prefix + values[i] + suffix;
 			return string.Join(separator, values);
@@ -156,7 +156,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 
 		public static string Join(this IEnumerable<string> source, string separator, string format)
 		{
-			string[] values = source.ToArray();
+			var values = source.ToArray();
 			for (int i = 0, length = values.Length; i < length; i++)
 				values[i] = string.Format(format, values[i]);
 			return string.Join(separator, values);
@@ -164,8 +164,8 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 
 		public static string Join<T>(this IEnumerable<T> source, Func<T, string> valueCallback, string separator)
 		{
-			T[] values = source.ToArray();
-			StringBuilder sb = new StringBuilder();
+			var values = source.ToArray();
+			var sb = new StringBuilder();
 			for (int i = 0, length = values.Length; i < length; i++)
 			{
 				sb.Append(valueCallback(values[i]));
@@ -177,15 +177,15 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 
 		public static IEnumerable<T> OfType<T>(this IEnumerable<T> source, Type type)
 		{
-			foreach (T element in source)
+			foreach (var element in source)
 				if (element != null && type.IsAssignableFrom(element.GetType()))
 					yield return element;
 		}
 
 		public static IEnumerable<TSource> Alternate<TSource>(this IEnumerable<TSource> first, IEnumerable<TSource> second)
 		{
-			using (IEnumerator<TSource> e1 = first.GetEnumerator())
-			using (IEnumerator<TSource> e2 = second.GetEnumerator())
+			using (var e1 = first.GetEnumerator())
+			using (var e2 = second.GetEnumerator())
 				while (e1.MoveNext() && e2.MoveNext())
 				{
 					yield return e1.Current;
@@ -213,9 +213,9 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 		public static TSource Next<TSource>(this IEnumerable<TSource> source, TSource currentItem)
 			where TSource : class
 		{
-			bool found = false;
+			var found = false;
 
-			foreach (TSource item in source)
+			foreach (var item in source)
 			{
 				if (found)
 					return item;
@@ -238,7 +238,7 @@ namespace Zeus.BaseLibrary.ExtensionMethods.Linq
 		{
 			TSource holder = null;
 
-			foreach (TSource item in source)
+			foreach (var item in source)
 			{
 				if (item.Equals(currentItem))
 					return holder;

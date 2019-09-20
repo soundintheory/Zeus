@@ -21,7 +21,7 @@ namespace Zeus.Templates.ContentTypes.ReferenceData
 			this.Alpha3 = alpha3;
 			this.Numeric = numeric;
 
-			string tempIconName = "Flag" + alpha2.Substring(0, 1) + alpha2.Substring(1).ToLower();
+			var tempIconName = "Flag" + alpha2.Substring(0, 1) + alpha2.Substring(1).ToLower();
 			Icon icon;
 			if (EnumHelper.TryParse(tempIconName, out icon))
 				FlagIcon = icon;

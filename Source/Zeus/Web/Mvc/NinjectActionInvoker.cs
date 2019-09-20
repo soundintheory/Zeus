@@ -31,18 +31,18 @@ namespace Zeus.Web.Mvc
 		/// <returns>The filters.</returns>
 		protected override FilterInfo GetFilters(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
 		{
-			FilterInfo filterInfo = base.GetFilters(controllerContext, actionDescriptor);
+			var filterInfo = base.GetFilters(controllerContext, actionDescriptor);
 
-			foreach (IActionFilter filter in filterInfo.ActionFilters.Where(f => f != null))
+			foreach (var filter in filterInfo.ActionFilters.Where(f => f != null))
 				Kernel.Inject(filter);
 
-			foreach (IAuthorizationFilter filter in filterInfo.AuthorizationFilters.Where(f => f != null))
+			foreach (var filter in filterInfo.AuthorizationFilters.Where(f => f != null))
 				Kernel.Inject(filter);
 
-			foreach (IExceptionFilter filter in filterInfo.ExceptionFilters.Where(f => f != null))
+			foreach (var filter in filterInfo.ExceptionFilters.Where(f => f != null))
 				Kernel.Inject(filter);
 
-			foreach (IResultFilter filter in filterInfo.ResultFilters.Where(f => f != null))
+			foreach (var filter in filterInfo.ResultFilters.Where(f => f != null))
 				Kernel.Inject(filter);
 
 			return filterInfo;

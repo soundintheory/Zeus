@@ -24,9 +24,9 @@
 
 		protected virtual HierarchyNode<ContentItem> BuildTree(ContentItem currentItem, int remainingDepth)
 		{
-			HierarchyNode<ContentItem> node = new HierarchyNode<ContentItem>(currentItem);
+			var node = new HierarchyNode<ContentItem>(currentItem);
 			if (remainingDepth > 1)
-				foreach (ContentItem childItem in GetChildren(currentItem))
+				foreach (var childItem in GetChildren(currentItem))
 					node.Children.Add(BuildTree(childItem, remainingDepth - 1));
 			return node;
 		}

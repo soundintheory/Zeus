@@ -46,9 +46,9 @@ namespace Zeus.Admin.Plugins.NewItem
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			ContentItem parentItem = SelectedItem;
-			IContentTypeManager manager = Zeus.Context.Current.Resolve<IContentTypeManager>();
-			ContentType contentType = manager.GetContentType(parentItem.GetType());
+			var parentItem = SelectedItem;
+			var manager = Zeus.Context.Current.Resolve<IContentTypeManager>();
+			var contentType = manager.GetContentType(parentItem.GetType());
 			lsvChildTypes.DataSource = manager.GetAllowedChildren(contentType, Request.QueryString["zoneName"], User);
 			lsvChildTypes.DataBind();
 		}
@@ -89,8 +89,8 @@ namespace Zeus.Admin.Plugins.NewItem
 
 		private void LoadAllowedTypes()
 		{
-			int allowedChildrenCount = ParentItemDefinition.AllowedChildren.Count;
-			IList<ContentType> allowedChildren = Engine.ContentTypes.GetAllowedChildren(ParentItemDefinition, ZoneName, User);
+			var allowedChildrenCount = ParentItemDefinition.AllowedChildren.Count;
+			var allowedChildren = Engine.ContentTypes.GetAllowedChildren(ParentItemDefinition, ZoneName, User);
 
 			if (allowedChildrenCount == 0)
 			{
@@ -111,18 +111,18 @@ namespace Zeus.Admin.Plugins.NewItem
 
 		private void LoadZones()
 		{
-			string selectedZone = rblZone.SelectedValue;
-			ListItem initialItem = rblZone.Items[0];
+			var selectedZone = rblZone.SelectedValue;
+			var initialItem = rblZone.Items[0];
 
 			rblZone.Items.Clear();
 			rblZone.Items.Insert(0, initialItem);
-			foreach (AvailableZoneAttribute zone in ParentItemDefinition.AvailableZones)
+			foreach (var zone in ParentItemDefinition.AvailableZones)
 			{
-				string title = zone.Title;
+				var title = zone.Title;
 				rblZone.Items.Add(new ListItem(title, zone.ZoneName));
 			}
 
-			string z = IsPostBack ? selectedZone : Request.QueryString["zoneName"];
+			var z = IsPostBack ? selectedZone : Request.QueryString["zoneName"];
 			if (rblZone.Items.FindByValue(z) != null)
 				rblZone.SelectedValue = z;
 		}

@@ -22,7 +22,7 @@ namespace Zeus.Admin.Plugins.CopyItem
 
 		public MenuItem GetMenuItem(ContentItem contentItem)
 		{
-			MenuItem menuItem = new MenuItem
+			var menuItem = new MenuItem
 			{
 				Text = "Copy",
 				IconUrl = Utility.GetCooliteIconUrl(Icon.PageCopy),

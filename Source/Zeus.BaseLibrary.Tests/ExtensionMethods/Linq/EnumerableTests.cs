@@ -12,7 +12,7 @@ namespace Zeus.BaseLibrary.Tests.ExtensionMethods.Linq
 		public void AlternateTest()
 		{
 			var source = new[] { "The", "quick", "brown", "fox" };
-			string result = source.Alternate(Spaces()).Aggregate(string.Empty, (a, b) => a + b);
+			var result = source.Alternate(Spaces()).Aggregate(string.Empty, (a, b) => a + b);
 
 			Assert.AreEqual("The quick brown fox ", result);
 		}
@@ -35,7 +35,7 @@ namespace Zeus.BaseLibrary.Tests.ExtensionMethods.Linq
 		public void PrependTest()
 		{
 			var ints = new[] { 1, 2, 3 };
-			IEnumerable<int> zeroToThree = ints.Prepend(0);
+			var zeroToThree = ints.Prepend(0);
 			CollectionAssert.AreEqual(new[] { 0, 1, 2, 3 }, zeroToThree.ToArray());
 		}
 	}

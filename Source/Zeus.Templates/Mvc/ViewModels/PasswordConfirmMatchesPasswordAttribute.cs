@@ -6,7 +6,7 @@ namespace Zeus.Templates.Mvc.ViewModels
 	{
 		public override bool IsValid(object value)
 		{
-			IConfirmPassword typedValue = (IConfirmPassword) value;
+			var typedValue = (IConfirmPassword) value;
 			if (typedValue.Password != typedValue.ConfirmPassword)
 				return false;
 			return true;

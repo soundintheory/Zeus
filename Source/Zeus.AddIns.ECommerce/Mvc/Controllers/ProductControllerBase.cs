@@ -28,14 +28,14 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 		public ActionResult AddToShoppingBasket(FormCollection formValues)
 		{
 			// Get variation configuration.
-			List<Variation> variations = new List<Variation>();
-			foreach (VariationSet variationSet in CurrentItem.AvailableVariationSets)
+			var variations = new List<Variation>();
+			foreach (var variationSet in CurrentItem.AvailableVariationSets)
 			{
-				string selectedValue = formValues["variationSet" + variationSet.ID];
+				var selectedValue = formValues["variationSet" + variationSet.ID];
 				if (!string.IsNullOrEmpty(selectedValue.Trim()))
 				{
-					int variationID = Convert.ToInt32(selectedValue);
-					Variation variation = Engine.Persister.Get<Variation>(variationID);
+					var variationID = Convert.ToInt32(selectedValue);
+					var variation = Engine.Persister.Get<Variation>(variationID);
 					variations.Add(variation);
 				}
 			}
@@ -52,11 +52,11 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 
 		private ActionResult AddItem(List<Variation> variations)
 		{
-			Shop shop = (Shop) CurrentItem.CurrentCategory.Parent;
+			var shop = (Shop) CurrentItem.CurrentCategory.Parent;
 			_shoppingBasketService.AddItem(shop, CurrentItem, variations);
 
 			// Redirect to shopping basket page, if one exists.
-			ShoppingBasketPage shoppingBasketPage = shop.ShoppingBasketPage;
+			var shoppingBasketPage = shop.ShoppingBasketPage;
 			if (shoppingBasketPage != null)
 				return Redirect(shoppingBasketPage.Url);
 			return Redirect(CurrentItem.Url);

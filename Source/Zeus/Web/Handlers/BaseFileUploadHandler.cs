@@ -14,7 +14,7 @@ namespace Zeus.Web.Handlers
 
 		protected static string GetUploadFolder(Guid identifier, bool firstChunk)
 		{
-			string uploadFolderPath = GetUploadFolder(identifier.ToString());
+			var uploadFolderPath = GetUploadFolder(identifier.ToString());
 			if (firstChunk)
 				Directory.CreateDirectory(uploadFolderPath);
 
@@ -27,21 +27,21 @@ namespace Zeus.Web.Handlers
             //reducing issues when moving sites around.  If no setting is found one will be created in the app folder, the issue with that
             //being that when a file is deleted the app domain restarts
 
-            string uploadRootFolderPath = "";
+            var uploadRootFolderPath = "";
             if (ConfigurationManager.AppSettings["ZeusUploadFolder"] != null)
             {
                 uploadRootFolderPath = ConfigurationManager.AppSettings["ZeusUploadFolder"];
             }
             else
             {
-                string tempFolderPath = HttpRuntime.AppDomainAppPath;
+                var tempFolderPath = HttpRuntime.AppDomainAppPath;
                 uploadRootFolderPath = Path.Combine(tempFolderPath, UploadRootFolder);
             }
 
             if (!Directory.Exists(uploadRootFolderPath))
                 Directory.CreateDirectory(uploadRootFolderPath);
 
-            string uploadFolderPath = Path.Combine(uploadRootFolderPath, identifier);
+            var uploadFolderPath = Path.Combine(uploadRootFolderPath, identifier);
 
             return uploadFolderPath;
             

@@ -23,7 +23,7 @@ namespace Zeus.Admin
 			{
 				if (WebSecurityEngine.Get<ICredentialService>().ValidateUser(UserName.Text, Password.Text))
 				{
-					string username = WebSecurityEngine.Get<ICredentialService>().GetUser(UserName.Text).Username;
+					var username = WebSecurityEngine.Get<ICredentialService>().GetUser(UserName.Text).Username;
 					WebSecurityEngine.Get<IAuthenticationContextService>().GetCurrentService().RedirectFromLoginPage(username, false);
 				}
 				else

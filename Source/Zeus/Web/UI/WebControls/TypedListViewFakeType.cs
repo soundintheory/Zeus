@@ -18,7 +18,7 @@ namespace Zeus.Web.UI.WebControls
 
 		protected override PropertyInfo GetPropertyImpl(string name, BindingFlags bindingAttr, Binder binder, Type returnType, Type[] types, ParameterModifier[] modifiers)
 		{
-			PropertyInfo info = base.GetPropertyImpl(name, bindingAttr, binder, returnType, types, modifiers);
+			var info = base.GetPropertyImpl(name, bindingAttr, binder, returnType, types, modifiers);
 
 			if (name == "ItemTemplate")
 				info = new FakePropertyInfo(info, this.listViewItemType);

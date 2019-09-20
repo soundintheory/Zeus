@@ -16,7 +16,7 @@ namespace Zeus.Design.Displayers
 
 		public override void SetValue(Control container, ContentItem item, string propertyName)
 		{
-			DateTime date = (DateTime) item[propertyName];
+			var date = (DateTime) item[propertyName];
 			_literal.Text = date.ToShortDateString();
 		}
 	}

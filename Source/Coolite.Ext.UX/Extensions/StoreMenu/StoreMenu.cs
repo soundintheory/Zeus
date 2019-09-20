@@ -18,7 +18,7 @@ namespace Coolite.Ext.UX
 		{
 			get
 			{
-				List<ResourceItem> baseList = base.Resources;
+				var baseList = base.Resources;
 				baseList.Capacity += 1;
 
 				baseList.Add(new ClientStyleItem(typeof(StoreMenu), "Coolite.Ext.UX.Extensions.StoreMenu.resources.ext.ux.menu.storemenu-min.js", "ux/extensions/storemenu/storemenu.js"));

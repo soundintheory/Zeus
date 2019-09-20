@@ -86,7 +86,7 @@ namespace Zeus.Configuration
 
         public AuthenticationLocation ToAuthenticationLocation()
 		{
-			AuthenticationLocation location = new AuthenticationLocation();
+			var location = new AuthenticationLocation();
 			location.Enabled = Enabled;
 			location.CookieDomain = Domain;
 			location.CookiePath = Path;

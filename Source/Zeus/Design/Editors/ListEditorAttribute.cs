@@ -26,7 +26,7 @@ namespace Zeus.Design.Editors
 
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
-			ListControl ddl = (ListControl) editor;
+			var ddl = (ListControl) editor;
 			if (GetValue(ddl) != GetValue(item))
 			{
 				item[Name] = GetValue(ddl);
@@ -45,7 +45,7 @@ namespace Zeus.Design.Editors
 
 		protected override void UpdateEditorInternal(IEditableObject item, Control editor)
 		{
-			ListControl ddl = (ListControl) editor;
+			var ddl = (ListControl) editor;
 			ddl.Items.AddRange(GetListItems(item));
 			if (item[Name] != null)
 				SetValue(ddl, GetValue(item));
@@ -66,7 +66,7 @@ namespace Zeus.Design.Editors
 
 		protected override Control AddEditor(Control container)
 		{
-			ListControl ddl = CreateEditor();
+			var ddl = CreateEditor();
 			container.Controls.Add(ddl);
 			ddl.ID = Name;
 			if (!Required)

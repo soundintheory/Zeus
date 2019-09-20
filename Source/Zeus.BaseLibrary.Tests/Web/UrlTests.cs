@@ -9,7 +9,7 @@ namespace Zeus.BaseLibrary.Tests.Web
 		[Test]
 		public void CanParse_Url()
 		{
-			Url url = new Url("http://localhost/my/path/to/the/file.aspx?query=nothing#fragment");
+			var url = new Url("http://localhost/my/path/to/the/file.aspx?query=nothing#fragment");
 			Assert.AreEqual("http", url.Scheme);
 			Assert.AreEqual("localhost", url.Authority);
 			Assert.AreEqual("/my/path/to/the/file.aspx", url.Path);

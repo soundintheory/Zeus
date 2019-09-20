@@ -10,14 +10,14 @@ namespace Zeus.Serialization
 			using (new ElementWriter("languageSettings", writer))
 			{
 				if (item.LanguageSettings != null)
-					foreach (LanguageSetting ar in item.LanguageSettings)
+					foreach (var ar in item.LanguageSettings)
 						WriteRule(writer, ar);
 			}
 		}
 
 		protected virtual void WriteRule(XmlTextWriter writer, LanguageSetting ls)
 		{
-			using (ElementWriter role = new ElementWriter("setting", writer))
+			using (var role = new ElementWriter("setting", writer))
 			{
 				role.WriteAttribute("language", ls.Language);
 				role.WriteAttribute("fallbackLanguage", ls.FallbackLanguage);

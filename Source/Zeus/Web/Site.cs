@@ -44,7 +44,7 @@ namespace Zeus.Web
 		{
 			if (obj is Site)
 			{
-				Site other = obj as Site;
+				var other = obj as Site;
 				return other.RootItemID == RootItemID
 					&& other.StartPageID == StartPageID;
 			}
@@ -61,7 +61,7 @@ namespace Zeus.Web
 
 		public StringDictionary GetHostLanguageMappings()
 		{
-			StringDictionary dictionary = new StringDictionary();
+			var dictionary = new StringDictionary();
 			foreach (HostNameElement element in _hostNames)
 				if (element.Name != "*")
 					dictionary.Add(element.Name, element.Language);

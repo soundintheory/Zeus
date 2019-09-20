@@ -31,7 +31,7 @@ namespace Zeus.Web
 			this.errorHandler = errorHandler;
 			//observeAllExtensions = config.Web.ObserveAllExtensions;
 			rewriteEmptyExtension = config.Web.ObserveEmptyExtension;
-			StringCollection additionalExtensions = config.Web.ObservedExtensions;
+			var additionalExtensions = config.Web.ObservedExtensions;
 			if (additionalExtensions != null && additionalExtensions.Count > 0)
 			{
 				observedExtensions = new string[additionalExtensions.Count + 1];
@@ -45,18 +45,18 @@ namespace Zeus.Web
 		/// <returns>A suitable controller for the given Url.</returns>
 		public virtual T ResolveAdapter<T>() where T : class, IContentAdapter
 		{
-			T controller = RequestItem<T>.Instance;
+			var controller = RequestItem<T>.Instance;
 			if (controller != null) return controller;
 
-			Url url = webContext.Url;
-			string path = url.Path;
-			foreach (string nonRewritablePath in nonRewritablePaths)
+			var url = webContext.Url;
+			var path = url.Path;
+			foreach (var nonRewritablePath in nonRewritablePaths)
 			{
 				if (path.StartsWith(VirtualPathUtility.ToAbsolute(nonRewritablePath)))
 					return null;
 			}
 
-			PathData data = ResolveUrl(url);
+			var data = ResolveUrl(url);
 			controller = aspectProvider.ResolveAdapter<T>(data);
 
 			RequestItem<T>.Instance = controller;
@@ -84,10 +84,10 @@ namespace Zeus.Web
 			if (url.LocalUrl == Url.ApplicationPath)
 				return true;
 
-			string extension = url.Extension;
+			var extension = url.Extension;
 			if (rewriteEmptyExtension && string.IsNullOrEmpty(extension))
 				return true;
-			foreach (string observed in observedExtensions)
+			foreach (var observed in observedExtensions)
 				if (string.Equals(observed, extension, StringComparison.InvariantCultureIgnoreCase))
 					return true;
 			if (url.GetQuery(PathData.PageQueryKey) != null)

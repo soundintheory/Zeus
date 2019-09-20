@@ -35,7 +35,7 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 		public override ActionResult Index()
 		{
 			// If we already have shopping basket data entered, add it to ModelState now.
-			IShoppingBasket shoppingBasket = GetShoppingBasket();
+			var shoppingBasket = GetShoppingBasket();
 			if (shoppingBasket.BillingAddress != null)
 			{
 				ModelState.Add("BillingTitle", shoppingBasket.BillingAddress.PersonTitle);
@@ -82,8 +82,8 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 				return GetIndexView();
 
 			// Map from form model to shopping basket.
-			IShoppingBasket shoppingBasket = GetShoppingBasket();
-			Address billingAddress = shoppingBasket.BillingAddress;
+			var shoppingBasket = GetShoppingBasket();
+			var billingAddress = shoppingBasket.BillingAddress;
 			if (billingAddress == null)
 				shoppingBasket.BillingAddress = billingAddress = new Address();
 			billingAddress.PersonTitle = checkoutDetails.BillingTitle;
@@ -95,7 +95,7 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 			billingAddress.Postcode = checkoutDetails.BillingPostcode;
 			if (!checkoutDetails.IsDeliveryAddressSameAsBillingAddress)
 			{
-				Address shippingAddress = shoppingBasket.ShippingAddress;
+				var shippingAddress = shoppingBasket.ShippingAddress;
 				if (shippingAddress == null)
 					shoppingBasket.ShippingAddress = shippingAddress = new Address();
 				shippingAddress.PersonTitle = checkoutDetails.ShippingTitle;
@@ -111,7 +111,7 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 				if (shoppingBasket.ShippingAddress != null)
 					Engine.Persister.Delete(shoppingBasket.ShippingAddress);
 			}
-			PaymentCard paymentCard = shoppingBasket.PaymentCard;
+			var paymentCard = shoppingBasket.PaymentCard;
 			if (paymentCard == null)
 				shoppingBasket.PaymentCard = paymentCard = new PaymentCard();
 			paymentCard.CardType = checkoutDetails.CardType;
@@ -138,13 +138,13 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 
 		private ActionResult GetIndexView()
 		{
-			IEnumerable<SelectListItem> cardTypes = new [] { new SelectListItem { Text = "Please select...", Value = "" }}
+			var cardTypes = new [] { new SelectListItem { Text = "Please select...", Value = "" }}
 				.Union(_orderService.GetSupportedCardTypes().Select(pct => new SelectListItem
 				{
 					Text = pct.GetDescription(),
 					Value = pct.ToString()
 				}));
-			IShoppingBasket shoppingBasket = GetShoppingBasket();
+			var shoppingBasket = GetShoppingBasket();
 			return View("Index", new CheckoutPageViewModel(CurrentItem,
 				GetTitles((shoppingBasket.BillingAddress != null) ? shoppingBasket.BillingAddress.Title : null),
 				GetTitles((shoppingBasket.ShippingAddress != null) ? shoppingBasket.ShippingAddress.Title : null),
@@ -167,7 +167,7 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 		{
 			try
 			{
-				Order order = _orderService.PlaceOrder(CurrentShop, cardNumber, cardVerificationCode,
+				var order = _orderService.PlaceOrder(CurrentShop, cardNumber, cardVerificationCode,
 					_shoppingBasketService.GetBasket(CurrentShop));
 				return View("Receipt", new CheckoutPageReceiptViewModel(CurrentItem, order.ID.ToString(), CurrentShop.ContactPage));
 			}

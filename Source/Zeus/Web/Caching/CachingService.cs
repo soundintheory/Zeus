@@ -30,7 +30,7 @@ namespace Zeus.Web.Caching
 
 		public string GetCachedPage(ContentItem contentItem)
 		{
-			object cachedPage = _webContext.HttpContext.Cache[GetCacheKey(contentItem)];
+			var cachedPage = _webContext.HttpContext.Cache[GetCacheKey(contentItem)];
 			if (cachedPage == null)
 				throw new InvalidOperationException("Page is not cached.");
 

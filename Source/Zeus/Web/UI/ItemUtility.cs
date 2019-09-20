@@ -27,10 +27,10 @@ namespace Zeus.Web.UI
 
 		private static Control AddTo(ContentItem item, Control container)
 		{
-			PathData path = item.FindPath(PathData.DefaultAction);
+			var path = item.FindPath(PathData.DefaultAction);
 			if (!path.IsEmpty())
 			{
-				Control templateItem = container.Page.LoadControl(path.TemplateUrl);
+				var templateItem = container.Page.LoadControl(path.TemplateUrl);
 				if (templateItem is IContentTemplate)
 					(templateItem as IContentTemplate).CurrentItem = item;
 				container.Controls.Add(templateItem);
@@ -73,7 +73,7 @@ namespace Zeus.Web.UI
 		{
 			get
 			{
-				Stack<ContentItem> stack = HttpContextItems["ItemStack"] as Stack<ContentItem>;
+				var stack = HttpContextItems["ItemStack"] as Stack<ContentItem>;
 				if (stack == null)
 				{
 					HttpContextItems["ItemStack"] = stack = new Stack<ContentItem>();
@@ -103,9 +103,9 @@ namespace Zeus.Web.UI
 			}
 
 			// walk path
-			ContentItem item = startItem;
-			string[] names = path.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-			foreach (string name in names)
+			var item = startItem;
+			var names = path.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+			foreach (var name in names)
 			{
 				if (item == null)
 					break;

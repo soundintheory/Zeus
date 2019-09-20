@@ -134,7 +134,7 @@ namespace Zeus.Design.Editors
 			if (user == null)
 				return false;
 
-			foreach (string role in AuthorizedRoles)
+			foreach (var role in AuthorizedRoles)
 				if (string.Equals(user.Identity.Name, role, StringComparison.OrdinalIgnoreCase) || user.IsInRole(role))
 					return true;
 			return false;
@@ -142,11 +142,11 @@ namespace Zeus.Design.Editors
 
 		public virtual Control AddTo(Control container)
 		{
-			Control panel = AddPanel(container);
+			var panel = AddPanel(container);
 			_label = AddLabel(panel);
 			if (!string.IsNullOrEmpty(EditorPrefixText))
 				panel.Controls.Add(new LiteralControl("<span class=\"prefix\">" + EditorPrefixText + "</span>"));
-			Control editor = AddEditor(panel);
+			var editor = AddEditor(panel);
 			if (!string.IsNullOrEmpty(EditorPostfixText))
 				panel.Controls.Add(new LiteralControl("<span class=\"postfix\">" + EditorPostfixText + "</span>"));
 			if (_label != null && editor != null && !string.IsNullOrEmpty(editor.ID))
@@ -177,7 +177,7 @@ namespace Zeus.Design.Editors
 		/// <returns>A panel that can be used to add editor and label.</returns>
 		protected virtual Control AddPanel(Control container)
 		{
-			HtmlGenericControl detailContainer = new HtmlGenericControl("div");
+			var detailContainer = new HtmlGenericControl("div");
 			detailContainer.ID = "editDetail" + Name;
 			detailContainer.Attributes["class"] = "editDetail";
 
@@ -192,7 +192,7 @@ namespace Zeus.Design.Editors
 		/// <param name="container">The container control for the label.</param>
 		protected virtual Label AddLabel(Control container)
 		{
-			Label label = new Label { ID = "lbl" + Name, Text = Title, CssClass = "editorLabel" };
+			var label = new Label { ID = "lbl" + Name, Text = Title, CssClass = "editorLabel" };
 			container.Controls.Add(label);
 			return label;
 		}
@@ -204,7 +204,7 @@ namespace Zeus.Design.Editors
 
 		protected virtual IValidator AddRequiredFieldValidator(Control container, Control editor)
 		{
-			RequiredFieldValidator rfv = new RequiredFieldValidator();
+			var rfv = new RequiredFieldValidator();
 			rfv.ID = "rfv" + Name;
 			rfv.ControlToValidate = editor.ID;
 			rfv.Display = ValidatorDisplay.Dynamic;
@@ -220,7 +220,7 @@ namespace Zeus.Design.Editors
 		/// <param name="editor">The editor control to validate.</param>
 		protected virtual Control AddRegularExpressionValidator(Control container, Control editor)
 		{
-			RegularExpressionValidator rev = new RegularExpressionValidator();
+			var rev = new RegularExpressionValidator();
 			rev.ID = Name + "_rev";
 			rev.ControlToValidate = editor.ID;
 			rev.ValidationExpression = ValidationExpression;
@@ -234,7 +234,7 @@ namespace Zeus.Design.Editors
 
 		protected virtual IValidator AddLocallyUniqueValidator(Control container, Control editor)
 		{
-			LocallyUniqueValidator rfv = new LocallyUniqueValidator();
+			var rfv = new LocallyUniqueValidator();
 			rfv.ID = "luv" + Name;
 			rfv.ControlToValidate = editor.ID;
 			rfv.Display = ValidatorDisplay.Dynamic;
@@ -270,7 +270,7 @@ namespace Zeus.Design.Editors
 
 			if (Context.Current.LanguageManager.Enabled && Context.Current.LanguageManager.CanBeTranslated((ContentItem) item) && !editor.Page.IsPostBack)
 			{
-				bool enabled = !Shared || ((ContentItem) item).TranslationOf == null;
+				var enabled = !Shared || ((ContentItem) item).TranslationOf == null;
 				string globeTooltip = null;
 				if (!enabled)
 				{
@@ -292,7 +292,7 @@ namespace Zeus.Design.Editors
 
 		int IComparable<IContainable>.CompareTo(IContainable other)
 		{
-			int delta = SortOrder - other.SortOrder;
+			var delta = SortOrder - other.SortOrder;
 			return delta != 0 ? delta : Name.CompareTo(other.Name);
 		}
 
@@ -319,7 +319,7 @@ namespace Zeus.Design.Editors
 		/// <returns>True if the items are of the same type and have the same name.</returns>
 		public override bool Equals(object obj)
 		{
-			IUniquelyNamed other = obj as IUniquelyNamed;
+			var other = obj as IUniquelyNamed;
 			if (other == null)
 				return false;
 			return (Name == other.Name);

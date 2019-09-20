@@ -45,10 +45,10 @@ namespace Zeus.Design.Editors
 
 		protected override void SetValue(ListControl listEditor, object value)
 		{
-			string[] values = (string[]) value;
-			foreach (string forEachValue in values)
+			var values = (string[]) value;
+			foreach (var forEachValue in values)
 			{
-				ListItem listItem = listEditor.Items.FindByValue(forEachValue);
+				var listItem = listEditor.Items.FindByValue(forEachValue);
 				if (listItem != null)
 					listItem.Selected = true;
 			}
@@ -61,18 +61,18 @@ namespace Zeus.Design.Editors
                 return true;
             else
             {
-                ListControl ddl = (ListControl)editor;
+                var ddl = (ListControl)editor;
 
-                string selectedInEditor = "";
+                var selectedInEditor = "";
                 foreach (ListItem listItem in ddl.Items)
                 {
                     if (listItem.Selected)
                         selectedInEditor += "_" + listItem.Value;
                 }
 
-                System.Collections.Generic.List<int> orig_ddl = (System.Collections.Generic.List<int>)item[Name];
-                string selectedInObject = "";
-                foreach (int val in orig_ddl)
+                var orig_ddl = (System.Collections.Generic.List<int>)item[Name];
+                var selectedInObject = "";
+                foreach (var val in orig_ddl)
                 {
                     selectedInObject += "_" + val;
                 }

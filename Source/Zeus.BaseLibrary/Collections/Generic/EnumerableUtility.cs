@@ -34,10 +34,10 @@ namespace Zeus.BaseLibrary.Collections.Generic
 		{
 			// Count the number of matching left and right elements.
 			var table = new MatchTable<T>((x, y) => Equals(x, y));
-			foreach (T expectedElement in left)
+			foreach (var expectedElement in left)
 				table.AddLeftValue(expectedElement);
 
-			foreach (T actualElement in right)
+			foreach (var actualElement in right)
 				table.AddRightValue(actualElement);
 
 			return (table.NonEqualCount == 0);

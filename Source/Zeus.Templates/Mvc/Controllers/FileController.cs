@@ -13,9 +13,9 @@ namespace Zeus.Templates.Mvc.Controllers
 		{
             if (CurrentItem is Image)
             {
-                System.Web.HttpContext httpContext = System.Web.HttpContext.Current;
+                var httpContext = System.Web.HttpContext.Current;
                 httpContext.Response.Headers["Cache-Control"] = "public";
-                DateTime modDate = CurrentItem.Updated;
+                var modDate = CurrentItem.Updated;
                 
                 httpContext.Response.Headers["Last-Modified"] = modDate.ToString("ddd, dd MMM yyyy HH:mm:ss 'GMT'");
 

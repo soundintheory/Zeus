@@ -86,7 +86,7 @@ namespace Zeus.Engine
 
 		public ContentEngine(EventBroker eventBroker)
 		{
-			HostSection hostSection = (HostSection) ConfigurationManager.GetSection("zeus/host");
+			var hostSection = (HostSection) ConfigurationManager.GetSection("zeus/host");
 
 			_dependencyInjectionManager = new DependencyInjectionManager();
 			_dependencyInjectionManager.Bind<IAssemblyFinder, AssemblyFinder>();
@@ -134,7 +134,7 @@ namespace Zeus.Engine
 
 			WebSecurityEngine.DependencyInjectionManager = _dependencyInjectionManager;
 
-			IPluginBootstrapper invoker = Resolve<IPluginBootstrapper>();
+			var invoker = Resolve<IPluginBootstrapper>();
 			invoker.InitializePlugins(this, invoker.GetPluginDefinitions());
 
 			_dependencyInjectionManager.Initialize();

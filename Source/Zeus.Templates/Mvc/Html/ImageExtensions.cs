@@ -38,7 +38,7 @@ namespace Zeus.Templates.Mvc.Html
 
         public static string Image(this HtmlHelper helper, Image image, int width, int height, bool fill, string defaultImage, DynamicImageFormat format)
         {
-            string url = ImageUrl(helper, image, width, height, fill, defaultImage, format);
+            var url = ImageUrl(helper, image, width, height, fill, defaultImage, format);
             if (string.IsNullOrEmpty(url))
                 return string.Empty;
 
@@ -72,7 +72,7 @@ namespace Zeus.Templates.Mvc.Html
         public static string ImageUrl(this HtmlHelper helper, Image image, int width, int height, bool fill, string defaultImage, DynamicImageFormat format)
         {
             
-            string result = defaultImage;
+            var result = defaultImage;
 
             // only generate url if image exists
             if (image != null)
@@ -90,7 +90,7 @@ namespace Zeus.Templates.Mvc.Html
                 {
                     if (image is CroppedImage)
                     {
-                        CroppedImage cImage = (CroppedImage)image;
+                        var cImage = (CroppedImage)image;
                         result = cImage.GetUrl(width, height, fill, format);
                     }
                     else
@@ -110,7 +110,7 @@ namespace Zeus.Templates.Mvc.Html
 
 		public static string ImageTag(this HtmlHelper helper, Image image, string imageUrl)
 		{
-            TagBuilder imageTag = new TagBuilder("img");
+            var imageTag = new TagBuilder("img");
 
             imageTag.MergeAttribute("src", imageUrl, true);
             imageTag.MergeAttribute("alt", image != null ? image.Caption : string.Empty, true);

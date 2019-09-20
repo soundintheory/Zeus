@@ -60,7 +60,7 @@ namespace Zeus.Templates.Mvc.Controllers
 				return View("Index", new RegistrationPageViewModel(CurrentItem) { CaptchaError = captchaError });
 
 			// Create user.
-			UserCreateStatus status = _userRegistrationService.CreateUser(registrationForm.Username,
+			var status = _userRegistrationService.CreateUser(registrationForm.Username,
 				registrationForm.Password, registrationForm.Email,
 				_webContext.GetFullyQualifiedUrl(new Url(CurrentItem.Url).AppendSegment("verify").AppendQuery("n=")),
 				VerificationEmailSender, VerificationEmailSubject,
@@ -103,7 +103,7 @@ namespace Zeus.Templates.Mvc.Controllers
 				throw new InvalidOperationException("Email verification is not enabled.");
 
 			User user;
-			UserVerificationResult result = _credentialService.Verify(n, out user);
+			var result = _credentialService.Verify(n, out user);
 			if (result != UserVerificationResult.Verified)
 				return View(new RegistrationPageVerifyViewModel(
 					CurrentItem, false, result.GetDescription()));

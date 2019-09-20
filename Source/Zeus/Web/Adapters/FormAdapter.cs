@@ -12,7 +12,7 @@ namespace Zeus.Web.Adapters
 	{
 		protected override void Render(HtmlTextWriter writer)
 		{
-			HtmlForm form = Control as HtmlForm;
+			var form = Control as HtmlForm;
 
 			writer.WriteBeginTag("form");
 			WriteAttributes(writer, form);
@@ -33,7 +33,7 @@ namespace Zeus.Web.Adapters
 			foreach (string key in form.Attributes.Keys)
 				writer.WriteAttribute(key, form.Attributes[key]);
 
-			string url = Page.Request.QueryString["postback"];
+			var url = Page.Request.QueryString["postback"];
 			if (string.IsNullOrEmpty(url))
 				writer.WriteAttribute("action", Page.Request.RawUrl);
 			else

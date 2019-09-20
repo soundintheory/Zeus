@@ -28,14 +28,14 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 		{
 			get 
             { 
-                ContentItem result = CurrentItem.GetParent();
+                var result = CurrentItem.GetParent();
                 return (Shop)(result.TranslationOf ?? result);
             }
 		}
 
 		public override ActionResult Index()
 		{
-			IShoppingBasket shoppingBasket = GetShoppingBasket();
+			var shoppingBasket = GetShoppingBasket();
 			IEnumerable<SelectListItem> deliveryMethods = null;
 			if (CurrentShop.DeliveryMethods != null)
 				deliveryMethods = CurrentShop.DeliveryMethods.GetChildren<DeliveryMethod>()
@@ -53,8 +53,8 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 			[Bind(Prefix = "varid")] int? variationPermutationID,
 			[Bind(Prefix = "qty")] int quantity)
 		{
-			Product product = Engine.Persister.Get<Product>(productID);
-			VariationPermutation variationPermutation = (variationPermutationID != null) ? Engine.Persister.Get<VariationPermutation>(variationPermutationID.Value) : null;
+			var product = Engine.Persister.Get<Product>(productID);
+			var variationPermutation = (variationPermutationID != null) ? Engine.Persister.Get<VariationPermutation>(variationPermutationID.Value) : null;
 			_shoppingBasketService.UpdateQuantity(CurrentShop, product, variationPermutation, quantity);
 			
 			return Redirect(CurrentItem.Url);
@@ -96,7 +96,7 @@ namespace Zeus.AddIns.ECommerce.Mvc.Controllers
 
 		private void UpdateDeliveryMethodInternal(int deliveryMethodID)
 		{
-			IShoppingBasket shoppingBasket = GetShoppingBasket();
+			var shoppingBasket = GetShoppingBasket();
 			shoppingBasket.DeliveryMethod = _finder.QueryItems<DeliveryMethod>().Single(dm => dm.ID == deliveryMethodID);
 			_shoppingBasketService.SaveBasket(CurrentShop);
 		}

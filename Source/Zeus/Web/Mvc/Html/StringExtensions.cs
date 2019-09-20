@@ -23,10 +23,10 @@ namespace Zeus.Web.Mvc.Html
 				return string.Empty;
 
 			const string pattern = @"((https?|ftp)://|www\.)[\w]+(.[\w]+)([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])";
-			MatchCollection matches = Regex.Matches(html, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+			var matches = Regex.Matches(html, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 			foreach (Match m in matches)
 			{
-				string httpPortion = string.Empty;
+				var httpPortion = string.Empty;
 				if (!m.Value.Contains("://"))
 				{
 					httpPortion = "http://";
@@ -65,12 +65,12 @@ namespace Zeus.Web.Mvc.Html
 				return url;
 
 			// Remove the folder structure, except for the last folder.
-			int firstIndex = url.IndexOf("/") + 1;
-			int startIndexForLastSlash = url.Length - 1;
+			var firstIndex = url.IndexOf("/") + 1;
+			var startIndexForLastSlash = url.Length - 1;
 			if (url.EndsWith("/"))
 				startIndexForLastSlash--;
 
-			int lastIndex = url.LastIndexOf("/", startIndexForLastSlash);
+			var lastIndex = url.LastIndexOf("/", startIndexForLastSlash);
 
 			if (firstIndex < lastIndex)
 				url = url.LeftBefore("/") + "/.../" + url.RightAfterLast("/", startIndexForLastSlash, StringComparison.Ordinal);
@@ -95,8 +95,8 @@ namespace Zeus.Web.Mvc.Html
 			lastIndex = url.LastIndexOf(".");
 			if (lastIndex - firstIndex > 10)
 			{
-				string page = url.Substring(firstIndex, lastIndex - firstIndex);
-				int length = url.Length - max + 3;
+				var page = url.Substring(firstIndex, lastIndex - firstIndex);
+				var length = url.Length - max + 3;
 				url = url.Replace(page, "..." + page.Substring(length));
 			}
 

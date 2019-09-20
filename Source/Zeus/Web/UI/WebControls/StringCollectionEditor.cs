@@ -18,9 +18,9 @@ namespace Zeus.Web.UI.WebControls
 
 		protected override Control CreateDetailEditor(int id, PropertyData detail)
 		{
-			StringProperty stringProperty = detail as StringProperty;
+			var stringProperty = detail as StringProperty;
 
-			TextBox txt = new TextBox { CssClass = "linkedItem", ID = ID + "_txt_" + id };
+			var txt = new TextBox { CssClass = "linkedItem", ID = ID + "_txt_" + id };
 			if (stringProperty != null)
 				txt.Text = stringProperty.StringValue;
 			return txt;

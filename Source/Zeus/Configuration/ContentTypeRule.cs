@@ -22,11 +22,11 @@ namespace Zeus.Configuration
 
 		internal int IsContentTypeAllowed(ContentType contentType)
 		{
-			int num = (Action == ContentTypeRuleAction.Allow) ? 1 : -1;
+			var num = (Action == ContentTypeRuleAction.Allow) ? 1 : -1;
 			if (AllSpecified)
 				return num;
 
-			System.Type type = System.Type.GetType(Type);
+			var type = System.Type.GetType(Type);
 			if (type == null)
 				throw new ArgumentException("Could not load type: '" + Type + "'", "Type");
 			if (type.IsAssignableFrom(contentType.ItemType))

@@ -38,11 +38,11 @@ namespace Zeus.Admin.Plugins.EditItem
 			{
 				if (SelectedLanguageCode != null)
 				{
-					ContentItem translatedItem = Engine.LanguageManager.GetTranslationDirect(SelectedItem, SelectedLanguageCode);
+					var translatedItem = Engine.LanguageManager.GetTranslationDirect(SelectedItem, SelectedLanguageCode);
 					if (translatedItem == null)
 					{
 						Title = string.Format("New Translation of '{0}'", SelectedItem.Title);
-						ContentItem selectedItem = Engine.ContentTypes.CreateInstance(SelectedItem.GetType(), SelectedItem.Parent);
+						var selectedItem = Engine.ContentTypes.CreateInstance(SelectedItem.GetType(), SelectedItem.Parent);
 						selectedItem.Language = SelectedLanguageCode;
 						selectedItem.TranslationOf = SelectedItem;
 						SelectedItem.Translations.Add(selectedItem);
@@ -62,7 +62,7 @@ namespace Zeus.Admin.Plugins.EditItem
 				}
 			}
 
-			bool languagesVisible = GlobalizationEnabled && Engine.LanguageManager.CanBeTranslated((ContentItem) zeusItemEditView.CurrentItem);
+			var languagesVisible = GlobalizationEnabled && Engine.LanguageManager.CanBeTranslated((ContentItem) zeusItemEditView.CurrentItem);
 			txiLanguages.Visible = ddlLanguages.Visible = languagesVisible;
 
 			if (!Engine.Resolve<AdminSection>().Versioning.Enabled || !Engine.SecurityManager.IsAuthorized(SelectedItem, User, Operations.Version))
@@ -74,9 +74,9 @@ namespace Zeus.Admin.Plugins.EditItem
 
 			if (!ExtNet.IsAjaxRequest && GlobalizationEnabled)
 			{
-				foreach (Language language in Engine.Resolve<ILanguageManager>().GetAvailableLanguages())
+				foreach (var language in Engine.Resolve<ILanguageManager>().GetAvailableLanguages())
 				{
-					IconComboListItem listItem = new IconComboListItem(language.Title, language.Name, language.IconUrl);
+					var listItem = new IconComboListItem(language.Title, language.Name, language.IconUrl);
 					ddlLanguages.Items.Add(listItem);
 				}
 			}
@@ -115,19 +115,19 @@ namespace Zeus.Admin.Plugins.EditItem
 
 		private void SaveChanges()
 		{
-			ItemEditorVersioningMode mode = (((ContentItem) zeusItemEditView.CurrentItem).VersionOf == null) ? ItemEditorVersioningMode.VersionAndSave : ItemEditorVersioningMode.SaveAsMaster;
+			var mode = (((ContentItem) zeusItemEditView.CurrentItem).VersionOf == null) ? ItemEditorVersioningMode.VersionAndSave : ItemEditorVersioningMode.SaveAsMaster;
 			if (!Engine.Resolve<AdminSection>().Versioning.Enabled)
 				mode = ItemEditorVersioningMode.SaveOnly;
-			ContentItem currentItem = (ContentItem) zeusItemEditView.Save((ContentItem) zeusItemEditView.CurrentItem, mode);
+			var currentItem = (ContentItem) zeusItemEditView.Save((ContentItem) zeusItemEditView.CurrentItem, mode);
 
 			if (Request["before"] != null)
 			{
-				ContentItem before = Engine.Resolve<Navigator>().Navigate(Request["before"]);
+				var before = Engine.Resolve<Navigator>().Navigate(Request["before"]);
 				Engine.Resolve<ITreeSorter>().MoveTo(currentItem, NodePosition.Before, before);
 			}
 			else if (Request["after"] != null)
 			{
-				ContentItem after = Engine.Resolve<Navigator>().Navigate(Request["after"]);
+				var after = Engine.Resolve<Navigator>().Navigate(Request["after"]);
 				Engine.Resolve<ITreeSorter>().MoveTo(currentItem, NodePosition.After, after);
 			}
 
@@ -157,8 +157,8 @@ namespace Zeus.Admin.Plugins.EditItem
 			if (!IsValid)
 				return;
 
-			ContentItem savedVersion = SaveVersion();
-			string redirectUrl = Engine.AdminManager.GetEditExistingItemUrl(savedVersion, SelectedLanguageCode);
+			var savedVersion = SaveVersion();
+			var redirectUrl = Engine.AdminManager.GetEditExistingItemUrl(savedVersion, SelectedLanguageCode);
 			Response.Redirect(redirectUrl);
 		}
 
@@ -167,7 +167,7 @@ namespace Zeus.Admin.Plugins.EditItem
 			if (!IsValid)
 				return;
 
-			ContentItem savedVersion = SaveVersion();
+			var savedVersion = SaveVersion();
 
 			Url redirectTo = Engine.AdminManager.GetPreviewUrl(savedVersion);
 
@@ -184,7 +184,7 @@ namespace Zeus.Admin.Plugins.EditItem
 
 		private ContentItem SaveVersion()
 		{
-			ItemEditorVersioningMode mode = (((ContentItem) zeusItemEditView.CurrentItem).VersionOf == null) ? ItemEditorVersioningMode.VersionOnly : ItemEditorVersioningMode.SaveOnly;
+			var mode = (((ContentItem) zeusItemEditView.CurrentItem).VersionOf == null) ? ItemEditorVersioningMode.VersionOnly : ItemEditorVersioningMode.SaveOnly;
 			return (ContentItem) zeusItemEditView.Save((ContentItem) zeusItemEditView.CurrentItem, mode);
 		}
 
@@ -211,14 +211,14 @@ namespace Zeus.Admin.Plugins.EditItem
 
 		private void DisplayThisHasNewerVersionInfo(ContentItem itemToLink)
 		{
-			string url = Url.ToAbsolute(Engine.AdminManager.GetEditExistingItemUrl(itemToLink, SelectedLanguageCode));
+			var url = Url.ToAbsolute(Engine.AdminManager.GetEditExistingItemUrl(itemToLink, SelectedLanguageCode));
 			hlNewerVersion.NavigateUrl = url;
 			hlNewerVersion.Visible = true;
 		}
 
 		private void DisplayThisIsVersionInfo(ContentItem itemToLink)
 		{
-			string url = Url.ToAbsolute(Engine.AdminManager.GetEditExistingItemUrl(itemToLink, SelectedLanguageCode));
+			var url = Url.ToAbsolute(Engine.AdminManager.GetEditExistingItemUrl(itemToLink, SelectedLanguageCode));
 			hlOlderVersion.NavigateUrl = url;
 			hlOlderVersion.Visible = true;
 		}
@@ -242,8 +242,8 @@ namespace Zeus.Admin.Plugins.EditItem
 		{
 			if (!string.IsNullOrEmpty(Discriminator))
 			{
-				ContentItem parentItem = Zeus.Context.Current.Resolve<Navigator>().Navigate(SelectedItem.Path);
-				ContentItem contentItem = Zeus.Context.Current.ContentTypes.CreateInstance(CurrentItemType, parentItem);
+				var parentItem = Zeus.Context.Current.Resolve<Navigator>().Navigate(SelectedItem.Path);
+				var contentItem = Zeus.Context.Current.ContentTypes.CreateInstance(CurrentItemType, parentItem);
 				contentItem.Language = SelectedLanguageCode;
 				if (contentItem is WidgetContentItem)
 					((WidgetContentItem) contentItem).ZoneName = Page.Request["zoneName"];

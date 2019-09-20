@@ -95,11 +95,11 @@ namespace Zeus.Integrity
             //so check mode - if in install it's safe to assume this code isn't needed
             if (_adminConfig.Installer.Mode != InstallationMode.Install)
             {
-			    ContentItem parentItem = item.GetParent();
+			    var parentItem = item.GetParent();
 			    if (parentItem != null)
-				    foreach (ContentItem potentiallyClashingItem in parentItem.Children)
+				    foreach (var potentiallyClashingItem in parentItem.Children)
 					    if (!potentiallyClashingItem.Equals(item) && potentiallyClashingItem != item.TranslationOf)
-						    foreach (ContentItem translation in _languageManager.GetTranslationsOf(potentiallyClashingItem, true))
+						    foreach (var translation in _languageManager.GetTranslationsOf(potentiallyClashingItem, true))
 							    if (!translation.Equals(item) && translation.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))
 								    return false;
             }
@@ -114,14 +114,14 @@ namespace Zeus.Integrity
 		/// <returns>True if the property value is unique.</returns>
 		public bool IsLocallyUnique(string propertyName, object value, ContentItem item)
 		{
-			ContentItem parentItem = item.Parent;
+			var parentItem = item.Parent;
 			if (parentItem != null)
-				foreach (ContentItem potentiallyClashingItem in parentItem.Children)
+				foreach (var potentiallyClashingItem in parentItem.Children)
 					if (!potentiallyClashingItem.Equals(item))
 					{
 						if (potentiallyClashingItem[propertyName] is string)
 						{
-							string potentiallyClashingValue = (string) potentiallyClashingItem[propertyName];
+							var potentiallyClashingValue = (string) potentiallyClashingItem[propertyName];
 							if (potentiallyClashingValue.Equals(value as string, StringComparison.InvariantCultureIgnoreCase))
 								return false;
 						}
@@ -173,14 +173,14 @@ namespace Zeus.Integrity
 			if (source == null) throw new ArgumentNullException("source");
 			if (destination == null) throw new ArgumentNullException("destination");
 
-			ContentItem existingItem = destination.GetChild(source.Name);
+			var existingItem = destination.GetChild(source.Name);
 			return existingItem != null && existingItem != source;
 		}
 
 		/// <summary>Checks that the destination isn't below the source.</summary>
 		private static bool IsDestinationBelowSource(ContentItem source, ContentItem destination)
 		{
-			for (ContentItem parent = destination; parent != null; parent = parent.Parent)
+			for (var parent = destination; parent != null; parent = parent.Parent)
 				if (parent == source)
 					return true;
 			return false;
@@ -193,8 +193,8 @@ namespace Zeus.Integrity
 		{
 			if (destination != null)
 			{
-				ContentType sourceDefinition = _contentTypeManager.GetContentType(source.GetType());
-				ContentType destinationDefinition = _contentTypeManager.GetContentType(destination.GetType());
+				var sourceDefinition = _contentTypeManager.GetContentType(source.GetType());
+				var destinationDefinition = _contentTypeManager.GetContentType(destination.GetType());
 
 				return destinationDefinition.IsChildAllowed(sourceDefinition);
 			}

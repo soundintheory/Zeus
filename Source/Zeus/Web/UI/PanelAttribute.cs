@@ -24,7 +24,7 @@ namespace Zeus.Web.UI
 		/// <returns>The newly added fieldset.</returns>
 		public override Control AddTo(Control container)
 		{
-			Panel panel = new Panel
+			var panel = new Panel
 			{
 				ID = "FieldSet" + Name,
 				Title = Title,

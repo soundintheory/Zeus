@@ -32,7 +32,7 @@ namespace Zeus.Admin.RecycleBin
 
 		protected void btnEmpty_Click(object sender, EventArgs e)
 		{
-			foreach (ContentItem child in SelectedItem.GetChildren())
+			foreach (var child in SelectedItem.GetChildren())
 				Zeus.Context.Persister.Delete(child);
 			ReBind();
 
@@ -41,8 +41,8 @@ namespace Zeus.Admin.RecycleBin
 
 		protected void grvRecycleBinItems_RowCommand(object sender, GridViewCommandEventArgs e)
 		{
-			int itemID = Convert.ToInt32(e.CommandArgument);
-			ContentItem item = Zeus.Context.Persister.Get(itemID);
+			var itemID = Convert.ToInt32(e.CommandArgument);
+			var item = Zeus.Context.Persister.Get(itemID);
 
 			switch (e.CommandName)
 			{

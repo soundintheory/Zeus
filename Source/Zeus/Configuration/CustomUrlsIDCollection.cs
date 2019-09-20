@@ -12,7 +12,7 @@ namespace Zeus.Configuration
 
 		protected override object GetElementKey(ConfigurationElement element)
         {
-            CustomUrlsIDElement rule = (CustomUrlsIDElement)element;
+            var rule = (CustomUrlsIDElement)element;
             return rule.ID;
         }
     }

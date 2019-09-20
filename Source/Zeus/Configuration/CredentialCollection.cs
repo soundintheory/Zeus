@@ -17,7 +17,7 @@ namespace Zeus.Configuration
 
 		protected override object GetElementKey(ConfigurationElement element)
 		{
-			UserElement rule = (UserElement) element;
+			var rule = (UserElement) element;
 			return rule.Name;
 		}
 

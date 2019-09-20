@@ -33,7 +33,7 @@ namespace Zeus.Web
 			if (url.StartsWith("/") || url.StartsWith("~/"))
 				return base.Parse(url);
 
-			Site site = Host.GetSite(url);
+			var site = Host.GetSite(url);
 			if (site != null)
 				return TryLoadingFromQueryString(url, PathData.ItemQueryKey, PathData.PageQueryKey)
 					?? Parse(Persister.Get(site.StartPageID), Url.Parse(url).PathAndQuery);
@@ -50,7 +50,7 @@ namespace Zeus.Web
 		{
 			if (!url.IsAbsolute)
 				return StartPage;
-			Site site = Host.GetSite(url) ?? Host.CurrentSite;
+			var site = Host.GetSite(url) ?? Host.CurrentSite;
 			return Persister.Get(site.StartPageID);
 		}
 
@@ -69,7 +69,7 @@ namespace Zeus.Web
 				}
 
 				// find the start page and use it's host name
-				foreach (Site site in Host.Sites)
+				foreach (var site in Host.Sites)
 					if (startPage.ID == site.StartPageID)
 						return GetHostedUrl(item, url, site);
 			}
@@ -79,7 +79,7 @@ namespace Zeus.Web
 
 		private static string GetHostedUrl(ContentItem item, string url, Site site)
 		{
-			string hostName = site.GetHostName(item.Language);
+			var hostName = site.GetHostName(item.Language);
 			if (string.IsNullOrEmpty(hostName))
 				return item.FindPath(PathData.DefaultAction).RewrittenUrl;
 
@@ -88,7 +88,7 @@ namespace Zeus.Web
 
 		protected override bool IsStartPage(ContentItem item)
 		{
-			foreach (Site site in Host.Sites)
+			foreach (var site in Host.Sites)
 				if (IsStartPage(item, site))
 					return true;
 			return base.IsStartPage(item);
