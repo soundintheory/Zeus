@@ -6,6 +6,7 @@ using System.Web.UI;
 
 namespace Zeus.Design.Editors
 {
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
 	public class EnumEditorAttribute : DropDownListEditorAttribute
 	{
 		private readonly Type _enumType;

@@ -20,10 +20,10 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 
 		public static T Deserialize<T>(this string serializedValue)
 		{
-			return (T)Deserialize(serializedValue, typeof(T));
+			return (T)Deserialize(serializedValue);
 		}
 
-		public static object Deserialize(this string serializedValue, Type type)
+		public static object Deserialize(this string serializedValue)
 		{
 			var serialisedBytes = Convert.FromBase64String(serializedValue);
 			using (var stream = new MemoryStream(serialisedBytes))
@@ -178,11 +178,6 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 		}
 
 		public static string Truncate(this string value, int length)
-		{
-			return Truncate(value, length, true);
-		}
-
-		public static string Truncate(this string value, int length, bool preserveWordBoundaries)
 		{
 			if (string.IsNullOrEmpty(value))
 			{
@@ -457,11 +452,11 @@ namespace Zeus.BaseLibrary.ExtensionMethods
 
                 //find all currently existing close tags
                 var closeTagsRGX = new Regex(@"<\/[^>]+>", RegexOptions.IgnoreCase);
-                var existingCloseTags = closeTagsRGX.Matches(newText);
+                   
 
                 //if there are any, delete matches entries in theCloses in the order in which they appear
 
-                foreach (Match m in existingCloseTags)
+                foreach (Match m in closeTagsRGX.Matches(newText))
                 {
                     foreach (string exC in theCloses)
                     {

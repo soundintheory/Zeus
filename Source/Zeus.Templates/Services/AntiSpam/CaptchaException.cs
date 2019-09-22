@@ -12,6 +12,18 @@ namespace Zeus.Templates.Services.AntiSpam
 			CaptchaError = captchaError;
 		}
 
+		public CaptchaException(string messageFormat, params object[] args) : base(messageFormat, args)
+		{
+		}
+
+		public CaptchaException(string message, System.Exception innerException) : base(message, innerException)
+		{
+		}
+
+		public CaptchaException() : base()
+		{
+		}
+
 		public string CaptchaError { get; set; }
 	}
 }

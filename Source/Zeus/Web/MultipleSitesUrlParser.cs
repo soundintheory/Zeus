@@ -19,11 +19,6 @@ namespace Zeus.Web
 		{
 		}
 
-        public MultipleSitesUrlParser(IPersister persister, IWebContext webContext, IItemNotifier notifier, IHost host, HostSection config, ILanguageManager languageManager, CustomUrlsSection urls, GlobalizationSection globalizationConfig)
-			: base(persister, host, webContext, notifier, config, languageManager, urls, globalizationConfig)
-		{
-		}
-
 		#endregion
 
 		public override ContentItem Parse(string url)
@@ -61,8 +56,7 @@ namespace Zeus.Web
 
 		public override string BuildUrl(ContentItem item, string languageCode)
 		{
-			ContentItem startPage;
-			Url url = BuildUrlInternal(item, languageCode, out startPage);
+			var url = BuildUrlInternal(item, languageCode, out var startPage);
 
 			if (startPage != null)
 			{

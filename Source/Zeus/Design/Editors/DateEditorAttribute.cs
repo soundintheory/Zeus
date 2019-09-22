@@ -5,6 +5,7 @@ using Zeus.ContentTypes;
 
 namespace Zeus.Design.Editors
 {
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
 	public class DateEditorAttribute : AbstractEditorAttribute
 	{
 		public bool IncludeTime { get; set; }

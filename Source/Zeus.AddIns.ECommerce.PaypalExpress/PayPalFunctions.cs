@@ -28,7 +28,6 @@ namespace Zeus.AddIns.ECommerce.PaypalExpress
 		//private static readonly ILog log = LogManager.GetLogger(typeof(NVPAPICaller));
 
 		private string pendpointurl = "https://api-3t.paypal.com/nvp";
-		private const string CVV2 = "CVV2";
 
 		private const string SIGNATURE = "SIGNATURE";
 		private const string PWD = "PWD";

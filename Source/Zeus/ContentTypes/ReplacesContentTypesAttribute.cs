@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Zeus.ContentTypes
 {
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
 	/// <summary>
 	/// Disables the specified content type(s). Can be used to create a better 
 	/// implementation of a content type in an existing solution. Note that this

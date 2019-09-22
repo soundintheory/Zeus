@@ -3,6 +3,7 @@ using Zeus.Web;
 using Zeus.Templates.ContentTypes;
 using Zeus.AddIns.ECommerce.PaypalExpress.Mvc.ContentTypeInterfaces;
 using System.Collections.Generic;
+using Zeus.AddIns.ECommerce.PaypalExpress;
 
 namespace Zeus.Examples.MinimalMvcExample.ContentTypes
 {

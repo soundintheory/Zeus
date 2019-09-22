@@ -4,6 +4,7 @@ using Zeus.Web.UI.WebControls;
 
 namespace Zeus.Design.Editors
 {
+	[System.AttributeUsage(System.AttributeTargets.All, AllowMultiple = false)]
 	public class MultiImageUploadEditorAttribute : MultiFileUploadEditorAttribute
 	{
 		public MultiImageUploadEditorAttribute(string title, int sortOrder)

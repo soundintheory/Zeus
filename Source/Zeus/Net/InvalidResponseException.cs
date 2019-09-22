@@ -38,6 +38,14 @@ namespace Zeus.Net
 			HttpStatus = status;
 		}
 
+		public InvalidResponseException(string messageFormat, params object[] args) : base(messageFormat, args)
+		{
+		}
+
+		public InvalidResponseException() : base()
+		{
+		}
+
 		/// <summary>
 		/// Gets the HTTP status returned by the service.
 		/// </summary>

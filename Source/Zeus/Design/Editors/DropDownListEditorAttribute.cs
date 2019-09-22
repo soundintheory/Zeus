@@ -3,6 +3,7 @@ using System.Web.UI.WebControls;
 
 namespace Zeus.Design.Editors
 {
+	[System.AttributeUsage(System.AttributeTargets.All, AllowMultiple = false)]
 	public abstract class DropDownListEditorAttribute : ListEditorAttribute
 	{
 		#region Constructors

@@ -12,6 +12,7 @@ using Zeus.Design.Editors;
 
 namespace Zeus.AddIns.ECommerce.Design.Editors
 {
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
 	public class VariationConfigurationEditorAttribute : AbstractEditorAttribute
 	{
 		public VariationConfigurationEditorAttribute(string title, int sortOrder)

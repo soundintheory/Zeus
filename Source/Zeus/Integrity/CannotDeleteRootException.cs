@@ -9,5 +9,17 @@ namespace Zeus.Integrity
 			: base("Cannot delete root item or start page")
 		{
 		}
+
+		public CannotDeleteRootException(string message) : base(message)
+		{
+		}
+
+		public CannotDeleteRootException(string messageFormat, params object[] args) : base(messageFormat, args)
+		{
+		}
+
+		public CannotDeleteRootException(string message, System.Exception innerException) : base(message, innerException)
+		{
+		}
 	}
 }

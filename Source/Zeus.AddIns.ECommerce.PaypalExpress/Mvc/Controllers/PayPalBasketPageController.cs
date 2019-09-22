@@ -65,16 +65,13 @@ namespace Zeus.AddIns.ECommerce.PaypalExpress.Mvc.Controllers
             var test = new NVPAPICaller();
 
             var retMsg = "";
-            var token = "";
-            var finalPaymentAmount = "";
-            var payerId = "";
-            var decoder = new NVPCodec();
+			var decoder = new NVPCodec();
 
-            token = System.Web.HttpContext.Current.Session["ppToken"].ToString();
-            payerId = System.Web.HttpContext.Current.Session["ppID"].ToString();
-            finalPaymentAmount = CurrentItem.BasketTotal.ToString().TrimEnd('0');
+			var token = System.Web.HttpContext.Current.Session["ppToken"].ToString();
+			var payerId = System.Web.HttpContext.Current.Session["ppID"].ToString();
+			var finalPaymentAmount = CurrentItem.BasketTotal.ToString().TrimEnd('0');
 
-            var ret = test.ConfirmPayment(finalPaymentAmount, token, payerId, ref decoder, ref retMsg, CurrentItem.Currency);
+			var ret = test.ConfirmPayment(finalPaymentAmount, token, payerId, ref decoder, ref retMsg, CurrentItem.Currency);
 
             if (ret)
             {
@@ -137,7 +134,7 @@ namespace Zeus.AddIns.ECommerce.PaypalExpress.Mvc.Controllers
             var shippingAddress = new Address();
             var retMsg = "";
             var noteToSeller = "";
-            var pass = test.GetShippingDetails(token, ref PayerID, ref shippingAddress, ref noteToSeller, ref retMsg);
+            var pass = test.GetShippingDetails(token, ref shippingAddress, ref noteToSeller, ref retMsg);
 
             if (pass)
             {

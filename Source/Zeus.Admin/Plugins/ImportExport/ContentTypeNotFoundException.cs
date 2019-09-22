@@ -6,5 +6,17 @@ namespace Zeus.Admin.Plugins.ImportExport
 			: base(message)
 		{
 		}
+
+		public ContentTypeNotFoundException(string messageFormat, params object[] args) : base(messageFormat, args)
+		{
+		}
+
+		public ContentTypeNotFoundException(string message, System.Exception innerException) : base(message, innerException)
+		{
+		}
+
+		public ContentTypeNotFoundException() : base()
+		{
+		}
 	}
 }

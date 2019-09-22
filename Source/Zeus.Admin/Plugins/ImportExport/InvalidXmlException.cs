@@ -6,5 +6,17 @@ namespace Zeus.Admin.Plugins.ImportExport
 			: base(message)
 		{
 		}
+
+		public InvalidXmlException(string messageFormat, params object[] args) : base(messageFormat, args)
+		{
+		}
+
+		public InvalidXmlException(string message, System.Exception innerException) : base(message, innerException)
+		{
+		}
+
+		public InvalidXmlException() : base()
+		{
+		}
 	}
 }

@@ -10,6 +10,22 @@ namespace Zeus.Plugin
 			InnerExceptions = innerExceptions;
 		}
 
+		public PluginInitializationException(string message) : base(message)
+		{
+		}
+
+		public PluginInitializationException(string messageFormat, params object[] args) : base(messageFormat, args)
+		{
+		}
+
+		public PluginInitializationException(string message, Exception innerException) : base(message, innerException)
+		{
+		}
+
+		public PluginInitializationException() : base()
+		{
+		}
+
 		public Exception[] InnerExceptions { get; set; }
 	}
 }

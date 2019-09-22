@@ -12,6 +12,7 @@ using Label = System.Web.UI.WebControls.Label;
 
 namespace Zeus.Design.Editors
 {
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
 	public abstract class AbstractEditorAttribute : Attribute, IEditor, ISecurable, IPropertyAwareAttribute
 	{
 		private Label _label;

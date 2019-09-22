@@ -3,6 +3,7 @@ using Zeus.Engine;
 
 namespace Zeus.Plugin
 {
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
 	/// <summary>
 	/// Base class for attributes which can create an instance of the plugin 
 	/// initializer and execute it.

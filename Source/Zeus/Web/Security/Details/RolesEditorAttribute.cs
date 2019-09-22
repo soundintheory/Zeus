@@ -7,6 +7,7 @@ using Zeus.Design.Editors;
 
 namespace Zeus.Web.Security.Details
 {
+	[System.AttributeUsage(System.AttributeTargets.All, AllowMultiple = false)]
 	public class RolesEditorAttribute : AbstractEditorAttribute
 	{
 		public override bool UpdateItem(IEditableObject item, Control editor)

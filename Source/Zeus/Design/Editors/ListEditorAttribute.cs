@@ -4,6 +4,7 @@ using Zeus.ContentTypes;
 
 namespace Zeus.Design.Editors
 {
+	[System.AttributeUsage(System.AttributeTargets.All, AllowMultiple = false)]
 	public abstract class ListEditorAttribute : AbstractEditorAttribute
 	{
 		#region Constructors

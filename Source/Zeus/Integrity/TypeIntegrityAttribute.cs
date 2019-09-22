@@ -3,6 +3,7 @@ using Zeus.ContentTypes;
 
 namespace Zeus.Integrity
 {
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
 	/// <summary>
 	/// Base class for attributes used to restrict which types can be created below which.
 	/// </summary>

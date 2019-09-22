@@ -233,7 +233,7 @@ namespace Zeus.Admin.Plugins.ImportExport
 		{
 			if (type == typeof(object))
 			{
-				return xmlValue.Deserialize(type);
+				return xmlValue.Deserialize();
 			}
 
 			return Utility.Convert(xmlValue, type);
@@ -272,7 +272,6 @@ namespace Zeus.Admin.Plugins.ImportExport
 		protected virtual void OnAddingDetail(XPathNavigator navigator, PropertyCollection collection)
 		{
 			var attributes = GetAttributes(navigator);
-			var name = attributes["name"];
 			var type = attributes["typeName"].ToType();
 			if (type != typeof(ContentItem))
 			{

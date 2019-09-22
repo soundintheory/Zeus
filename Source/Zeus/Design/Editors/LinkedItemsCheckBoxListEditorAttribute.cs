@@ -8,6 +8,7 @@ using Zeus.ContentTypes;
 
 namespace Zeus.Design.Editors
 {
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
 	public class LinkedItemsCheckBoxListEditorAttribute : CheckBoxListEditorAttribute
 	{
 		public LinkedItemsCheckBoxListEditorAttribute()

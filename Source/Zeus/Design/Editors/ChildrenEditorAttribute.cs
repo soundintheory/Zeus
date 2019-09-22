@@ -6,6 +6,7 @@ using Zeus.Web.UI.WebControls;
 
 namespace Zeus.Design.Editors
 {
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
 	public class ChildrenEditorAttribute : AbstractEditorAttribute
 	{
 		public ChildrenEditorAttribute(string title, int sortOrder)

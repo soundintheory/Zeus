@@ -6,6 +6,7 @@ using System.Web.UI;
 
 namespace Zeus.Design.Editors
 {
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
 	public abstract class ListBoxEditorAttribute : ListEditorAttribute
 	{
 		#region Constructors

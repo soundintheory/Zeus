@@ -8,5 +8,13 @@ namespace Zeus.BaseLibrary.Web
 	public class InvalidQueryStringException : System.Exception
 	{
 		public InvalidQueryStringException() : base() { }
+
+		public InvalidQueryStringException(string message) : base(message)
+		{
+		}
+
+		public InvalidQueryStringException(string message, Exception innerException) : base(message, innerException)
+		{
+		}
 	}
 }

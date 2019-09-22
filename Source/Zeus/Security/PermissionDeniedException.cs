@@ -21,6 +21,22 @@ namespace Zeus.Security
 			Item = innerException.Item;
 		}
 
+		public PermissionDeniedException(string message) : base(message)
+		{
+		}
+
+		public PermissionDeniedException(string messageFormat, params object[] args) : base(messageFormat, args)
+		{
+		}
+
+		public PermissionDeniedException(string message, System.Exception innerException) : base(message, innerException)
+		{
+		}
+
+		public PermissionDeniedException() : base()
+		{
+		}
+
 		#region Properties
 
 		/// <summary>Gets the user which caused the exception.</summary>

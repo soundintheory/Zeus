@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Zeus.ContentTypes
 {
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
 	/// <summary>
 	/// Replaces the parent content type with the one decorated by this 
 	/// attribute. This can be used to disable and replace items in external

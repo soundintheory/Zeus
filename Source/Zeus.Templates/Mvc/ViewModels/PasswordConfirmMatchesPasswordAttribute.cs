@@ -2,6 +2,7 @@
 
 namespace Zeus.Templates.Mvc.ViewModels
 {
+	[System.AttributeUsage(System.AttributeTargets.All, AllowMultiple = false)]
 	public class PasswordConfirmMatchesPasswordAttribute : ValidationAttribute
 	{
 		public override bool IsValid(object value)

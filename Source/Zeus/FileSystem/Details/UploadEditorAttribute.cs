@@ -10,6 +10,7 @@ using Zeus.Design.Editors;
 
 namespace Zeus.FileSystem.Details
 {
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
 	public class UploadEditorAttribute : AbstractEditorAttribute
 	{
 		public UploadEditorAttribute()

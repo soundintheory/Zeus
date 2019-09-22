@@ -6,6 +6,7 @@ using Zeus.Web.UI.WebControls;
 
 namespace Zeus.Design.Editors
 {
+	[System.AttributeUsage(System.AttributeTargets.All, AllowMultiple = false)]
 	public abstract class BaseDetailCollectionEditorAttribute : AbstractEditorAttribute
 	{
 		protected BaseDetailCollectionEditorAttribute(string title, int sortOrder)

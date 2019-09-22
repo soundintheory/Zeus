@@ -38,17 +38,29 @@ namespace Zeus.Web.Mvc.Html
 			return html.Javascript(Utility.GetClientResourceUrl(assembly, relativePath));
 		}
 
+#pragma warning disable RCS1175 // Unused this parameter.
+#pragma warning disable IDE0060 // Remove unused parameter
 		public static string Javascript(this HtmlHelper html, string url)
+#pragma warning restore IDE0060 // Remove unused parameter
+#pragma warning restore RCS1175 // Unused this parameter.
 		{
 			return string.Format(@"<script type=""text/javascript"" src=""{0}""></script>", url);
 		}
 
+#pragma warning disable IDE0060 // Remove unused parameter
+#pragma warning disable RCS1175 // Unused this parameter.
 		public static string Css(this HtmlHelper html, string url)
+#pragma warning restore RCS1175 // Unused this parameter.
+#pragma warning restore IDE0060 // Remove unused parameter
 		{
 			return string.Format(@"<link rel=""stylesheet"" type=""text/css"" href=""{0}"" />", url);
 		}
 
+#pragma warning disable RCS1175 // Unused this parameter.
+#pragma warning disable IDE0060 // Remove unused parameter
 		public static string DisplayProperty<TItem>(this HtmlHelper helper, TItem contentItem, Expression<Func<TItem, object>> expression)
+#pragma warning restore IDE0060 // Remove unused parameter
+#pragma warning restore RCS1175 // Unused this parameter.
 			where TItem : ContentItem
 		{
 			var memberExpression = (MemberExpression) expression.Body;
@@ -79,17 +91,32 @@ namespace Zeus.Web.Mvc.Html
 			return propertyData.GetXhtmlValue();
 		}
 
+#pragma warning disable RCS1175 // Unused this parameter.
+#pragma warning disable IDE0060 // Unused this parameter.
 		public static Url Url(this HtmlHelper html, ContentItem contentItem)
 		{
 			return new Url(contentItem.Url);
 		}
 
+#pragma warning restore RCS1175 // Unused this parameter.
+#pragma warning disable IDE0060 // Unused this parameter.
+
+#pragma warning disable IDE0060 // Remove unused paramete
+
+#pragma warning disable RCS1175 // Unused this parameter.
 		public static Url Url(this HtmlHelper html, string url)
+
+#pragma warning restore RCS1175 // Unused this parameter.
+#pragma warning restore IDE0060 // Remove unused parameter
 		{
 			return new Url(url);
 		}
 
+#pragma warning disable IDE0060 // Remove unused parameter
+#pragma warning disable RCS1175 // Unused this parameter.
 		public static string ToAbsoluteUrl(this HtmlHelper html, string url)
+#pragma warning restore RCS1175 // Unused this parameter.
+#pragma warning restore IDE0060 // Remove unused parameter
 		{
 			return VirtualPathUtility.ToAbsolute(url);
 		}
@@ -123,26 +150,31 @@ namespace Zeus.Web.Mvc.Html
 			return null;
 		}
 
-        /// <summary>
-        /// Content cut for summaries in the lists
-        /// </summary>
-        /// <param name="html"></param>
-        /// <param name="theString"></param>
-        /// <param name="theLength"></param>
-        /// <returns></returns>
-        public static string SafeTruncate(this HtmlHelper html, string theString, int theLength)
-        {
-            if (theString.Length < theLength)
+#pragma warning disable IDE0060 // Remove unused parameter
+
+#pragma warning disable RCS1175 // Unused this parameter.
+		/// <summary>
+		/// Content cut for summaries in the lists
+		/// </summary>
+		/// <param name="html"></param>
+		/// <param name="theString"></param>
+		/// <param name="theLength"></param>
+		/// <returns></returns>
+		public static string SafeTruncate(this HtmlHelper html, string theString, int theLength)
+
+#pragma warning disable RCS1175 // Unused this parameter.
+#pragma warning restore IDE0060 // Remove unused parameter
+		{
+			if (theString.Length < theLength)
             {
                 return theString;
             }
             else
             {
-                var newText = "";
-                newText = theString.Substring(0, theLength);
+				var newText = theString.Substring(0, theLength);
 
-                // test whether the truncate has cut into an existing HTML tag. If it has, remove a character to newText and test again. Do this until false. 
-                var isItCutXP = new Regex(@"<[^>]*$");
+				// test whether the truncate has cut into an existing HTML tag. If it has, remove a character to newText and test again. Do this until false. 
+				var isItCutXP = new Regex("<[^>]*$");
                 while (isItCutXP.IsMatch(newText))
                 {
                     theLength--;
@@ -150,7 +182,7 @@ namespace Zeus.Web.Mvc.Html
                 }
 
                 //remove images from newText
-                var imagesRGX = new Regex(@"<img[^>]+>", RegexOptions.None);
+                var imagesRGX = new Regex("<img[^>]+>", RegexOptions.None);
                 newText = imagesRGX.Replace(newText, "");
 
                 // match all opening HTML tags (avoiding <br> tags) in newText and put in an array called 'theMatches'
@@ -169,12 +201,10 @@ namespace Zeus.Web.Mvc.Html
 
                 //find all currently existing close tags
                 var closeTagsRGX = new Regex(@"<\/[^>]+>", RegexOptions.IgnoreCase);
-                var existingCloseTags = closeTagsRGX.Matches(newText);
-                var returningText = "";
 
                 //if there are any, delete matches entries in theCloses in the order in which they appear
 
-                foreach (Match m in existingCloseTags)
+                foreach (Match m in closeTagsRGX.Matches(newText))
                 {
                     foreach (string exC in theCloses)
                     {

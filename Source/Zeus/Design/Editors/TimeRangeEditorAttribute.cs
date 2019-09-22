@@ -4,6 +4,7 @@ using Zeus.Web.UI.WebControls;
 
 namespace Zeus.Design.Editors
 {
+	[System.AttributeUsage(System.AttributeTargets.All, AllowMultiple = false)]
 	/// <summary>
 	/// Decorates the content item with a time range editable that will update two time fields.
 	/// </summary>

@@ -5,6 +5,7 @@ using Zeus.Web.UI.WebControls;
 
 namespace Zeus.Design.Editors
 {
+	[System.AttributeUsage(System.AttributeTargets.All, AllowMultiple = false)]
 	public class StringCollectionEditorAttribute : BaseDetailCollectionEditorAttribute
 	{
 		public StringCollectionEditorAttribute(string title, int sortOrder)

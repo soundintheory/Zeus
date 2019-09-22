@@ -10,7 +10,8 @@ using Zeus.ContentTypes;
 
 namespace Zeus.Examples.MinimalMvcExample.Design.Editors
 {
-    public class PageListBoxEditorAttribute : ListBoxEditorAttribute
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
+	public class PageListBoxEditorAttribute : ListBoxEditorAttribute
     {
         #region Constructors
 

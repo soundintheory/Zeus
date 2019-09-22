@@ -12,6 +12,7 @@ using File=Zeus.FileSystem.File;
 
 namespace Zeus.Design.Editors
 {
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
 	public class MultiFileUploadEditorAttribute : BaseDetailCollectionEditorAttribute
 	{
 		public MultiFileUploadEditorAttribute(string title, int sortOrder)

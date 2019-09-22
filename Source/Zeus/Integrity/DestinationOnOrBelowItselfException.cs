@@ -12,6 +12,22 @@ namespace Zeus.Integrity
 			DestinationItem = destination;
 		}
 
+		public DestinationOnOrBelowItselfException(string message) : base(message)
+		{
+		}
+
+		public DestinationOnOrBelowItselfException(string messageFormat, params object[] args) : base(messageFormat, args)
+		{
+		}
+
+		public DestinationOnOrBelowItselfException(string message, System.Exception innerException) : base(message, innerException)
+		{
+		}
+
+		public DestinationOnOrBelowItselfException() : base()
+		{
+		}
+
 		/// <summary>Gets the source item that is causing the conflict.</summary>
 		public ContentItem SourceItem
 		{

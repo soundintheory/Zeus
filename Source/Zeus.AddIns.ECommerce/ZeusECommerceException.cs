@@ -18,5 +18,9 @@ namespace Zeus.AddIns.ECommerce
 			: base(message, innerException)
 		{
 		}
+
+		public ZeusECommerceException() : base()
+		{
+		}
 	}
 }

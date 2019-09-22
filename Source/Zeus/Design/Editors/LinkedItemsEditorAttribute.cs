@@ -7,6 +7,7 @@ using DropDownList=System.Web.UI.WebControls.DropDownList;
 
 namespace Zeus.Design.Editors
 {
+	[AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
 	public class LinkedItemsEditorAttribute : BaseDetailCollectionEditorAttribute
 	{
 		public LinkedItemsEditorAttribute(string title, int sortOrder, Type typeFilter)

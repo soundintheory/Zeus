@@ -488,6 +488,18 @@ namespace System.Linq.Dynamic
 			this.Position = position;
 		}
 
+		public ParseException() : base()
+		{
+		}
+
+		public ParseException(string message) : base(message)
+		{
+		}
+
+		public ParseException(string message, Exception innerException) : base(message, innerException)
+		{
+		}
+
 		public int Position { get; }
 
 		public override string ToString()

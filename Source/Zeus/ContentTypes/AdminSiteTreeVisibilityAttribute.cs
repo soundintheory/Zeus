@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 namespace Zeus.ContentTypes
 {
+	[System.AttributeUsage(System.AttributeTargets.All, AllowMultiple = false)]
 	/// <summary>
 	/// Controls whether a content type is displayed in the admin site tree.
 	/// </summary>

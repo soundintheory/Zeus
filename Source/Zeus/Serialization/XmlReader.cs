@@ -30,7 +30,7 @@ namespace Zeus.Serialization
 		{
 			if (Context.Current.Resolve<IContentPropertyManager>().CreatePropertyDataObject(type) is ObjectProperty)
 			{
-				return value.Deserialize(type);
+				return value.Deserialize();
 			}
 
 			if (type == typeof(DateTime))
