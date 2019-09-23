@@ -72,11 +72,11 @@ namespace Zeus.Web.Security
 			var index = loginUrl.IndexOf('?');
 			if (index < 0)
 			{
-				loginUrl = loginUrl + "?";
+				loginUrl += "?";
 			}
 			else if (index < (loginUrl.Length - 1))
 			{
-				loginUrl = loginUrl + "&";
+				loginUrl += "&";
 			}
 			string str2 = null;
 			if (reuseReturnUrl)

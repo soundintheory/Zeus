@@ -49,8 +49,7 @@ namespace Zeus.Web.Security
 			// If the current HTTP request is for a Zeus page, then check if that page or any of its ancestors
 			// implement the ILoginContext interface. If so, use the LoginUrl from that page.
 			// BUT only if we're not currently in installation mode.
-			var location = (AuthenticationLocation) _rootLocation.GetChild(
-				VirtualPathUtility.ToAppRelative(_webContext.Url.Path).TrimStart('~'));
+			var location = (AuthenticationLocation) _rootLocation.GetChild(VirtualPathUtility.ToAppRelative(_webContext.Url.Path).TrimStart('~'));
 			var loginUrl = location.LoginUrl;
 			// If site is currently in Install mode, don't do anything.
 			if (_adminConfig.Installer.Mode == InstallationMode.Normal
@@ -59,9 +58,9 @@ namespace Zeus.Web.Security
 				var currentPage = Context.CurrentPage;
 				while (currentPage != null)
 				{
-					if (currentPage is ILoginContext)
+					if (currentPage is ILoginContext loginContext)
 					{
-						loginUrl = ((ILoginContext) currentPage).LoginUrl;
+						loginUrl = (loginContext).LoginUrl;
 						break;
 					}
 					currentPage = currentPage.GetParent();

@@ -13,6 +13,8 @@ namespace Zeus.Web.Security
 
 		private bool _onEnterCalled;
 
+		private IAuthenticationContextService _authService;
+
 		#endregion
 
 		#region Events
@@ -23,10 +25,28 @@ namespace Zeus.Web.Security
 
 		#region Properties
 
-		protected static IAuthenticationService CurrentAuthenticationService
+
+
+		protected IAuthenticationService CurrentAuthenticationService
 		{
-			get { return WebSecurityEngine.Get<IAuthenticationContextService>().GetCurrentService(); }
+			get
+			{
+				 return AuthenticationContextService.GetCurrentService();
+			}
 		}
+
+		protected IAuthenticationContextService AuthenticationContextService
+		{
+			get
+			{
+				if (_authService == null)
+				{
+					_authService = WebSecurityEngine.Get<IAuthenticationContextService>();
+				}
+				return _authService;
+			}
+		}
+
 
 		#endregion
 
@@ -75,10 +95,7 @@ namespace Zeus.Web.Security
 
 		protected virtual void OnAuthenticate(AuthenticationEventArgs e)
 		{
-			if (Authenticate != null)
-			{
-				Authenticate(this, e);
-			}
+			Authenticate?.Invoke(this, e);
 
 			if (e.Context.User != null)
 			{
