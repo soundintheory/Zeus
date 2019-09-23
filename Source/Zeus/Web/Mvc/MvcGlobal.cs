@@ -60,12 +60,12 @@ namespace Zeus.Web.Mvc
             var namespaces = Zeus.Context.Current.Resolve<RoutingSection>().Controllers.ToArray();
 
             // This controller fallbacks to a controller unrelated to Zeus
-            routes.MapRoute(
-                "Default",                                              // Route name
-                "{controller}/{action}/{id}",                           // URL with parameters
-                new { controller = "Home", action = "Index", id = "" },  // Parameter defaults
-                namespaces
-            );
+            //routes.MapRoute(
+            //    "Default",                                              // Route name
+            //    "{controller}/{action}/{id}",                           // URL with parameters
+            //    new { controller = "Home", action = "Index", id = "" },  // Parameter defaults
+            //    namespaces
+            //);
         }
 
         private static void RegisterRoutes(RouteCollection routes, ContentEngine engine)

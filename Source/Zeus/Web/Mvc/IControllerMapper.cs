@@ -6,5 +6,6 @@ namespace Zeus.Web.Mvc
 	{
 		string GetControllerName(Type type);
 		string GetAreaName(Type type);
+		bool Contains(string name);
 	}
 }

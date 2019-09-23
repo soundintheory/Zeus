@@ -22,6 +22,7 @@ namespace Zeus.Web.Mvc
 
 					ControllerMap[id.ItemType] = controllerDefinition.ControllerName;
 					AreaMap[id.ItemType] = controllerDefinition.AreaName;
+					_ = ControllerNames.Add(controllerName);
 
 					if (!kernel.GetBindings(typeof(IController)).Any(b => b.Metadata.Name == controllerName))
 					{
@@ -31,7 +32,7 @@ namespace Zeus.Web.Mvc
 					}
 
 					IList<IPathFinder> finders = PathDictionary.GetFinders(id.ItemType);
-					if (0 == finders.Where(f => f is ActionResolver).Count())
+					if (0 == finders.Count(f => f is ActionResolver))
 					{
 						// TODO: Get the list of methods from a list of actions retrieved from somewhere within MVC
 						var methods = controllerDefinition.AdapterType.GetMethods().Select(m => m.Name).ToArray();
@@ -73,9 +74,19 @@ namespace Zeus.Web.Mvc
 			return name;
 		}
 
+		public bool Contains(string name)
+		{
+			var query = name.Trim().ToLower();
+
+			return ControllerNames.Contains(query);
+
+		}
+
 		private IDictionary<Type, string> ControllerMap { get; } = new Dictionary<Type, string>();
 
 		private IDictionary<Type, string> AreaMap { get; } = new Dictionary<Type, string>();
+
+		private HashSet<string> ControllerNames { get; } = new HashSet<string>();
 
 		private static IAdapterDescriptor GetControllerFor(Type itemType, IList<ControlsAttribute> controllerDefinitions)
 		{

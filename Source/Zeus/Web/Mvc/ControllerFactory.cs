@@ -13,9 +13,12 @@ namespace Zeus.Web.Mvc
 	{
 		private readonly IKernel _kernel;
 
-		public ControllerFactory(IKernel kernel)
+		private readonly IControllerMapper _mapper;
+
+		public ControllerFactory(IKernel kernel, IControllerMapper mapper)
 		{
 			_kernel = kernel;
+			_mapper = mapper;
 		}
 
 		public override IController CreateController(RequestContext requestContext, string controllerName)
@@ -50,6 +53,13 @@ namespace Zeus.Web.Mvc
 
 		private IController InstantiateController(string controllerName)
 		{
+			if (!_mapper.Contains(controllerName))
+			{
+				// not a zeus route.
+				// let other handlers take over
+				return null;
+			}
+
 #if DEBUG
 			IController controller = _kernel.Get<IController>(controllerName.ToLowerInvariant());
 #else
