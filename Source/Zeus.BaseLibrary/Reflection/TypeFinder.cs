@@ -7,11 +7,9 @@ namespace Zeus.BaseLibrary.Reflection
 {
 	public class TypeFinder : ITypeFinder
 	{
-		private readonly IAssemblyFinder _assemblyFinder;
 
-		public TypeFinder(IAssemblyFinder assemblyFinder)
+		public TypeFinder()
 		{
-			_assemblyFinder = assemblyFinder;
 		}
 
 		/// <summary>Finds types assignable from of a certain type in the app domain.</summary>
@@ -20,7 +18,7 @@ namespace Zeus.BaseLibrary.Reflection
 		public IEnumerable<Type> Find(Type requestedType)
 		{
 			var types = new List<Type>();
-			foreach (var assembly in _assemblyFinder.GetAssemblies())
+			foreach (var assembly in AssemblyFinder.GetAssemblies())
 			{
 				try
 				{

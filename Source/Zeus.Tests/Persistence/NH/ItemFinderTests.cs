@@ -20,8 +20,7 @@ namespace Zeus.Tests.Persistence.NH
 		[Test]
 		public void Can_Query_Detail()
 		{
-			IAssemblyFinder assemblyFinder = new AssemblyFinder();
-			ITypeFinder typeFinder = new TypeFinder(assemblyFinder);
+			ITypeFinder typeFinder = new TypeFinder();
 			IContentTypeBuilder contentTypeBuilder = new ContentTypeBuilder(typeFinder, new EditableHierarchyBuilder<IEditor>(),
                 new AttributeExplorer<IDisplayer>(), new AttributeExplorer<IEditor>(),
                 new AttributeExplorer<IContentProperty>(), new AttributeExplorer<IEditorContainer>());

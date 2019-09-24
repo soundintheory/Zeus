@@ -79,7 +79,7 @@ namespace Zeus.Tests.Integrity
 		{
 			var assemblyFinder = mocks.StrictMock<IAssemblyFinder>();
 			Expect.On(assemblyFinder)
-				.Call(assemblyFinder.GetAssemblies())
+				.Call(AssemblyFinder.GetAssemblies())
 				.Return(new[] {
                     typeof (AlternativePage).Assembly,
                     typeof (Globalization.ContentTypes.Language).Assembly

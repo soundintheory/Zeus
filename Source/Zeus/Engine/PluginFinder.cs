@@ -11,17 +11,15 @@ namespace Zeus.Engine
 	public class PluginFinder<TPlugin> : IPluginFinder<TPlugin>
 		where TPlugin : Attribute
 	{
-		private readonly IAssemblyFinder _assemblyFinder;
 
-		public PluginFinder(IAssemblyFinder assemblyFinder)
+		public PluginFinder()
 		{
-			_assemblyFinder = assemblyFinder;
 		}
 
 		public IEnumerable<TPlugin> GetPlugins()
 		{
 			var plugins = new List<TPlugin>();
-			foreach (var assembly in _assemblyFinder.GetAssemblies())
+			foreach (var assembly in AssemblyFinder.GetAssemblies())
 			{
 				try
 				{

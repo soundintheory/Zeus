@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using Ninject;
+using Ninject.Activation;
+using Ninject.Activation.Strategies;
 using Ninject.Planning.Bindings;
 using Zeus.BaseLibrary.Reflection;
 
@@ -12,9 +14,9 @@ namespace Zeus.BaseLibrary.DependencyInjection
 {
 	public class DependencyInjectionManager
 	{
-		private readonly InitializableKernel _kernel;
+		public readonly InitializableKernel Kernel;
 
-		private class InitializableKernel : StandardKernel
+		public class InitializableKernel : StandardKernel
 		{
 			private readonly List<IBinding> _bindings = new List<IBinding>();
 
@@ -32,20 +34,36 @@ namespace Zeus.BaseLibrary.DependencyInjection
 			{
 				var initializableInterfaceType = typeof(IInitializable);
 				var startableInterfaceType = typeof(IStartable);
+				Components.Add<IActivationStrategy, StartStrategy>();
+				//AddComponents();
 				foreach (var binding in _bindings)
 				{
 					if (initializableInterfaceType.IsAssignableFrom(binding.Service) || startableInterfaceType.IsAssignableFrom(binding.Service))
 					{
-						this.GetAll(binding.Service); // Force creation.
+						var items = this.GetAll(binding.Service); // Force creation.
 					}
 				}
+			}
+		}
+
+		private class StartStrategy : ActivationStrategy
+		{
+			public override void Activate(IContext context, InstanceReference reference)
+			{
+				reference.IfInstanceIs<IStartable>(x => x.Start());
+				reference.IfInstanceIs<IInitializable>(x => x.Initialize());
+			}
+
+			public override void Deactivate(IContext context, InstanceReference reference)
+			{
+				reference.IfInstanceIs<IStartable>(x => x.Stop());
 			}
 		}
 
 		public DependencyInjectionManager()
 		{
 			// Create kernel.
-			_kernel = new InitializableKernel();
+			Kernel = new InitializableKernel();
 			try
 			{
 				// Get all DLLS in bin folder.
@@ -78,9 +96,9 @@ namespace Zeus.BaseLibrary.DependencyInjection
 				}
 
 				// load zeus assemblies
-				_kernel.Load(zeusAssemblies);
+				Kernel.Load(zeusAssemblies);
 				// load non-zeus
-				_kernel.Load(nonZeusAssemblies);
+				Kernel.Load(nonZeusAssemblies);
 			}
 			catch (TypeLoadException)
 			{
@@ -153,23 +171,23 @@ namespace Zeus.BaseLibrary.DependencyInjection
 
 		public void Initialize()
 		{
-			_kernel.InitializeServices();
+			Kernel.InitializeServices();
 		}
 
 		public void Bind<TService, TComponent>()
 			where TComponent : TService
 		{
-			_kernel.Bind<TService>().To<TComponent>();
+			Kernel.Bind<TService>().To<TComponent>();
 		}
 
 		public void Bind(Type serviceType, Type componentType)
 		{
-			_kernel.Bind(serviceType).To(componentType);
+			Kernel.Bind(serviceType).To(componentType);
 		}
 
 		public void Bind(Type componentType)
 		{
-			_kernel.Bind(componentType).ToSelf();
+			Kernel.Bind(componentType).ToSelf();
 		}
 
 		public void BindInstance(object instance)
@@ -179,22 +197,22 @@ namespace Zeus.BaseLibrary.DependencyInjection
 				return;
 			}
 
-			_kernel.Bind(instance.GetType()).ToConstant(instance);
+			Kernel.Bind(instance.GetType()).ToConstant(instance);
 		}
 
 		public TService Get<TService>()
 		{
-			return _kernel.GetAll<TService>().First();
+			return Kernel.GetAll<TService>().First();
 		}
 
 		public IEnumerable<TService> GetAll<TService>()
 		{
-			return _kernel.GetAll<TService>();
+			return Kernel.GetAll<TService>();
 		}
 
 		public object Get(Type serviceType)
 		{
-			return _kernel.Get(serviceType);
+			return Kernel.Get(serviceType);
 		}
 	}
 }

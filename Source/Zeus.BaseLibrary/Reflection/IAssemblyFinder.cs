@@ -5,6 +5,5 @@ namespace Zeus.BaseLibrary.Reflection
 {
 	public interface IAssemblyFinder
 	{
-		IEnumerable<Assembly> GetAssemblies();
 	}
 }

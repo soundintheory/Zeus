@@ -27,7 +27,7 @@ namespace Zeus.BaseLibrary.Reflection
 
 		/// <summary>Gets tne assemblies related to the current implementation.</summary>
 		/// <returns>A list of assemblies that should be loaded by the N2 factory.</returns>
-		public IEnumerable<Assembly> GetAssemblies()
+		public static IEnumerable<Assembly> GetAssemblies()
 		{
 			return GetAssembliesWithKnownExclusions(null);
 

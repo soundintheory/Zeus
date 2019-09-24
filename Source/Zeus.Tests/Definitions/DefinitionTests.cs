@@ -16,7 +16,7 @@ namespace Zeus.Tests.Definitions
 		public void SetUp()
 		{
 			IAssemblyFinder assemblyFinder = new AssemblyFinder();
-			ITypeFinder typeFinder = new TypeFinder(assemblyFinder);
+			ITypeFinder typeFinder = new TypeFinder();
 			var contentTypeBuilder = new ContentTypeBuilder(
                 typeFinder,
                 new EditableHierarchyBuilder<Design.Editors.IEditor>(),

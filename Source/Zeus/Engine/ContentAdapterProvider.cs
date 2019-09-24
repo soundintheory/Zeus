@@ -14,14 +14,12 @@ namespace Zeus.Engine
 	{
 		private readonly ContentEngine engine;
 		private readonly ITypeFinder _typeFinder;
-		private readonly IAssemblyFinder assemblyFinder;
 		private IAdapterDescriptor[] adapterDescriptors = new IAdapterDescriptor[0];
 		private readonly object _lockObject = new object();
 
-		public ContentAdapterProvider(ContentEngine engine, IAssemblyFinder finder, ITypeFinder typeFinder)
+		public ContentAdapterProvider(ContentEngine engine, ITypeFinder typeFinder)
 		{
 			this.engine = engine;
-			this.assemblyFinder = finder;
 			_typeFinder = typeFinder;
 		}
 
@@ -98,7 +96,7 @@ namespace Zeus.Engine
 			}
 
 			//collect [assembly: Controls(..)] attributes
-			foreach (ICustomAttributeProvider assembly in assemblyFinder.GetAssemblies())
+			foreach (ICustomAttributeProvider assembly in AssemblyFinder.GetAssemblies())
 			{
 				foreach (IAdapterDescriptor reference in assembly.GetCustomAttributes(typeof(IAdapterDescriptor), false))
 				{

@@ -89,7 +89,7 @@ namespace Zeus.Engine
 			var hostSection = (HostSection) ConfigurationManager.GetSection("zeus/host");
 
 			_dependencyInjectionManager = new DependencyInjectionManager();
-			_dependencyInjectionManager.Bind<IAssemblyFinder, AssemblyFinder>();
+			_dependencyInjectionManager.Kernel.Bind<IAssemblyFinder>().To<AssemblyFinder>();
 
 			_dependencyInjectionManager.BindInstance(eventBroker);
 			_dependencyInjectionManager.BindInstance(ConfigurationManager.GetSection("zeus/database") as DatabaseSection);
