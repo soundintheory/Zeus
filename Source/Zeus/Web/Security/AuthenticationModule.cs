@@ -15,6 +15,16 @@ namespace Zeus.Web.Security
 
 		private IAuthenticationContextService _authService;
 
+		private AuthenticationSection _config;
+
+		internal AuthenticationSection Config
+		{
+			get
+			{
+				return _config ?? (_config = System.Web.Configuration.WebConfigurationManager.GetSection("zeus/authentication") as AuthenticationSection);
+			}
+		}
+
 		#endregion
 
 		#region Events
@@ -66,31 +76,33 @@ namespace Zeus.Web.Security
 			var application = (HttpApplication) source;
 			HttpContextBase context = new HttpContextWrapper(application.Context);
 
-			var authenticationContextService = WebSecurityEngine.Get<IAuthenticationContextService>();
-			var authenticationConfig = System.Web.Configuration.WebConfigurationManager.GetSection("zeus/authentication") as AuthenticationSection;
-			var locationPath = context.Request.Path.ToLower();
-			if (authenticationConfig != null && !authenticationContextService.ContainsLocation(locationPath))
+			if (!context.SkipAuthorization)
 			{
-				var location = authenticationConfig.ToAuthenticationLocation();
-				location.Path = locationPath;
-				authenticationContextService.AddLocation(location);
+				var authenticationContextService = WebSecurityEngine.Get<IAuthenticationContextService>();
+				var locationPath = context.Request.Path.ToLower();
+				if (Config != null && !authenticationContextService.ContainsLocation(locationPath))
+				{
+					var location = Config.ToAuthenticationLocation();
+					location.Path = locationPath;
+					authenticationContextService.AddLocation(location);
+				}
+
+				if (!CurrentAuthenticationService.Enabled)
+				{
+					return;
+				}
+
+				OnAuthenticate(new AuthenticationEventArgs(context));
+				if (CurrentAuthenticationService.AccessingLoginPage())
+				{
+					context.SkipAuthorization = true;
+				}
+
+				//if (!context.SkipAuthorization)
+				//	context.SkipAuthorization = AssemblyResourceLoader.IsValidWebResourceRequest(context);
+
+				_onEnterCalled = true;
 			}
-
-			if (!CurrentAuthenticationService.Enabled)
-			{
-				return;
-			}
-
-			OnAuthenticate(new AuthenticationEventArgs(context));
-			if (CurrentAuthenticationService.AccessingLoginPage())
-			{
-				context.SkipAuthorization = true;
-			}
-
-			//if (!context.SkipAuthorization)
-			//	context.SkipAuthorization = AssemblyResourceLoader.IsValidWebResourceRequest(context);
-
-			_onEnterCalled = true;
 		}
 
 		protected virtual void OnAuthenticate(AuthenticationEventArgs e)
@@ -173,7 +185,7 @@ namespace Zeus.Web.Security
 
 			var application = (HttpApplication) source;
 			var context = application.Context;
-			if (context.Response.StatusCode != 0x191)
+			if (context.Response.StatusCode != 401)
 			{
 				return;
 			}
