@@ -12,6 +12,6 @@ namespace Zeus.BaseLibrary
 	/// </summary>
 	public interface IServiceRegistration
 	{
-		void RegisterServices(out IServiceCollection services);
+		void RegisterServices(ref IServiceCollection services);
 	}
 }

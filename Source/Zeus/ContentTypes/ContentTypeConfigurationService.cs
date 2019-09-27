@@ -1,9 +1,8 @@
-using Ninject;
 using Zeus.Configuration;
 
 namespace Zeus.ContentTypes
 {
-	public class ContentTypeConfigurationService : IInitializable
+	public class ContentTypeConfigurationService
 	{
 		#region Fields
 
@@ -18,6 +17,8 @@ namespace Zeus.ContentTypes
 		{
 			_configSection = configSection;
 			_contentTypeManager = contentTypeManager;
+
+			Initialize();
 		}
 
 		#endregion

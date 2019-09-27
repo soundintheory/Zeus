@@ -124,6 +124,9 @@
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.SqlServer.Assessment, Version=0.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.150.18147.0\lib\net45\Microsoft.SqlServer.Assessment.dll</HintPath>
     </Reference>
@@ -229,9 +232,6 @@
     <Reference Include="NHibernate, Version=5.2.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernate.5.2.6\lib\net461\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="Remotion.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
       <HintPath>..\packages\Remotion.Linq.2.2.0\lib\net45\Remotion.Linq.dll</HintPath>
@@ -313,8 +313,8 @@
     </Compile>
     <Compile Include="AddIns\AddInContainer.cs" />
     <Compile Include="Admin\IMainInterface.cs" />
+    <Compile Include="Admin\NavigationFlag\INavigationCachingService.cs" />
     <Compile Include="Admin\NavigationFlag\NavigationCachingService.cs" />
-    <Compile Include="Admin\NavigationFlag\NavigationServiceInitializer.cs" />
     <Compile Include="Admin\Plugins\IMainInterfacePlugin.cs" />
     <Compile Include="Admin\Plugins\MainInterfacePluginBase.cs" />
     <Compile Include="Admin\Plugins\TreePluginBase.cs" />
@@ -425,12 +425,14 @@
     <Compile Include="ContentTypes\DefaultContainerAttribute.cs" />
     <Compile Include="ContentTypes\DisableAttribute.cs" />
     <Compile Include="ContentTypes\EditableHierarchyBuilder.cs" />
+    <Compile Include="ContentTypes\IAttributeExplorer.cs" />
     <Compile Include="ContentTypes\IEditableHierarchyBuilder.cs" />
     <Compile Include="ContentProperties\BaseContentPropertyAttribute.cs" />
     <Compile Include="ContentProperties\BooleanProperty.cs" />
     <Compile Include="ContentProperties\IContentProperty.cs" />
     <Compile Include="Design\Editors\CroppedImageUploadEditorAttribute.cs" />
     <Compile Include="Design\Editors\TextAreaEditorAttribute.cs" />
+    <Compile Include="Engine\RegisterServiceCollection.cs" />
     <Compile Include="FileSystem\Images\HiddenCroppedImage.cs" />
     <Compile Include="FileSystem\Images\CroppedImage.cs" />
     <Compile Include="FileSystem\Images\HiddenImage.cs" />
@@ -551,7 +553,6 @@
     <Compile Include="Web\Security\UserCreateStatus.cs" />
     <Compile Include="Web\Security\WebIdentity.cs" />
     <Compile Include="Web\Security\WebPrincipal.cs" />
-    <Compile Include="Web\Security\WebSecurityEngine.cs" />
     <Compile Include="Web\Security\WebSecurityService.cs" />
     <Compile Include="Web\TextTemplating\DefaultMessageBuilder.cs" />
     <Compile Include="Web\TextTemplating\IMessageBuilder.cs" />
@@ -587,12 +588,10 @@
     <Compile Include="Engine\ContentAdapterProvider.cs" />
     <Compile Include="Engine\IContentAdapter.cs" />
     <Compile Include="Engine\IContentAdapterProvider.cs" />
-    <Compile Include="Engine\ZeusModule.cs" />
     <Compile Include="FileSystem\FileSystemService.cs" />
     <Compile Include="FileSystem\IFileSystemService.cs" />
     <Compile Include="FileSystem\Images\Image.cs" />
     <Compile Include="FileSystem\Images\ImageCachingService.cs" />
-    <Compile Include="FileSystem\Images\ImageCachingServiceInitializer.cs" />
     <Compile Include="FileSystem\Images\ImageLayerBuilderExtensions.cs" />
     <Compile Include="FileSystem\Images\ZeusImageSource.cs" />
     <Compile Include="Globalization\ContentLanguage.cs" />
@@ -779,7 +778,6 @@
     <Compile Include="Design\Editors\NameEditorAttribute.cs" />
     <Compile Include="Design\Editors\TimeRangeEditorAttribute.cs" />
     <Compile Include="ContentTypes\RootEditorContainer.cs" />
-    <Compile Include="Context.cs" />
     <Compile Include="ContentTypeAttribute.cs" />
     <Compile Include="ContentTypes\ContentTypeManager.cs" />
     <Compile Include="ContentTypes\IContainable.cs" />

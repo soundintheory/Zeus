@@ -15,7 +15,6 @@ namespace Zeus.Tests.Definitions
 		[SetUp]
 		public void SetUp()
 		{
-			IAssemblyFinder assemblyFinder = new AssemblyFinder();
 			ITypeFinder typeFinder = new TypeFinder();
 			var contentTypeBuilder = new ContentTypeBuilder(
                 typeFinder,

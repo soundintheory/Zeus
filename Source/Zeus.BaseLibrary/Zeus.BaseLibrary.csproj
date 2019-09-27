@@ -196,10 +196,6 @@
     <Compile Include="Collections\Generic\Pageable.cs" />
     <Compile Include="Collections\Generic\PageableExtensions.cs" />
     <Compile Include="Collections\Generic\PaginationHelper.cs" />
-    <Compile Include="Collections\Singleton.cs" />
-    <Compile Include="Collections\Singleton.generic.cs" />
-    <Compile Include="Collections\SingletonDictionary.cs" />
-    <Compile Include="Collections\SingletonList.cs" />
     <Compile Include="DependencyInjection\DependencyInjectionResolver.cs" />
     <Compile Include="ExtensionMethods\ByteArray.cs" />
     <Compile Include="ExtensionMethods\Collections\NameValueCollection.cs" />
@@ -218,10 +214,6 @@
     <Compile Include="ExtensionMethods\IServiceProvider.cs" />
     <Compile Include="ExtensionMethods\Text\StringBuilder.cs" />
     <Compile Include="IContextAwareAttribute.cs" />
-    <Compile Include="Drawing\FastBitmap.cs" />
-    <Compile Include="Drawing\ImageHelper.cs" />
-    <Compile Include="Drawing\Imaging\ImageCodecInfoHelper.cs" />
-    <Compile Include="Drawing\RectangleHelper.cs" />
     <Compile Include="ExtensionMethods\Byte.cs" />
     <Compile Include="ExtensionMethods\Collections\Generic\IList.cs" />
     <Compile Include="ExtensionMethods\Collections\ICollection.cs" />

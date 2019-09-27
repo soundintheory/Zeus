@@ -13,18 +13,6 @@ namespace Zeus.Engine
 	/// </summary>
 	public class EventBroker
 	{
-		static EventBroker()
-		{
-			Instance = new EventBroker();
-		}
-
-		/// <summary>Accesses the event broker singleton instance.</summary>
-		public static EventBroker Instance
-		{
-			get { return Singleton<EventBroker>.Instance; }
-			protected set { Singleton<EventBroker>.Instance = value; }
-		}
-
 		private int observedApplications;
 
 		/// <summary>Attaches to events from the application instance.</summary>

@@ -37,7 +37,7 @@ namespace Zeus.BaseLibrary
 			var typeFinder = new TypeFinder();
 			foreach (var type in typeFinder.Find(typeof(IServiceRegistration)).Cast<IServiceRegistration>())
 			{
-				type.RegisterServices(out provider);
+				type.RegisterServices(ref provider);
 			}
 			return provider;
 		}

@@ -77,9 +77,7 @@ namespace Zeus.Tests.Integrity
 
 		private ITypeFinder CreateTypeFinder()
 		{
-			var assemblyFinder = mocks.StrictMock<IAssemblyFinder>();
-			Expect.On(assemblyFinder)
-				.Call(AssemblyFinder.GetAssemblies())
+			Expect.Call(AssemblyFinder.GetAssemblies())
 				.Return(new[] {
                     typeof (AlternativePage).Assembly,
                     typeof (Globalization.ContentTypes.Language).Assembly

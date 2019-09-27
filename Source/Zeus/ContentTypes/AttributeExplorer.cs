@@ -12,7 +12,7 @@ namespace Zeus.ContentTypes
 	/// property their name set to the property's name.
 	/// </summary>
 	/// <typeparam name="T">The type of attribute to find.</typeparam>
-	public class AttributeExplorer<T> where T : IUniquelyNamed
+	public class AttributeExplorer<T> : IAttributeExplorer<T> where T : IUniquelyNamed
 	{
 		public IList<T> Find(Type typeToExplore)
 		{

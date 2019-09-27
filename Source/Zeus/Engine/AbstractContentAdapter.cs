@@ -13,9 +13,6 @@ namespace Zeus.Engine
 		/// <summary>The path associated with this controller instance.</summary>
 		public PathData Path { get; set; }
 
-		/// <summary>The content engine requesting external control.</summary>
-		public ContentEngine Engine { get; set; }
-
 		#endregion
 
 	}

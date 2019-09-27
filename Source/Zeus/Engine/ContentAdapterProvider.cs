@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Ninject;
 using Zeus.BaseLibrary.Reflection;
 using Zeus.Web;
 
@@ -10,16 +9,15 @@ namespace Zeus.Engine
 	/// <summary>
 	/// Keeps track of and provides content adapters in the system.
 	/// </summary>
-	public class ContentAdapterProvider : IContentAdapterProvider, IInitializable
+	/// <remarks>possibly remove this?</remarks>
+	public class ContentAdapterProvider : IContentAdapterProvider
 	{
-		private readonly ContentEngine engine;
 		private readonly ITypeFinder _typeFinder;
 		private IAdapterDescriptor[] adapterDescriptors = new IAdapterDescriptor[0];
 		private readonly object _lockObject = new object();
 
-		public ContentAdapterProvider(ContentEngine engine, ITypeFinder typeFinder)
+		public ContentAdapterProvider(ITypeFinder typeFinder)
 		{
-			this.engine = engine;
 			_typeFinder = typeFinder;
 		}
 
@@ -46,7 +44,6 @@ namespace Zeus.Engine
 			}
 
 			controller.Path = path;
-			controller.Engine = engine;
 			return controller;
 		}
 
