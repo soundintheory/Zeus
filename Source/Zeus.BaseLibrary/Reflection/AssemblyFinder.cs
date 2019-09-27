@@ -16,7 +16,7 @@ namespace Zeus.BaseLibrary.Reflection
 	/// Loads assemblies from disk and caches them
 	/// </summary>
 	/// <remarks>Purloined shamelessly from https://github.com/umbraco/Umbraco-CMS/blob/v8/dev/src/Umbraco.Core/Composing/TypeFinder.cs</remarks>
-	public class AssemblyFinder : IAssemblyFinder
+	public static class AssemblyFinder
 	{
 		private static volatile HashSet<Assembly> _localFilteredAssemblyCache;
 		private static readonly object _localFilteredAssemblyCacheLocker = new object();
@@ -30,22 +30,6 @@ namespace Zeus.BaseLibrary.Reflection
 		public static IEnumerable<Assembly> GetAssemblies()
 		{
 			return GetAssembliesWithKnownExclusions(null);
-
-			//if (!_binFolderAssembliesLoaded)
-			//{
-			//	_binFolderAssembliesLoaded = true;
-			//	if (IsHosted)
-			//	{
-			//		GetFilteredAssemblies()
-			//	}
-			//}
-
-			//List<string> addedAssemblyNames = new List<string>();
-			//List<Assembly> assemblies = new List<Assembly>();
-
-			//AddAssembliesInAppDomain(ref addedAssemblyNames, ref assemblies);
-
-			//return assemblies;
 		}
 
         /// <summary>
@@ -67,47 +51,6 @@ namespace Zeus.BaseLibrary.Reflection
 			}
 			return _binDirectoryPath;
 		}
-
-        /// <summary>Iterates all assemblies in the AppDomain and if it's name matches the configured patterns add it to our list.</summary>
-        /// <param name="addedAssemblyNames"></param>
-        /// <param name="assemblies"></param>
-        private void AddAssembliesInAppDomain(ref List<string> addedAssemblyNames, ref List<Assembly> assemblies)
-		{
-			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-			{
-				if (!Matches(assembly.FullName))
-				{
-					if (!addedAssemblyNames.Contains(assembly.FullName))
-					{
-						assemblies.Add(assembly);
-						addedAssemblyNames.Add(assembly.FullName);
-					}
-				}
-			}
-		}
-
-		/// <summary>Makes sure matching assemblies in the supplied folder are loaded in the app domain.</summary>
-		/// <param name="directoryPath">The physical path to a directory containing dlls to load in the app domain.</param>
-		//protected virtual void LoadMatchingAssemblies(string directoryPath)
-		//{
-		//	List<string> loadedAssemblyNames = new List<string>();
-		//	foreach (Assembly a in GetAssemblies())
-		//		loadedAssemblyNames.Add(a.FullName);
-
-		//	foreach (string dllPath in Directory.GetFiles(directoryPath, "*.dll"))
-		//	{
-		//		try
-		//		{
-		//			Assembly a = Assembly.ReflectionOnlyLoadFrom(dllPath);
-		//			if (!Matches(a.FullName) && !loadedAssemblyNames.Contains(a.FullName))
-		//				App.Load(a.FullName);
-		//		}
-		//		catch (BadImageFormatException ex)
-		//		{
-		//			Trace.TraceError(ex.ToString());
-		//		}
-		//	}
-		//}
 
 		/// <summary>
 		/// lazily load a reference to all assemblies and only local assemblies.

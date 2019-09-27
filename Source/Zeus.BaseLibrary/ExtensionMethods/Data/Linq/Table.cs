@@ -2,12 +2,10 @@
 using System.Data.Common;
 using System.Data.Linq;
 using System.Data.SqlClient;
-using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using Ninject.Activation;
 using Zeus.BaseLibrary.ExtensionMethods.Data.Common;
 using Zeus.BaseLibrary.Linq;
 

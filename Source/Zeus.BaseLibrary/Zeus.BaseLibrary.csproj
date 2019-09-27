@@ -107,6 +107,12 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.3.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
@@ -115,9 +121,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="Spark, Version=1.8.0.0, Culture=neutral, PublicKeyToken=7f8549eed921a12c, processorArchitecture=MSIL">
       <HintPath>..\packages\Spark.1.8.1.0\lib\NET45\Spark.dll</HintPath>
@@ -197,16 +200,15 @@
     <Compile Include="Collections\Singleton.generic.cs" />
     <Compile Include="Collections\SingletonDictionary.cs" />
     <Compile Include="Collections\SingletonList.cs" />
-    <Compile Include="DependencyInjection\DependencyInjectionManager.cs" />
-    <Compile Include="DependencyInjection\DependencyInjectionUtility.cs" />
+    <Compile Include="DependencyInjection\DependencyInjectionResolver.cs" />
     <Compile Include="ExtensionMethods\ByteArray.cs" />
     <Compile Include="ExtensionMethods\Collections\NameValueCollection.cs" />
+    <Compile Include="IServiceRegistration.cs" />
     <Compile Include="Mime\FileType.cs" />
     <Compile Include="Mime\MimeTypes.cs" />
     <Compile Include="Navigation\NavigationItem.cs" />
     <Compile Include="Net\WebClientUtility.cs" />
     <Compile Include="Reflection\AssemblyFinder.cs" />
-    <Compile Include="Reflection\IAssemblyFinder.cs" />
     <Compile Include="Reflection\ITypeFinder.cs" />
     <Compile Include="Reflection\TypeFinder.cs" />
     <Compile Include="ConvertUtility.cs" />
@@ -252,6 +254,7 @@
     <Compile Include="ExtensionMethods\String.cs" />
     <Compile Include="ExtensionMethods\Type.cs" />
     <Compile Include="Security\NonceUtility.cs" />
+    <Compile Include="Startup.cs" />
     <Compile Include="Web\Handlers\FlashVideoStreamingHandler.cs" />
     <Compile Include="ExtensionMethods\Web\HttpRequest.cs" />
     <Compile Include="Web\InvalidQueryStringException.cs" />

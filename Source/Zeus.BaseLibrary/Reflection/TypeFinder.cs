@@ -7,11 +7,6 @@ namespace Zeus.BaseLibrary.Reflection
 {
 	public class TypeFinder : ITypeFinder
 	{
-
-		public TypeFinder()
-		{
-		}
-
 		/// <summary>Finds types assignable from of a certain type in the app domain.</summary>
 		/// <param name="requestedType">The type to find.</param>
 		/// <returns>A list of types found in the app domain.</returns>
