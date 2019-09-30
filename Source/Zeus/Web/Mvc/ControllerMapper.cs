@@ -79,7 +79,6 @@ namespace Zeus.Web.Mvc
 			var query = name.Trim().ToLower();
 
 			return ControllerNames.Contains(query);
-
 		}
 
 		private IDictionary<Type, string> ControllerMap { get; } = new Dictionary<Type, string>();

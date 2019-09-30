@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Zeus.Admin;
-using Zeus.Admin.NavigationFlag;
 using Zeus.BaseLibrary;
 using Zeus.BaseLibrary.Web;
 using Zeus.Configuration;
@@ -58,16 +56,15 @@ namespace Zeus.Engine
 			services.AddSingleton(ConfigurationManager.GetSection("zeus/customUrls") as CustomUrlsSection ?? new CustomUrlsSection());
 			services.AddSingleton(ConfigurationManager.GetSection("zeus/routing") as RoutingSection ?? new RoutingSection());
 
-
-			services.AddSingleton<INavigationCachingService, NavigationCachingService>();
+			//services.AddSingleton<INavigationCachingService, NavigationCachingService>();
 			services.AddSingleton<IContentAdapterProvider, ContentAdapterProvider>();
 
 			// Admin
 			services.AddSingleton<IContentManager, ContentManager>();
 
 			// Admin
-			services.AddSingleton<IAdminManager, AdminManager>();
-			services.AddSingleton<Navigator>();
+			//services.AddSingleton<IAdminManager, AdminManager>();
+			//services.AddSingleton<Navigator>();
 
 			// Content Properties
 			services.AddSingleton<IContentPropertyManager, ContentPropertyManager>();
@@ -146,11 +143,9 @@ namespace Zeus.Engine
 			services.AddSingleton<ICredentialStore, CredentialStore>();
 			services.AddSingleton<ICredentialService, CredentialService>();
 			services.AddSingleton<IAuthenticationContextService, AuthenticationContextService>();
-			services.AddSingleton<IAuthenticationContextInitializer, SecurityInitializer>();
-			services.AddSingleton<IAuthorizationInitializer, SecurityInitializer>();
+			//services.AddSingleton<IAuthenticationContextInitializer, SecurityInitializer>();
+			//services.AddSingleton<IAuthorizationInitializer, SecurityInitializer>();
 			services.AddSingleton<IWebSecurityService, WebSecurityService>();
-
-			services.AddSingleton<>
 		}
 	}
 }

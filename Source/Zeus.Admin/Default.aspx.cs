@@ -10,12 +10,20 @@ using System.Configuration;
 using Zeus.Security;
 using Zeus.Web.Hosting;
 using Zeus.Web.UI;
+using System.Collections.Generic;
 
 namespace Zeus.Admin
 {
 	[AvailableOperation(Operations.Read, "Read", 10)]
 	public partial class Default : AdminPage, IMainInterface
 	{
+		private readonly IEnumerable<IMainInterfacePlugin> _mainInterfacePlugins;
+
+		public Default(IEnumerable<IMainInterfacePlugin> mainInterfacePlugins)
+		{
+			_mainInterfacePlugins = mainInterfacePlugins;
+		}
+
 		protected override void OnInit(EventArgs e)
 		{
 			base.OnInit(e);
@@ -33,7 +41,7 @@ namespace Zeus.Admin
 			ltlAdminName1.Text = ltlAdminName2.Text = ((AdminSection) ConfigurationManager.GetSection("zeus/admin")).Name;
 
 			// Allow plugins to modify interface.
-			foreach (var plugin in Engine.ResolveAll<IMainInterfacePlugin>())
+			foreach (var plugin in _mainInterfacePlugins)
 			{
 				var requiredUserControls = plugin.RequiredUserControls;
 				if (requiredUserControls != null)
@@ -59,7 +67,7 @@ namespace Zeus.Admin
 			Page.ClientScript.RegisterCssResource(typeof(Default), "Zeus.Admin.Assets.Css.default.css", ResourceInsertPosition.HeaderBottom);
 
             // Render plugin scripts.
-			foreach (var plugin in Engine.ResolveAll<IMainInterfacePlugin>())
+			foreach (var plugin in _mainInterfacePlugins)
 			{
 				plugin.RegisterScripts(ScriptManager);
 				plugin.RegisterStyles(ScriptManager);

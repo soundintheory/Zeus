@@ -13,7 +13,11 @@ namespace Zeus.Web.Security
 
 		private bool _onEnterCalled;
 
-		private IAuthenticationContextService _authService;
+		private readonly IAuthenticationContextService _authService;
+
+		private IAuthenticationService _currentService { get; set; }
+
+		private readonly ICredentialService _credService;
 
 		private AuthenticationSection _config;
 
@@ -27,6 +31,16 @@ namespace Zeus.Web.Security
 
 		#endregion
 
+		#region Constructor
+
+		public AuthenticationModule(IAuthenticationContextService authenticationContext, ICredentialService credentialService)
+		{
+			_authService = authenticationContext;
+			_credService = credentialService;
+		}
+
+		#endregion
+
 		#region Events
 
 		public event EventHandler<AuthenticationEventArgs> Authenticate;
@@ -35,28 +49,17 @@ namespace Zeus.Web.Security
 
 		#region Properties
 
-
-
-		protected IAuthenticationService CurrentAuthenticationService
+		private IAuthenticationService CurrentAuthenticationService
 		{
 			get
 			{
-				 return AuthenticationContextService.GetCurrentService();
-			}
-		}
-
-		protected IAuthenticationContextService AuthenticationContextService
-		{
-			get
-			{
-				if (_authService == null)
+				 if (_currentService == null)
 				{
-					_authService = WebSecurityEngine.Get<IAuthenticationContextService>();
+					_currentService = _authService.GetCurrentService();
 				}
-				return _authService;
+				return _currentService;
 			}
 		}
-
 
 		#endregion
 
@@ -78,13 +81,12 @@ namespace Zeus.Web.Security
 
 			if (!context.SkipAuthorization)
 			{
-				var authenticationContextService = WebSecurityEngine.Get<IAuthenticationContextService>();
 				var locationPath = context.Request.Path.ToLower();
-				if (Config != null && !authenticationContextService.ContainsLocation(locationPath))
+				if (Config != null && !_authService.ContainsLocation(locationPath))
 				{
 					var location = Config.ToAuthenticationLocation();
 					location.Path = locationPath;
-					authenticationContextService.AddLocation(location);
+					_authService.AddLocation(location);
 				}
 
 				if (!CurrentAuthenticationService.Enabled)
@@ -144,7 +146,7 @@ namespace Zeus.Web.Security
 			User membershipUser = null;
 			try
 			{
-				membershipUser = WebSecurityEngine.Get<ICredentialService>().GetUserFast(ticket.Name);
+				membershipUser = _credService.GetUserFast(ticket.Name);
 			}
 			catch
 			{

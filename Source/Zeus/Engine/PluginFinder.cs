@@ -11,7 +11,6 @@ namespace Zeus.Engine
 	public class PluginFinder<TPlugin> : IPluginFinder<TPlugin>
 		where TPlugin : Attribute
 	{
-
 		public PluginFinder()
 		{
 		}

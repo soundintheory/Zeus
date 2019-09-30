@@ -1,9 +1,9 @@
-﻿using Ninject;
+﻿using System;
 using Zeus.Persistence;
 
 namespace Zeus.Integrity
 {
-	public class IntegrityEnforcer : IIntegrityEnforcer, IStartable
+	public class IntegrityEnforcer : IIntegrityEnforcer, IDisposable
 	{
 		private readonly IPersister _persister;
 		private readonly IIntegrityManager _integrityManager;
@@ -12,6 +12,11 @@ namespace Zeus.Integrity
 		{
 			_persister = persister;
 			_integrityManager = integrityManager;
+
+			_persister.ItemCopying += ItemCopyingEventHandler;
+			_persister.ItemDeleting += ItemDeletingEventHandler;
+			_persister.ItemMoving += ItemMovingEventHandler;
+			_persister.ItemSaving += ItemSavingEventHandler;
 		}
 
 		#region Event Dispatchers
@@ -78,24 +83,37 @@ namespace Zeus.Integrity
 
 		#endregion
 
-		#region IStartable Members
+		#region IDisposable Support
+		private bool disposedValue = false; // To detect redundant calls
 
-		public virtual void Start()
+		protected virtual void Dispose(bool disposing)
 		{
-			_persister.ItemCopying += ItemCopyingEventHandler;
-			_persister.ItemDeleting += ItemDeletingEventHandler;
-			_persister.ItemMoving += ItemMovingEventHandler;
-			_persister.ItemSaving += ItemSavingEventHandler;
-		}
+			if (!disposedValue)
+			{
+				if (disposing)
+				{
+					// TODO: dispose managed state (managed objects).
+					_persister.ItemCopying -= ItemCopyingEventHandler;
+					_persister.ItemDeleting -= ItemDeletingEventHandler;
+					_persister.ItemMoving -= ItemMovingEventHandler;
+					_persister.ItemSaving -= ItemSavingEventHandler;
+				}
 
-		public virtual void Stop()
+				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+				// TODO: set large fields to null.
+
+				disposedValue = true;
+			}
+		}
+		// This code added to correctly implement the disposable pattern.
+		public void Dispose()
 		{
-			_persister.ItemCopying -= ItemCopyingEventHandler;
-			_persister.ItemDeleting -= ItemDeletingEventHandler;
-			_persister.ItemMoving -= ItemMovingEventHandler;
-			_persister.ItemSaving -= ItemSavingEventHandler;
+			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+			Dispose(true);
+			// TODO: uncomment the following line if the finalizer is overridden above.
+			// GC.SuppressFinalize(this);
 		}
-
 		#endregion
+
 	}
 }

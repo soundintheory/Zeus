@@ -98,11 +98,6 @@ jQuery(document).ready(function() {{
 			get { return _memorizedItem ?? (_memorizedItem = Engine.Resolve<Navigator>().Navigate(Request.QueryString["memory"])); }
 		}
 
-		public virtual Engine.ContentEngine Engine
-		{
-			get { return Zeus.Context.Current; }
-		}
-
 		#endregion
 
 		#region Methods

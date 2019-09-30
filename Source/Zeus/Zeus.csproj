@@ -483,6 +483,8 @@
     <Compile Include="Web\Caching\CachingService.cs" />
     <Compile Include="Web\Caching\ICachingService.cs" />
     <Compile Include="Web\Caching\PageCacheFilterAttribute.cs" />
+    <Compile Include="Web\Enums\UserCreateStatus.cs" />
+    <Compile Include="Web\Enums\UserVerificationResult.cs" />
     <Compile Include="Web\Mvc\AcceptImageSubmitAttribute.cs" />
     <Compile Include="Web\Mvc\AcceptParameterAttribute.cs" />
     <Compile Include="Web\Mvc\ActionFilters\ExportModelStateToTempDataAttribute.cs" />
@@ -524,10 +526,10 @@
     <Compile Include="Web\PageContentItem.cs" />
     <Compile Include="Web\Hosting\ResourceSettings.cs" />
     <Compile Include="Web\Security\IWebSecurityService.cs" />
-    <Compile Include="Web\Security\PasswordResetRequestValidity.cs" />
+    <Compile Include="Web\Enums\PasswordResetRequestValidity.cs" />
     <Compile Include="Web\Security\PasswordResetRequest.cs" />
-    <Compile Include="Web\Security\PasswordResetRequestResult.cs" />
-    <Compile Include="Web\Security\PasswordResetResult.cs" />
+    <Compile Include="Web\Enums\PasswordResetRequestResult.cs" />
+    <Compile Include="Web\Enums\PasswordResetResult.cs" />
     <Compile Include="Web\Security\UserVerificationResult.cs" />
     <Compile Include="Web\Security\AuthenticationContextService.cs" />
     <Compile Include="Web\Security\AuthenticationEventArgs.cs" />
@@ -537,7 +539,7 @@
     <Compile Include="Web\Security\AuthorizationLocation.cs" />
     <Compile Include="Web\Security\AuthorizationModule.cs" />
     <Compile Include="Web\Security\AuthorizationRule.cs" />
-    <Compile Include="Web\Security\AuthorizationRuleAction.cs" />
+    <Compile Include="Web\Enums\AuthorizationRuleAction.cs" />
     <Compile Include="Web\Security\AuthorizationRuleCollection.cs" />
     <Compile Include="Web\Security\AuthorizationService.cs" />
     <Compile Include="Web\Security\ILoginContext.cs" />
@@ -620,13 +622,6 @@
     <Compile Include="Persistence\IVersionManager.cs" />
     <Compile Include="Persistence\NotVersionableAttribute.cs" />
     <Compile Include="Persistence\VersionManager.cs" />
-    <Compile Include="Plugin\AutoInitializeAttribute.cs" />
-    <Compile Include="Plugin\InitializerCreatingAttribute.cs" />
-    <Compile Include="Plugin\IPluginBootstrapper.cs" />
-    <Compile Include="Plugin\IPluginDefinition.cs" />
-    <Compile Include="Plugin\IPluginInitializer.cs" />
-    <Compile Include="Plugin\PluginBootstrapper.cs" />
-    <Compile Include="Plugin\PluginInitializationException.cs" />
     <Compile Include="Security\PermissionDeniedException.cs" />
     <Compile Include="Security\RoleNames.cs" />
     <Compile Include="Serialization\AuthorizationRuleXmlReader.cs" />
