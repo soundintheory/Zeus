@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Web.Caching;
-using Ninject;
 using Zeus.Persistence;
 
 namespace Zeus.Web.Caching
 {
-	public class CachingService : ICachingService, IStartable
+	public class CachingService : ICachingService, IDisposable
 	{
 		private readonly IWebContext _webContext;
 		private readonly IPersister _persister;
@@ -14,6 +13,7 @@ namespace Zeus.Web.Caching
 		{
 			_webContext = webContext;
 			_persister = persister;
+			_persister.ItemSaving += OnPersisterItemSaving;
 		}
 
 		public bool IsPageCached(ContentItem contentItem)
@@ -58,13 +58,6 @@ namespace Zeus.Web.Caching
 			}
 		}
 
-		#region IStartable methods
-
-		public void Start()
-		{
-			_persister.ItemSaving += OnPersisterItemSaving;
-		}
-
 		private void OnPersisterItemSaving(object sender, CancelItemEventArgs e)
 		{
 			if (IsPageCached(e.AffectedItem))
@@ -73,11 +66,41 @@ namespace Zeus.Web.Caching
 			}
 		}
 
-		public void Stop()
+		#region IDisposable Support
+		private bool disposedValue = false; // To detect redundant calls
+
+		protected virtual void Dispose(bool disposing)
 		{
-			_persister.ItemSaving -= OnPersisterItemSaving;
+			if (!disposedValue)
+			{
+				if (disposing)
+				{
+					// TODO: dispose managed state (managed objects).
+					_persister.ItemSaving -= OnPersisterItemSaving;
+				}
+
+				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+				// TODO: set large fields to null.
+
+				disposedValue = true;
+			}
 		}
 
+		// TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+		// ~CachingService()
+		// {
+		//   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+		//   Dispose(false);
+		// }
+
+		// This code added to correctly implement the disposable pattern.
+		public void Dispose()
+		{
+			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+			Dispose(true);
+			// TODO: uncomment the following line if the finalizer is overridden above.
+			// GC.SuppressFinalize(this);
+		}
 		#endregion
 	}
 }

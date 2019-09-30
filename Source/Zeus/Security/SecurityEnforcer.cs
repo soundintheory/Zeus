@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Security.Principal;
-using Ninject;
 using Zeus.Persistence;
 
 namespace Zeus.Security
@@ -8,7 +6,7 @@ namespace Zeus.Security
 	/// <summary>
 	/// Checks against unauthorized requests, and updates of content items.
 	/// </summary>
-	public class SecurityEnforcer : ISecurityEnforcer, IStartable
+	public class SecurityEnforcer : ISecurityEnforcer, IDisposable
 	{
 		#region Fields
 
@@ -25,6 +23,11 @@ namespace Zeus.Security
 			_webContext = webContext;
 			_security = security;
 			_persister = persister;
+
+			_persister.ItemSaving += ItemSavingEventHandler;
+			_persister.ItemCopying += ItemCopyingEvenHandler;
+			_persister.ItemDeleting += ItemDeletingEvenHandler;
+			_persister.ItemMoving += ItemMovingEvenHandler;
 		}
 
 		#endregion
@@ -138,24 +141,44 @@ namespace Zeus.Security
 		}
 		#endregion
 
-		#region IStartable Members
+		#region IDisposable Support
+		private bool disposedValue = false; // To detect redundant calls
 
-		public virtual void Start()
+		protected virtual void Dispose(bool disposing)
 		{
-			_persister.ItemSaving += ItemSavingEventHandler;
-			_persister.ItemCopying += ItemCopyingEvenHandler;
-			_persister.ItemDeleting += ItemDeletingEvenHandler;
-			_persister.ItemMoving += ItemMovingEvenHandler;
+			if (!disposedValue)
+			{
+				if (disposing)
+				{
+					// TODO: dispose managed state (managed objects).
+					_persister.ItemSaving -= ItemSavingEventHandler;
+					_persister.ItemCopying -= ItemCopyingEvenHandler;
+					_persister.ItemDeleting -= ItemDeletingEvenHandler;
+					_persister.ItemMoving -= ItemMovingEvenHandler;
+				}
+
+				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+				// TODO: set large fields to null.
+
+				disposedValue = true;
+			}
 		}
 
-		public virtual void Stop()
-		{
-			_persister.ItemSaving -= ItemSavingEventHandler;
-			_persister.ItemCopying -= ItemCopyingEvenHandler;
-			_persister.ItemDeleting -= ItemDeletingEvenHandler;
-			_persister.ItemMoving -= ItemMovingEvenHandler;
-		}
+		// TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+		// ~SecurityEnforcer()
+		// {
+		//   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+		//   Dispose(false);
+		// }
 
+		// This code added to correctly implement the disposable pattern.
+		public void Dispose()
+		{
+			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+			Dispose(true);
+			// TODO: uncomment the following line if the finalizer is overridden above.
+			// GC.SuppressFinalize(this);
+		}
 		#endregion
 	}
 }

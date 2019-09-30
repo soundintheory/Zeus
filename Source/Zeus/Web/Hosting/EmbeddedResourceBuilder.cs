@@ -1,35 +1,27 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
+using System.Linq;
 using System.Web.Routing;
-using Ninject;
-using Zeus.BaseLibrary.DependencyInjection;
+using Zeus.BaseLibrary.Reflection;
 
 namespace Zeus.Web.Hosting
 {
-	public class EmbeddedResourceBuilder : IInitializable, IEmbeddedResourceBuilder
+	public class EmbeddedResourceBuilder : IEmbeddedResourceBuilder
 	{
-		private readonly IKernel _kernel;
+		private readonly ITypeFinder _typeFinder;
 
-		public EmbeddedResourceBuilder(IKernel kernel)
+		public EmbeddedResourceBuilder(ITypeFinder typeFinder)
 		{
-			_kernel = kernel;
+			_typeFinder = typeFinder;
 			ResourceSettings = new ResourceSettings();
-		}
 
-		public ResourceSettings ResourceSettings { get; }
-
-		public void Initialize()
-		{
-			var searchPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppDomain.CurrentDomain.RelativeSearchPath);
-			IEnumerable<string> filenames = Directory.GetFiles(searchPath, "*.dll");
-			DependencyInjectionUtility.RegisterAllComponents<IEmbeddedResourcePackage>(_kernel, filenames);
-
-			foreach (var package in _kernel.GetAll<IEmbeddedResourcePackage>())
+			foreach (var package in _typeFinder.Find(typeof(IEmbeddedResourcePackage)).Cast<IEmbeddedResourcePackage>())
 			{
 				package.Register(RouteTable.Routes, ResourceSettings);
 			}
 		}
+
+		public ResourceSettings ResourceSettings { get; }
 	}
 }
