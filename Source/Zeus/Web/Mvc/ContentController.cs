@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using Zeus.Engine;
+using Zeus.Persistence;
 using Zeus.Security;
 using Zeus.Web.Caching;
 
@@ -18,18 +19,15 @@ namespace Zeus.Web.Mvc
 	{
 		private T _currentItem;
 
-		protected ContentController()
+		private readonly IPersister _persister;
+
+		private readonly ISecurityManager _securityManager;
+
+		protected ContentController(IPersister persister, ISecurityManager securityManager)
 		{
 			TempDataProvider = new SessionAndPerRequestTempDataProvider();
-		}
-
-		protected virtual ContentEngine Engine
-		{
-			get
-			{
-				return ControllerContext.RouteData.Values[ContentRoute.ContentEngineKey] as ContentEngine
-					?? Context.Current;
-			}
+			_persister = persister;
+			_securityManager = securityManager;
 		}
 
 		/// <summary>The content item associated with the requested path.</summary>
@@ -43,26 +41,26 @@ namespace Zeus.Web.Mvc
 			set { _currentItem = value; }
 		}
 
-		protected ContentItem CurrentPage
-		{
-			get
-			{
-				ContentItem page = CurrentItem;
-				while (page?.IsPage == false)
-				{
-					page = page.Parent;
-				}
+		// TODO: actual tree traversal here
+		//protected ContentItem CurrentPage
+		//{
+		//	get
+		//	{
+		//		ContentItem page = CurrentItem;
+		//		while (page?.IsPage == false)
+		//		{
+		//			page = page.Parent;
+		//		}
 
-				return page;
-			}
-		}
+		//		return page;
+		//	}
+		//}
 
 		private T GetCurrentItemById()
 		{
-			int itemId;
-			if (Int32.TryParse(ControllerContext.RouteData.Values[ContentRoute.ContentItemIdKey] as string, out itemId))
+			if (int.TryParse(ControllerContext.RouteData.Values[ContentRoute.ContentItemIdKey] as string, out var itemId))
 			{
-				return Engine.Persister.Get(itemId) as T;
+				return _persister.Get<T>(itemId);
 			}
 
 			return null;
@@ -72,9 +70,8 @@ namespace Zeus.Web.Mvc
 		{
 			if (CurrentItem != null)
 			{
-				var securityManager = Engine.Resolve<ISecurityManager>();
 
-				if (!securityManager.IsAuthorized(CurrentItem, User, Operations.Read))
+				if (!_securityManager.IsAuthorized(CurrentItem, User, Operations.Read))
 				{
 					filterContext.Result = new HttpUnauthorizedResult();
 				}
