@@ -36,7 +36,7 @@ namespace Zeus.BaseLibrary.DependencyInjection
 				{
 					if (initializableInterfaceType.IsAssignableFrom(binding.Service) || startableInterfaceType.IsAssignableFrom(binding.Service))
 					{
-						this.GetAll(binding.Service); // Force creation.
+						this.GetAll(binding.Service).ToList(); // Force creation.
 					}
 				}
 			}
