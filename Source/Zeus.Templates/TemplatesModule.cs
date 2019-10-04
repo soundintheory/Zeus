@@ -29,7 +29,7 @@ namespace Zeus.Templates
 			Bind<SyndicatableDefinitionAppender>().ToSelf();
 			Bind<TaggingDefinitionAppender>().ToSelf();
 
-			Bind<PageNotFoundHandler>().ToSelf().InSingletonScope();
+			//Bind<PageNotFoundHandler>().ToSelf().InSingletonScope();
 
 			if (configSection != null)
 			{
