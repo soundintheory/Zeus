@@ -2,6 +2,7 @@ using System;
 using Zeus.Web.UI;
 using Spark;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace Zeus.Web.Mvc.ViewModels
 {
@@ -31,18 +32,7 @@ namespace Zeus.Web.Mvc.ViewModels
             else
             {
                 //set up the signal for this object
-                CacheSignal signalForContentItem;
-                if (_allDataSignals.TryGetValue(currentItem.CacheID, out signalForContentItem))
-                {
-                    _allDataSignal = signalForContentItem;
-                }
-                else
-                {
-                    //the signal doesn't exist, so add it to the list
-                    _allDataSignal = new CacheSignal();
-                    if (!_allDataSignals.ContainsKey(currentItem.CacheID))
-                        _allDataSignals.Add(currentItem.CacheID, _allDataSignal);
-                }
+                _allDataSignal = _allDataSignals.GetOrAdd(currentItem.CacheID, _ => new CacheSignal());
 
                 //fire changed signal if needed
                 ChangeSignalFired = false;
@@ -88,7 +78,7 @@ namespace Zeus.Web.Mvc.ViewModels
         public virtual List<ContentItem> CacheWatchers { get; set; }
 
         public bool ChangeSignalFired { get; set; }
-        public static Dictionary<int, CacheSignal> _allDataSignals = new Dictionary<int, CacheSignal>();
+        public static ConcurrentDictionary<int, CacheSignal> _allDataSignals = new ConcurrentDictionary<int, CacheSignal>();
         public CacheSignal _allDataSignal;
 
         public virtual string ActionForCache { get { return ""; } }
