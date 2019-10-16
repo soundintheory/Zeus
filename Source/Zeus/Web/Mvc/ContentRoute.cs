@@ -8,6 +8,7 @@ using Zeus.Configuration;
 using Zeus.Engine;
 using System.Linq;
 using System.IO;
+using Zeus.Persistence;
 
 namespace Zeus.Web.Mvc
 {
@@ -24,33 +25,36 @@ namespace Zeus.Web.Mvc
         public const string ContentUrlKey = "url";
         public const string ControllerKey = "controller";
 
-        public ContentRoute(ContentEngine engine)
-            : this(engine, new MvcRouteHandler())
-        {
-        }
+		private readonly IRouteHandler _routeHandler = new MvcRouteHandler();
+		private readonly AdminSection _adminSection;
+		private readonly IControllerMapper _controllerMapper;
+		private readonly IUrlParser _parser;
+		private readonly IPersister _persister;
 
-        public ContentRoute(ContentEngine engine, IRouteHandler routeHandler)
-            : this(engine, routeHandler, null)
+		public ContentRoute(RoutingSection section, IControllerMapper controllerMapper, AdminSection adminSection, IUrlParser parser, IPersister persister, IRouteHandler routeHandler = null)
+			: base("{controller}/{action}/{*remainingUrl}", new RouteValueDictionary(new { Action = "Index" }), routeHandler)
         {
-        }
 
-        public ContentRoute(ContentEngine engine, IRouteHandler routeHandler, IControllerMapper controllerMapper)
-            : base("{controller}/{action}/{*remainingUrl}", new RouteValueDictionary(new { Action = "Index" }), routeHandler)
-        {
-            this.engine = engine;
-            this.routeHandler = routeHandler;
-            this.controllerMapper = controllerMapper ?? engine.Resolve<IControllerMapper>();
-            this.DataTokens = new RouteValueDictionary();
+			if (routeHandler != null)
+			{
+				_routeHandler = routeHandler;
+			}
 
-            var namespaces = Zeus.Context.Current.Resolve<RoutingSection>().Controllers.ToArray();
+			_controllerMapper = controllerMapper;
+			_parser = parser;
+			_persister = persister;
+
+            DataTokens = new RouteValueDictionary();
+
+            var namespaces = section.Controllers.ToArray();
 
             if (namespaces?.Length > 0)
             {
-                this.DataTokens["Namespaces"] = namespaces;
-                this.DataTokens["UseNamespaceFallback "] = false;
+                DataTokens["Namespaces"] = namespaces;
+                DataTokens["UseNamespaceFallback "] = false;
             }
 
-            _adminSection = (AdminSection)ConfigurationManager.GetSection("zeus/admin");
+			_adminSection = adminSection;
         }
 
         public override RouteData GetRouteData(HttpContextBase httpContext)
@@ -71,7 +75,7 @@ namespace Zeus.Web.Mvc
 
         public RouteData GetRouteDataForPath(HttpRequestBase request)
         {
-            var td = engine.UrlParser.ResolvePath(request.Url.ToString());
+            var td = _parser.ResolvePath(request.Url.ToString());
 
             var extraParam = "";
 
@@ -97,7 +101,7 @@ namespace Zeus.Web.Mvc
 
 				var thePath = new Uri(fullPath);
                 var thePathWithOutLastParam = new Uri(thePath.AbsoluteUri.Remove(thePath.AbsoluteUri.Length - (thePath.Segments.Last().Length + 1))).PathAndQuery;
-                td = engine.UrlParser.ResolvePath(thePathWithOutLastParam);
+                td = _parser.ResolvePath(thePathWithOutLastParam);
 
                 //check to see if the content item has been and is a page and if so, if it allows the Index(Param) option
                 if (!td.Is404 && td.CurrentItem != null && td.CurrentItem is PageContentItem && (td.CurrentItem as PageContentItem)?.AllowParamsOnIndex == true)
@@ -136,20 +140,19 @@ namespace Zeus.Web.Mvc
 			if (td.QueryParameters.ContainsKey("preview")
 				&& int.TryParse(td.QueryParameters["preview"], out var itemId))
 			{
-				item = engine.Persister.Get(itemId);
+				item = _persister.Get(itemId);
 			}
-			var controllerName = controllerMapper.GetControllerName(item.GetType());
+			var controllerName = _controllerMapper.GetControllerName(item.GetType());
 
             if (controllerName == null)
 			{
 				return null;
 			}
 
-			var areaName = controllerMapper.GetAreaName(item.GetType());
+			var areaName = _controllerMapper.GetAreaName(item.GetType());
 
-            var data = new RouteData(this, routeHandler);
+            var data = new RouteData(this, _routeHandler);
             data.Values[ContentItemKey] = item;
-            data.Values[ContentEngineKey] = engine;
             data.Values[ControllerKey] = controllerName;
             data.Values[ActionKey] = action;
             data.Values[AreaKey] = areaName;
@@ -179,7 +182,7 @@ namespace Zeus.Web.Mvc
 			}
 
 			var requestedController = values[ControllerKey] as string;
-            var itemController = controllerMapper.GetControllerName(item.GetType());
+            var itemController = _controllerMapper.GetControllerName(item.GetType());
             if (!string.Equals(requestedController, itemController, StringComparison.InvariantCultureIgnoreCase))
 			{
 				return null;
@@ -207,9 +210,6 @@ namespace Zeus.Web.Mvc
             return pathData;
         }
 
-        private readonly AdminSection _adminSection;
-        private readonly IControllerMapper controllerMapper;
-        private readonly ContentEngine engine;
-        private readonly IRouteHandler routeHandler;
+        
     }
 }

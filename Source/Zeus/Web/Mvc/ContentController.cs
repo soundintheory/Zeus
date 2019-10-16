@@ -42,19 +42,19 @@ namespace Zeus.Web.Mvc
 		}
 
 		// TODO: actual tree traversal here
-		//protected ContentItem CurrentPage
-		//{
-		//	get
-		//	{
-		//		ContentItem page = CurrentItem;
-		//		while (page?.IsPage == false)
-		//		{
-		//			page = page.Parent;
-		//		}
+		protected ContentItem CurrentPage
+		{
+			get
+			{
+				ContentItem page = CurrentItem;
+				while (page?.IsPage == false)
+				{
+					page = page.Parent;
+				}
 
-		//		return page;
-		//	}
-		//}
+				return page;
+			}
+		}
 
 		private T GetCurrentItemById()
 		{
@@ -68,13 +68,9 @@ namespace Zeus.Web.Mvc
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			if (CurrentItem != null)
+			if (CurrentItem != null && !_securityManager.IsAuthorized(CurrentItem, User, Operations.Read))
 			{
-
-				if (!_securityManager.IsAuthorized(CurrentItem, User, Operations.Read))
-				{
-					filterContext.Result = new HttpUnauthorizedResult();
-				}
+				filterContext.Result = new HttpUnauthorizedResult();
 			}
 
 			base.OnActionExecuting(filterContext);
@@ -94,50 +90,50 @@ namespace Zeus.Web.Mvc
 
 		protected virtual ActionResult RedirectToParentPage(string fragment)
 		{
-			return Redirect(CurrentPage.Url + fragment);
+			return Redirect(CurrentItem.Url + fragment);
 		}
 
-		/// <summary>
-		/// Returns a <see cref="ViewPageResult"/> which calls the default action for the controller that handles the current page.
-		/// </summary>
-		/// <returns></returns>
-		protected virtual ViewPageResult ViewParentPage()
-		{
-			if (CurrentItem?.IsPage == true)
-			{
-				throw new InvalidOperationException(
-					"The current page is already being rendered. ViewPage should only be used from content items to render their parent page.");
-			}
+		///// <summary>
+		///// Returns a <see cref="ViewPageResult"/> which calls the default action for the controller that handles the current page.
+		///// </summary>
+		///// <returns></returns>
+		//protected virtual ViewPageResult ViewParentPage()
+		//{
+		//	if (CurrentItem?.IsPage == true)
+		//	{
+		//		throw new InvalidOperationException(
+		//			"The current page is already being rendered. ViewPage should only be used from content items to render their parent page.");
+		//	}
 
-			return ViewPage(CurrentPage);
-		}
+		//	return ViewPage(CurrentPage);
+		//}
 
-		/// <summary>
-		/// Returns a <see cref="ViewPageResult"/> which calls the default action for the controller that handles the current page.
-		/// </summary>
-		/// <returns></returns>
-		protected internal virtual ViewPageResult ViewPage(ContentItem thePage)
-		{
-			if (thePage == null)
-			{
-				throw new ArgumentNullException(nameof(thePage));
-			}
+		///// <summary>
+		///// Returns a <see cref="ViewPageResult"/> which calls the default action for the controller that handles the current page.
+		///// </summary>
+		///// <returns></returns>
+		//protected internal virtual ViewPageResult ViewPage(ContentItem thePage)
+		//{
+		//	if (thePage == null)
+		//	{
+		//		throw new ArgumentNullException(nameof(thePage));
+		//	}
 
-			if (!thePage.IsPage)
-			{
-				throw new InvalidOperationException("Item " + thePage.GetType().Name +
-				                                    " is not a page type and cannot be rendered on its own.");
-			}
+		//	if (!thePage.IsPage)
+		//	{
+		//		throw new InvalidOperationException("Item " + thePage.GetType().Name +
+		//		                                    " is not a page type and cannot be rendered on its own.");
+		//	}
 
-			if (thePage == CurrentItem)
-			{
-				throw new InvalidOperationException(
-					"The page passed into ViewPage was the current page. This would cause an infinite loop.");
-			}
+		//	if (thePage == CurrentItem)
+		//	{
+		//		throw new InvalidOperationException(
+		//			"The page passed into ViewPage was the current page. This would cause an infinite loop.");
+		//	}
 
-			return new ViewPageResult(thePage, Engine.Resolve<IControllerMapper>(), Engine.Resolve<IWebContext>(),
-				ActionInvoker);
-		}
+		//	return new ViewPageResult(thePage, Engine.Resolve<IControllerMapper>(), Engine.Resolve<IWebContext>(),
+		//		ActionInvoker);
+		//}
 
 		#region Nested type: SessionAndPerRequestTempDataProvider
 
@@ -162,17 +158,13 @@ namespace Zeus.Web.Mvc
 				}
                 else
                 {
-					var tempDataDictionary = (httpContext.Session[TempDataSessionStateKey]
-																	?? httpContext.Items[TempDataSessionStateKey])
-																 as Dictionary<string, object>;
+					if (!((httpContext.Session[TempDataSessionStateKey] ?? httpContext.Items[TempDataSessionStateKey]) is Dictionary<string, object> tempDataDictionary))
+					{
+						return new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+					}
 
-					if (tempDataDictionary == null)
-				    {
-					    return new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
-				    }
-
-				    // If we got it from Session, remove it so that no other request gets it
-				    httpContext.Session.Remove(TempDataSessionStateKey);
+					// If we got it from Session, remove it so that no other request gets it
+					httpContext.Session.Remove(TempDataSessionStateKey);
 				    // Cache the data in the HttpContext Items to keep available for the rest of the request
 				    httpContext.Items[TempDataSessionStateKey] = tempDataDictionary;
 

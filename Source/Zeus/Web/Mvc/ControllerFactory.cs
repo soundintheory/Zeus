@@ -11,13 +11,11 @@ namespace Zeus.Web.Mvc
 {
 	public class ControllerFactory : DefaultControllerFactory
 	{
-		private readonly IKernel _kernel;
 
 		private readonly IControllerMapper _mapper;
 
-		public ControllerFactory(IKernel kernel, IControllerMapper mapper)
+		public ControllerFactory(IControllerMapper mapper)
 		{
-			_kernel = kernel;
 			_mapper = mapper;
 		}
 
@@ -25,8 +23,7 @@ namespace Zeus.Web.Mvc
 		{
 			var controllerKey = controllerName.ToLowerInvariant();
 
-			object area;
-			if (requestContext.RouteData.Values.TryGetValue("area", out area))
+			if (requestContext.RouteData.Values.TryGetValue("area", out var area))
 			{
 				var areaControllerKey = Convert.ToString(area).ToLowerInvariant() + "." + controllerKey;
 				var areaController = InstantiateController(areaControllerKey);
@@ -38,12 +35,7 @@ namespace Zeus.Web.Mvc
 
 			var controller = InstantiateController(controllerKey);
 
-			if (controller != null)
-			{
-				return controller;
-			}
-
-			return base.CreateController(requestContext, controllerName);
+			return controller != null ? controller : base.CreateController(requestContext, controllerName);
 		}
 
 		public SessionStateBehavior GetControllerSessionBehavior(RequestContext requestContext, string controllerName)
@@ -67,11 +59,6 @@ namespace Zeus.Web.Mvc
 #endif
 
 			var standardController = controller as Controller;
-
-			if (standardController != null)
-			{
-				standardController.ActionInvoker = new NinjectActionInvoker(_kernel);
-			}
 
 			return controller;
 		}
