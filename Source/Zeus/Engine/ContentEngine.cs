@@ -10,7 +10,6 @@ using Zeus.Configuration;
 using Zeus.ContentTypes;
 using Zeus.Globalization;
 using Zeus.Persistence;
-using Zeus.Plugin;
 using Zeus.Security;
 using Zeus.Web;
 using Zeus.Web.Hosting;

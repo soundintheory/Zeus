@@ -11,7 +11,14 @@ namespace Zeus.Web.Mvc
 {
     public class MvcGlobal : Global
     {
-        public override void Init()
+		private readonly AdminSection _adminSection;
+
+		public MvcGlobal(AdminSection adminSection)
+		{
+			_adminSection = adminSection;
+		}
+
+		public override void Init()
         {
             // normally the engine is initialized by the initializer module but it can also be initialized this programmatically
             // since we attach programmatically we need to associate the event broker with a http application
@@ -44,7 +51,7 @@ namespace Zeus.Web.Mvc
             AreaRegistration.RegisterAllAreas();
 
             // Set the controller factory to a custom one which uses the NinjectActionInvoker.
-            ControllerBuilder.Current.SetControllerFactory(engine.Resolve<IControllerFactory>());
+            //ControllerBuilder.Current.SetControllerFactory(engine.Resolve<IControllerFactory>());
 
             // This must be the last route to be registered.
             RegisterFallbackRoute(RouteTable.Routes);
@@ -55,7 +62,7 @@ namespace Zeus.Web.Mvc
             base.OnApplicationStart(e);
         }
 
-        private static void RegisterFallbackRoute(RouteCollection routes)
+        private void RegisterFallbackRoute(RouteCollection routes)
         {
             var namespaces = Zeus.Context.Current.Resolve<RoutingSection>().Controllers.ToArray();
 
@@ -68,14 +75,14 @@ namespace Zeus.Web.Mvc
             //);
         }
 
-        private static void RegisterRoutes(RouteCollection routes, ContentEngine engine)
+        private void RegisterRoutes(RouteCollection routes, ContentEngine engine)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("{*extaxd}", new { extaxd = @"(.*/)?ext.axd(/.*)?" });
 
-            var adminPath = Zeus.Context.Current.Resolve<AdminSection>().Path;
+            var adminPath = _adminSection.Path;
             routes.IgnoreRoute(adminPath + "/{*pathInfo}");
-            routes.IgnoreRoute("assets" + "/{*pathInfo}");
+            routes.IgnoreRoute("assets/{*pathInfo}");
 
             // This route detects content item paths and executes their controller
             var contentRoute = new ContentRoute(engine);

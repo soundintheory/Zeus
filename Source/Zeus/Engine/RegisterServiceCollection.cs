@@ -134,8 +134,9 @@ namespace Zeus.Engine
 
 			// Web / MVC
 			services.AddSingleton<ITemplateRenderer, TemplateRenderer>();
-			services.AddSingleton<IControllerMapper, ControllerMapper>();
-			services.AddSingleton<IControllerFactory, ControllerFactory>();
+			// these two shouldn't be necessary. we need to work around the lack of post-startup binding for classes.
+			//services.AddSingleton<IControllerMapper, ControllerMapper>();
+			//services.AddSingleton<IControllerFactory, ControllerFactory>();
 
 			// Web / Security
 			services.AddSingleton<BaseLibrary.Web.IWebContext, WebContext>();
