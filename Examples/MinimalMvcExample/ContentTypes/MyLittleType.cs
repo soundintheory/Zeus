@@ -1,11 +1,5 @@
-using System.Web.UI.WebControls;
-using Zeus;
-using Zeus.Web;
-using Zeus.Integrity;
 using Zeus.Design.Editors;
-using Zeus.ContentProperties;
 using Zeus.Templates.ContentTypes;
-using Zeus.Web.UI;
 
 namespace Zeus.Examples.MinimalMvcExample.ContentTypes
 {

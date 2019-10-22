@@ -21,7 +21,7 @@ namespace Zeus.Templates
 				Bind(typeof(TemplatesSection)).ToConstant(configSection);
 
 			if (configSection == null || configSection.MailConfiguration == MailConfigSource.SystemNet)
-				Bind<IMailSender, MailSender>();
+				Bind<IMailSender>().To<MailSender>();
 			else
 				Bind<IMailSender>().To<FakeMailSender>();
 
@@ -29,7 +29,7 @@ namespace Zeus.Templates
 			Bind<SyndicatableDefinitionAppender>().ToSelf();
 			Bind<TaggingDefinitionAppender>().ToSelf();
 
-			Bind<PageNotFoundHandler>().ToSelf().InSingletonScope();
+			//Bind<PageNotFoundHandler>().ToSelf().InSingletonScope();
 
 			if (configSection != null)
 			{

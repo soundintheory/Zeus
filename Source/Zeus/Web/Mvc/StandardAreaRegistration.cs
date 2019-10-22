@@ -30,6 +30,10 @@ namespace Zeus.Web.Mvc
 				new RouteValueDictionary(),
 				new RouteValueDictionary(new { area = AreaName }),
 				new EmbeddedContentRouteHandler(assembly, assembly.GetName().Name + ".Mvc.Assets")));
+
+            var contentRoute = new ContentRoute(Zeus.Context.Current);
+            contentRoute.DataTokens["area"] = AreaName;
+            context.Routes.Add(contentRoute);
 		}
 
 		private void RegisterViewFolders(Assembly assembly, SparkViewFactory sparkViewFactory)

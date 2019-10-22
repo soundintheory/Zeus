@@ -57,12 +57,15 @@ namespace Zeus.Web.Mvc
 
         private static void RegisterFallbackRoute(RouteCollection routes)
         {
+            var namespaces = Zeus.Context.Current.Resolve<RoutingSection>().Controllers.ToArray();
+
             // This controller fallbacks to a controller unrelated to Zeus
             routes.MapRoute(
                 "Default",                                              // Route name
                 "{controller}/{action}/{id}",                           // URL with parameters
-                new { controller = "Home", action = "Index", id = "" }  // Parameter defaults
-                );
+                new { controller = "Home", action = "Index", id = "" },  // Parameter defaults
+                namespaces
+            );
         }
 
         private static void RegisterRoutes(RouteCollection routes, ContentEngine engine)
@@ -75,7 +78,9 @@ namespace Zeus.Web.Mvc
             routes.IgnoreRoute("assets" + "/{*pathInfo}");
 
             // This route detects content item paths and executes their controller
-            routes.Add(new ContentRoute(engine));
+            var contentRoute = new ContentRoute(engine);
+
+            routes.Add(contentRoute);
          }
     }
 }

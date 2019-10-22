@@ -48,5 +48,10 @@ namespace Zeus.Configuration
 		{
 			get { return (CredentialsSection) Sections["credentials"]; }
 		}
-	}
+
+        public RoutingSection Routing
+        {
+            get { return (RoutingSection)Sections["routing"]; }
+        }
+    }
 }

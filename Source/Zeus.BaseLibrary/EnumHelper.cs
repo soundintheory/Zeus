@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,26 +10,23 @@ namespace Zeus.BaseLibrary
 {
 	public static class EnumHelper
 	{
-		private static readonly Dictionary<string, string> _cachedEnumDescriptions = new Dictionary<string, string>();
+		private static readonly ConcurrentDictionary<string, string> _cachedEnumDescriptions = new ConcurrentDictionary<string, string>();
 
 		public static string GetEnumValueDescription(Type enumType, string name)
 		{
-			string cacheKey = enumType.FullName + "." + name;
-			if (!_cachedEnumDescriptions.ContainsKey(cacheKey))
-			{
-				MemberInfo[] memberInfo = enumType.GetMember(name);
+            return (string)_cachedEnumDescriptions.GetOrAdd(enumType.FullName + "." + name, key => {
 
-				string description = name;
-				if (memberInfo != null && memberInfo.Length > 0)
-				{
-					DescriptionAttribute attribute = memberInfo[0].GetCustomAttribute<DescriptionAttribute>(false, false);
-					if (attribute != null)
-						description = attribute.Description;
-				}
+                var memberInfo = enumType.GetMember(name);
 
-				_cachedEnumDescriptions.Add(cacheKey, description);
-			}
-			return _cachedEnumDescriptions[cacheKey];
+                string description = name;
+                if (memberInfo != null && memberInfo.Length > 0)
+                {
+                    var attribute = memberInfo[0].GetCustomAttribute<DescriptionAttribute>(false, false);
+                    description = attribute?.Description ?? name;
+                }
+
+                return description;
+            });
 		}
 
 		public static IEnumerable<string> GetDescriptions(Type enumType)
