@@ -27,13 +27,13 @@ namespace Zeus.Web.Mvc
 
             ViewEngines.Engines.Clear();
 
-            // Create Spark view engine and register it with MVC.
-            var sparkServiceContainer = SparkEngineStarter.CreateContainer();
+			ViewEngines.Engines.Add(new ViewEngine.ExtendedRazorViewEngine());
+
+			// Create Spark view engine and register it with MVC.
+			var sparkServiceContainer = SparkEngineStarter.CreateContainer();
             //sparkServiceContainer.AddFilter(new MobileDeviceDescriptorFilter());
             SparkEngineStarter.RegisterViewEngine(ViewEngines.Engines,
                 sparkServiceContainer);
-
-            ViewEngines.Engines.Add(new ViewEngine.ExtendedRazorViewEngine());
 
             // Register the primary routes used by Zeus.
             RegisterRoutes(RouteTable.Routes, engine);
