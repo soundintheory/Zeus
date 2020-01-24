@@ -11,9 +11,9 @@ namespace Zeus.Web.UI.WebControls
 
 		#endregion
 
-		protected override FancyFileUpload CreateEditor()
+		protected override DndImageUpload CreateEditor()
 		{
-			return new FancyImageUpload();
+			return new DndImageUpload();
 		}
 	}
 }

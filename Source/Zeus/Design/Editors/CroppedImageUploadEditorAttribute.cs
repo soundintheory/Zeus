@@ -23,9 +23,9 @@ namespace Zeus.Design.Editors
 
 		}
 
-		protected override FancyFileUpload CreateEditor()
+		protected override DndImageUpload CreateEditor()
 		{            
-			FancyImageUpload uploader = new FancyImageUpload { MinimumWidth = MinimumWidth, MinimumHeight = MinimumHeight };
+			var uploader = new DndImageUpload { MinimumWidth = MinimumWidth, MinimumHeight = MinimumHeight };
             //add crop tool if item is already saved
             
             //CroppedImage image = (CroppedImage)this.UnderlyingProperty.GetValue(;

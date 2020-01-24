@@ -75,7 +75,7 @@ namespace Zeus.Design.Editors
 			{
 				ContentItem child;
 
-                if (!((ContentItem)itemEditor.CurrentItem).IsEmpty() || (((ContentItem)itemEditor.CurrentItem) is File && ((FancyFileUpload)editor.Controls[0].Controls[1]).HasNewOrChangedFile))
+                if (!((ContentItem)itemEditor.CurrentItem).IsEmpty() || (((ContentItem)itemEditor.CurrentItem) is File && ((DndUpload)editor.Controls[0].Controls[1]).HasNewOrChangedFile))
                 {
                     if ((child = (ContentItem)itemEditor.Save()).IsEmpty())
                         Context.Persister.Delete(child);

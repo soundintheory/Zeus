@@ -11,7 +11,7 @@ namespace Zeus.AddIns.ECommerce.ContentTypes.Data
     [ContentType("Folder for Discounts")]
     [RestrictParents(typeof(WebsiteNode))]
     [ContentTypeAuthorizedRoles("Administrators")]
-    public class DiscountContainer : BaseContentItem
+    public class DiscountContainerBase : BaseContentItem
     {
     }
 }

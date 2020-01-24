@@ -274,15 +274,14 @@ namespace Zeus.Admin.Plugins.EditItem
 			// which means if the control wasn't already present on the page, the scripts will be missing.
 
 			// FancyFileUpload
-			ExtNet.ResourceManager.RegisterClientStyleInclude(typeof(FancyFileUpload),
-				"Zeus.Web.Resources.FancyFileUpload.FancyFileUpload.css");
 
 			ExtNet.ResourceManager.RegisterIcon(Icon.Delete);
 			ExtNet.ResourceManager.RegisterIcon(Icon.ArrowNsew);
-			ExtNet.ResourceManager.RegisterClientScriptInclude(typeof(FancyFileUpload), "Zeus.Web.Resources.FancyFileUpload.mootools.js");
-			ExtNet.ResourceManager.RegisterClientScriptInclude(typeof(FancyFileUpload), "Zeus.Web.Resources.FancyFileUpload.Fx.ProgressBar.js");
-			ExtNet.ResourceManager.RegisterClientScriptInclude(typeof(FancyFileUpload), "Zeus.Web.Resources.FancyFileUpload.Swiff.Uploader.js");
-			ExtNet.ResourceManager.RegisterClientScriptInclude(typeof(FancyFileUpload), "Zeus.Web.Resources.FancyFileUpload.FancyUpload3.Attach2.js");
+
+			ExtNet.ResourceManager.RegisterClientScriptInclude(typeof(DndUpload), "Zeus.Web.Resources.DnDUpload.DndUpload.js");
+			ExtNet.ResourceManager.RegisterClientStyleInclude(typeof(DndUpload), "Zeus.Web.Resources.DnDUpload.DndStyle.css");
+
+			//Page.ClientScript.RegisterJavascriptInclude(Utility.GetClientResourceUrl(typeof(DndUpload), "DnDUpload/DndUpload.js"), ResourceInsertPosition.BodyBottom);
 
 			// HtmlTextBox
 			Page.ClientScript.RegisterJavascriptInclude(Utility.GetClientResourceUrl(typeof(HtmlTextBox), "TinyMCE/tiny_mce.js"), ResourceInsertPosition.HeaderTop);

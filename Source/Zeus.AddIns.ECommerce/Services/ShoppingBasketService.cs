@@ -113,7 +113,7 @@ namespace Zeus.AddIns.ECommerce.Services
         {
             ShoppingBasket shoppingBasket = GetCurrentShoppingBasketInternal(shop, true);
 
-            IEnumerable<Discount> discounts = Zeus.Find.StartPage.GetChildren<DiscountContainer>().Single().GetChildren<Discount>().Where(d => d.ValidFrom <= DateTime.Now.Date && d.ValidTo >= DateTime.Now.Date && d.CouponCode.ToLowerInvariant() == code.ToLowerInvariant());
+            IEnumerable<Discount> discounts = Zeus.Find.StartPage.GetChildren<DiscountContainerBase>().Single().GetChildren<Discount>().Where(d => d.ValidFrom <= DateTime.Now.Date && d.ValidTo >= DateTime.Now.Date && d.CouponCode.ToLowerInvariant() == code.ToLowerInvariant());
             if (!discounts.Any())
             {
                 message = "No valid discount was found with the code you entered, please try again";

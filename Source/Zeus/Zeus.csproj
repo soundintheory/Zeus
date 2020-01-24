@@ -257,6 +257,11 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -555,6 +560,8 @@
     <Compile Include="Web\UI\PanelAttribute.cs" />
     <Compile Include="Web\UI\WebControls\ChildrenEditor.cs" />
     <Compile Include="Web\UI\WebControls\ChildrenEditorGridPanel.cs" />
+    <Compile Include="Web\UI\WebControls\DndImageUpload.cs" />
+    <Compile Include="Web\UI\WebControls\DndUpload.cs" />
     <Compile Include="Web\UI\WebControls\ISitemapAppearance.cs" />
     <Compile Include="Web\WebsiteNode.cs" />
     <Compile Include="Web\UI\HtmlControls\SortableColumnHeader.cs" />
@@ -979,6 +986,8 @@
     <Content Include="App_Readme\Ext.NET.Utilities.LICENSE.txt" />
     <Content Include="App_Readme\Ext.NET.Utilities.README.txt" />
     <Content Include="Ext.NET.Default.aspx" />
+    <EmbeddedResource Include="Web\Resources\DnDUpload\DndStyle.css" />
+    <EmbeddedResource Include="Web\Resources\DnDUpload\DndUpload.js" />
     <Content Include="Web\Resources\TinyMCE\license.txt" />
     <EmbeddedResource Include="Web\Resources\TinyMCE\plugins\advlist\editor_plugin.js" />
     <EmbeddedResource Include="Web\Resources\TinyMCE\plugins\advlist\editor_plugin_src.js" />

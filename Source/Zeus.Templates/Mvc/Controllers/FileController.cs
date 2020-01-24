@@ -35,6 +35,11 @@ namespace Zeus.Templates.Mvc.Controllers
                 }
             }
 
+            if (CurrentItem.Data == null)
+            {
+                return new FileContentResult(new byte[0], CurrentItem.ContentType);
+            }
+
 			return new FileContentResult(CurrentItem.Data, CurrentItem.ContentType);
 
 		}

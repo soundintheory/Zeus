@@ -19,7 +19,7 @@ namespace Zeus.Web.UI.WebControls
 		{
 			LinkProperty linkDetail = detail as LinkProperty;
 
-			FancyFileUpload fileUpload = CreateEditor();
+			var fileUpload = CreateEditor();
 			fileUpload.ID = ID + "_upl_" + id;
 
 			if (linkDetail != null)
@@ -28,9 +28,9 @@ namespace Zeus.Web.UI.WebControls
 			return fileUpload;
 		}
 
-		protected virtual FancyFileUpload CreateEditor()
+		protected virtual DndImageUpload CreateEditor()
 		{
-			return new FancyFileUpload();
+			return new DndImageUpload();
 		}
 	}
 }

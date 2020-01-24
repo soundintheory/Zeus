@@ -32,7 +32,7 @@ namespace Zeus.Design.Editors
 
 		#endregion
 
-		public static string GetUploadedFilePath(FancyFileUpload fileUpload)
+		public static string GetUploadedFilePath(DndImageUpload fileUpload)
 		{
 			string uploadFolder = BaseFileUploadHandler.GetUploadFolder(fileUpload.Identifier);
 			return Path.Combine(uploadFolder, HttpUtility.UrlDecode(fileUpload.FileName));
@@ -40,7 +40,7 @@ namespace Zeus.Design.Editors
 
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
-            FancyFileUpload fileUpload = (FancyFileUpload) editor;
+            var fileUpload = (DndImageUpload) editor;
 			File file = (File) item;
 
 			bool result = false;
@@ -80,7 +80,7 @@ namespace Zeus.Design.Editors
 		/// <returns>A text box control.</returns>
 		protected override Control AddEditor(Control container)
 		{
-			FancyFileUpload fileUpload = CreateEditor();
+			var fileUpload = CreateEditor();
 			fileUpload.ID = Name;
 			if (!string.IsNullOrEmpty(TypeFilterDescription))
 				fileUpload.TypeFilterDescription = TypeFilterDescription;
@@ -95,12 +95,12 @@ namespace Zeus.Design.Editors
 
 		protected override void DisableEditor(Control editor)
 		{
-			((FancyFileUpload)editor).Enabled = false;
+			((DndUpload)editor).Enabled = false;
 		}
         
 		protected override void UpdateEditorInternal(IEditableObject item, Control editor)
 		{
-			FancyFileUpload fileUpload = (FancyFileUpload)editor;
+			var fileUpload = (DndImageUpload)editor;
 			File file = (File)item;
             if (!file.IsEmpty())
             {
@@ -109,9 +109,9 @@ namespace Zeus.Design.Editors
             }
 		}
 
-		protected virtual FancyFileUpload CreateEditor()
+		protected virtual DndImageUpload CreateEditor()
 		{
-			return new FancyFileUpload();
+			return new DndImageUpload();
 		}
 	}
 }

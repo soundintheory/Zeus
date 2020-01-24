@@ -18,9 +18,9 @@ namespace Zeus.Design.Editors
 
 		}
 
-		protected override FancyFileUpload CreateEditor()
+		protected override DndImageUpload CreateEditor()
 		{
-			return new FancyImageUpload { MinimumWidth = MinimumWidth, MinimumHeight = MinimumHeight };
+			return new DndImageUpload { MinimumWidth = MinimumWidth, MinimumHeight = MinimumHeight };
 		}
 	}
 }

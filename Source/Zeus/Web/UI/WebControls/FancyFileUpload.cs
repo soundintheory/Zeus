@@ -12,8 +12,8 @@ namespace Zeus.Web.UI.WebControls
 	{
 		#region Fields
 
-		private HiddenField _hiddenFileNameField, _hiddenIdentifierField;
-		private string _currentFileName;
+		protected HiddenField _hiddenFileNameField, _hiddenIdentifierField;
+		protected string _currentFileName;
 
 		#endregion
 
@@ -80,12 +80,12 @@ namespace Zeus.Web.UI.WebControls
 			set { ViewState["Enabled"] = value; }
 		}
 
-		private string GetAnchorClientID()
+		protected string GetAnchorClientID()
 		{
 			return ClientID + "DemoAttach";
 		}
 
-		private string GetListClientID()
+		protected string GetListClientID()
 		{
 			return ClientID + "DemoList";
 		}
@@ -200,16 +200,18 @@ function prepare{8}() {{
 }};
 if (typeof (Sys) !== 'undefined') Sys.Application.add_load(prepare{8});
 if (window.addEvent) window.addEvent('domready', prepare{8});
-", Utility.GetClientResourceUrl(GetType(), "FancyFileUpload/Swiff.Uploader.swf"),
-		 TypeFilterDescription,
-		 string.Join(";",  TypeFilter),
-		 GetListClientID(),
-		 GetAnchorClientID(),
-		 _hiddenIdentifierField.Value,
-		 _hiddenFileNameField.ClientID,
-		 MaximumFileSize,
-		 ClientID,
-		 VirtualPathUtility.ToAbsolute("~/PostedFileUpload.axd"));
+",
+				Utility.GetClientResourceUrl(GetType(), "FancyFileUpload/Swiff.Uploader.swf"),
+				TypeFilterDescription,
+				string.Join(";",  TypeFilter),
+				GetListClientID(),
+				GetAnchorClientID(),
+				_hiddenIdentifierField.Value,
+				_hiddenFileNameField.ClientID,
+				MaximumFileSize,
+				ClientID,
+				VirtualPathUtility.ToAbsolute("~/PostedFileUpload.axd")
+			);
 			if (ExtNet.IsAjaxRequest && justCreated)
 				ExtNet.ResourceManager.RegisterOnReadyScript(script + string.Format(" prepare{0}();", ClientID));
 			else

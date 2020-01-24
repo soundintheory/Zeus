@@ -10,7 +10,7 @@ using Zeus.BaseLibrary.ExtensionMethods;
 namespace Zeus.AddIns.ECommerce.ContentTypes.Data
 {
     [ContentType("Discount Voucher")]
-    [RestrictParents(typeof(DiscountContainer))]
+    [RestrictParents(typeof(DiscountContainerBase))]
     public class Discount : BaseContentItem
     {
         [Zeus.ContentProperty("Valid From", 100)]
