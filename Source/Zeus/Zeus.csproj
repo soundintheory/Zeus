@@ -687,8 +687,6 @@
     <Compile Include="Web\Security\IWebSecurityManager.cs" />
     <Compile Include="Web\Site.cs" />
     <Compile Include="Web\UI\ClientScriptManager.extensions.cs" />
-    <Compile Include="Web\UI\WebControls\FancyImageUpload.cs" />
-    <Compile Include="Web\UI\WebControls\FancyFileUpload.cs" />
     <Compile Include="Web\UI\WebControls\MultiImageUploadEditor.cs" />
     <Compile Include="Web\UI\WebControls\ReactiveTextBox.cs" />
     <Compile Include="Web\UI\WebControls\ItemEditorVersioningMode.cs" />
@@ -969,16 +967,6 @@
     <EmbeddedResource Include="Web\Resources\jQuery\images\ui-icons_454545_256x240.png" />
     <EmbeddedResource Include="Web\Resources\jQuery\images\ui-icons_888888_256x240.png" />
     <EmbeddedResource Include="Web\Resources\jQuery\images\ui-icons_cd0a0a_256x240.png" />
-    <EmbeddedResource Include="Web\Resources\FancyFileUpload\FancyUpload3.Attach2.js" />
-    <EmbeddedResource Include="Web\Resources\FancyFileUpload\Fx.ProgressBar.js" />
-    <EmbeddedResource Include="Web\Resources\FancyFileUpload\Swiff.Uploader.js" />
-    <EmbeddedResource Include="Web\Resources\FancyFileUpload\Swiff.Uploader.swf" />
-    <EmbeddedResource Include="Web\Resources\FancyFileUpload\attach.png" />
-    <EmbeddedResource Include="Web\Resources\FancyFileUpload\bar.gif" />
-    <EmbeddedResource Include="Web\Resources\FancyFileUpload\error.png" />
-    <EmbeddedResource Include="Web\Resources\FancyFileUpload\progress.gif" />
-    <EmbeddedResource Include="Web\Resources\FancyFileUpload\FancyFileUpload.css" />
-    <EmbeddedResource Include="Web\Resources\FancyFileUpload\mootools.js" />
     <EmbeddedResource Include="Web\Resources\xregexp.js" />
     <None Include="FodyWeavers.xml" />
     <Content Include="App_Readme\Ext.NET.CHANGELOG.txt" />
