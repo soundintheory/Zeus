@@ -22,7 +22,7 @@ namespace Zeus.Design.Editors
 
 		protected override void CreateOrUpdateDetailCollectionItem(ContentItem contentItem, PropertyData existingDetail, Control editor, out object newDetail)
 		{
-			var fileEditor = (DndUpload)editor;
+			var fileEditor = (BaseFileUpload)editor;
 			var existingFileProperty = existingDetail as LinkProperty;
 			if (fileEditor.HasNewOrChangedFile)
 			{

@@ -558,10 +558,13 @@
     <Compile Include="Web\TextTemplating\IMessageBuilder.cs" />
     <Compile Include="Web\TextTemplating\MessageBuilder.cs" />
     <Compile Include="Web\UI\PanelAttribute.cs" />
+    <Compile Include="Web\UI\WebControls\BaseFileUpload.cs" />
     <Compile Include="Web\UI\WebControls\ChildrenEditor.cs" />
     <Compile Include="Web\UI\WebControls\ChildrenEditorGridPanel.cs" />
     <Compile Include="Web\UI\WebControls\DndImageUpload.cs" />
     <Compile Include="Web\UI\WebControls\DndUpload.cs" />
+    <Compile Include="Web\UI\WebControls\DropzoneImageUpload.cs" />
+    <Compile Include="Web\UI\WebControls\DropzoneUpload.cs" />
     <Compile Include="Web\UI\WebControls\ISitemapAppearance.cs" />
     <Compile Include="Web\WebsiteNode.cs" />
     <Compile Include="Web\UI\HtmlControls\SortableColumnHeader.cs" />
@@ -976,6 +979,9 @@
     <Content Include="Ext.NET.Default.aspx" />
     <EmbeddedResource Include="Web\Resources\DnDUpload\DndStyle.css" />
     <EmbeddedResource Include="Web\Resources\DnDUpload\DndUpload.js" />
+    <EmbeddedResource Include="Web\Resources\Dropzone\dropzone.min.css" />
+    <EmbeddedResource Include="Web\Resources\Dropzone\dropzone.min.js" />
+    <EmbeddedResource Include="Web\Resources\Dropzone\dropzone.custom.css" />
     <Content Include="Web\Resources\TinyMCE\license.txt" />
     <EmbeddedResource Include="Web\Resources\TinyMCE\plugins\advlist\editor_plugin.js" />
     <EmbeddedResource Include="Web\Resources\TinyMCE\plugins\advlist\editor_plugin_src.js" />

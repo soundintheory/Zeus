@@ -1,0 +1,153 @@
+﻿
+.dropzone {
+    display: inline-block;
+    width: 508px;
+    max-width: 100%;
+    padding: 0;
+    height: 140px;
+    border: 2px dashed rgba(0,0,0,0.15);
+    border-radius: 10px;
+}
+
+.dropzone:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+    width: 0;
+}
+
+.dropzone .dz-message {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 17px;
+    font-weight: 200;
+    color: #777;
+}
+
+.dropzone .dz-message .note {
+    display: block;
+    font-size: 80%;
+    margin: 16px 0 0;
+    opacity: .8;
+}
+
+.dropzone-single {
+    text-align: center;
+}
+
+.dropzone .dz-preview {
+    width: 140px;
+    margin: 14px 12px 12px;
+    vertical-align: middle;
+}
+
+.dropzone .dz-preview .dz-image {
+    border-radius: 0;
+    overflow: visible;
+    text-align: center;
+    white-space: nowrap;
+    width: 140px;
+    height: 90px;
+}
+
+.dropzone .dz-preview .dz-image:before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 0;
+    height: 100%;
+}
+
+.dropzone .dz-preview .dz-image img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.dropzone .dz-preview:hover .dz-image img {
+    filter: none;
+    -webkit-filter: none;
+    transform: none;
+    -webkit-transform: none;
+    -o-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    opacity: .7;
+}
+
+.dropzone .dz-preview .dz-details {
+    position: static;
+    padding: 5px 0 0;
+    min-width: 0;
+    min-height: 0;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    opacity: 1;
+}
+
+.dropzone .dz-preview .dz-details .dz-size {
+    display: none;
+}
+
+.dropzone .dz-preview .dz-remove {
+    position: absolute;
+    z-index: 600;
+    display: block;
+    left: 50%;
+    top: 29px;
+    width: 32px;
+    height: 32px;
+    line-height: 33px;
+    border-radius: 50%;
+    margin: 0 0 0 -16px;
+    background: #ef2525;
+    color: #fff;
+    text-align: center;
+    font-size: 20px;
+    overflow: hidden;
+    text-indent: -999px;
+    opacity: 0;
+}
+
+.dropzone .dz-preview:hover .dz-remove {
+    opacity: .7;
+}
+
+.dropzone .dz-preview:hover .dz-success-mark {
+    visibility: hidden !important;
+}
+
+.dropzone .dz-preview .dz-remove:hover {
+    text-decoration: none;
+    opacity: 1;
+}
+
+.dropzone .dz-preview .dz-remove:before {
+    display: block;
+    content: "\00d7";
+    text-indent: 0;
+}
+
+.dropzone .dz-preview .dz-details .dz-filename span {
+    border: 1px solid transparent;
+    max-width: 100%;
+    display: inline-block;
+}
+
+.dropzone .dz-preview .dz-details .dz-filename:hover span {
+    border-color: rgba(200,200,200,0.6);
+    max-width: none;
+}
+
+.dropzone .dz-preview .dz-details .dz-filename {
+    display: flex;
+    justify-content: center;
+}
+
+    .dropzone .dz-preview.dz-file-preview .dz-image {
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-image: url("data:image/svg+xml,%3Csvg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='file' class='svg-inline--fa fa-file fa-w-12' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'%3E%3Cpath fill='%23ddd' d='M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm160-14.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z'%3E%3C/path%3E%3C/svg%3E");
+    }

@@ -18,9 +18,9 @@ namespace Zeus.Design.Editors
 
 		}
 
-		protected override DndImageUpload CreateEditor()
+		protected override BaseFileUpload CreateEditor()
 		{
-			return new DndImageUpload { MinimumWidth = MinimumWidth, MinimumHeight = MinimumHeight };
+			return new DropzoneImageUpload { MinimumWidth = MinimumWidth, MinimumHeight = MinimumHeight };
 		}
 	}
 }

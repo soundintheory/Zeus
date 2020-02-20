@@ -273,18 +273,20 @@ namespace Zeus.Admin.Plugins.EditItem
 			// The following resources are registered here because we can't register them during an Ext.NET AJAX request,
 			// which means if the control wasn't already present on the page, the scripts will be missing.
 
-			// FancyFileUpload
-
 			ExtNet.ResourceManager.RegisterIcon(Icon.Delete);
 			ExtNet.ResourceManager.RegisterIcon(Icon.ArrowNsew);
 
+            // DndUpload
 			ExtNet.ResourceManager.RegisterClientScriptInclude(typeof(DndUpload), "Zeus.Web.Resources.DnDUpload.DndUpload.js");
 			ExtNet.ResourceManager.RegisterClientStyleInclude(typeof(DndUpload), "Zeus.Web.Resources.DnDUpload.DndStyle.css");
 
-			//Page.ClientScript.RegisterJavascriptInclude(Utility.GetClientResourceUrl(typeof(DndUpload), "DnDUpload/DndUpload.js"), ResourceInsertPosition.BodyBottom);
+            // DropzoneUpload
+            ExtNet.ResourceManager.RegisterClientScriptInclude(typeof(DropzoneUpload), "Zeus.Web.Resources.Dropzone.dropzone.min.js");
+            ExtNet.ResourceManager.RegisterClientStyleInclude(typeof(DropzoneUpload), "Zeus.Web.Resources.Dropzone.dropzone.min.css");
+            ExtNet.ResourceManager.RegisterClientStyleInclude(typeof(DropzoneUpload), "Zeus.Web.Resources.Dropzone.dropzone.custom.css");
 
-			// HtmlTextBox
-			Page.ClientScript.RegisterJavascriptInclude(Utility.GetClientResourceUrl(typeof(HtmlTextBox), "TinyMCE/tiny_mce.js"), ResourceInsertPosition.HeaderTop);
+            // HtmlTextBox
+            Page.ClientScript.RegisterJavascriptInclude(Utility.GetClientResourceUrl(typeof(HtmlTextBox), "TinyMCE/tiny_mce.js"), ResourceInsertPosition.HeaderTop);
 			Page.ClientScript.RegisterClientScriptBlock(typeof(HtmlTextBox), "HtmlTextBox",
 				@"function fileBrowserCallBack(fieldName, url, destinationType, win)
 				{

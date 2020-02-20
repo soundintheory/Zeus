@@ -23,9 +23,9 @@ namespace Zeus.Design.Editors
 
 		}
 
-		protected override DndImageUpload CreateEditor()
+		protected override BaseFileUpload CreateEditor()
 		{            
-			var uploader = new DndImageUpload { MinimumWidth = MinimumWidth, MinimumHeight = MinimumHeight };
+			var uploader = new DropzoneImageUpload { MinimumWidth = MinimumWidth, MinimumHeight = MinimumHeight };
             //add crop tool if item is already saved
             
             //CroppedImage image = (CroppedImage)this.UnderlyingProperty.GetValue(;

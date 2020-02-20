@@ -9,6 +9,7 @@ using Zeus.Web.Handlers;
 using Zeus.Web.UI.WebControls;
 using Zeus.BaseLibrary.ExtensionMethods;
 using File = Zeus.FileSystem.File;
+using Zeus.FileSystem.Images;
 
 namespace Zeus.Design.Editors
 {
@@ -32,7 +33,7 @@ namespace Zeus.Design.Editors
 
 		#endregion
 
-		public static string GetUploadedFilePath(DndImageUpload fileUpload)
+		public static string GetUploadedFilePath(BaseFileUpload fileUpload)
 		{
 			string uploadFolder = BaseFileUploadHandler.GetUploadFolder(fileUpload.Identifier);
 			return Path.Combine(uploadFolder, HttpUtility.UrlDecode(fileUpload.FileName));
@@ -40,7 +41,7 @@ namespace Zeus.Design.Editors
 
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
-            var fileUpload = (DndImageUpload) editor;
+            var fileUpload = (BaseFileUpload) editor;
 			File file = (File) item;
 
 			bool result = false;
@@ -67,7 +68,7 @@ namespace Zeus.Design.Editors
 
 				// Delete temp folder.
 				System.IO.File.Delete(uploadedFile);
-				Directory.Delete(BaseFileUploadHandler.GetUploadFolder(fileUpload.Identifier));
+				Directory.Delete(BaseFileUploadHandler.GetUploadFolder(fileUpload.Identifier), true);
 
 				result = true;
 			}
@@ -95,23 +96,28 @@ namespace Zeus.Design.Editors
 
 		protected override void DisableEditor(Control editor)
 		{
-			((DndUpload)editor).Enabled = false;
+			((BaseFileUpload)editor).Enabled = false;
 		}
         
 		protected override void UpdateEditorInternal(IEditableObject item, Control editor)
 		{
-			var fileUpload = (DndImageUpload)editor;
+			var fileUpload = (BaseFileUpload)editor;
 			File file = (File)item;
             if (!file.IsEmpty())
             {
                 CurrentID = file.ID;
                 fileUpload.CurrentFileName = file.FileName;
+
+                if (file is Image)
+                {
+                    fileUpload.PreviewUrl = ((Image)file).GetUrl(BaseFileUpload.THUMBNAIL_WIDTH, BaseFileUpload.THUMBNAIL_HEIGHT, false);
+                }
             }
 		}
 
-		protected virtual DndImageUpload CreateEditor()
+		protected virtual BaseFileUpload CreateEditor()
 		{
-			return new DndImageUpload();
+			return new DropzoneUpload();
 		}
 	}
 }

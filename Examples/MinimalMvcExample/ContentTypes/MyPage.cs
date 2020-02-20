@@ -9,12 +9,13 @@ using Zeus.Templates.ContentTypes;
 
 namespace Zeus.Examples.MinimalMvcExample.ContentTypes
 {
-	[ContentType("MyPage", IgnoreSEOAssets=true)]
-	[AllowedChildren(typeof(Zeus.FileSystem.Images.Image))]
+	[ContentType("Page", IgnoreSEOAssets=true)]
+	[AllowedChildren(typeof(Zeus.FileSystem.File))]
 	[Panel("NewContainer", "All My Types Go in Here!", 100)]
 	[FieldSet("ImageContainer", "Main Image", 200, ContainerName = "Content")]
-	[FieldSet("AnotherImageContainer", "Secondary Image", 300, ContainerName = "Content")]
-	public class MyPage : BasePage
+    [FieldSet("AnotherImageContainer", "Secondary Image", 300, ContainerName = "Content")]
+    [FieldSet("FileContainer", "Files", 400, ContainerName = "Content")]
+    public class MyPage : BasePage
 	{
 		[LinkedItemDropDownListEditor("Product", 99)]
 		public virtual ContentItem Product
@@ -51,6 +52,20 @@ namespace Zeus.Examples.MinimalMvcExample.ContentTypes
 			}
 		}
 
+        [Zeus.Design.Editors.ChildEditor("File", 100, ContainerName = "FileContainer")]
+        public virtual Zeus.FileSystem.File File
+        {
+            get { return GetChild("File") as Zeus.FileSystem.File; }
+            set
+            {
+                if (value != null)
+                {
+                    value.Name = "File";
+                    value.AddTo(this);
+                }
+            }
+        }
+
         /*
         [ContentProperty("Other Images", 200, EditorContainerName = "Content")]
         [ChildrenEditor("Other Images", 200, TypeFilter = typeof(Zeus.FileSystem.Images.Image), ContainerName = "Content")]
@@ -61,7 +76,7 @@ namespace Zeus.Examples.MinimalMvcExample.ContentTypes
          */
 
 
-		[ChildrenEditor("Test Child Editors", 15, TypeFilter = typeof(MyLittleType), ContainerName = "NewContainer")]
+        [ChildrenEditor("Test Child Editors", 15, TypeFilter = typeof(MyLittleType), ContainerName = "NewContainer")]
 		public virtual IEnumerable<MyLittleType> ListFilters
 		{
 			get { return GetChildren<MyLittleType>(); }

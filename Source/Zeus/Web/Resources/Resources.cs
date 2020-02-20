@@ -38,16 +38,12 @@
 [assembly: WebResource("Zeus.Web.Resources.jQuery.ui.sortable.js", "text/javascript")]
 [assembly: WebResource("Zeus.Web.Resources.jQuery.ui.tabs.js", "text/javascript")]
 
-[assembly: WebResource("Zeus.Web.Resources.FancyFileUpload.attach.png", "image/png")]
-[assembly: WebResource("Zeus.Web.Resources.FancyFileUpload.bar.gif", "image/gif")]
-[assembly: WebResource("Zeus.Web.Resources.FancyFileUpload.FancyFileUpload.css", "text/css", PerformSubstitution = true)]
-[assembly: WebResource("Zeus.Web.Resources.FancyFileUpload.FancyUpload3.Attach2.js", "text/javascript", PerformSubstitution = true)]
-[assembly: WebResource("Zeus.Web.Resources.FancyFileUpload.Fx.ProgressBar.js", "text/javascript")]
-[assembly: WebResource("Zeus.Web.Resources.FancyFileUpload.mootools.js", "text/javascript")]
-[assembly: WebResource("Zeus.Web.Resources.FancyFileUpload.progress.gif", "image/gif")]
-[assembly: WebResource("Zeus.Web.Resources.FancyFileUpload.Swiff.Uploader.js", "text/javascript")]
 [assembly: WebResource("Zeus.Web.Resources.DnDUpload.DndUpload.js", "text/javascript")]
 [assembly: WebResource("Zeus.Web.Resources.DnDUpload.DndStyle.css", "text/css")]
+
+[assembly: WebResource("Zeus.Web.Resources.Dropzone.dropzone.min.js", "text/javascript")]
+[assembly: WebResource("Zeus.Web.Resources.Dropzone.dropzone.min.css", "text/css")]
+[assembly: WebResource("Zeus.Web.Resources.Dropzone.dropzone.custom.css", "text/css")]
 
 [assembly: WebResource("Zeus.Web.Resources.xregexp-unicode-base.js", "text/javascript")]
 [assembly: WebResource("Zeus.Web.Resources.xregexp-unicode-categories.js", "text/javascript")]

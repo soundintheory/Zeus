@@ -28,9 +28,9 @@ namespace Zeus.Web.UI.WebControls
 			return fileUpload;
 		}
 
-		protected virtual DndImageUpload CreateEditor()
+		protected virtual BaseFileUpload CreateEditor()
 		{
-			return new DndImageUpload();
+			return new DropzoneUpload();
 		}
 	}
 }
