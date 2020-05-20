@@ -115,5 +115,12 @@ namespace Zeus.Configuration
             get { return (bool)base["shareAuthorisationContext"]; }
             set { base["shareAuthorisationContext"] = value; }
 		}
-	}
+
+        [ConfigurationProperty("defaultPreviewUrl", DefaultValue = "/")]
+        public string DefaultPreviewUrl
+        {
+            get { return (string)base["defaultPreviewUrl"]; }
+            set { base["defaultPreviewUrl"] = value; }
+        }
+    }
 }

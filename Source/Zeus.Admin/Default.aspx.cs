@@ -28,9 +28,11 @@ namespace Zeus.Admin
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			imgLogo.Src = ClientScript.GetWebResourceUrl(typeof (Default), "Zeus.Admin.Assets.Images.Theme.logo.gif");
-			imgLogo.Visible = !((AdminSection) ConfigurationManager.GetSection("zeus/admin")).HideBranding;
-			ltlAdminName1.Text = ltlAdminName2.Text = ((AdminSection) ConfigurationManager.GetSection("zeus/admin")).Name;
+            var config = (AdminSection)ConfigurationManager.GetSection("zeus/admin");
+
+            imgLogo.Src = ClientScript.GetWebResourceUrl(typeof (Default), "Zeus.Admin.Assets.Images.Theme.logo.gif");
+			imgLogo.Visible = !config.HideBranding;
+			ltlAdminName1.Text = ltlAdminName2.Text = config.Name;
 
 			// Allow plugins to modify interface.
 			foreach (IMainInterfacePlugin plugin in Engine.ResolveAll<IMainInterfacePlugin>())
@@ -42,7 +44,7 @@ namespace Zeus.Admin
 				plugin.ModifyInterface(this);
 			}
 
-			pnlContent.AutoLoad.Url = VirtualPathUtility.ToAbsolute("~/");
+			pnlContent.AutoLoad.Url = VirtualPathUtility.ToAbsolute("~" + config.DefaultPreviewUrl);
 		}
 
 		protected override void OnPreRender(EventArgs e)
