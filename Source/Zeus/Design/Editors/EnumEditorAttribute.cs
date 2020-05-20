@@ -3,6 +3,7 @@ using System.Web.UI.WebControls;
 using Zeus.BaseLibrary;
 using Zeus.ContentTypes;
 using System.Web.UI;
+using System.Linq;
 
 namespace Zeus.Design.Editors
 {
@@ -10,7 +11,9 @@ namespace Zeus.Design.Editors
 	{
 		private readonly Type _enumType;
 
-		public EnumEditorAttribute(string title, int sortOrder, Type enumType)
+        public bool SortOptionsByName { get; set; }
+
+        public EnumEditorAttribute(string title, int sortOrder, Type enumType)
 			: base(title, sortOrder)
 		{
 			if (enumType == null) throw new ArgumentNullException("enumType");
@@ -39,7 +42,11 @@ namespace Zeus.Design.Editors
 				string name = EnumHelper.GetEnumValueDescription(_enumType, Enum.GetName(_enumType, value));
 				items[i] = new ListItem(name, value.ToString());
 			}
-			return items;
+            if (SortOptionsByName)
+            {
+                return items.OrderBy(item => item.Text).ToArray();
+            }
+            return items;
 		}
 
 		protected override object GetValue(IEditableObject item)
