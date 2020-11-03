@@ -490,6 +490,7 @@
     <Compile Include="Web\Mvc\ActionFilters\RequireSslAttribute.cs" />
     <Compile Include="Web\Mvc\ActionFilters\ValidationGroupAttribute.cs" />
     <Compile Include="Web\Mvc\ActionResolver.cs" />
+    <Compile Include="Web\Mvc\Async\NinjectAsyncActionInvoker.cs" />
     <Compile Include="Web\Mvc\ContentController.cs" />
     <Compile Include="Web\Mvc\ContentRoute.cs" />
     <Compile Include="Web\Mvc\ControllerFactory.cs" />

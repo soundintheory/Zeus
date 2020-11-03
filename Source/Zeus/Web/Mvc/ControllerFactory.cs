@@ -6,6 +6,7 @@ using System.Web.Routing;
 using System.Web.SessionState;
 using Ninject;
 using System.Linq;
+using Zeus.Web.Mvc.Async;
 
 namespace Zeus.Web.Mvc
 {
@@ -51,7 +52,7 @@ namespace Zeus.Web.Mvc
 			var standardController = controller as Controller;
 
 			if (standardController != null)
-				standardController.ActionInvoker = new NinjectActionInvoker(_kernel);
+				standardController.ActionInvoker = new NinjectAsyncActionInvoker(_kernel);
 
 			return controller;
 		}
