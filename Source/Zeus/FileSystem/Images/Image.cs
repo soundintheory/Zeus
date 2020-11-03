@@ -20,8 +20,20 @@ namespace Zeus.FileSystem.Images
 		{
 			base.Visible = false;
 		}
-		
-		[ImageUploadEditor("Image", 100)]
+
+        public int SourceWidth
+        {
+            get { return GetDetail("SourceWidth", default(int)); }
+            set { SetDetail("SourceWidth", value); }
+        }
+
+        public int SourceHeight
+        {
+            get { return GetDetail("SourceHeight", default(int)); }
+            set { SetDetail("SourceHeight", value); }
+        }
+
+        [ImageUploadEditor("Image", 100)]
 		public override byte[] Data
 		{
 			get { return base.Data; }
