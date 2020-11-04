@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SoundInTheory.DynamicImage;
 using SoundInTheory.DynamicImage.Caching;
 using SoundInTheory.DynamicImage.Sources;
@@ -8,12 +9,26 @@ namespace Zeus.FileSystem.Images
 {
 	public class ZeusImageSource : ImageSource
 	{
+        public ZeusImageSource() { }
+
+		public ZeusImageSource(Image image)
+        {
+			ContentID = image.ID;
+			Updated = image.Updated;
+        }
+
 		#region Properties
 
 		public int ContentID
 		{
 			get { return (int) (this["ContentID"] ?? 0); }
 			set { this["ContentID"] = value; }
+		}
+
+		public DateTime Updated
+		{
+			get { return (DateTime)(this["Updated"] ?? default(DateTime)); }
+			set { this["Updated"] = value; }
 		}
 
 		public bool ThrowExceptionOnFormatError

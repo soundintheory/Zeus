@@ -81,7 +81,6 @@ namespace Zeus.Web.UI.WebControls
                     Dropzone.autoDiscover = false;
                     var config = {JsonConvert.SerializeObject(config)};
                     config.thumbnail = function(file, dataUrl) {{
-                        console.log('CUSTOM THUMBNAIL: ', file, dataUrl);
                         if (dataUrl) {{
                             Dropzone.prototype.defaultOptions.thumbnail.call(this, file, dataUrl);
                         }}
@@ -94,9 +93,7 @@ namespace Zeus.Web.UI.WebControls
                         }}
                     }});
                     dz.on('removedfile', function(file) {{
-                        if (!file.existing) {{
-                            (document.getElementById('{_hiddenFileNameField.ClientID}') || {{}}).value = '-1';
-                        }}
+                        (document.getElementById('{_hiddenFileNameField.ClientID}') || {{}}).value = '-1';
                     }});
                     dz.on('complete', function(file) {{
                         if (!file.existing) {{

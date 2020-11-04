@@ -33,7 +33,7 @@ namespace Zeus.FileSystem.Images
 		{
 			if (contentItem is Image)
 			{
-				var source = new ZeusImageSource { ContentID = contentItem.ID };
+				var source = new ZeusImageSource((Image)contentItem);
 				DynamicImageCacheManager.Remove(source);
 			}
 		}

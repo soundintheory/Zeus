@@ -63,8 +63,7 @@ namespace Zeus.FileSystem.Images
         public string GetUrlForAdmin(int width, int height, bool fill, DynamicImageFormat format, bool isResize)
         {
             //first construct the crop
-            var imageSource = new ZeusImageSource();
-            imageSource.ContentID = this.ID;
+            var imageSource = new ZeusImageSource(this);
 
             return GetUrlForAdminViaSource(imageSource, width, height, fill, format, isResize);
         }
@@ -250,8 +249,7 @@ namespace Zeus.FileSystem.Images
             bool isStandard = width == 800 & height == 600;
 
             //first construct the crop
-            var imageSource = new ZeusImageSource();
-            imageSource.ContentID = this.ID;
+            var imageSource = new ZeusImageSource(this);
 
             if (this.Data == null)
                 return "";

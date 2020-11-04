@@ -69,9 +69,7 @@ namespace Zeus.FileSystem.Images
 
             ImageLayer imageLayer = new ImageLayer
             {
-                Source = new ZeusImageSource {
-                    ContentID = ID
-                }
+                Source = new ZeusImageSource(this)
             };
 
             ResizeFilter resizeFilter = new ResizeFilter
