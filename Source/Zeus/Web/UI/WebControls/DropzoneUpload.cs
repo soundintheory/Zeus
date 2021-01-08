@@ -53,7 +53,6 @@ namespace Zeus.Web.UI.WebControls
                 url = VirtualPathUtility.ToAbsolute("~/PostedFileUpload.axd"),
                 thumbnailMethod = "contain",
                 maxFiles = 1,
-                maxFilesize = 1,
                 addRemoveLinks = true,
                 thumbnailWidth = THUMBNAIL_WIDTH,
                 thumbnailHeight = THUMBNAIL_HEIGHT,
