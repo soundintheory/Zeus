@@ -13,6 +13,7 @@ using Zeus.Persistence;
 using Zeus.Plugin;
 using Zeus.Security;
 using Zeus.Web;
+using Zeus.Web.Caching;
 using Zeus.Web.Hosting;
 using Zeus.Web.Security;
 using IWebContext=Zeus.Web.IWebContext;
@@ -22,6 +23,8 @@ namespace Zeus.Engine
 	public class ContentEngine
 	{
 		private readonly DependencyInjectionManager _dependencyInjectionManager;
+
+		private static CacheService _cache;
 
 		#region Properties
 
@@ -54,6 +57,8 @@ namespace Zeus.Engine
 		{
 			get { return Resolve<IPersister>(); }
 		}
+
+		public CacheService Cache => _cache;
 
 		public ISecurityManager SecurityManager
 		{
@@ -138,6 +143,8 @@ namespace Zeus.Engine
 			invoker.InitializePlugins(this, invoker.GetPluginDefinitions());
 
 			_dependencyInjectionManager.Initialize();
+
+			_cache = new CacheService(Persister, Finder, WebContext);
 		}
 
 		public T Resolve<T>()

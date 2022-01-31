@@ -3,6 +3,7 @@ using Zeus.Web.UI;
 using Spark;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Linq;
 
 namespace Zeus.Web.Mvc.ViewModels
 {
@@ -41,6 +42,17 @@ namespace Zeus.Web.Mvc.ViewModels
                 bool bWatcherChanged = false;
                 if (CacheWatchers != null)
                 {
+                    var cachedWatchersKey = "zeusCacheWatchers_" + ActionForCache + "_" + currentItem.CacheID;
+                    var cachedWatchers = (string)System.Web.HttpContext.Current.Cache[cachedWatchersKey];
+                    var currentWatchers = string.Join(",", CacheWatchers.OrderBy(ci => ci.ID).Select(ci => ci.ID));
+
+                    // Trigger change if the list of watcher IDs has changed. This ensures the cache will be updated if a watcher got removed
+                    if (cachedWatchers != currentWatchers)
+                    {
+                        bWatcherChanged = true;
+                        System.Web.HttpContext.Current.Cache[cachedWatchersKey] = currentWatchers;
+                    }
+
                     foreach (ContentItem ci in CacheWatchers)
                     {
                         var WatcherSessionVal = System.Web.HttpContext.Current.Cache["zeusWatchChange_" + ActionForCache + "_" + currentItem.CacheID + "_" + ci.ID];

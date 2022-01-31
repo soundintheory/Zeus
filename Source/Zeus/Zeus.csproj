@@ -437,6 +437,10 @@
     <Compile Include="FileSystem\Images\HiddenCroppedImage.cs" />
     <Compile Include="FileSystem\Images\CroppedImage.cs" />
     <Compile Include="FileSystem\Images\HiddenImage.cs" />
+    <Compile Include="Web\Caching\CacheDependencyManager.cs" />
+    <Compile Include="Web\Caching\CacheService.cs" />
+    <Compile Include="Web\Caching\ExplicitCacheDependency.cs" />
+    <Compile Include="Web\Caching\ZeusCacheDependency.cs" />
     <Compile Include="Web\ContentPropertyAttribute.cs" />
     <Compile Include="ContentProperties\PropertyData.cs" />
     <Compile Include="ContentProperties\PropertyDataType.cs" />
@@ -483,6 +487,7 @@
     <Compile Include="Web\Caching\CachingService.cs" />
     <Compile Include="Web\Caching\ICachingService.cs" />
     <Compile Include="Web\Caching\PageCacheFilterAttribute.cs" />
+    <Compile Include="Web\MultipleSitesUrlParser.cs" />
     <Compile Include="Web\Mvc\AcceptImageSubmitAttribute.cs" />
     <Compile Include="Web\Mvc\AcceptParameterAttribute.cs" />
     <Compile Include="Web\Mvc\ActionFilters\ExportModelStateToTempDataAttribute.cs" />
@@ -556,6 +561,7 @@
     <Compile Include="Web\Security\WebPrincipal.cs" />
     <Compile Include="Web\Security\WebSecurityEngine.cs" />
     <Compile Include="Web\Security\WebSecurityService.cs" />
+    <Compile Include="Web\TemplateAttribute.cs" />
     <Compile Include="Web\TextTemplating\DefaultMessageBuilder.cs" />
     <Compile Include="Web\TextTemplating\IMessageBuilder.cs" />
     <Compile Include="Web\TextTemplating\MessageBuilder.cs" />
@@ -683,7 +689,6 @@
     <Compile Include="Web\IAdapterDescriptor.cs" />
     <Compile Include="Web\IHost.cs" />
     <Compile Include="Web\IPermanentLinkManager.cs" />
-    <Compile Include="Web\MultipleSitesUrlParser.cs" />
     <Compile Include="Web\Parts\PartsAdapter.cs" />
     <Compile Include="Web\PathDictionary.cs" />
     <Compile Include="Web\PermanentLinkManager.cs" />
@@ -769,7 +774,6 @@
     <Compile Include="Web\Resources\Resources.cs" />
     <Compile Include="Web\Security\CredentialStore.cs" />
     <Compile Include="Web\Security\PermissionDeniedHandler.cs" />
-    <Compile Include="Web\TemplateAttribute.cs" />
     <Compile Include="Web\UI\FieldSetAttribute.cs" />
     <Compile Include="Web\UI\WebControls\BaseDetailCollectionEditor.cs" />
     <Compile Include="Web\UI\WebControls\MultiFileUploadEditor.cs" />

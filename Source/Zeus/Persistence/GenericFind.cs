@@ -44,6 +44,29 @@ namespace Zeus.Persistence
 			get { return (TStart) Context.Current.UrlParser.StartPage; }
 		}
 
+		public static T FirstOfType<T>() where T : ContentItem
+        {
+			// Try and get the cached first ID of the type. This will also return the item if it was
+			// freshly retrieved from the persister
+			var firstId = Context.Cache.GetFirstOfTypeID<T>(out var item);
+
+			// Use item if possible
+			if (item != default)
+            {
+				return item;
+            }
+			
+			// We have a cached ID. The call to Perister.Get() is a lot faster than the alternative!
+			if (firstId > 0)
+            {
+				return Context.Persister.Get<T>(firstId);
+            }
+
+			return default;
+		}
+
+		public static T RootItemOfType<T>() => StartPage.GetChildren<T>().FirstOrDefault();
+
 		/// <summary>
 		/// Gets the item at the specified level.
 		/// </summary>

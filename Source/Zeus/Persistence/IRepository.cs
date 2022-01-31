@@ -50,6 +50,15 @@ namespace Zeus.Persistence
 		TEntity Load(TKey id);
 
 		/// <summary>
+		/// Load the entity from the persistance store
+		/// Will throw an exception if there isn't an entity that matches
+		/// the id.
+		/// </summary>
+		/// <param name="id">The entity's id</param>
+		/// <returns>The entity that matches the id</returns>
+		T Load<T>(TKey id) where T : TEntity;
+
+		/// <summary>
 		/// Register te entity for save in the database when the unit of work
 		/// is completed. (INSERT)
 		/// </summary>

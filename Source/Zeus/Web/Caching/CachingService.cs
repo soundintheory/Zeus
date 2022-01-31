@@ -9,12 +9,16 @@ namespace Zeus.Web.Caching
 	{
 		private readonly IWebContext _webContext;
 		private readonly IPersister _persister;
+		private readonly CacheDependencyManager _dependencies;
 
 		public CachingService(IWebContext webContext, IPersister persister)
 		{
 			_webContext = webContext;
 			_persister = persister;
+			_dependencies = new CacheDependencyManager();
 		}
+
+		public CacheDependencyManager Dependencies => _dependencies;
 
 		public bool IsPageCached(ContentItem contentItem)
 		{

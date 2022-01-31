@@ -46,6 +46,9 @@ namespace Zeus.Web.Security
 			HttpApplication application = (HttpApplication) source;
 			HttpContextBase context = new HttpContextWrapper(application.Context);
 
+			if (context.SkipAuthorization)
+				return;
+
 			IAuthenticationContextService authenticationContextService = WebSecurityEngine.Get<IAuthenticationContextService>();
 			AuthenticationSection authenticationConfig = System.Web.Configuration.WebConfigurationManager.GetSection("zeus/authentication") as AuthenticationSection;
 			string locationPath = context.Request.Path.ToLower();

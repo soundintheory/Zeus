@@ -57,7 +57,7 @@ namespace Zeus.Design.Editors
 				}
 				else if (Context.UrlParser.StartPage != contentItem.GetParent())
 				{
-					string parentUrl = contentItem.GetParent().GetUrl(contentItem.Language);
+					string parentUrl = contentItem.GetParent().Url;
 					if (!parentUrl.Contains("?"))
 					{
 						string prefix = parentUrl;

@@ -138,11 +138,17 @@ namespace Zeus.Web
 
 		public virtual PathData Attach(Persistence.IPersister persister)
 		{
-			ContentItem item = persister.Repository.Load(ID);
+			if (ID == 0)
+            {
+				return Detach();
+            }
+
+			ContentItem item = persister.Repository.Get(ID);
 			PathData data = new PathData(item, TemplateUrl, Action, Argument)
-    	{
-    		QueryParameters = new Dictionary<string, string>(QueryParameters)
-    	};
+    		{
+    			QueryParameters = new Dictionary<string, string>(QueryParameters)
+    		};
+
 			return data;
 		}
 

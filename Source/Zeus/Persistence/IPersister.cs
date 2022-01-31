@@ -31,6 +31,7 @@ namespace Zeus.Persistence
 		T Get<T>(int id) where T : ContentItem;
 		T Get<T>(Func<T, bool> condition) where T : ContentItem;
 		ContentItem Load(int id);
+		T Load<T>(int id) where T : ContentItem;
 		void Move(ContentItem toMove, ContentItem newParent);
 		void Save(ContentItem contentItem);
         void SetUpdatedToNow(ContentItem contentItem);

@@ -166,6 +166,11 @@ namespace Zeus.Persistence
 			return _contentRepository.Load(id);
 		}
 
+		public T Load<T>(int id) where T : ContentItem
+		{
+			return _contentRepository.Load<T>(id);
+		}
+
 		public void Move(ContentItem toMove, ContentItem newParent)
 		{
 			Utility.InvokeEvent(ItemMoving, this, toMove, newParent, MoveAction);

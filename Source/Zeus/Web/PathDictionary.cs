@@ -16,13 +16,18 @@ namespace Zeus.Web
 		/// <returns>A list of path finders.</returns>
 		public static IPathFinder[] GetFinders(Type itemType)
 		{
-			lock (Instance)
-			{
-				if (Instance.ContainsKey(itemType))
-					return Instance[itemType];
+			if (!Instance.ContainsKey(itemType))
+            {
+				lock (Instance)
+				{
+					if (Instance.ContainsKey(itemType))
+						return Instance[itemType];
 
-				return Instance[itemType] = FindFinders(itemType);
-			}
+					return Instance[itemType] = FindFinders(itemType);
+				}
+            }
+
+			return Instance[itemType];
 		}
 
 		/// <summary>Adds a path finder to an item.</summary>

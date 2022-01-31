@@ -50,6 +50,11 @@ namespace Zeus.Persistence.NH
 			return _sessionProvider.OpenSession.Session.Load<TEntity>(id);
 		}
 
+		public T Load<T>(TKey id) where T : TEntity
+		{
+			return _sessionProvider.OpenSession.Session.Load<T>(id);
+		}
+
 		public void Save(TEntity contentItem)
 		{
 			_sessionProvider.OpenSession.Session.Save(contentItem);
