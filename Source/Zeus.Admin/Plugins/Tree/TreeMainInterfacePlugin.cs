@@ -134,11 +134,5 @@ namespace Zeus.Admin.Plugins.Tree
 						scriptManager.RegisterClientScriptInclude(treePlugin.GetType().FullName, requiredScript);
 			}
 		}
-
-		public static bool IsVisibleInTree(ContentItem contentItem)
-		{
-			return ((Context.ContentTypes[contentItem.GetType()].Visibility & AdminSiteTreeVisibility.Visible) == AdminSiteTreeVisibility.Visible)
-					&& (contentItem.Parent == null || (Context.ContentTypes[contentItem.Parent.GetType()].Visibility & AdminSiteTreeVisibility.ChildrenHidden) != AdminSiteTreeVisibility.ChildrenHidden);
-		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using Ext.Net;
+using Zeus.ContentTypes;
 using Zeus.Design.Editors;
 using Zeus.Integrity;
 
@@ -85,6 +86,14 @@ namespace Zeus.FileSystem
 		public override bool IsEmpty()
 		{
 			return Data == null;
+		}
+
+		public override bool IsVisibleInTree
+		{
+			get
+			{
+				return IsEmpty() ? false : base.IsVisibleInTree;
+			}
 		}
 	}
 }
