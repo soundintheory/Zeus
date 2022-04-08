@@ -43,7 +43,7 @@ namespace Zeus.Admin.Plugins.Tree
 				//	filter = new CompositeSpecification<ContentItem>(new PageSpecification<ContentItem>(), filter);
 				TreeNodeBase treeNode = tree.Filter(items => items
 						.Authorized(context.User, Context.SecurityManager, Operations.Read)
-						.Where(TreeMainInterfacePlugin.IsVisibleInTree)
+						.Where(ci => ci.IsVisibleInTree)
 						.Where(ci => !(ci is WidgetContentItem)))
 					.ToTreeNode(false);
 

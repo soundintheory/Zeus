@@ -929,6 +929,15 @@ namespace Zeus
             return true;
         }
 
+        public virtual bool IsVisibleInTree
+        {
+            get
+            {
+                return ((Context.ContentTypes[GetType()].Visibility & AdminSiteTreeVisibility.Visible) == AdminSiteTreeVisibility.Visible)
+                    && (Parent == null || (Context.ContentTypes[Parent.GetType()].Visibility & AdminSiteTreeVisibility.ChildrenHidden) != AdminSiteTreeVisibility.ChildrenHidden);
+            }
+        }
+
         /// <summary>
         /// Return something other than null to group items in the admin site tree.
         /// </summary>
