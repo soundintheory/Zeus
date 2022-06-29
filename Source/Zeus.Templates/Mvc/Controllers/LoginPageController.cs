@@ -41,13 +41,20 @@ namespace Zeus.Templates.Mvc.Controllers
                 //check for redirect instruction, and check that it isn't going to error - if it is then ignore the redirect
                 if (!string.IsNullOrEmpty(loginForm.Target))
                 {
-                    if (TestFor500(loginForm.Target))
+                    if (loginForm.Ignore500Check || TestFor500(loginForm.Target))
                         Response.Redirect(loginForm.Target);
                 }
             }
 
             return RedirectToParentPage();
 		}
+
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            _webSecurityService.SignOut();
+            return View();
+        }
 
         public static bool TestFor500(string url)
         {

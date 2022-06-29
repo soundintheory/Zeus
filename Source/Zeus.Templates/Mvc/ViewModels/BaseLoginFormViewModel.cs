@@ -12,5 +12,7 @@ namespace Zeus.Templates.Mvc.ViewModels
 		public string Password { get; set; }
 
 		public string Target { get; set; }
+
+		public bool Ignore500Check { get; set; }
 	}
 }
