@@ -215,16 +215,16 @@ namespace Zeus.Templates.Mvc.Html
 			return foundSomething;
 		}
 
-        public static IList<NavigationItem> LoadNav(this HtmlHelper html)
+        public static IList<NavigationItem> LoadNav(this HtmlHelper html, ContentItem startAt = null, string name = "primary", bool includeRootItem = false)
         {
-            return LoadNav(html, true);
-        }
+			if (startAt != null && includeRootItem)
+			{
+				throw new Exception("Misconfiguration - you've set the startAt item, but you're trying to include the Root Node - you should only do this for the Start Page, else just set the startAt node to be whatever you want");
+			}
 
-        public static IList<NavigationItem> LoadNav(this HtmlHelper html, bool includeRootItem)
-        {
             string Lang = Zeus.Globalization.ContentLanguage.PreferredCulture.TwoLetterISOLanguageName;
-            DateTime lastChecked = System.Web.HttpContext.Current.Cache["primaryNavLastLoaded" + Lang] == null ? DateTime.MinValue : (DateTime)System.Web.HttpContext.Current.Cache["primaryNavLastLoaded" + Lang];
-            if (System.Web.HttpContext.Current.Cache["primaryNav" + Lang] == null || DateTime.Now.Subtract(lastChecked) > TimeSpan.FromHours(1) || Find.StartPage.Updated > lastChecked)
+            DateTime lastChecked = System.Web.HttpContext.Current.Cache[name + "NavLastLoaded" + Lang] == null ? DateTime.MinValue : (DateTime)System.Web.HttpContext.Current.Cache[name + "NavLastLoaded" + Lang];
+            if (System.Web.HttpContext.Current.Cache[name + "Nav" + Lang] == null || DateTime.Now.Subtract(lastChecked) > TimeSpan.FromHours(1) || Find.StartPage.Updated > lastChecked)
             {
                 var result = new List<NavigationItem>();
 
@@ -236,7 +236,8 @@ namespace Zeus.Templates.Mvc.Html
                     }
                 }
 
-                foreach (ContentItem item in html.NavigationPages())
+				var startNavLevel = startAt == null ? html.NavigationPages() : html.NavigationPages(startAt);
+                foreach (ContentItem item in startNavLevel)
                 {
                     result.Add(new NavigationItem { Title = item.Title, Url = item.Url, ID = item.ID });
                 }
@@ -244,7 +245,7 @@ namespace Zeus.Templates.Mvc.Html
                 foreach (NavigationItem item in result)
                 {
                     ContentItem theItem = Zeus.Context.Persister.Get(item.ID);
-                    if (theItem != Zeus.Find.StartPage)
+                    if (theItem.ID != (startAt != null ? startAt.ID : Zeus.Find.StartPage.ID))
                     {
                         foreach (ContentItem subNavItem in html.NavigationPages(theItem))
                         {
@@ -254,13 +255,13 @@ namespace Zeus.Templates.Mvc.Html
                     }
                 }
 
-                System.Web.HttpContext.Current.Cache["primaryNav" + Lang] = result;
-                System.Web.HttpContext.Current.Cache["primaryNavLastLoaded" + Lang] = DateTime.Now;
+                System.Web.HttpContext.Current.Cache[name + "Nav" + Lang] = result;
+                System.Web.HttpContext.Current.Cache[name + "NavLastLoaded" + Lang] = DateTime.Now;
                 return result;
             }
             else
             {
-                return (IList<NavigationItem>)System.Web.HttpContext.Current.Cache["primaryNav" + Lang];
+                return (IList<NavigationItem>)System.Web.HttpContext.Current.Cache[name + "Nav" + Lang];
             }
         }
 
