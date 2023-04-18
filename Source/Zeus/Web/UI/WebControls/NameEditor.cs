@@ -74,7 +74,11 @@ namespace Zeus.Web.UI.WebControls
 			Page.ClientScript.RegisterClientScriptResource(typeof(NameEditor), "Zeus.Web.Resources.xregexp.js");
 			Page.ClientScript.RegisterClientScriptResource(typeof(NameEditor), "Zeus.Web.Resources.xregexp-unicode-base.js");
 			Page.ClientScript.RegisterClientScriptResource(typeof(NameEditor), "Zeus.Web.Resources.xregexp-unicode-categories.js");
-			
+	
+			if(Text == "")//New Page
+			{
+				Page.ClientScript.RegisterClientScriptResource(typeof(NameEditor), "Zeus.Web.UI.WebControls.NameEditor.js");
+			}
 
 			_labelPanel.Controls.Add(new LiteralControl("<br /><span class=\"edit\"><a href=\"#\" onclick=\"jQuery('#" + _label.ClientID + "').hide();jQuery('#" + _textBox.ClientID + "').show();return false;\">Edit</a></span>"));
 
