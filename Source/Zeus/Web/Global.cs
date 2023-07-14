@@ -11,7 +11,7 @@ namespace Zeus.Web
 		public override void Init()
 		{
 			// Occurs when a security module has established the identity of the user.
-			AuthenticateRequest += Global_AuthenticateRequest;
+			//AuthenticateRequest += Global_AuthenticateRequest;
 
 			base.Init();
 		}

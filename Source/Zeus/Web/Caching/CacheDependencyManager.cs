@@ -20,9 +20,16 @@ namespace Zeus.Web.Caching
             return dependency;
         }
 
-        public CacheDependency ForItem(int id)
+        public CacheDependency ForItem(params int[] ids)
         {
-            return Get(ItemKey(id));
+            if (ids.Length == 1)
+            {
+                return Get(ItemKey(ids[0]));
+            }
+
+            var aggregateDependency = new AggregateCacheDependency();
+            aggregateDependency.Add(ids.Select(x => Get(ItemKey(x))).ToArray());
+            return aggregateDependency;
         }
 
         public CacheDependency ForItem(ContentItem item)

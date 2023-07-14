@@ -18,12 +18,13 @@ using System.Security.Principal;
 using Zeus.Web.Hosting;
 using System.Threading;
 using MongoDB.Bson.Serialization.Attributes;
+using Zeus.Web.Caching;
 
 namespace Zeus
 {
     [RestrictParents(typeof(ContentItem))]
     [System.Serializable]
-    public abstract class ContentItem : IUrlParserDependency, INode, IEditableObject
+    public abstract class ContentItem : INode, IEditableObject
     {
         #region Private Fields
 
@@ -37,9 +38,6 @@ namespace Zeus
         private IDictionary<string, PropertyCollection> _detailCollections = new Dictionary<string, PropertyCollection>();
         private string _url;
         private bool _visible;
-
-        [Copy]
-        private IUrlParser _urlParser;
 
         #endregion
 
@@ -106,10 +104,7 @@ namespace Zeus
         {
             get
             {
-                if (this.TranslationOf == null)
-                    return _visible;
-                else
-                    return this.TranslationOf.Visible;
+                return _visible;
             }
             set
             {
@@ -178,7 +173,7 @@ namespace Zeus
         [BsonIgnore]
         public virtual int? OverrideCacheID { get; set; }
 
-        public int CacheID { get { return OverrideCacheID.HasValue ? OverrideCacheID.Value : ID; } }
+        public int CacheID { get { return OverrideCacheID ?? ID; } }
 
         #endregion
 
@@ -230,37 +225,10 @@ namespace Zeus
             {
                 if (_url == null)
                 {
-                    if (_urlParser != null)
-                        _url = GetUrl(LanguageSelector.Fallback(ContentLanguage.PreferredCulture.Name, false));
-                    else
-                        _url = FindPath(PathData.DefaultAction).RewrittenUrl;
+                    _url = Context.Current.UrlParser.BuildUrl(this);
                 }
                 return _url;
             }
-        }
-
-        /// <summary>
-        /// Allows the default language code to be overridden for the purposes of generating a URL.
-        /// This is used by NameEditorAttribute to get the URL for a parent item using the new child's
-        /// language.
-        /// </summary>
-        /// <param name="languageCode"></param>
-        /// <returns></returns>
-        public virtual string GetUrl(string languageCode)
-        {
-            if (_urlParser != null)
-                return _urlParser.BuildUrl(this, languageCode);
-            return FindPath(PathData.DefaultAction).RewrittenUrl;
-        }
-
-        public virtual string GetUrl(ILanguageSelector languageSelector)
-        {
-            LanguageSelectorContext args = new LanguageSelectorContext(this);
-            languageSelector.LoadLanguage(args);
-
-            if (_urlParser != null)
-                return _urlParser.BuildUrl(this, args.SelectedLanguage);
-            return FindPath(PathData.DefaultAction).RewrittenUrl;
         }
 
         public string HierarchicalTitle
@@ -291,10 +259,10 @@ namespace Zeus
             get
             {
                 string path = "/";
-                ContentItem startingParent = (TranslationOf != null) ? TranslationOf.Parent : Parent;
+                var startingParent = Parent;
                 if (startingParent != null)
                     path += Name;
-                for (ContentItem item = startingParent; item != null && item.Parent != null; item = item.Parent)
+                for (var item = startingParent; item != null && item.Parent != null; item = item.Parent)
                     path = "/" + item.Name + path;
                 return path;
             }
@@ -399,10 +367,10 @@ namespace Zeus
         /// <returns>The value stored in the details bag or null if no item was found.</returns>
         public virtual object GetDetail(string detailName)
         {
-            IDictionary<string, PropertyData> source = GetCurrentOrMasterLanguageDetails(detailName);
+            var source = Details;
             lock (source)
             {
-                IDictionary<string, PropertyData> details = new Dictionary<string, PropertyData>(GetCurrentOrMasterLanguageDetails(detailName));
+                var details = new Dictionary<string, PropertyData>(Details);
 
                 return details.ContainsKey(detailName)
                     ? details[detailName].Value
@@ -416,10 +384,10 @@ namespace Zeus
         /// <returns>The value stored in the details bag or null if no item was found.</returns>
         public virtual T GetDetail<T>(string detailName, T defaultValue)
         {
-            IDictionary<string, PropertyData> source = GetCurrentOrMasterLanguageDetails(detailName);
+            var source = Details;
             lock (source)
             {
-                IDictionary<string, PropertyData> details = new Dictionary<string, PropertyData>(source);
+                var details = new Dictionary<string, PropertyData>(Details);
 
                 if (details.ContainsKey(detailName))
                     return Utility.Convert<T>(details[detailName].Value);
@@ -428,23 +396,8 @@ namespace Zeus
             }
         }
 
-        private IDictionary<string, PropertyData> GetCurrentOrMasterLanguageDetails(string detailName)
-        {
-            // Look up content property matching this name.
-            IContentProperty property = Context.ContentTypes.GetContentType(GetType()).GetProperty(detailName);
-            if (property == null || property.Shared)
-            {
-                ContentItem currentItem = VersionOf ?? this;
-                if (currentItem.TranslationOf != null)
-                    return currentItem.TranslationOf.Details;
-            }
-            return Details;
-        }
-
         public virtual void SetDetail(string detailName, object value)
         {
-            // TODO: Throw exception if this is a shared property and this is not the master language version.
-
             if (string.IsNullOrEmpty(detailName))
                 throw new ArgumentNullException("detailName");
             
@@ -680,105 +633,49 @@ namespace Zeus
             return GetChildrenInternal().Authorized(HttpContext.Current.User, Context.SecurityManager, Operations.Read);
         }
 
-        /// <summary>
-        /// Gets child items that the user is allowed to access.
-        /// It doesn't have to return the same collection as
-        /// the Children property.
-        /// </summary>
-        /// <returns></returns>
-        public virtual IEnumerable<ContentItem> GetGlobalizedChildren()
-        {
-            return GetChildrenInternalWithLanguageSelection().Authorized(HttpContext.Current.User, Context.SecurityManager, Operations.Read);
-        }
-
         public virtual IEnumerable<T> GetChildren<T>()
         {
             return GetChildrenInternal().OfType<T>();
         }
 
-        public virtual IEnumerable<T> GetGlobalizedChildren<T>()
-        {
-            return GetChildrenInternalWithLanguageSelection().OfType<T>();
-        }
+        private IEnumerable<ContentItem> GetChildrenInternal() => Children;
 
-        private IEnumerable<ContentItem> GetChildrenInternalWithLanguageSelection()
-        {
-            return GetChildrenInternalWithLanguageSelection(LanguageSelector.AutoDetect());
-        }
-
-        private IEnumerable<ContentItem> GetChildrenInternalWithLanguageSelection(ILanguageSelector languageSelector)
-        {
-            IEnumerable<ContentItem> children = GetChildrenInternal();
-
-            LanguageSelectorContext args = new LanguageSelectorContext(this);
-            languageSelector.LoadLanguage(args);
-            return FilterLanguage(children, languageSelector);
-        }
-
-        private IEnumerable<ContentItem> GetChildrenInternal()
-        {
-            // Get the actual item this item represents.
-            ContentItem realItem = this;
-            if (VersionOf != null)
-                realItem = realItem.VersionOf;
-            if (TranslationOf != null)
-                realItem = realItem.TranslationOf;
-
-            return realItem.Children;
-        }
-
-        private static IEnumerable<ContentItem> FilterLanguage(IEnumerable<ContentItem> pages, ILanguageSelector langSelector)
-        {
-            List<ContentItem> datas = new List<ContentItem>();
-            foreach (ContentItem page in pages)
-            {
-                ContentItem translation = SelectLanguageBranch(page, langSelector);
-                if (translation != null)
-                    datas.Add(translation);
-            }
-            return datas;
-        }
-
-        private static ContentItem SelectLanguageBranch(ContentItem page, ILanguageSelector selector)
-        {
-            LanguageSelectorContext args = new LanguageSelectorContext(page);
-            selector.SelectPageLanguage(args);
-            if (string.IsNullOrEmpty(args.SelectedLanguage))
-                return null;
-            return Context.Current.LanguageManager.GetTranslationDirect(page, args.SelectedLanguage);
-        }
-
-        /// <summary>Finds children based on the given url segments. The method supports convering the last segments into action and parameter.</summary>
-        /// <param name="remainingUrl">The remaining url segments.</param>
-        /// <returns>A path data object which can be empty (check using data.IsEmpty()).</returns>
         public virtual PathData FindPath(string remainingUrl)
         {
-            return FindPath(remainingUrl, Context.Current.LanguageManager.GetDefaultLanguage());
+            remainingUrl = remainingUrl?.TrimStart('/') ?? "";
+            PathData data = null;
+
+            var cachedData = HttpContext.Current.Cache.GetOrAdd($"pathdata.{ID}_{remainingUrl}", () =>
+            {
+                var itemIds = new List<int>();
+                data = FindPathInternal(remainingUrl, ref itemIds);
+                return new CacheEntry<PathData>(new PathData(data), Context.Current.Cache.Dependencies.ForItem(itemIds.Distinct().ToArray()));
+            });
+
+            if (data == null && cachedData != null)
+            {
+                data = cachedData.Attach(Context.Current.Persister);
+            }
+
+            return data;
         }
 
-        public virtual PathData FindPath(string remainingUrl, string languageCode)
+        internal PathData FindPathInternal(string remainingUrl, ref List<int> itemIds)
         {
-            // Get correct translation.
-            ContentItem translation = Context.Current.LanguageManager.GetTranslation(this, languageCode) ?? this;
+            itemIds.Add(ID);
 
-            if (remainingUrl == null)
-                return translation.GetTemplate(string.Empty);
-
-            remainingUrl = remainingUrl.TrimStart('/');
-
-            if (remainingUrl.Length == 0)
-                return translation.GetTemplate(string.Empty);
+            if (remainingUrl == null || remainingUrl.Length == 0)
+                return GetTemplate(string.Empty);
 
             int slashIndex = remainingUrl.IndexOf('/');
             string nameSegment = slashIndex < 0 ? remainingUrl : remainingUrl.Substring(0, slashIndex);
-            foreach (ContentItem child in translation.GetChildrenInternal())
+
+            foreach (ContentItem child in GetChildrenInternal())
             {
-                // Get correct translation.
-                ContentItem childTranslation = Context.Current.LanguageManager.GetTranslation(child, languageCode);
-                if (childTranslation != null && childTranslation.Equals(nameSegment))
+                if (child.Equals(nameSegment))
                 {
                     remainingUrl = slashIndex < 0 ? null : remainingUrl.Substring(slashIndex + 1);
-                    return childTranslation.FindPath(remainingUrl, languageCode);
+                    return child.FindPathInternal(remainingUrl, ref itemIds);
                 }
             }
 
@@ -813,28 +710,7 @@ namespace Zeus
         /// translations to act as normal content items.
         /// </summary>
         /// <returns></returns>
-        public virtual ContentItem GetParent()
-        {
-            return GetParent(ContentLanguage.PreferredCulture.Name);
-        }
-
-        /// <summary>
-        /// Translations don't have their Parent object set, so this is an abstraction to allow
-        /// translations to act as normal content items.
-        /// </summary>
-        /// <returns></returns>
-        public virtual ContentItem GetParent(string languageName)
-        {
-            ContentItem realItem = TranslationOf ?? this;
-            ContentItem parent = realItem.Parent;
-
-            if (parent == null)
-                return null;
-
-            return (Context.Current.LanguageManager.Enabled)
-                ? (Context.Current.LanguageManager.GetTranslation(parent, languageName) ?? parent)
-                : parent;
-        }
+        public virtual ContentItem GetParent() => Parent;
 
         /// <summary>
         /// Tries to get a child item with a given name. This method ignores
@@ -861,17 +737,16 @@ namespace Zeus
             {
                 string nameSegment = childName.Substring(0, slashIndex);
                 foreach (ContentItem child in GetChildrenInternal())
-                    foreach (ContentItem translation in Context.Current.LanguageManager.GetTranslationsOf(child, true))
-                        if (translation.Equals(nameSegment))
-                            return translation.GetChild(childName.Substring(slashIndex));
+                    if (child.Equals(nameSegment))
+                        return child.GetChild(childName.Substring(slashIndex));
                 return null;
             }
 
             // no slash, only a name
             foreach (ContentItem child in GetChildrenInternal())
-                foreach (ContentItem translation in Context.Current.LanguageManager.GetTranslationsOf(child, true))
-                    if (translation.Equals(childName))
-                        return translation;
+                if (child.Equals(childName))
+                    return child;
+
             return null;
         }
 
@@ -948,11 +823,6 @@ namespace Zeus
         }
 
         #endregion
-
-        void IUrlParserDependency.SetUrlParser(IUrlParser parser)
-        {
-            _urlParser = parser;
-        }
 
         #region INode Members
 

@@ -115,7 +115,7 @@ namespace Zeus.Persistence
             int depth = 200;
 			if (item.VersionOf != null) item = item.VersionOf;
 
-			foreach (ContentItem child in item.GetGlobalizedChildren())
+			foreach (ContentItem child in item.GetChildren())
 			{
 				yield return child;
 				foreach (ContentItem childItem in EnumerateAccessibleChildren(child, depth))
@@ -130,7 +130,7 @@ namespace Zeus.Persistence
         {
             if (item.VersionOf != null) item = item.VersionOf;
 
-            foreach (ContentItem child in item.GetGlobalizedChildren())
+            foreach (ContentItem child in item.GetChildren())
             {
                 yield return child;
                 if (depth > 1)

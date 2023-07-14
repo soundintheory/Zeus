@@ -69,7 +69,7 @@ namespace Zeus.Web.Mvc
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			if (CurrentItem != null)
+			if (CurrentItem != null && !filterContext.HttpContext.SkipAuthorization)
 			{
 				var securityManager = Engine.Resolve<ISecurityManager>();
 

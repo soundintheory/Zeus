@@ -49,7 +49,12 @@ namespace Zeus.Web
 			Argument = arguments;
 		}
 
-		public PathData()
+		public PathData(PathData original)
+			: this(original.ID, original.Path, original.TemplateUrl, original.Action, original.Argument)
+        {
+        }
+
+        public PathData()
 		{
 			QueryParameters = new Dictionary<string, string>();
 		}

@@ -22,7 +22,7 @@ namespace Zeus.Templates.Mvc.Html
 
 		public static IEnumerable<ContentItem> NavigationPages(this HtmlHelper html, ContentItem startPage)
 		{
-			return startPage.GetGlobalizedChildren().NavigablePages();
+			return startPage.GetChildren().NavigablePages();
 		}
 
 		public static string NavigationLinks(this HtmlHelper html, ContentItem startItem, Func<string, string> layoutCallback,

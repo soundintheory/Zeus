@@ -853,7 +853,6 @@
     <Compile Include="Web\ExtensionMethods.cs" />
     <Compile Include="Web\Host.cs" />
     <Compile Include="Web\IUrlParser.cs" />
-    <Compile Include="Web\IUrlParserDependency.cs" />
     <Compile Include="Web\PageNotFoundEventArgs.cs" />
     <Compile Include="Web\TemplateNotFoundException.cs" />
     <Compile Include="Web\Tree.cs" />
