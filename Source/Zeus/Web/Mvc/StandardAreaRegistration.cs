@@ -17,11 +17,14 @@ namespace Zeus.Web.Mvc
 			// Register content and asset routes.
 			RegisterRoutes(context, assembly);
 
-			// Register view folders.
-			SparkViewFactory sparkViewFactory = ViewEngines.Engines.OfType<SparkViewFactory>().First();
-			RegisterViewFolders(assembly, sparkViewFactory);
+            // Register view folders.
+            SparkViewFactory sparkViewFactory = ViewEngines.Engines.OfType<SparkViewFactory>().FirstOrDefault();
+            if (sparkViewFactory != null)
+            {
+                RegisterViewFolders(assembly, sparkViewFactory);
+            }
 
-			RegisterArea(context, assembly, sparkViewFactory);
+            RegisterArea(context, assembly, sparkViewFactory);
 		}
 
 		private void RegisterRoutes(AreaRegistrationContext context, Assembly assembly)

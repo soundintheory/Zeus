@@ -1,0 +1,504 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+ <html xmlns:msxsl="urn:schemas-microsoft-com:xslt"><head><meta content="en-us" http-equiv="Content-Language" /><meta content="text/html; charset=utf-16" http-equiv="Content-Type" /><title _locID="ConversionReport0">
+          Migration Report
+        </title><style> 
+                    /* Body style, for the entire document */
+                    body
+                    {
+                        background: #F3F3F4;
+                        color: #1E1E1F;
+                        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                        padding: 0;
+                        margin: 0;
+                    }
+
+                    /* Header1 style, used for the main title */
+                    h1
+                    {
+                        padding: 10px 0px 10px 10px;
+                        font-size: 21pt;
+                        background-color: #E2E2E2;
+                        border-bottom: 1px #C1C1C2 solid; 
+                        color: #201F20;
+                        margin: 0;
+                        font-weight: normal;
+                    }
+
+                    /* Header2 style, used for "Overview" and other sections */
+                    h2
+                    {
+                        font-size: 18pt;
+                        font-weight: normal;
+                        padding: 15px 0 5px 0;
+                        margin: 0;
+                    }
+
+                    /* Header3 style, used for sub-sections, such as project name */
+                    h3
+                    {
+                        font-weight: normal;
+                        font-size: 15pt;
+                        margin: 0;
+                        padding: 15px 0 5px 0;
+                        background-color: transparent;
+                    }
+
+                    /* Color all hyperlinks one color */
+                    a
+                    {
+                        color: #1382CE;
+                    }
+
+                    /* Table styles */ 
+                    table
+                    {
+                        border-spacing: 0 0;
+                        border-collapse: collapse;
+                        font-size: 10pt;
+                    }
+
+                    table th
+                    {
+                        background: #E7E7E8;
+                        text-align: left;
+                        text-decoration: none;
+                        font-weight: normal;
+                        padding: 3px 6px 3px 6px;
+                    }
+
+                    table td
+                    {
+                        vertical-align: top;
+                        padding: 3px 6px 5px 5px;
+                        margin: 0px;
+                        border: 1px solid #E7E7E8;
+                        background: #F7F7F8;
+                    }
+
+                    /* Local link is a style for hyperlinks that link to file:/// content, there are lots so color them as 'normal' text until the user mouse overs */
+                    .localLink
+                    {
+                        color: #1E1E1F;
+                        background: #EEEEED;
+                        text-decoration: none;
+                    }
+
+                    .localLink:hover
+                    {
+                        color: #1382CE;
+                        background: #FFFF99;
+                        text-decoration: none;
+                    }
+
+                    /* Center text, used in the over views cells that contain message level counts */ 
+                    .textCentered
+                    {
+                        text-align: center;
+                    }
+
+                    /* The message cells in message tables should take up all avaliable space */
+                    .messageCell
+                    {
+                        width: 100%;
+                    }
+
+                    /* Padding around the content after the h1 */ 
+                    #content 
+                    {
+	                    padding: 0px 12px 12px 12px; 
+                    }
+
+                    /* The overview table expands to width, with a max width of 97% */ 
+                    #overview table
+                    {
+                        width: auto;
+                        max-width: 75%; 
+                    }
+
+                    /* The messages tables are always 97% width */
+                    #messages table
+                    {
+                        width: 97%;
+                    }
+
+                    /* All Icons */
+                    .IconSuccessEncoded, .IconInfoEncoded, .IconWarningEncoded, .IconErrorEncoded
+                    {
+                        min-width:18px;
+                        min-height:18px; 
+                        background-repeat:no-repeat;
+                        background-position:center;
+                    }
+
+                    /* Success icon encoded */
+                    .IconSuccessEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconSuccess#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAA7EAAAOxAGVKw4bAAABcElEQVR4Xq2TsUsCURzHv15g8ZJcBWlyiYYgCIWcb9DFRRwMW5TA2c0/QEFwFkxxUQdxVlBwCYWOi6IhWgQhBLHJUCkhLr/BW8S7gvrAg+N+v8/v+x68Z8MGy+XSCyABQAXgBgHGALoASkIIDWSLeLBetdHryMjd5IxQPWT4rn1c/P7+xxp72Cs9m5SZ0Bq2vPnbPFafK2zDvmNHypdC0BPkLlQhxJsCAhQoZwdZU5mwxh720qGo8MzTxTTKZDPCx2HoVzp6lz0Q9tKhyx0kGs8Ny+TkWRKk8lCROwEduhyg9l/6lunOPSfmH3NUH6uQ0KHLAe7JYvJjevm+DAMGJHToKtigE+vwvIidxLamb8IBY9e+C5LiXREkfho3TSd06HJA13/oh6T51MTsfQbHrsMynQ5dDihFjiK8JJAU9AKIWTp76dCVN7HWHrajmUEGvyF9nkbAE6gLIS7kTUyuf2gscLoJrElZo/Mvj+nPz/kLTmfnEwP3tB0AAAAASUVORK5CYII=);
+                    }
+
+                    /* Information icon encoded */
+                    .IconInfoEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconInformation#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHElEQVR4Xs2TsUoDQRRF7wwoziokjZUKadInhdhukR9YP8DMX1hYW+QvdsXa/QHBbcXC7W0CamWTQnclFutceIQJwwaWNLlwm5k5d94M76mmaeCrrmsLYOocY12FcxZFUeozCqKqqgYA8uevv1H6VuPxcwlfk5N92KHBxfFeCSAxxswlYAW/Xr989x/mv9gkhtyMDhcAxgzRsp7flj8B/HF1RsMXq+NZMkopaHe7lbKxQUEIGbKsYNoGn969060hZBkQex/W8oRQwsQaW2o3Ago2SVcJUzAgY3N0lTCZZm+zPS8HB51gMmS1DEYyOz9acKO1D8JWTlafKIMxdhvlfdyT94Vv5h7P8Ky7nQzACmhvKq3zk3PjW9asz9D/1oigecsioooAAAAASUVORK5CYII=);
+                    }
+
+                    /* Warning icon encoded */
+                    .IconWarningEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconWarning#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAx0lEQVR4XpWSMQ7CMAxFf4xAyBMLCxMrO8dhaBcuwdCJS3RJBw7SA/QGTCxdWJgiQYWKXJWKIXHIlyw5lqr34tQgEOdcBsCOx5yZK3hCCKdYXneQkh4pEfqzLfu+wVDSyyzFoJjfz9NB+pAF+eizx2Vruts0k15mPgvS6GYvpVtQhB61IB/dk6AF6fS4Ben0uIX5odtFe8Q/eW1KvFeH4e8khT6+gm5B+t3juyDt7n0jpe+CANTd+oTUjN/U3yVaABnSUjFz/gFq44JaVSCXeQAAAABJRU5ErkJggg==);
+                    }
+
+                    /* Error icon encoded */
+                    .IconErrorEncoded
+                    {
+                        /* Note: Do not delete the comment below. It is used to verify the correctness of the encoded image resource below before the product is released */
+                        /* [---XsltValidateInternal-Base64EncodedImage:IconError#Begin#background-image: url(data:image/png;base64,#Separator#);#End#] */
+                        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABQElEQVR4XqWTvUoEQRCE6wYPZUA80AfwAQz23uCMjA7MDRQEIzPBVEyNTQUFIw00vcQTTMzuAh/AxEQQT8HF/3G/oGGnEUGuoNnd6qoZuqltyKEsyzVJq5I6rnUp6SjGeGhESikzzlc1eL7opfuVbrqbU1Zw9NCgtQMaZpY0eNnaaL2fHusvTK5vKu7sjSS1Y4y3QUA6K3e3Mau5UFDyMP7tYF9o8cAHZv68vipoIJg971PZIZ5HiwdvYGGvFVFHmGmZ2MxwmQYPXubPl9Up0tfoMQGetXd6mRbvhBw+boZ6WF7Mbv1+GsHRk0fQmPAH1GfmZirbCfDJ61tw3Px8/8pZsPAG4jlVhcPgZ7adwNWBB68lkRQWFiTgFlbnLY3DGGM7izIJIyT/jjIvEJw6fdJTc6krDzh6aMwMP9bvDH4ADSsa9uSWVJkAAAAASUVORK5CYII=);
+                    }
+                 </style><script type="text/javascript" language="javascript"> 
+          
+            // Startup 
+            // Hook up the the loaded event for the document/window, to linkify the document content
+            var startupFunction = function() { linkifyElement("messages"); };
+            
+            if(window.attachEvent)
+            {
+              window.attachEvent('onload', startupFunction);
+            }
+            else if (window.addEventListener) 
+            {
+              window.addEventListener('load', startupFunction, false);
+            }
+            else 
+            {
+              document.addEventListener('load', startupFunction, false);
+            } 
+            
+            // Toggles the visibility of table rows with the specified name 
+            function toggleTableRowsByName(name)
+            {
+               var allRows = document.getElementsByTagName('tr');
+               for (i=0; i < allRows.length; i++)
+               {
+                  var currentName = allRows[i].getAttribute('name');
+                  if(!!currentName && currentName.indexOf(name) == 0)
+                  {
+                      var isVisible = allRows[i].style.display == ''; 
+                      isVisible ? allRows[i].style.display = 'none' : allRows[i].style.display = '';
+                  }
+               }
+            }
+            
+            function scrollToFirstVisibleRow(name) 
+            {
+               var allRows = document.getElementsByTagName('tr');
+               for (i=0; i < allRows.length; i++)
+               {
+                  var currentName = allRows[i].getAttribute('name');
+                  var isVisible = allRows[i].style.display == ''; 
+                  if(!!currentName && currentName.indexOf(name) == 0 && isVisible)
+                  {
+                     allRows[i].scrollIntoView(true); 
+                     return true; 
+                  }
+               }
+               
+               return false;
+            }
+            
+            // Linkifies the specified text content, replaces candidate links with html links 
+            function linkify(text)
+            {
+                 if(!text || 0 === text.length)
+                 {
+                     return text; 
+                 }
+
+                 // Find http, https and ftp links and replace them with hyper links 
+                 var urlLink = /(http|https|ftp)\:\/\/[a-zA-Z0-9\-\.]+(:[a-zA-Z0-9]*)?\/?([a-zA-Z0-9\-\._\?\,\/\\\+&%\$#\=~;\{\}])*/gi;
+                 
+                 return text.replace(urlLink, '<a href="$&">$&</a>') ;
+            }
+            
+            // Linkifies the specified element by ID
+            function linkifyElement(id)
+            {
+                var element = document.getElementById(id);
+                if(!!element)
+                {
+                  element.innerHTML = linkify(element.innerHTML); 
+                }
+            }
+            
+            function ToggleMessageVisibility(projectName)
+            {
+              if(!projectName || 0 === projectName.length)
+              {
+                return; 
+              }
+              
+              toggleTableRowsByName("MessageRowClass" + projectName);
+              toggleTableRowsByName('MessageRowHeaderShow' + projectName);
+              toggleTableRowsByName('MessageRowHeaderHide' + projectName); 
+            }
+            
+            function ScrollToFirstVisibleMessage(projectName)
+            {
+              if(!projectName || 0 === projectName.length)
+              {
+                return; 
+              }
+              
+              // First try the 'Show messages' row
+              if(!scrollToFirstVisibleRow('MessageRowHeaderShow' + projectName))
+              {
+                // Failed to find a visible row for 'Show messages', try an actual message row 
+                scrollToFirstVisibleRow('MessageRowClass' + projectName); 
+              }
+            }
+           </script></head><body><h1 _locID="ConversionReport">
+          Migration Report - Zeus</h1><div id="content"><h2 _locID="OverviewTitle">Overview</h2><div id="overview"><table><tr><th></th><th _locID="ProjectTableHeader">Project</th><th _locID="PathTableHeader">Path</th><th _locID="ErrorsTableHeader">Errors</th><th _locID="WarningsTableHeader">Warnings</th><th _locID="MessagesTableHeader">Messages</th></tr><tr><td class="IconErrorEncoded" /><td><strong><a href="#Zeus.Admin">Zeus.Admin</a></strong></td><td>Zeus.Admin\Zeus.Admin.csproj</td><td class="textCentered"><a href="#Zeus.AdminError">12</a></td><td class="textCentered"><a href="#Zeus.AdminWarning">3</a></td><td class="textCentered"><a href="#" onclick="ScrollToFirstVisibleMessage('Zeus.Admin'); return false;">218</a></td></tr></table></div><h2 _locID="SolutionAndProjectsTitle">Solution and projects</h2><div id="messages"><a name="Zeus.Admin" /><h3>Zeus.Admin</h3><table><tr id="Zeus.AdminHeaderRow"><th></th><th class="messageCell" _locID="MessageTableHeader">Message</th></tr><tr name="ErrorRowClassZeus.Admin"><td class="IconErrorEncoded"><a name="Zeus.AdminError" /></td><td class="messageCell"><strong>packages\Fody.2.0.0\build\netstandard1.4\..\..\.signature.p7s:
+        </strong><span>Failed to backup file as C:\Projects\repos\zeus-speed-updates\Source\Backup3\C:</span></td></tr><tr name="ErrorRowClassZeus.Admin"><td class="IconErrorEncoded"><a name="Zeus.AdminError" /></td><td class="messageCell"><strong>packages\Fody.2.0.0\build\netstandard1.4\..\..\Fody.2.0.0.nupkg:
+        </strong><span>Failed to backup file as C:\Projects\repos\zeus-speed-updates\Source\Backup3\C:</span></td></tr><tr name="ErrorRowClassZeus.Admin"><td class="IconErrorEncoded"><a name="Zeus.AdminError" /></td><td class="messageCell"><strong>packages\Fody.2.0.0\build\netstandard1.4\..\..\Fody.dll:
+        </strong><span>Failed to backup file as C:\Projects\repos\zeus-speed-updates\Source\Backup3\C:</span></td></tr><tr name="ErrorRowClassZeus.Admin"><td class="IconErrorEncoded"><a name="Zeus.AdminError" /></td><td class="messageCell"><strong>packages\Fody.2.0.0\build\netstandard1.4\..\..\Fody.pdb:
+        </strong><span>Failed to backup file as C:\Projects\repos\zeus-speed-updates\Source\Backup3\C:</span></td></tr><tr name="ErrorRowClassZeus.Admin"><td class="IconErrorEncoded"><a name="Zeus.AdminError" /></td><td class="messageCell"><strong>packages\Fody.2.0.0\build\netstandard1.4\..\..\FodyCommon.dll:
+        </strong><span>Failed to backup file as C:\Projects\repos\zeus-speed-updates\Source\Backup3\C:</span></td></tr><tr name="ErrorRowClassZeus.Admin"><td class="IconErrorEncoded"><a name="Zeus.AdminError" /></td><td class="messageCell"><strong>packages\Fody.2.0.0\build\netstandard1.4\..\..\FodyCommon.pdb:
+        </strong><span>Failed to backup file as C:\Projects\repos\zeus-speed-updates\Source\Backup3\C:</span></td></tr><tr name="ErrorRowClassZeus.Admin"><td class="IconErrorEncoded"><a name="Zeus.AdminError" /></td><td class="messageCell"><strong>packages\Fody.2.0.0\build\netstandard1.4\..\..\FodyIsolated.dll:
+        </strong><span>Failed to backup file as C:\Projects\repos\zeus-speed-updates\Source\Backup3\C:</span></td></tr><tr name="ErrorRowClassZeus.Admin"><td class="IconErrorEncoded"><a name="Zeus.AdminError" /></td><td class="messageCell"><strong>packages\Fody.2.0.0\build\netstandard1.4\..\..\FodyIsolated.pdb:
+        </strong><span>Failed to backup file as C:\Projects\repos\zeus-speed-updates\Source\Backup3\C:</span></td></tr><tr name="ErrorRowClassZeus.Admin"><td class="IconErrorEncoded"><a name="Zeus.AdminError" /></td><td class="messageCell"><strong>packages\Fody.2.0.0\build\netstandard1.4\..\..\Mono.Cecil.dll:
+        </strong><span>Failed to backup file as C:\Projects\repos\zeus-speed-updates\Source\Backup3\C:</span></td></tr><tr name="ErrorRowClassZeus.Admin"><td class="IconErrorEncoded"><a name="Zeus.AdminError" /></td><td class="messageCell"><strong>packages\Fody.2.0.0\build\netstandard1.4\..\..\Mono.Cecil.Mdb.dll:
+        </strong><span>Failed to backup file as C:\Projects\repos\zeus-speed-updates\Source\Backup3\C:</span></td></tr><tr name="ErrorRowClassZeus.Admin"><td class="IconErrorEncoded"><a name="Zeus.AdminError" /></td><td class="messageCell"><strong>packages\Fody.2.0.0\build\netstandard1.4\..\..\Mono.Cecil.Pdb.dll:
+        </strong><span>Failed to backup file as C:\Projects\repos\zeus-speed-updates\Source\Backup3\C:</span></td></tr><tr name="ErrorRowClassZeus.Admin"><td class="IconErrorEncoded"><a name="Zeus.AdminError" /></td><td class="messageCell"><strong>packages\Fody.2.0.0\build\netstandard1.4\..\..\Mono.Cecil.Rocks.dll:
+        </strong><span>Failed to backup file as C:\Projects\repos\zeus-speed-updates\Source\Backup3\C:</span></td></tr><tr name="WarningRowClassZeus.Admin"><td class="IconWarningEncoded"><a name="Zeus.AdminWarning" /></td><td class="messageCell"><strong>Zeus.Admin\Zeus.Admin.csproj:
+        </strong><span>Visual Studio needs to make non-functional changes to this project in order to enable the project to open in released versions of Visual Studio newer than Visual Studio 2010 SP1 without impacting project behavior.</span></td></tr><tr name="WarningRowClassZeus.Admin"><td class="IconWarningEncoded"><a name="Zeus.AdminWarning" /></td><td class="messageCell"><strong>SharedAssemblyInfo.cs:
+        </strong><span>Backed up project may not build.  Project contains linked file: C:\Projects\repos\zeus-speed-updates\Source\Backup3\Properties\SharedAssemblyInfo.cs</span></td></tr><tr name="WarningRowClassZeus.Admin"><td class="IconWarningEncoded"><a name="Zeus.AdminWarning" /></td><td class="messageCell"><strong>Zeus.Admin\Zeus.Admin.csproj:
+        </strong><span>Visual Studio has made non-functional changes to this project in order to enable the project to open in released versions of Visual Studio newer than Visual Studio 2010 SP1 without impacting project behavior.</span></td></tr><tr name="MessageRowHeaderShowZeus.Admin"><td class="IconInfoEncoded" /><td class="messageCell"><a _locID="ShowAdditionalMessages" href="#" name="Zeus.AdminMessage" onclick="ToggleMessageVisibility('Zeus.Admin'); return false;">
+          Show 218 additional messages
+        </a></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Zeus.Admin.csproj:
+        </strong><span>Project file successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Zeus.Admin.csproj</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Zeus.Admin.csproj.user:
+        </strong><span>Project user file successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Zeus.Admin.csproj.user</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>SharedAssemblyInfo.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Properties\SharedAssemblyInfo.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\App_Start\DynamicImage.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\App_Start\DynamicImage.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Imagecrop.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Imagecrop.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Imagecrop.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Imagecrop.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ManageZones\ManageZonesMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ManageZones\ManageZonesMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ManageZones\ManageZonesUserControl.ascx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ManageZones\ManageZonesUserControl.ascx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ManageZones\ManageZonesUserControl.ascx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ManageZones\ManageZonesUserControl.ascx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ManageZones\ManageZonesMainInterfacePlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ManageZones\ManageZonesMainInterfacePlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\PageCaching\DeleteCachedPageMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\PageCaching\DeleteCachedPageMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\PageCaching\PageCachingUserControl.ascx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\PageCaching\PageCachingUserControl.ascx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\PageCaching\PageCachingUserControl.ascx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\PageCaching\PageCachingUserControl.ascx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\PageCaching\PageCachingMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\PageCaching\PageCachingMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Children\GridPluginInitializer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Children\GridPluginInitializer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\EditItem\KeepAlive.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\EditItem\KeepAlive.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\EditItem\KeepAlive.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\EditItem\KeepAlive.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\FileManager\FileManagerUserControl.ascx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\FileManager\FileManagerUserControl.ascx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\FileManager\FileManagerUserControl.ascx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\FileManager\FileManagerUserControl.ascx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\FileManager\FileManagerMainInterfacePlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\FileManager\FileManagerMainInterfacePlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\FileManager\FileManagerContextMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\FileManager\FileManagerContextMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\FileManager\TreeLoader.ashx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\FileManager\TreeLoader.ashx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\LanguageChooserUserControl.ascx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\LanguageChooserUserControl.ascx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\LanguageChooserUserControl.ascx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\LanguageChooserUserControl.ascx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\LanguageChooserTreePlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\LanguageChooserTreePlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\PluginUserControlBase.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\PluginUserControlBase.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Children\ManageChildrenMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Children\ManageChildrenMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ImportExport\ImportExportMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ImportExport\ImportExportMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Permissions\ManagePermissionsActionPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Permissions\ManagePermissionsActionPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\PasteItem\PasteItemMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\PasteItem\PasteItemMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\CopyItem\CopyItemMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\CopyItem\CopyItemMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Preview\PreviewMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Preview\PreviewMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Versions\ListVersionsMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Versions\ListVersionsMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\LanguageSettings\LanguageSettingsMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\LanguageSettings\LanguageSettingsMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\LanguageOverview\LanguageOverviewMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\LanguageOverview\LanguageOverviewMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\DeleteLanguage\DeleteLanguageMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\DeleteLanguage\DeleteLanguageMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\Resources.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\Resources.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\Resources.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\Resources.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\JS\Resources.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\JS\Resources.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\DeleteItem\DeleteGridToolbarPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\DeleteItem\DeleteGridToolbarPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\DeleteItem\DeleteItemMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\DeleteItem\DeleteItemMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\EditItem\EditItemMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\EditItem\EditItemMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\LanguageMenuPluginBase.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\LanguageMenuPluginBase.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\NewItem\NewItemMenuPlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\NewItem\NewItemMenuPlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\AdminAssemblyManager.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\AdminAssemblyManager.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\AdminModule.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\AdminModule.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\AdminPage.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\AdminPage.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\AffectedItems.ascx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\AffectedItems.ascx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\AffectedItems.ascx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\AffectedItems.ascx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Children\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Children\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Children\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Children\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\DeleteItem\DeleteUserControl.ascx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\DeleteItem\DeleteUserControl.ascx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\DeleteItem\DeleteUserControl.ascx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\DeleteItem\DeleteUserControl.ascx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\DeleteItem\AffectedItems.ashx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\DeleteItem\AffectedItems.ashx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\DynamicContent\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\DynamicContent\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\DynamicContent\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\DynamicContent\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\LanguageSettings\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\LanguageSettings\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\LanguageSettings\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\LanguageSettings\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\DeleteLanguage\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\DeleteLanguage\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\DeleteLanguage\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\DeleteLanguage\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\LanguageOverview\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\LanguageOverview\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\LanguageOverview\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\LanguageOverview\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ImportExport\ContentTypeNotFoundException.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ImportExport\ContentTypeNotFoundException.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ImportExport\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ImportExport\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ImportExport\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ImportExport\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ImportExport\FallbackXmlReader.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ImportExport\FallbackXmlReader.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ImportExport\InvalidXmlException.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ImportExport\InvalidXmlException.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\MenuLoaderBase.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\MenuLoaderBase.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\MoveItem\MoveUserControl.ascx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\MoveItem\MoveUserControl.ascx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\MoveItem\MoveUserControl.ascx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\MoveItem\MoveUserControl.ascx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\MoveItem\MoveItemTreePlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\MoveItem\MoveItemTreePlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\MainInterfacePluginInitializer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\MainInterfacePluginInitializer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ContextMenu\ContextMenuMainInterfacePlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ContextMenu\ContextMenuMainInterfacePlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Tree\TreeMainInterfacePlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Tree\TreeMainInterfacePlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Tree\TreePluginInitializer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Tree\TreePluginInitializer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ContextMenu\ContextMenuLoader.ashx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ContextMenu\ContextMenuLoader.ashx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\DeleteItem\ReferencingItems.ashx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\DeleteItem\ReferencingItems.ashx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Tree\TreeLoader.ashx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Tree\TreeLoader.ashx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Tree\SiteTree.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Tree\SiteTree.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\RecycleBin\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\RecycleBin\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\RecycleBin\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\RecycleBin\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\RecycleBin\DeleteInterceptor.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\RecycleBin\DeleteInterceptor.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\RecycleBin\IRecycleBin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\RecycleBin\IRecycleBin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\RecycleBin\IRecycleBinHandler.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\RecycleBin\IRecycleBinHandler.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\RecycleBin\RecycleBinContainer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\RecycleBin\RecycleBinContainer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\RecycleBin\RecycleBinHandler.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\RecycleBin\RecycleBinHandler.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\RecycleBin\RecycleBinInitializer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\RecycleBin\RecycleBinInitializer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Permissions\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Permissions\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Permissions\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Permissions\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ContextMenu\ContextMenuPluginInitializer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ContextMenu\ContextMenuPluginInitializer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ContextMenu\ContextMenuTreePlugin.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ContextMenu\ContextMenuTreePlugin.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Versions\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Versions\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Versions\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Versions\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\View.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\View.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\View.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\View.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\CopyItem\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\CopyItem\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\CopyItem\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\CopyItem\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\PasteItem\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\PasteItem\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\PasteItem\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\PasteItem\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\PreviewFrameAdminPage.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\PreviewFrameAdminPage.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Login.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Login.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Login.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Login.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\MoveItem\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\MoveItem\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\MoveItem\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\MoveItem\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\EditItem\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\EditItem\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\EditItem\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\EditItem\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Install\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Install\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Install\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Install\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\NewItem\Default.aspx.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\NewItem\Default.aspx.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\NewItem\Default.aspx.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\NewItem\Default.aspx.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Popup.master.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Popup.master.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Popup.master.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Popup.master.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\PreviewFrame.master.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\PreviewFrame.master.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\PreviewFrame.master.designer.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\PreviewFrame.master.designer.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Web\UI\WebControls\ToolbarHyperLink.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Web\UI\WebControls\ToolbarHyperLink.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Web\UI\WebControls\ToolbarButton.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Web\UI\WebControls\ToolbarButton.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\EmbeddedResourcePackage.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\EmbeddedResourcePackage.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Properties\AssemblyInfo.cs:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Properties\AssemblyInfo.cs</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\FodyWeavers.xml:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\FodyWeavers.xml</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\packages.config:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\packages.config</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\App_Readme\Ext.NET.CHANGELOG.txt:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\App_Readme\Ext.NET.CHANGELOG.txt</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\App_Readme\Ext.NET.README.txt:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\App_Readme\Ext.NET.README.txt</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\App_Readme\Ext.NET.Utilities.LICENSE.txt:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\App_Readme\Ext.NET.Utilities.LICENSE.txt</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\App_Readme\Ext.NET.Utilities.README.txt:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\App_Readme\Ext.NET.Utilities.README.txt</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\DynamicContent\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\DynamicContent\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Ext.NET.Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Ext.NET.Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Web.config:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Web.config</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\NewItem\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\NewItem\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\EditItem\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\EditItem\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\PreviewFrame.master:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\PreviewFrame.master</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\edit.css:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\edit.css</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\preview.css:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\preview.css</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\shared.css:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\shared.css</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\tree.css:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\tree.css</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\default.css:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\default.css</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\reset.css:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\reset.css</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\Edit\inputGradient.png:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\Edit\inputGradient.png</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\blank.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\blank.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\Theme\logo.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\Theme\logo.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\Theme\logOut.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\Theme\logOut.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\JS\zeus.js:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\JS\zeus.js</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Install\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Install\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\MoveItem\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\MoveItem\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\permissions.css:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\permissions.css</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\Theme\bannerBg.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\Theme\bannerBg.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\globalization.css:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\globalization.css</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\new.css:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\new.css</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\AffectedItems.ascx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\AffectedItems.ascx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\View.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\View.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Permissions\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Permissions\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Children\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Children\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\DeleteItem\DeleteUserControl.ascx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\DeleteItem\DeleteUserControl.ascx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\NewItem\Resources\Ext.ux.zeus.NewItemContextMenuPlugin.js:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\NewItem\Resources\Ext.ux.zeus.NewItemContextMenuPlugin.js</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\Tree\collapse-all.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\Tree\collapse-all.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\Tree\expand-all.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\Tree\expand-all.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\Icons\exclamation.png:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\Icons\exclamation.png</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\Icons\information.png:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\Icons\information.png</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\Icons\LanguageMissing.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\Icons\LanguageMissing.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Imagecrop.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Imagecrop.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\JS\jcrop\fixed.js:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\JS\jcrop\fixed.js</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\JS\jcrop\non-fixed.js:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\JS\jcrop\non-fixed.js</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\jcrop.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\jcrop.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\jcrop_jquery.css:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\jcrop_jquery.css</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\JS\jcrop\jquery.color.js:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\JS\jcrop\jquery.color.js</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\JS\jcrop\jquery.Jcrop.js:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\JS\jcrop\jquery.Jcrop.js</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\JS\jcrop\jquery.Jcrop.min.js:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\JS\jcrop\jquery.Jcrop.min.js</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\JS\jcrop\jquery.min.js:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\JS\jcrop\jquery.min.js</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\jcrop_demos.css:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\jcrop_demos.css</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\JS\jcrop_jquery.js:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\JS\jcrop_jquery.js</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Versions\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Versions\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\LanguageOverview\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\LanguageOverview\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\DeleteLanguage\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\DeleteLanguage\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\LanguageSettings\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\LanguageSettings\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\RecycleBin\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\RecycleBin\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ImportExport\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ImportExport\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\CopyItem\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\CopyItem\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\PasteItem\Default.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\PasteItem\Default.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ContextMenu\Resources\Ext.ux.zeus.ContextMenuPlugin.js:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ContextMenu\Resources\Ext.ux.zeus.ContextMenuPlugin.js</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\MoveItem\MoveUserControl.ascx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\MoveItem\MoveUserControl.ascx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\NewItem\Resources\Ext.ux.zeus.NewItemGridMenuPlugin.js:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\NewItem\Resources\Ext.ux.zeus.NewItemGridMenuPlugin.js</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Tree\Resources\TreeCssInitializer.js:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Tree\Resources\TreeCssInitializer.js</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\EditItem\KeepAlive.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\EditItem\KeepAlive.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Globalization\LanguageChooserUserControl.ascx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Globalization\LanguageChooserUserControl.ascx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\FileManager\FileManagerUserControl.ascx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\FileManager\FileManagerUserControl.ascx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\FileManager\Resources\Ext.ux.zeus.FileManager.js:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\FileManager\Resources\Ext.ux.zeus.FileManager.js</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\FileManager\Resources\Ext.ux.zeus.FileManager.css:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\FileManager\Resources\Ext.ux.zeus.FileManager.css</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\PageCaching\PageCachingUserControl.ascx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\PageCaching\PageCachingUserControl.ascx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ManageZones\ManageZonesUserControl.ascx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ManageZones\ManageZonesUserControl.ascx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\view.css:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\view.css</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\login.css:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\login.css</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Css\thickbox.css:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Css\thickbox.css</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\Login\button.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\Login\button.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\Login\mainBox.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\Login\mainBox.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\Login\textBox.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\Login\textBox.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\View\add.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\View\add.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\View\arrowDown.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\View\arrowDown.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\View\arrowSortable.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\View\arrowSortable.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\View\arrowUp.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\View\arrowUp.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\View\button_arrow_left.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\View\button_arrow_left.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\View\button_arrow_right.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\View\button_arrow_right.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\View\cancel.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\View\cancel.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\View\confirm.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\View\confirm.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\View\edit.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\View\edit.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\View\littleTick.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\View\littleTick.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\View\trash.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\View\trash.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\Images\View\trashOpen.gif:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\Images\View\trashOpen.gif</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Assets\JS\view.js:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Assets\JS\view.js</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Login.aspx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Login.aspx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Popup.master:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Popup.master</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\Tree\TreeLoader.ashx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\Tree\TreeLoader.ashx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\ContextMenu\ContextMenuLoader.ashx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\ContextMenu\ContextMenuLoader.ashx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\DeleteItem\ReferencingItems.ashx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\DeleteItem\ReferencingItems.ashx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\DeleteItem\AffectedItems.ashx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\DeleteItem\AffectedItems.ashx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Plugins\FileManager\TreeLoader.ashx:
+        </strong><span>File successfully backed up as C:\Projects\repos\zeus-speed-updates\Source\Backup3\Plugins\FileManager\TreeLoader.ashx</span></td></tr><tr name="MessageRowClassZeus.Admin" style="display: none"><td class="IconInfoEncoded"><a name="Zeus.AdminMessage" /></td><td class="messageCell"><strong>Zeus.Admin\Zeus.Admin.csproj:
+        </strong><span>Project migrated successfully</span></td></tr><tr style="display: none" name="MessageRowHeaderHideZeus.Admin"><td class="IconInfoEncoded" /><td class="messageCell"><a _locID="HideAdditionalMessages" href="#" name="Zeus.AdminMessage" onclick="ToggleMessageVisibility('Zeus.Admin'); return false;">
+          Hide 218 additional messages
+        </a></td></tr></table></div></div></body></html>

@@ -22,12 +22,6 @@ namespace Zeus.Web
 		/// <returns>A friendly url to the supplied item.</returns>
 		string BuildUrl(ContentItem item);
 
-		/// <summary>Calculates an item url by walking it's parent path.</summary>
-		/// <param name="item">The item whose url to compute.</param>
-		/// <param name="languageCode"></param>
-		/// <returns>A friendly url to the supplied item.</returns>
-		string BuildUrl(ContentItem item, string languageCode);
-
 		/// <summary>Checks if an item is start or root page</summary>
 		/// <param name="item">The item to check</param>
 		/// <returns>True if the item is a start page or a root page</returns>

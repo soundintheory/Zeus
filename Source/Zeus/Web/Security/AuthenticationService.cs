@@ -137,7 +137,8 @@ namespace Zeus.Web.Security
 				HttpOnly = true,
 				Path = _config.CookiePath,
 				Expires = new DateTime(0x7cf, 10, 12),
-				Secure = _config.RequireSsl
+				Secure = _config.RequireSsl,
+				SameSite = SameSiteMode.Lax
 			};
 			if (_config.CookieDomain != null)
 				cookie.Domain = _config.CookieDomain;

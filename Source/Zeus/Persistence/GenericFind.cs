@@ -44,12 +44,35 @@ namespace Zeus.Persistence
 			get { return (TStart) Context.Current.UrlParser.StartPage; }
 		}
 
-		/// <summary>
-		/// Gets the item at the specified level.
-		/// </summary>
-		/// <param name="level">Level = 1 equals start page, level = 2 a child of the start page, and so on.</param>
-		/// <returns>An ancestor at the specified level.</returns>
-		public static ContentItem AncestorAtLevel(int level)
+        public static T FirstOfType<T>() where T : ContentItem
+        {
+            // Try and get the cached first ID of the type. This will also return the item if it was
+            // freshly retrieved from the persister
+            var firstId = Context.Cache.GetFirstOfTypeID<T>(out var item);
+
+            // Use item if possible
+            if (item != default)
+            {
+                return item;
+            }
+
+            // We have a cached ID. The call to Perister.Get() is a lot faster than the alternative!
+            if (firstId > 0)
+            {
+                return Context.Persister.Get<T>(firstId);
+            }
+
+            return default;
+        }
+
+        public static T RootItemOfType<T>() => StartPage.GetChildren<T>().FirstOrDefault();
+
+        /// <summary>
+        /// Gets the item at the specified level.
+        /// </summary>
+        /// <param name="level">Level = 1 equals start page, level = 2 a child of the start page, and so on.</param>
+        /// <returns>An ancestor at the specified level.</returns>
+        public static ContentItem AncestorAtLevel(int level)
 		{
 			return AncestorAtLevel(level, Parents, CurrentPage);
 		}
@@ -92,7 +115,7 @@ namespace Zeus.Persistence
             int depth = 200;
 			if (item.VersionOf != null) item = item.VersionOf;
 
-			foreach (ContentItem child in item.GetGlobalizedChildren())
+			foreach (ContentItem child in item.GetChildren())
 			{
 				yield return child;
 				foreach (ContentItem childItem in EnumerateAccessibleChildren(child, depth))
@@ -107,7 +130,7 @@ namespace Zeus.Persistence
         {
             if (item.VersionOf != null) item = item.VersionOf;
 
-            foreach (ContentItem child in item.GetGlobalizedChildren())
+            foreach (ContentItem child in item.GetChildren())
             {
                 yield return child;
                 if (depth > 1)

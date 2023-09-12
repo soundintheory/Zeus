@@ -6,9 +6,11 @@ namespace Zeus.Design.Editors
 {
 	public abstract class ListEditorAttribute : AbstractEditorAttribute
 	{
-		#region Constructors
+        public string PlaceholderText { get; set; }
 
-		protected ListEditorAttribute()
+        #region Constructors
+
+        protected ListEditorAttribute()
 		{
 		}
 
@@ -70,7 +72,7 @@ namespace Zeus.Design.Editors
 			container.Controls.Add(ddl);
 			ddl.ID = Name;
 			if (!Required)
-				ddl.Items.Add(new ListItem());
+				ddl.Items.Add(new ListItem(PlaceholderText ?? "", ""));
 
 			ModifyEditor(ddl);
 

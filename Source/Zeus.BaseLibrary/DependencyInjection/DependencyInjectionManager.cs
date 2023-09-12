@@ -28,7 +28,19 @@ namespace Zeus.BaseLibrary.DependencyInjection
 				base.AddBinding(binding);
 			}
 
-			public void InitializeServices()
+            public override void RemoveBinding(IBinding binding)
+            {
+                _bindings.Remove(binding);
+                base.RemoveBinding(binding);
+            }
+
+            public override void Unbind(Type service)
+            {
+                _bindings.RemoveAll(x => x.Service == service);
+                base.Unbind(service);
+            }
+
+            public void InitializeServices()
 			{
 				Type initializableInterfaceType = typeof(IInitializable);
 				Type startableInterfaceType = typeof(IStartable);

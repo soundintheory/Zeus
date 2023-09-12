@@ -12,7 +12,6 @@ namespace Zeus.Web.Mvc
 	/// Base class for content controllers that provides easy access to the content item in scope.
 	/// </summary>
 	/// <typeparam name="T">The type of content item the controller handles.</typeparam>
-	[PageCacheFilter]
 	public abstract class ContentController<T> : Controller
 		where T : ContentItem
 	{
@@ -70,8 +69,8 @@ namespace Zeus.Web.Mvc
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			if (CurrentItem != null)
-			{
+            if (CurrentItem != null && !filterContext.HttpContext.SkipAuthorization)
+            {
 				var securityManager = Engine.Resolve<ISecurityManager>();
 
 				if (!securityManager.IsAuthorized(CurrentItem, User, Operations.Read))

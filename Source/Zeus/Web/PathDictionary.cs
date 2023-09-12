@@ -15,20 +15,25 @@ namespace Zeus.Web
 		/// <param name="itemType">The type of item whose path finders to get.</param>
 		/// <returns>A list of path finders.</returns>
 		public static IPathFinder[] GetFinders(Type itemType)
-		{
-			lock (Instance)
-			{
-				if (Instance.ContainsKey(itemType))
-					return Instance[itemType];
+        {
+            if (!Instance.ContainsKey(itemType))
+            {
+                lock (Instance)
+                {
+                    if (Instance.ContainsKey(itemType))
+                        return Instance[itemType];
 
-				return Instance[itemType] = FindFinders(itemType);
-			}
-		}
+                    return Instance[itemType] = FindFinders(itemType);
+                }
+            }
 
-		/// <summary>Adds a path finder to an item.</summary>
-		/// <param name="itemType">The type to add the finder to.</param>
-		/// <param name="finder">The finder to add.</param>
-		public static void PrependFinder(Type itemType, IPathFinder finder)
+            return Instance[itemType];
+        }
+
+        /// <summary>Adds a path finder to an item.</summary>
+        /// <param name="itemType">The type to add the finder to.</param>
+        /// <param name="finder">The finder to add.</param>
+        public static void PrependFinder(Type itemType, IPathFinder finder)
 		{
 			lock (Instance)
 			{

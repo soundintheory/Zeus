@@ -12,34 +12,34 @@ namespace Zeus.Web
 	/// </summary>
 	public class MultipleSitesUrlParser : UrlParser
 	{
-		#region Constructors
+        #region Constructors
 
-		public MultipleSitesUrlParser(IPersister persister, IWebContext webContext, IItemNotifier notifier, IHost host, HostSection config, ILanguageManager languageManager, CustomUrlsSection urls)
-			: base(persister, host, webContext, notifier, config, languageManager, urls)
-		{
-			
-		}
+        public MultipleSitesUrlParser(IPersister persister, IWebContext webContext, IHost host, HostSection config)
+                : base(persister, host, webContext, config)
+        {
 
-        public MultipleSitesUrlParser(IPersister persister, IWebContext webContext, IItemNotifier notifier, IHost host, HostSection config, ILanguageManager languageManager, CustomUrlsSection urls, GlobalizationSection globalizationConfig)
-			: base(persister, host, webContext, notifier, config, languageManager, urls, globalizationConfig)
-		{
+        }
 
-		}
+        public MultipleSitesUrlParser(IPersister persister, IWebContext webContext, IHost host, HostSection config, GlobalizationSection globalizationConfig)
+            : base(persister, host, webContext, config, globalizationConfig)
+        {
 
-		#endregion
+        }
 
-		public override ContentItem Parse(string url)
+        #endregion
+
+        public override ContentItem Parse(string url)
 		{
 			if (url.StartsWith("/") || url.StartsWith("~/"))
 				return base.Parse(url);
 
 			Site site = Host.GetSite(url);
 			if (site != null)
-				return TryLoadingFromQueryString(url, PathData.ItemQueryKey, PathData.PageQueryKey)
-					?? Parse(Persister.Get(site.StartPageID), Url.Parse(url).PathAndQuery);
+                return LoadFromQueryString(url, PathData.ItemQueryKey, PathData.PageQueryKey)
+                    ?? Parse(Persister.Get(site.StartPageID), Url.Parse(url).PathAndQuery);
 
-			return TryLoadingFromQueryString(url, PathData.ItemQueryKey, PathData.PageQueryKey);
-		}
+            return LoadFromQueryString(url, PathData.ItemQueryKey, PathData.PageQueryKey);
+        }
 
 		public override ContentItem StartPage
 		{
@@ -54,10 +54,10 @@ namespace Zeus.Web
 			return Persister.Get(site.StartPageID);
 		}
 
-		public override string BuildUrl(ContentItem item, string languageCode)
+		public override string BuildUrl(ContentItem item)
 		{
 			ContentItem startPage;
-			Url url = BuildUrlInternal(item, languageCode, out startPage);
+			Url url = BuildUrlInternal(item, out startPage);
 
 			if (startPage != null)
 			{
@@ -65,7 +65,6 @@ namespace Zeus.Web
 				{
 					// the start page belongs to the current site, use relative url
 					return url;
-					//return Url.ToAbsolute("~" + url.PathAndQuery);
 				}
 
 				// find the start page and use it's host name

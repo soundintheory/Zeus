@@ -27,10 +27,12 @@ namespace Zeus.Templates.Mvc
 
 			context.Routes.Add(new Route("services/templates/bbcode", new BBCodeRouteHandler()));
 
-			var viewFolder = new EmbeddedViewFolder(assembly, assembly.GetName().Name + ".Mvc.DefaultTemplate.Views");
-
-			sparkViewFactory.ViewFolder = sparkViewFactory.ViewFolder
-				.Append(viewFolder);
-		}
-	}
+            if (sparkViewFactory != null)
+            {
+                var viewFolder = new EmbeddedViewFolder(assembly, assembly.GetName().Name + ".Mvc.DefaultTemplate.Views");
+                sparkViewFactory.ViewFolder = sparkViewFactory.ViewFolder
+                    .Append(viewFolder);
+            }
+        }
+    }
 }

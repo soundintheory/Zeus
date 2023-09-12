@@ -5,6 +5,8 @@ using Zeus.BaseLibrary.Collections;
 using Zeus.Persistence;
 using Zeus.Engine;
 using Zeus.Web;
+using Zeus.Web.Caching;
+
 
 namespace Zeus
 {
@@ -38,7 +40,9 @@ namespace Zeus
 			get { return Current.UrlParser.CurrentPage; }
 		}
 
-		public static IFinder Finder
+        public static CacheService Cache => Current.Cache;
+
+        public static IFinder Finder
 		{
 			get { return Current.Finder; }
 		}

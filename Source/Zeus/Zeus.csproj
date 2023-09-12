@@ -437,6 +437,10 @@
     <Compile Include="FileSystem\Images\HiddenCroppedImage.cs" />
     <Compile Include="FileSystem\Images\CroppedImage.cs" />
     <Compile Include="FileSystem\Images\HiddenImage.cs" />
+    <Compile Include="Web\Caching\CacheDependencyManager.cs" />
+    <Compile Include="Web\Caching\CacheService.cs" />
+    <Compile Include="Web\Caching\ExplicitCacheDependency.cs" />
+    <Compile Include="Web\Caching\ZeusCacheDependency.cs" />
     <Compile Include="Web\ContentPropertyAttribute.cs" />
     <Compile Include="ContentProperties\PropertyData.cs" />
     <Compile Include="ContentProperties\PropertyDataType.cs" />
@@ -849,7 +853,6 @@
     <Compile Include="Web\ExtensionMethods.cs" />
     <Compile Include="Web\Host.cs" />
     <Compile Include="Web\IUrlParser.cs" />
-    <Compile Include="Web\IUrlParserDependency.cs" />
     <Compile Include="Web\PageNotFoundEventArgs.cs" />
     <Compile Include="Web\TemplateNotFoundException.cs" />
     <Compile Include="Web\Tree.cs" />

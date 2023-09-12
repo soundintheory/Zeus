@@ -60,8 +60,19 @@ namespace Zeus.Security
 			if (!IsPublished(item) && operation == Operations.Read)
 				operation = Operations.ReadUnpublished;
 
-			return item.IsAuthorized(user, operation);
-		}
+
+            if (!item.IsAuthorized(user, operation))
+            {
+                return false;
+            }
+
+            if (operation != Operations.Read && item.Parent != null && item.PropogateUpdate && item.Parent.PropogateUpdate)
+            {
+                return item.Parent.IsAuthorized(user, operation);
+            }
+
+            return true;
+        }
 
 		/// <summary>Check whether an item is published, i.e. it's published and isn't expired.</summary>
 		/// <param name="item">The item to check.</param>

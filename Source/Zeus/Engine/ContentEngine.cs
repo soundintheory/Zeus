@@ -13,6 +13,7 @@ using Zeus.Persistence;
 using Zeus.Plugin;
 using Zeus.Security;
 using Zeus.Web;
+using Zeus.Web.Caching;
 using Zeus.Web.Hosting;
 using Zeus.Web.Security;
 using IWebContext=Zeus.Web.IWebContext;
@@ -23,62 +24,32 @@ namespace Zeus.Engine
 	{
 		private readonly DependencyInjectionManager _dependencyInjectionManager;
 
-		#region Properties
 
-		public IAdminManager AdminManager
-		{
-			get { return Resolve<IAdminManager>(); }
-		}
+        #region Properties
 
-		public IFinder Finder
-		{
-			get { return Resolve<IFinder>(); }
-		}
+        public IAdminManager AdminManager { get; private set; }
 
-		public IContentManager ContentManager
-		{
-			get { return Resolve<IContentManager>(); }
-		}
+        public IFinder Finder { get; private set; }
 
-		public IContentTypeManager ContentTypes
-		{
-			get { return Resolve<IContentTypeManager>(); }
-		}
+        public IContentManager ContentManager { get; private set; }
 
-		public ILanguageManager LanguageManager
-		{
-			get { return Resolve<ILanguageManager>(); }
-		}
+        public IContentTypeManager ContentTypes { get; private set; }
 
-		public IPersister Persister
-		{
-			get { return Resolve<IPersister>(); }
-		}
+        public ILanguageManager LanguageManager { get; private set; }
 
-		public ISecurityManager SecurityManager
-		{
-			get { return Resolve<ISecurityManager>(); }
-		}
+        public IPersister Persister { get; private set; }
 
-		public IWebSecurityService WebSecurity
-		{
-			get { return Resolve<IWebSecurityService>(); }
-		}
+        public CacheService Cache { get; private set; }
 
-		public IHost Host
-		{
-			get { return Resolve<IHost>(); }
-		}
+        public ISecurityManager SecurityManager { get; private set; }
 
-		public IUrlParser UrlParser
-		{
-			get { return Resolve<IUrlParser>(); }
-		}
+        public IWebSecurityService WebSecurity { get; private set; }
 
-		public IWebContext WebContext
-		{
-			get { return Resolve<IWebContext>(); }
-		}
+        public IHost Host { get; private set; }
+
+        public IUrlParser UrlParser { get; private set; }
+
+        public IWebContext WebContext { get; private set; }
 
 		#endregion
 
@@ -134,8 +105,21 @@ namespace Zeus.Engine
 
 			WebSecurityEngine.DependencyInjectionManager = _dependencyInjectionManager;
 
-			IPluginBootstrapper invoker = Resolve<IPluginBootstrapper>();
-			invoker.InitializePlugins(this, invoker.GetPluginDefinitions());
+            AdminManager = Resolve<IAdminManager>();
+            Finder = Resolve<IFinder>();
+            ContentManager = Resolve<IContentManager>();
+            ContentTypes = Resolve<IContentTypeManager>();
+            LanguageManager = Resolve<ILanguageManager>();
+            Persister = Resolve<IPersister>();
+            SecurityManager = Resolve<ISecurityManager>();
+            WebSecurity = Resolve<IWebSecurityService>();
+            Host = Resolve<IHost>();
+            WebContext = Resolve<IWebContext>();
+            UrlParser = Resolve<IUrlParser>();
+            Cache = new CacheService(Persister, Finder, WebContext);
+
+            IPluginBootstrapper invoker = Resolve<IPluginBootstrapper>();
+            invoker.InitializePlugins(this, invoker.GetPluginDefinitions());
 
 			_dependencyInjectionManager.Initialize();
 		}
@@ -167,27 +151,5 @@ namespace Zeus.Engine
 		{
 			return GetServerResourceUrl(type.Assembly, resourcePath);
 		}
-
-		/*/// <summary>Releases a component from the IoC container.</summary>
-		/// <param name="instance">The component instance to release.</param>
-		public void Release(object instance)
-		{
-			IoC.Container.Release(instance);
-		}*/
-
-		/*public void AddComponentLifeStyle(string key, Type classType, ComponentLifeStyle lifeStyle)
-		{
-			LifestyleType lifeStyleType = lifeStyle == ComponentLifeStyle.Singleton
-				? LifestyleType.Singleton
-				: LifestyleType.Transient;
-
-			Container.AddComponentLifeStyle(key, classType, lifeStyleType);
-		}*/
-	}
-
-	public enum ComponentLifeStyle
-	{
-		Singleton = 0,
-		Transient = 1,
 	}
 }
