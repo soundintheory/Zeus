@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -41,19 +42,17 @@ namespace Zeus.Web.Routing
 
 			public bool IsReusable { get { return false; } }
 
-			private static readonly IDictionary<Assembly, DateTime> _assemblyLastModifiedCache =
-				new Dictionary<Assembly, DateTime>();
+			private static readonly ConcurrentDictionary<Assembly, Lazy<DateTime>> _assemblyLastModifiedCache =
+				new ConcurrentDictionary<Assembly, Lazy<DateTime>>();
 
 			private static DateTime GetAssemblyLastModified(Assembly assembly)
 			{
-				DateTime lastModified;
-				if (!_assemblyLastModifiedCache.TryGetValue(assembly, out lastModified))
+				var entry = _assemblyLastModifiedCache.GetOrAdd(assembly, (a) =>
 				{
-					AssemblyName x = assembly.GetName();
-					lastModified = new DateTime(File.GetLastWriteTime(new Uri(x.CodeBase).LocalPath).Ticks);
-					_assemblyLastModifiedCache.Add(assembly, lastModified);
-				}
-				return lastModified;
+					return new Lazy<DateTime>(() => new DateTime(File.GetLastWriteTime(new Uri(a.GetName().CodeBase).LocalPath).Ticks));
+				});
+
+				return entry.Value;
 			}
 
 			public void ProcessRequest(HttpContext context)
