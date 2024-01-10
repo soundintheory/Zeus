@@ -68,6 +68,8 @@ namespace Zeus.Globalization
 		/// <returns></returns>
 		public ContentItem GetTranslation(ContentItem contentItem, string languageCode)
 		{
+			if (contentItem == null) return null;
+
 			// If item can't be translated, return it immediately.
 			if (!CanBeTranslated(contentItem))
 				return contentItem;
