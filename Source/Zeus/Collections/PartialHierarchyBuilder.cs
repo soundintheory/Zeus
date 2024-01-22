@@ -43,7 +43,7 @@ namespace Zeus.Collections
         {
             ResetNodes();
 
-            foreach (ContentItem item in FilterItems(_items.Values.ToList()))
+            foreach (ContentItem item in FilterItems(_items.Values.ToList()).OrderBy(x => x.SortOrder))
             {
                 GetOrAddNode(item);
             }
