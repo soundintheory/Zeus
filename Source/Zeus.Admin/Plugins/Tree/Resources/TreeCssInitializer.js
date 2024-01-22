@@ -87,6 +87,21 @@ function hideSearchResults() {
 }
 
 function updateSearchTitle() {
-	var count = !!siteRootNode.childNodes ? siteRootNode.childNodes.length : 0;
+	var count = countAllEnabledChildren(siteRootNode);
 	siteRootNode.setText("Search Results (" + count + ")");
+}
+
+function countAllEnabledChildren(node, count) {
+	count = count || 0;
+	if (!!node) {
+		if (!!node.childNodes && node.childNodes.length > 0) {
+			for (var i = 0; i < node.childNodes.length; i++) {
+				if (!node.childNodes[i].disabled) {
+					count++;
+				}
+				count = countAllEnabledChildren(node.childNodes[i], count);
+			}
+		}
+	}
+	return count;
 }
