@@ -12,28 +12,19 @@ var keyUp = function(el, e) {
 		clearFilter(el);
 	}
 
-	if (text.length < 2) {
+	if (text.length < 3) {
 		return;
 	}
-
-	tree.clearFilter();
 
 	if (Ext.isEmpty(text, false)) {
 		return;
 	}
 
-	el.triggers[0].show();
-
 	if (e.getKey() === Ext.EventObject.ESC) {
 		clearFilter(el);
 	} else {
-		var re = new RegExp(".*" + text + ".*", "i");
-
-		tree.expandAll();
-
-		tree.filterBy(function(node) {
-			return re.test(node.text.replace(/<span>&nbsp;<\/span>/g, ""));
-		});
+		el.triggers[0].show();
+		showSearchResults(text);
 	}
 };
 
@@ -42,6 +33,60 @@ var clearFilter = function(el, trigger, index, e) {
 
 	el.setValue("");
 	el.triggers[0].hide();
-	tree.clearFilter();
+	
+	hideSearchResults();
 	tree.getRootNode().collapseChildNodes(true);
 };
+
+var siteRootNode;
+var siteRootIcon;
+var siteRootTitle;
+var searchMode = false;
+
+function showSearchResults(query) {
+	var tree = stpNavigation;
+	if (!searchMode) {
+		searchMode = true;
+		if (!siteRootNode) {
+			siteRootNode = tree.getRootNode();
+			siteRootIcon = siteRootNode.attributes.icon;
+			siteRootTitle = siteRootNode.attributes.text;
+			tree.on('load', function(node) {
+				if (searchMode && node === siteRootNode) {
+					updateSearchTitle();
+				}
+			});
+			tree.on('beforeload', function(node) {
+				if (searchMode && node === siteRootNode) {
+					siteRootNode.setText('Searching...');
+				}
+			});
+		}
+		siteRootNode.setIcon('/icons/folder_magnify-png/ext.axd');
+		siteRootNode.setCls('disable-context');
+	}
+	tree.loader.abort();
+	siteRootNode.loading = false;
+	tree.loader.baseParams.filter = query;
+	siteRootNode.reload();
+}
+
+function hideSearchResults() {
+	var tree = stpNavigation;
+	if (!searchMode || !siteRootNode) {
+		return false;
+	}
+	searchMode = false;
+	siteRootNode.setText(siteRootTitle);
+	siteRootNode.setIcon(siteRootIcon);
+	siteRootNode.setCls('');
+	delete tree.loader.baseParams.filter;
+	tree.loader.abort();
+	siteRootNode.loading = false;
+	siteRootNode.reload();
+}
+
+function updateSearchTitle() {
+	var count = !!siteRootNode.childNodes ? siteRootNode.childNodes.length : 0;
+	siteRootNode.setText("Search Results (" + count + ")");
+}

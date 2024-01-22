@@ -18,7 +18,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <TargetFrameworkProfile />
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -109,6 +109,10 @@
     <Compile Include="WebsiteModule.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Source\Coolite.Ext.UX\Coolite.Ext.UX.csproj">
+      <Project>{fd6cedde-9b2f-49cc-954f-a93f27f41e7e}</Project>
+      <Name>Coolite.Ext.UX</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Source\Zeus.AddIns.ECommerce.PaymentGateways.SagePay\Zeus.AddIns.ECommerce.PaymentGateways.SagePay.csproj">
       <Project>{2F01CC7A-40AE-4475-9948-E2B2EA405C13}</Project>
       <Name>Zeus.AddIns.ECommerce.PaymentGateways.SagePay</Name>
@@ -161,8 +165,8 @@
     <None Include="Views\Website\StartPage\Index.spark" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\Source\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\Source\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\..\Source\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>

@@ -48,14 +48,14 @@ namespace Zeus.Admin.Plugins.Tree
 				HideTrigger = true
 			});
 			filterField.Listeners.KeyUp.Fn = "keyUp";
-			filterField.Listeners.KeyUp.Buffer = 100;
+			filterField.Listeners.KeyUp.Buffer = 250;
 			filterField.Listeners.TriggerClick.Fn = "clearFilter";
 			topToolbar.Items.Add(filterField);
 			topToolbar.Items.Add(new ToolbarFill());
 
 			Button refreshButton = new Button { Icon = Icon.Reload };
 			refreshButton.ToolTips.Add(new ToolTip { Html = "Refresh" });
-			refreshButton.Listeners.Click.Handler = string.Format("{0}.getLoader().load({0}.getRootNode());", treePanel.ClientID);
+			refreshButton.Listeners.Click.Handler = string.Format("{0}.getRootNode().reload();", treePanel.ClientID);
 			topToolbar.Items.Add(refreshButton);
 
 			Button expandAllButton = new Button { IconCls = "icon-expand-all" };
@@ -95,6 +95,7 @@ namespace Zeus.Admin.Plugins.Tree
 				{
 					DataUrl = Context.Current.Resolve<IEmbeddedResourceManager>().GetServerResourceUrl(GetType().Assembly,
 						"Zeus.Admin.Plugins.Tree.TreeLoader.ashx"),
+					Timeout = 300000,
 					PreloadChildren = true
 				};
 			treeLoader.Listeners.Load.Handler = "if (response.getResponseHeader['Content-Type'] == 'text/html; charset=utf-8') { Ext.Msg.alert('Timeout', 'Your session has timed out. Please refresh your browser to login again.'); }";

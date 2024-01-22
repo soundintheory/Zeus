@@ -5,21 +5,30 @@ using Zeus.BaseLibrary.Web.UI;
 using Zeus.Collections;
 using System.Collections.Generic;
 using Zeus.Globalization.ContentTypes;
+using System.EnterpriseServices;
+using System.Xml.Linq;
 
 namespace Zeus.Admin.Plugins.Tree
 {
 	public class SiteTree
 	{
-		private readonly HierarchyBuilder _treeBuilder;
-		private Func<IEnumerable<ContentItem>, IEnumerable<ContentItem>> _filter;
-		private bool _excludeRoot;
+		protected HierarchyBuilder _treeBuilder;
+		protected Func<IEnumerable<ContentItem>, IEnumerable<ContentItem>> _filter;
 
 		public SiteTree(HierarchyBuilder treeBuilder)
 		{
 			_treeBuilder = treeBuilder;
 		}
 
-		public static SiteTree From(ContentItem rootItem)
+        public static FilteredSiteTree Filtered(string query)
+        {
+            var tree = new FilteredSiteTree(Find.RootItem);
+			tree.Query(query);	
+
+			return tree;
+        }
+
+        public static SiteTree From(ContentItem rootItem)
 		{
 			return new SiteTree(new TreeHierarchyBuilder(rootItem));
 		}
@@ -34,12 +43,6 @@ namespace Zeus.Admin.Plugins.Tree
 			return new SiteTree(new BranchHierarchyBuilder(initialItem, lastAncestor, appendAdditionalLevel));
 		}
 
-		public SiteTree ExcludeRoot(bool exclude)
-		{
-			_excludeRoot = exclude;
-			return this;
-		}
-
 		public SiteTree Filter(Func<IEnumerable<ContentItem>, IEnumerable<ContentItem>> filter)
 		{
 			_filter = filter;
@@ -51,23 +54,20 @@ namespace Zeus.Admin.Plugins.Tree
 			return this;
 		}
 
-		public SiteTree OpenTo(ContentItem item)
+		public virtual SiteTree OpenTo(ContentItem item)
 		{
-			IList<ContentItem> items = Find.ListParents(item);
-			//return ClassProvider(c => (items.Contains(c) || c == item) ? "open" : string.Empty);
 			return this;
 		}
 
-		public TreeNodeBase ToTreeNode(bool rootOnly)
+		public virtual TreeNodeBase ToTreeNode(bool rootOnly)
 		{
 			return ToTreeNode(rootOnly, true);
 		}
 
-		public TreeNodeBase ToTreeNode(bool rootOnly, bool withLinks)
+		public virtual TreeNodeBase ToTreeNode(bool rootOnly, bool withLinks)
 		{
 			IHierarchyNavigator<ContentItem> navigator = new ItemHierarchyNavigator(_treeBuilder, _filter);
 			TreeNodeBase rootNode = BuildNodesRecursive(navigator, rootOnly, withLinks, _filter);
-			//rootNode.ChildrenOnly = _excludeRoot;
 			return rootNode;
 		}
 
@@ -83,10 +83,14 @@ namespace Zeus.Admin.Plugins.Tree
 			if (filter != null)
 				itemChildren = filter(itemChildren);
 			bool hasAsyncChildren = ((!navigator.Children.Any() && itemChildren.Any()) || rootOnly);
-			TreeNodeBase node = (hasAsyncChildren) ? new AsyncTreeNode() as TreeNodeBase : new TreeNode();
+
+			var node = CreateNode(item, hasAsyncChildren, withLinks);
 			node.Text = ((INode) translatedItem).Contents;
 
-			if (translationStatus == TranslationStatus.NotAvailableInSelectedLanguage || translationStatus == TranslationStatus.DisplayedInAnotherLanguage)
+            if (translationStatus == TranslationStatus.NotAvailableInSelectedLanguage)
+                node.Cls += " notAvailableInSelectedLanguage";
+
+            if (translationStatus == TranslationStatus.NotAvailableInSelectedLanguage || translationStatus == TranslationStatus.DisplayedInAnotherLanguage)
 			{
 				node.Text += "&nbsp;";
 				switch (translationStatus)
@@ -99,19 +103,6 @@ namespace Zeus.Admin.Plugins.Tree
 						node.Text += "<img src='" + language.IconUrl + "' title='Page is displayed in another language (" + language.Title + ").' />";
 						break;
 				}
-			}
-
-			node.IconFile = item.IconUrl;
-			node.IconCls = "zeus-tree-icon";
-			node.Cls = "zeus-tree-node";
-			if (translationStatus == TranslationStatus.NotAvailableInSelectedLanguage)
-				node.Cls += " notAvailableInSelectedLanguage";
-			node.NodeID = item.ID.ToString();
-			if (withLinks)
-			{
-				// Allow plugin to set the href (it will be based on whatever is the default context menu plugin).
-				foreach (ITreePlugin treePlugin in Context.Current.ResolveAll<ITreePlugin>())
-					treePlugin.ModifyTreeNode(node, item);
 			}
 
 			if (!hasAsyncChildren)
@@ -159,6 +150,26 @@ namespace Zeus.Admin.Plugins.Tree
 				node.Expanded = true;
 			return node;
 		}
+
+		public static TreeNodeBase CreateNode(ContentItem item, bool asyncNode = false, bool withLinks = false)
+		{
+            TreeNodeBase node = asyncNode ? new AsyncTreeNode() as TreeNodeBase : new TreeNode();
+
+            node.Text = ((INode)item).Contents;
+            node.IconFile = item.IconUrl;
+            node.IconCls = "zeus-tree-icon";
+            node.Cls = "zeus-tree-node";
+            node.NodeID = item.ID.ToString();
+
+            if (withLinks)
+            {
+                // Allow plugin to set the href (it will be based on whatever is the default context menu plugin).
+                foreach (ITreePlugin treePlugin in Context.Current.ResolveAll<ITreePlugin>())
+                    treePlugin.ModifyTreeNode(node, item);
+            }
+
+			return node;
+        }
 
 		private static TranslationStatus GetTranslationStatus(ContentItem contentItem, out ContentItem translatedItem)
 		{

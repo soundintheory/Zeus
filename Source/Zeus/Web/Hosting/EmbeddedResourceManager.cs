@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -17,16 +18,14 @@ namespace Zeus.Web.Hosting
 	{
 		private readonly Dictionary<string, Assembly> _assemblyPathPrefixes;
 		private readonly Dictionary<Assembly, string> _reverseAssemblyPathPrefixes;
-		private readonly Dictionary<Assembly, string> _clientResourcePrefixes;
-		private readonly Dictionary<string, EmbeddedResourceVirtualFile> _files;
+		private readonly ConcurrentDictionary<string, Lazy<EmbeddedResourceVirtualFile>> _files;
 		private readonly IWebContext _webContext;
 
 		public EmbeddedResourceManager(IEmbeddedResourceBuilder builder, IWebContext webContext)
 		{
 			_assemblyPathPrefixes = builder.ResourceSettings.AssemblyPathPrefixes;
 			_reverseAssemblyPathPrefixes = _assemblyPathPrefixes.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
-			_clientResourcePrefixes = builder.ResourceSettings.ClientResourcePrefixes;
-			_files = new Dictionary<string, EmbeddedResourceVirtualFile>();
+			_files = new ConcurrentDictionary<string, Lazy<EmbeddedResourceVirtualFile>>();
 			_webContext = webContext;
 		}
 
@@ -71,50 +70,54 @@ namespace Zeus.Web.Hosting
 
 			// Always deal with lower-case URLs for aspx pages.
 			if (testUrl.Extension == ".aspx")
-				testUrl = testUrl.ToString().ToLower();
+                testUrl = testUrl.ToString().ToLower();
 
-			// First check if we already have a virtual file cached.
-			if (_files.ContainsKey(testUrl))
-				return _files[testUrl];
+            var urlKey = testUrl.ToString();
 
-			// Grab the first segment of the path. This will be the assembly prefix.
-			string assemblyPathPrefix = testUrl.SegmentAtIndex(0);
-			if (string.IsNullOrEmpty(assemblyPathPrefix))
-				if (throwOnError)
-					throw new ArgumentException("URL does not contain an assembly path prefix", "url");
-				else
-					return null;
-			if (!_assemblyPathPrefixes.ContainsKey(assemblyPathPrefix))
-				if (throwOnError)
-					throw new ArgumentException("URL does not contain a valid assembly path prefix", "url");
-				else
-					return null;
-
-			Assembly assembly = _assemblyPathPrefixes[assemblyPathPrefix];
-
-			// Now get the rest of the path. This, combined with the assembly prefix, will be the resource path.
-			Url remainingUrl = testUrl.RemoveSegment(0);
-			string resourcePath = remainingUrl.PathWithoutExtension.Replace('/', '.');
-			if (remainingUrl.Extension == ".aspx")
+            return _files.GetOrAdd(urlKey, (key) =>
 			{
-				resourcePath = Regex.Replace(resourcePath, "[^a-zA-Z]([a-z])|^([a-z])", m => m.Captures[0].Value.ToUpper());
-				resourcePath = Regex.Replace(resourcePath, "-", string.Empty);
-			}
+				return new Lazy<EmbeddedResourceVirtualFile>(() =>
+                {
+					// Grab the first segment of the path. This will be the assembly prefix.
+					string assemblyPathPrefix = testUrl.SegmentAtIndex(0);
 
-			// Create a new virtual file.
-			EmbeddedResourceVirtualFile virtualFile = new EmbeddedResourceVirtualFile(url, assembly, assembly.GetName().Name + resourcePath + remainingUrl.Extension);
-			_files.Add(testUrl, virtualFile);
+					if (string.IsNullOrEmpty(assemblyPathPrefix))
+						if (throwOnError)
+							throw new ArgumentException("URL does not contain an assembly path prefix", "url");
+						else
+							return null;
+					if (!_assemblyPathPrefixes.ContainsKey(assemblyPathPrefix))
+						if (throwOnError)
+							throw new ArgumentException("URL does not contain a valid assembly path prefix", "url");
+						else
+							return null;
 
-			// Check that resource actually exists.
-			if (assembly.GetManifestResourceStream(virtualFile.ResourcePath) == null)
-            {
-                if (throwOnError)
-                    throw new ArgumentException(string.Format("Cannot find resource in assembly '{0}' matching resource path '{1}'.", assembly, virtualFile.ResourcePath));
-                else
-                    return null;
-            }
+					Assembly assembly = _assemblyPathPrefixes[assemblyPathPrefix];
 
-			return virtualFile;
+					// Now get the rest of the path. This, combined with the assembly prefix, will be the resource path.
+					Url remainingUrl = testUrl.RemoveSegment(0);
+					string resourcePath = remainingUrl.PathWithoutExtension.Replace('/', '.');
+					if (remainingUrl.Extension == ".aspx")
+					{
+						resourcePath = Regex.Replace(resourcePath, "[^a-zA-Z]([a-z])|^([a-z])", m => m.Captures[0].Value.ToUpper());
+						resourcePath = Regex.Replace(resourcePath, "-", string.Empty);
+					}
+
+					// Create a new virtual file.
+					EmbeddedResourceVirtualFile virtualFile = new EmbeddedResourceVirtualFile(url, assembly, assembly.GetName().Name + resourcePath + remainingUrl.Extension);
+
+					// Check that resource actually exists.
+					if (assembly.GetManifestResourceStream(virtualFile.ResourcePath) == null)
+					{
+						if (throwOnError)
+							throw new ArgumentException(string.Format("Cannot find resource in assembly '{0}' matching resource path '{1}'.", assembly, virtualFile.ResourcePath));
+						else
+							return null;
+					}
+
+					return virtualFile;
+				});
+            }).Value;
 		}
 	}
 }

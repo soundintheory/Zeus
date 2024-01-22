@@ -32,6 +32,7 @@ namespace Zeus.FileSystem
 			get { return base.Name; }
 			set { base.Title = value; }
 		}
-         
-	}
+
+		public override bool IsPage => false;
+    }
 }
