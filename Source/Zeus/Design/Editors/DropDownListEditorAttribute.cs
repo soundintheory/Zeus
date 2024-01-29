@@ -1,5 +1,6 @@
 ﻿using System.Web.UI;
 using System.Web.UI.WebControls;
+using Zeus.Web.UI.WebControls;
 
 namespace Zeus.Design.Editors
 {
@@ -20,7 +21,7 @@ namespace Zeus.Design.Editors
 
 		protected override ListControl CreateEditor()
 		{
-			return new DropDownList();
+			return new DropDownListTypahead();
 		}
 	}
 }

@@ -15,6 +15,7 @@ using Zeus.Integrity;
 using Zeus.Security;
 using Zeus.Web;
 using Zeus.Web.Hosting;
+using Zeus.Web.UI;
 using Zeus.Web.UI.WebControls;
 using TreeNode = Ext.Net.TreeNode;
 
@@ -284,6 +285,8 @@ namespace Zeus.Admin.Plugins.EditItem
             ExtNet.ResourceManager.RegisterClientScriptInclude(typeof(DropzoneUpload), "Zeus.Web.Resources.Dropzone.dropzone.min.js");
             ExtNet.ResourceManager.RegisterClientStyleInclude(typeof(DropzoneUpload), "Zeus.Web.Resources.Dropzone.dropzone.min.css");
             ExtNet.ResourceManager.RegisterClientStyleInclude(typeof(DropzoneUpload), "Zeus.Web.Resources.Dropzone.dropzone.custom.css");
+
+			Page.ClientScript.RegisterSelect2();
 
             // HtmlTextBox
             Page.ClientScript.RegisterJavascriptInclude(Utility.GetClientResourceUrl(typeof(HtmlTextBox), "TinyMCE/tiny_mce.js"), ResourceInsertPosition.HeaderTop);

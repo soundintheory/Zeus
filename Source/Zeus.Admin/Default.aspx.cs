@@ -50,6 +50,7 @@ namespace Zeus.Admin
 		protected override void OnPreRender(EventArgs e)
 		{
 			Page.ClientScript.RegisterJQuery();
+			Page.ClientScript.RegisterSelect2();
 
 			ResourceManager.GetInstance(this).RegisterClientScriptInclude(typeof(StoreMenu), "Coolite.Ext.UX.Extensions.StoreMenu.resources.ext.ux.menu.storemenu.js");
 

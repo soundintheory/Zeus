@@ -29,6 +29,13 @@ namespace Zeus.Examples.MinimalMvcExample.ContentTypes
 			get { return GetDetail("MultiTextBox", string.Empty); }
 			set { SetDetail("MultiTextBox", value); }
 		}
-        
-	}
+
+
+        [ContentProperty("Link Destination", 20)]
+        public virtual ContentItem LinkDestination
+        {
+            get { return GetDetail("LinkDestination", default(ContentItem)); }
+            set { SetDetail("LinkDestination", value); }
+        }
+    }
 }

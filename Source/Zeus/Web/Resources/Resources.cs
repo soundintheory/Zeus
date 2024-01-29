@@ -38,6 +38,10 @@
 [assembly: WebResource("Zeus.Web.Resources.jQuery.ui.sortable.js", "text/javascript")]
 [assembly: WebResource("Zeus.Web.Resources.jQuery.ui.tabs.js", "text/javascript")]
 
+
+[assembly: WebResource("Zeus.Web.Resources.Select2.js.select2.min.js", "text/javascript")]
+[assembly: WebResource("Zeus.Web.Resources.Select2.css.select2.min.css", "text/css")]
+
 [assembly: WebResource("Zeus.Web.Resources.DnDUpload.DndUpload.js", "text/javascript")]
 [assembly: WebResource("Zeus.Web.Resources.DnDUpload.DndStyle.css", "text/css")]
 
