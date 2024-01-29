@@ -236,7 +236,7 @@ namespace Zeus
             get
             {
                 string result = this.Title;
-                if (Parent != null)
+                if (Parent != null && !(Parent is RootItem))
                     result = Parent.HierarchicalTitle + " - " + result;
                 return result;
             }

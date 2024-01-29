@@ -21,7 +21,10 @@ namespace Zeus.Design.Editors
 
 		protected override ListControl CreateEditor()
 		{
-			return new DropDownListTypahead();
+			return new DropDownListTypahead
+			{
+				PlaceholderText = PlaceholderText ?? "Please select an item"
+            };
 		}
 	}
 }

@@ -990,7 +990,7 @@
     <EmbeddedResource Include="Web\Resources\Dropzone\dropzone.min.js" />
     <EmbeddedResource Include="Web\Resources\Dropzone\dropzone.custom.css" />
     <EmbeddedResource Include="Web\Resources\Select2\js\select2.min.js" />
-    <Content Include="Web\Resources\Select2\css\select2.min.css" />
+    <EmbeddedResource Include="Web\Resources\Select2\css\select2.min.css" />
     <Content Include="Web\Resources\TinyMCE\license.txt" />
     <EmbeddedResource Include="Web\Resources\TinyMCE\plugins\advlist\editor_plugin.js" />
     <EmbeddedResource Include="Web\Resources\TinyMCE\plugins\advlist\editor_plugin_src.js" />
