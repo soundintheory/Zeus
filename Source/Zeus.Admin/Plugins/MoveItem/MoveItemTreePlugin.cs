@@ -19,9 +19,9 @@ namespace Zeus.Admin.Plugins.MoveItem
 			//console.info('oldParent', oldParent)
 			//console.info('newParent', newParent)
 			//console.info('index', index)
-			treePanel.Listeners.BeforeMoveNode.Handler = @"		
+			treePanel.Listeners.BeforeMoveNode.Handler = @"
 				if(oldParent.id !== newParent.id){{
-					var confirmed = confirm('Are you sure you want to move this node?');
+					var confirmed = confirm('You are about to move ""' + node.text + '"" to a different location in the menu: please only proceed if you are sure.');
 					return confirmed;
 				}}
 
