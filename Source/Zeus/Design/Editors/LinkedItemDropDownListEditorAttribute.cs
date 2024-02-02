@@ -109,11 +109,28 @@ namespace Zeus.Design.Editors
                     items = items.OfType(TypeFilter);
                 }
 
-                listItems = items
+                items = items
                     .ToList()
-                    .Where(i => !(i is RootItem) && !string.IsNullOrEmpty(i.Title))
+                    .Where(i => !(i is RootItem) && !string.IsNullOrEmpty(i.Title));
+
+                // If we're targeting all content items, only include ones that are pages
+                if (TypeFilter == null || TypeFilter == typeof(ContentItem))
+                {
+                    items = items.Where(i => i.IsPage);
+                }
+
+                listItems = items
                     .OrderBy(i => i.HierarchicalTitle)
-                    .Select(i => new ListItem { Value = i.ID.ToString(), Text = UseNonHiearchicalTitle ? i.Title : i.HierarchicalTitle });
+                    .Select(i =>
+                    {
+                        var listItem = new ListItem()
+                        {
+                            Value = i.ID.ToString(),
+                            Text = UseNonHiearchicalTitle ? i.Title : i.HierarchicalTitle
+                        };
+                        listItem.Attributes.Add("data-icon", i.IconUrl);
+                        return listItem;
+                    });
 
                 HttpContext.Current.Items[key] = listItems;
             }

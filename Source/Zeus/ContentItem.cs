@@ -231,7 +231,7 @@ namespace Zeus
             }
         }
 
-        public string HierarchicalTitle
+        public virtual string HierarchicalTitle
         {
             get
             {
