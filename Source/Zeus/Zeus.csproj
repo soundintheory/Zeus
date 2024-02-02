@@ -570,6 +570,7 @@
     <Compile Include="Web\UI\WebControls\ChildrenEditorGridPanel.cs" />
     <Compile Include="Web\UI\WebControls\DndImageUpload.cs" />
     <Compile Include="Web\UI\WebControls\DndUpload.cs" />
+    <Compile Include="Web\UI\WebControls\DropDownListTypahead.cs" />
     <Compile Include="Web\UI\WebControls\DropzoneImageUpload.cs" />
     <Compile Include="Web\UI\WebControls\DropzoneUpload.cs" />
     <Compile Include="Web\UI\WebControls\ISitemapAppearance.cs" />
@@ -988,6 +989,8 @@
     <EmbeddedResource Include="Web\Resources\Dropzone\dropzone.min.css" />
     <EmbeddedResource Include="Web\Resources\Dropzone\dropzone.min.js" />
     <EmbeddedResource Include="Web\Resources\Dropzone\dropzone.custom.css" />
+    <EmbeddedResource Include="Web\Resources\Select2\js\select2.min.js" />
+    <EmbeddedResource Include="Web\Resources\Select2\css\select2.min.css" />
     <Content Include="Web\Resources\TinyMCE\license.txt" />
     <EmbeddedResource Include="Web\Resources\TinyMCE\plugins\advlist\editor_plugin.js" />
     <EmbeddedResource Include="Web\Resources\TinyMCE\plugins\advlist\editor_plugin_src.js" />

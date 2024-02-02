@@ -5,6 +5,8 @@ using System.Web.UI.WebControls;
 using Zeus.BaseLibrary.ExtensionMethods.Linq;
 using Zeus.ContentTypes;
 using System.Web.UI;
+using System.Web;
+using System.Collections;
 
 namespace Zeus.Design.Editors
 {
@@ -79,20 +81,44 @@ namespace Zeus.Design.Editors
 
 		protected override ListItem[] GetListItems(IEditableObject item)
 		{
-            IQueryable<ContentItem> items = Context.Current.Finder.QueryItems();
-            IEnumerable<ContentItem> itemsAsEnum = items.AsEnumerable();
-            if (TypeFilter != null)
+            var listItems = GetCachedListItems();
+
+			if (ExcludeSelf && item != null)
             {
-                // THIS DOESN'T WORK WITH NHIBERNATE UPGRADE - items = ((IQueryable)items).OfType(TypeFilter).OfType<ContentItem>();
-                itemsAsEnum = itemsAsEnum.OfType(TypeFilter);
+                var id = item["ID"].ToString();
+                listItems = listItems.Where(i => i.Value != id);
             }
-            IEnumerable<ContentItem> itemList = itemsAsEnum.ToList().Where(i => !string.IsNullOrEmpty(i.Title)).ToList();
-			if (ExcludeSelf)
-				itemList = itemList.Where(i => i != item);
-			return itemList
-				.OrderBy(i => i.HierarchicalTitle)
-                .Select(i => new ListItem { Value = i.ID.ToString(), Text = UseNonHiearchicalTitle ? i.Title : i.HierarchicalTitle })
-				.ToArray();
+
+			return listItems.ToArray();
 		}
+
+        /// <summary>
+        /// Caches the array of list items in the current request to stop multiple NHibernate calls on large editors
+        /// </summary>
+        private IEnumerable<ListItem> GetCachedListItems()
+        {
+            var key = $"list_{TypeFilter ?? typeof(ContentItem)}_{UseNonHiearchicalTitle}";
+            var listItems = HttpContext.Current.Items[key] as IEnumerable<ListItem>;
+
+            if (listItems == null)
+            {
+                IEnumerable<ContentItem> items = Context.Current.Finder.QueryItems();
+
+                if (TypeFilter != null)
+                {
+                    items = items.OfType(TypeFilter);
+                }
+
+                listItems = items
+                    .ToList()
+                    .Where(i => !(i is RootItem) && !string.IsNullOrEmpty(i.Title))
+                    .OrderBy(i => i.HierarchicalTitle)
+                    .Select(i => new ListItem { Value = i.ID.ToString(), Text = UseNonHiearchicalTitle ? i.Title : i.HierarchicalTitle });
+
+                HttpContext.Current.Items[key] = listItems;
+            }
+
+            return listItems;
+        }
 	}
 }
