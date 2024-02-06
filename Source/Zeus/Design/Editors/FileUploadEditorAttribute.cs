@@ -48,6 +48,7 @@ namespace Zeus.Design.Editors
 			if (fileUpload.HasDeletedFile)
 			{
 				file.Data = null;
+				file.Size = 0;
 				result = true;
 			}
 			else if (fileUpload.HasNewOrChangedFile)
@@ -59,7 +60,7 @@ namespace Zeus.Design.Editors
 				{
 					file.Data = fs.ReadAllBytes();
                     file.ContentType = file.Data.GetMimeType();
-					file.Size = fs.Length;                    
+					file.Size = Convert.ToInt32(fs.Length);                    
 				}
 
 				// Later, we will change the name, if this is a child property.

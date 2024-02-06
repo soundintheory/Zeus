@@ -64,13 +64,13 @@ namespace Zeus.FileSystem
 			set { SetDetail("ContentType", value); }
 		}
 
-		public long? Size
-		{
-			get { return GetDetail<long?>("Size", null); }
-			set { SetDetail("Size", value); }
-		}
+        public int Size
+        {
+            get { return GetDetail<int>("_Size", default); }
+            set { SetDetail("_Size", value); }
+        }
 
-		[ContentProperty("Caption", 200)]
+        [ContentProperty("Caption", 200)]
 		public virtual string Caption
 		{
 			get { return GetDetail("Caption", string.Empty); }
@@ -83,17 +83,8 @@ namespace Zeus.FileSystem
 			set { SetDetail("FileName", value); }
 		}
 
-		public override bool IsEmpty()
-		{
-			return Data == null;
-		}
+		public override bool IsEmpty() => Size == 0;
 
-		public override bool IsVisibleInTree
-		{
-			get
-			{
-				return IsEmpty() ? false : base.IsVisibleInTree;
-			}
-		}
+        public override bool IsVisibleInTree => !IsEmpty() && base.IsVisibleInTree;
 	}
 }

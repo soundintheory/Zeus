@@ -212,7 +212,37 @@ namespace Zeus.Persistence
 				Save(item);
         }
 
-		public void Save(ContentItem unsavedItem)
+		/// <summary>
+		/// Saves items without invoking any events or checking sort position. Only for bulk operations - ese with extreme caution
+		/// </summary>
+		/// <param name="unsavedItem"></param>
+        public void SaveFast(params ContentItem[] contentItems)
+        {
+			if (contentItems.Length == 0)
+			{
+				return;
+			}
+
+            using (ITransaction transaction = _contentRepository.BeginTransaction())
+            {
+                foreach (ContentItem contentItem in contentItems)
+                {
+                    if (contentItem is ISelfPersister selfPersister)
+                    {
+                        selfPersister.Save();
+                    }
+                    else
+                    {
+                        contentItem.Updated = DateTime.Now;
+                        _contentRepository.SaveOrUpdate(contentItem);
+                    }
+                }
+
+                transaction.Commit();
+            }
+        }
+
+        public void Save(ContentItem unsavedItem)
 		{
 			Utility.InvokeEvent(ItemSaving, unsavedItem, this, SaveAction);
 		}

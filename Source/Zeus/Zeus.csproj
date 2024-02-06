@@ -440,6 +440,7 @@
     <Compile Include="FileSystem\Images\HiddenImage.cs" />
     <Compile Include="Web\Caching\CacheDependencyManager.cs" />
     <Compile Include="Web\Caching\CacheService.cs" />
+    <Compile Include="Web\Caching\MemoryCacheStore.cs" />
     <Compile Include="Web\Caching\ExplicitCacheDependency.cs" />
     <Compile Include="Web\Caching\ZeusCacheDependency.cs" />
     <Compile Include="Web\ContentPropertyAttribute.cs" />

@@ -467,6 +467,14 @@ namespace Zeus
                 return null;
         }
 
+        public virtual bool TryGetPropertyData(string name, out PropertyData prop)
+        {
+            lock (Details)
+            {
+                return Details.TryGetValue(name, out prop);
+            }
+        }
+
         #endregion
 
         #region Methods

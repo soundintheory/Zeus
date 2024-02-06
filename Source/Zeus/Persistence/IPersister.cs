@@ -33,7 +33,12 @@ namespace Zeus.Persistence
 		ContentItem Load(int id);
         T Load<T>(int id) where T : ContentItem;
         void Move(ContentItem toMove, ContentItem newParent);
-		void Save(ContentItem contentItem);
+        /// <summary>
+        /// Saves the item without invoking any events or checking sort position. Only for bulk operations - ese with extreme caution
+        /// </summary>
+        /// <param name="unsavedItem"></param>
+        void SaveFast(params ContentItem[] contentItems);
+        void Save(ContentItem contentItem);
         void SetUpdatedToNow(ContentItem contentItem);
 		void UpdateSortOrder(ContentItem contentItem, int newPos);
 	}

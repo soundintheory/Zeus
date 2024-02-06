@@ -10,12 +10,15 @@ using SoundInTheory.DynamicImage.Fluent;
 using SoundInTheory.DynamicImage.Filters;
 using System.Drawing;
 using System;
+using Zeus.Web.Caching;
 
 namespace Zeus.FileSystem.Images
 {
 	[ContentType]
 	public class Image : File
 	{
+        private static MemoryCacheStore<string, ImageUrl> _urlCache = new MemoryCacheStore<string, ImageUrl>();
+
 		public Image()
 		{
 			base.Visible = false;
@@ -40,54 +43,41 @@ namespace Zeus.FileSystem.Images
 			set { base.Data = value; }
 		}
 
-		public static Image FromStream(Stream stream, string filename)
-		{
+        public static Image FromStream(Stream stream, string filename) => FromStream<Image>(stream, filename);
+
+        public static T FromStream<T>(Stream stream, string filename) where T : Image, new()
+        {
 			byte[] fileBytes = stream.ReadAllBytes();
-			return new Image
+			return new T
 			{
 				ContentType = fileBytes.GetMimeType(),
 				Data = fileBytes,
 				Name = filename,
-				Size = stream.Length
+				Size = Convert.ToInt32(stream.Length)
 			};
 		}
 
-		public string GetUrl(int width, int height, bool fill, DynamicImageFormat format)
+        public string GetUrl(int width, int height, bool fill, DynamicImageFormat format)
 		{
-            string appKey = "ZeusImage_" + this.ID + "_" + width + "_" + height + "_" + fill.ToString();
-            string res = System.Web.HttpContext.Current.Cache[appKey] == null ? null : System.Web.HttpContext.Current.Cache[appKey].ToString();
-            DateTime lastUpdated = res != null ? (DateTime)System.Web.HttpContext.Current.Cache[appKey + "_timer"] : DateTime.MinValue;
+            string cacheKey = "ZeusImage_" + this.ID + "_" + width + "_" + height + "_" + fill.ToString();
 
-            if (res != null && lastUpdated == this.Updated)
+            if (_urlCache.TryGet(cacheKey, out var cacheEntry) && cacheEntry.LastUpdated >= this.Updated)
             {
-                return res;
+                return cacheEntry.Url;
             }
 
-            Composition image = new Composition {
-                ImageFormat = format
-            };
-
-            ImageLayer imageLayer = new ImageLayer
-            {
-                Source = new ZeusImageSource(this)
-            };
-
-            ResizeFilter resizeFilter = new ResizeFilter
-            {
-                Mode = fill ? ResizeMode.UniformFill : ResizeMode.Uniform,
-                Width = Unit.Pixel(width),
-                Height = Unit.Pixel(height)
-            };
-
-            imageLayer.Filters.Add(resizeFilter);
-            image.Layers.Add(imageLayer);
-
-            string url = ImageUrlGenerator.GetImageUrl(image);
-
-            System.Web.HttpContext.Current.Cache[appKey] = url;
-            System.Web.HttpContext.Current.Cache[appKey + "_timer"] = this.Updated;
-
-            return url;
+            return _urlCache.AddOrUpdate(
+                cacheKey,
+                (key) => GetUrlInternal(width, height, fill, format),
+                (key, currentValue) =>
+                {
+                    if (currentValue.LastUpdated >= this.Updated)
+                    {
+                        return currentValue;
+                    }
+                    return GetUrlInternal(width, height, fill, format);
+                }
+            ).Url;
 		}
 
         public string GetUrl(int width, int height, bool fill)
@@ -99,5 +89,39 @@ namespace Zeus.FileSystem.Images
 		{
             return GetUrl(width, height, true, DynamicImageFormat.Jpeg);
 		}
+
+        protected ImageUrl GetUrlInternal(int width, int height, bool fill, DynamicImageFormat format)
+        {
+            var image = new Composition
+            {
+                ImageFormat = format
+            };
+
+            var imageLayer = new ImageLayer
+            {
+                Source = new ZeusImageSource(this)
+            };
+
+            var resizeFilter = new ResizeFilter
+            {
+                Mode = fill ? ResizeMode.UniformFill : ResizeMode.Uniform,
+                Width = Unit.Pixel(width),
+                Height = Unit.Pixel(height)
+            };
+
+            imageLayer.Filters.Add(resizeFilter);
+            image.Layers.Add(imageLayer);
+
+            string url = ImageUrlGenerator.GetImageUrl(image);
+
+            return new ImageUrl { Url = url, LastUpdated = Updated };
+        }
+
+        public class ImageUrl
+        {
+            public string Url { get; set; }
+
+            public DateTime LastUpdated { get; set; }
+        }
 	}
 }
