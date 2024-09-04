@@ -11,6 +11,11 @@ namespace Zeus.Templates.Mvc.Controllers
 	{
 		public override ActionResult Index()
 		{
+            if (CurrentItem == null)
+            {
+                return HttpNotFound();
+            }
+
             if (CurrentItem is Image)
             {
                 System.Web.HttpContext httpContext = System.Web.HttpContext.Current;

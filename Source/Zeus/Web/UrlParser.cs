@@ -338,7 +338,14 @@ namespace Zeus.Web
                 }
             }
 
-            data.IsRewritable = IsRewritable(_webContext.PhysicalPath);
+            try
+            {
+                data.IsRewritable = IsRewritable(_webContext.PhysicalPath);
+            }
+            catch (PathTooLongException)
+            {
+                data.IsRewritable = false;
+            }
 
             return data;
         }
