@@ -21,11 +21,15 @@ namespace Zeus.Templates.Mvc.Html
 			if (contentItem == null)
 				return string.Empty;
 
-			if (!contentItem.Details.ContainsKey(propertyName))
-				return contentItem[fallbackPropertyName].ToString();
+			var property = contentItem.GetDetailPropertyData(propertyName) ?? contentItem.GetDetailPropertyData(fallbackPropertyName);
 
-			return contentItem[propertyName].ToString();
-		}
+			if (property != null)
+			{
+				return property.Value.ToString();
+			}
+
+            return string.Empty;
+        }
 
 		public static string HtmlTitle(this HtmlHelper html, ContentItem contentItem)
 		{

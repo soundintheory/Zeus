@@ -55,28 +55,40 @@ namespace Zeus.Web.Caching
 
         public ContentItem GetStaticItem(int id)
         {
-            var item = GetItem(id);
-
-            // Cache the ID against the type for future reference
-            if (item != null)
+            return _cache.GetOrAdd(CacheKey(id), () =>
             {
-                UpdateStaticTypeCache(id, item.GetType());
-            }
+                var item = _persister.Get(id);
 
-            return item;
+                // Cache the ID against the type for future reference
+                if (item != null)
+                {
+                    UpdateStaticTypeCache(id, item.GetType());
+
+                    // Load the details straight away
+                    item.LoadDetails();
+                }
+
+                return new CacheEntry<ContentItem>(item, _dependencies.ForItem(id));
+            });
         }
 
         public T GetStaticItem<T>(int id) where T : ContentItem
         {
-            var item = GetItem<T>(id);
-
-            // Cache the ID against the type for future reference
-            if (item != null)
+            return _cache.GetOrAdd(CacheKey(id), () =>
             {
-                UpdateStaticTypeCache(id, typeof(T));
-            }
+                var item = _persister.Get<T>(id);
 
-            return item;
+                // Cache the ID against the type for future reference
+                if (item != null)
+                {
+                    UpdateStaticTypeCache(id, typeof(T));
+
+                    // Load the details straight away
+                    item.LoadDetails();
+                }
+
+                return new CacheEntry<T>(item, _dependencies.ForItem(id));
+            });
         }
 
         public T GetStaticItem<T>() where T : ContentItem
@@ -85,7 +97,15 @@ namespace Zeus.Web.Caching
 
             if (item == default && itemId > 0)
             {
-                return GetItem<T>(itemId);
+                return _cache.GetOrAdd(CacheKey(itemId), () =>
+                {
+                    item = _persister.Get<T>(itemId);
+
+                    // Load the details straight away
+                    item.LoadDetails();
+
+                    return new CacheEntry<T>(item, _dependencies.ForItem(itemId));
+                });
             }
 
             return item;

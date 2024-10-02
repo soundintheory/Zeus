@@ -91,13 +91,13 @@ namespace Zeus.Serialization
 
 		protected virtual void RemoveDetailReferences(ContentItem referenceToRemove, ContentItem item)
 		{
-			List<string> keys = new List<string>(item.Details.Keys);
+			List<string> keys = new List<string>(item.GetDetails().Keys);
 			foreach (string key in keys)
 			{
-				PropertyData detail = item.Details[key];
+				PropertyData detail = item.GetDetailPropertyData(key);
 				if (detail.ValueType == typeof(ContentItem))
 					if (((LinkProperty) detail).LinkedItem == referenceToRemove)
-						item.Details.Remove(key);
+						item.RemoveDetail(key);
 			}
 		}
 

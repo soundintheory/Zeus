@@ -135,7 +135,7 @@ namespace Zeus.Persistence
 				}
 			}
 
-			foreach (PropertyData detail in replacementItem.Details.Values)
+			foreach (PropertyData detail in replacementItem.GetDetails().Values)
 				currentItem[detail.Name] = detail.Value;
 
 			foreach (PropertyCollection collection in replacementItem.DetailCollections.Values)
@@ -148,7 +148,7 @@ namespace Zeus.Persistence
 
 		private void ClearAllDetails(ContentItem item)
 		{
-			item.Details.Clear();
+			item.ClearDetails();
 			foreach (PropertyCollection collection in item.DetailCollections.Values)
 				collection.Details.Clear();
 			item.DetailCollections.Clear();

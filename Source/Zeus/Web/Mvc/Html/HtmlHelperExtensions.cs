@@ -50,12 +50,12 @@ namespace Zeus.Web.Mvc.Html
 			where TItem : ContentItem
 		{
 			MemberExpression memberExpression = (MemberExpression) expression.Body;
+			PropertyData propertyData = contentItem.GetDetailPropertyData(memberExpression.Member.Name);
 
-			if (!contentItem.Details.ContainsKey(memberExpression.Member.Name))
-				return string.Empty;
+            if (propertyData == null)
+                return string.Empty;
 
-			PropertyData propertyData = contentItem.Details[memberExpression.Member.Name];
-			return propertyData.GetXhtmlValue();
+            return propertyData.GetXhtmlValue();
 		}
 
 		public static string DisplayProperty<TModel, TItem>(this HtmlHelper<TModel> helper, Expression<Func<TItem, object>> expression)
@@ -65,11 +65,11 @@ namespace Zeus.Web.Mvc.Html
 			ContentItem contentItem = helper.ViewData.Model.CurrentItem;
 
 			MemberExpression memberExpression = (MemberExpression)expression.Body;
+            PropertyData propertyData = contentItem.GetDetailPropertyData(memberExpression.Member.Name);
 
-			if (!contentItem.Details.ContainsKey(memberExpression.Member.Name))
+            if (propertyData == null)
 				return string.Empty;
-
-			PropertyData propertyData = contentItem.Details[memberExpression.Member.Name];
+			
 			return propertyData.GetXhtmlValue();
 		}
 

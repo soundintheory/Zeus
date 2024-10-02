@@ -138,9 +138,8 @@ namespace Zeus.Persistence
 			{
 				if (detail.EnclosingCollection != null)
 					detail.EnclosingCollection.Remove(detail);
-				IDictionary<string, PropertyData> test = detail.EnclosingItem.Details; // TODO: Investigate why this is necessary, on a PersistentGenericMap
-				int count = test.Count;
-				detail.EnclosingItem.Details.Remove(detail.Name);
+				
+				detail.EnclosingItem.RemoveDetail(detail.Name);
 				_linkRepository.Delete(detail);
 			}
 		}

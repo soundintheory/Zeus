@@ -19,7 +19,7 @@ namespace Zeus.Serialization
 
 		protected virtual IEnumerable<PropertyData> GetDetails(ContentItem item)
 		{
-			return item.Details.Values;
+			return item.GetDetails().Values;
 		}
 
 		public virtual void WriteDetail(PropertyData detail, XmlTextWriter writer)

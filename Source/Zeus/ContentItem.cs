@@ -19,6 +19,7 @@ using Zeus.Web.Hosting;
 using System.Threading;
 using MongoDB.Bson.Serialization.Attributes;
 using Zeus.Web.Caching;
+using static NHibernate.Engine.Query.CallableParser;
 
 namespace Zeus
 {
@@ -32,10 +33,8 @@ namespace Zeus
         private IList<LanguageSetting> _languageSettings;
         private string _name;
         private DateTime? _expires;
-        private IList<ContentItem> _children = new List<ContentItem>();
-        private IList<ContentItem> _translations = new List<ContentItem>();
-        private IDictionary<string, PropertyData> _details = new Dictionary<string, PropertyData>();
-        private IDictionary<string, PropertyCollection> _detailCollections = new Dictionary<string, PropertyCollection>();
+        private readonly object _detailsLock = new object();
+        private readonly object _detailCollectionsLock = new object();
         private string _url;
         private bool _visible;
 
@@ -140,34 +139,26 @@ namespace Zeus
 
         /// <summary>Gets or sets the details collection. These are usually accessed using the e.g. item["Detailname"]. This is a place to store content data.</summary>
         [BsonIgnore]
-        public IDictionary<string, PropertyData> Details
-        {
-            get { return _details; }
-            set { _details = value; }
-        }
+        public IDictionary<string, PropertyData> Details { get; set; } = new Dictionary<string, PropertyData>();
 
         /// <summary>Gets or sets the details collection collection. These are details grouped into a collection.</summary>
         [BsonIgnore]
-        public IDictionary<string, PropertyCollection> DetailCollections
-        {
-            get { return _detailCollections; }
-            set { _detailCollections = value; }
-        }
+        public IDictionary<string, PropertyCollection> DetailCollections { get; set; } = new Dictionary<string, PropertyCollection>();
 
         /// <summary>Gets or sets all a collection of child items of this item ignoring permissions. If you want the children the current user has permission to use <see cref="GetChildren()"/> instead.</summary>
         [BsonIgnore]
-        public virtual IList<ContentItem> Children
-        {
-            get { return _children; }
-            set { _children = value; }
-        }
+        public virtual IList<ContentItem> Children { get; set; } = new List<ContentItem>();
 
         /// <summary>Gets or sets all a collection of child items of this item ignoring permissions. If you want the children the current user has permission to use <see cref="GetChildren()"/> instead.</summary>
         [BsonIgnore]
-        public virtual IList<ContentItem> Translations
+        public virtual IList<ContentItem> Translations { get; set; } = new List<ContentItem>();
+
+        public virtual void LoadDetails()
         {
-            get { return _translations; }
-            set { _translations = value; }
+            lock (_detailsLock)
+            {
+                _ = new Dictionary<string, PropertyData>(Details);
+            }
         }
 
         [BsonIgnore]
@@ -367,15 +358,15 @@ namespace Zeus
         /// <returns>The value stored in the details bag or null if no item was found.</returns>
         public virtual object GetDetail(string detailName)
         {
-            var source = Details;
-            lock (source)
+            lock (_detailsLock)
             {
-                var details = new Dictionary<string, PropertyData>(Details);
-
-                return details.ContainsKey(detailName)
-                    ? details[detailName].Value
-                    : null;
+                if (Details.TryGetValue(detailName, out var detailValue))
+                {
+                    return detailValue.Value;
+                }
             }
+
+            return null;
         }
 
         /// <summary>Gets a detail from the details bag.</summary>
@@ -384,16 +375,15 @@ namespace Zeus
         /// <returns>The value stored in the details bag or null if no item was found.</returns>
         public virtual T GetDetail<T>(string detailName, T defaultValue)
         {
-            var source = Details;
-            lock (source)
+            lock (_detailsLock)
             {
-                var details = new Dictionary<string, PropertyData>(Details);
-
-                if (details.ContainsKey(detailName))
-                    return Utility.Convert<T>(details[detailName].Value);
-
-                return defaultValue;
+                if (Details.TryGetValue(detailName, out var detailValue))
+                {
+                    return Utility.Convert<T>(detailValue.Value);
+                }
             }
+
+            return defaultValue;
         }
 
         public virtual void SetDetail(string detailName, object value)
@@ -401,9 +391,9 @@ namespace Zeus
             if (string.IsNullOrEmpty(detailName))
                 throw new ArgumentNullException("detailName");
             
-            lock (_details)
+            lock (_detailsLock)
             {
-                PropertyData detail = Details.ContainsKey(detailName) ? Details[detailName] : null;
+                Details.TryGetValue(detailName, out var detail);
 
                 if (detail != null && value != null && value.GetType().IsAssignableFrom(detail.ValueType))
                 {
@@ -432,9 +422,19 @@ namespace Zeus
         protected virtual void SetDetail<T>(string detailName, T value, T defaultValue)
         {
             if (value == null || !value.Equals(defaultValue))
-                SetDetail(detailName, value);
-            else if (Details.ContainsKey(detailName))
-                Details.Remove(detailName);
+            {
+                SetDetail(detailName, (object)value);
+            }
+            else
+            {
+                lock (_detailsLock)
+                {
+                    if (Details.ContainsKey(detailName))
+                    {
+                        Details.Remove(detailName);
+                    }
+                }
+            }
         }
 
         /// <summary>Set a value into the <see cref="Details"/> bag. If a value with the same name already exists it is overwritten.</summary>
@@ -443,6 +443,58 @@ namespace Zeus
         protected virtual void SetDetail<T>(string detailName, T value)
         {
             SetDetail(detailName, (object)value);
+        }
+
+        public virtual IDictionary<string, PropertyData> GetDetails()
+        {
+            lock (_detailsLock)
+            {
+                var details = new Dictionary<string, PropertyData>(Details);
+                return details;
+            }
+        }
+
+        public virtual void RemoveDetail(string detailName)
+        {
+            lock (_detailsLock)
+            {
+                if (Details.ContainsKey(detailName))
+                {
+                    Details.Remove(detailName);
+                }
+            }
+        }
+
+        public virtual void ClearDetails()
+        {
+            lock (_detailsLock)
+            {
+                if (Details.Count > 0)
+                {
+                    Details.Clear();
+                }
+            }
+        }
+
+        public virtual bool HasDetails()
+        {
+            lock (_detailsLock)
+            {
+                return Details.Count > 0;
+            }
+        }
+
+        public PropertyData GetDetailPropertyData(string detailName)
+        {
+            lock (_detailsLock)
+            {
+                if (Details.TryGetValue(detailName, out PropertyData propertyData))
+                {
+                    return propertyData;
+                }
+            }
+
+            return null;
         }
 
         #endregion
@@ -590,7 +642,7 @@ namespace Zeus
         private void CloneDetails(ContentItem cloned)
         {
             cloned.Details = new Dictionary<string, PropertyData>();
-            foreach (var detail in Details.Values)
+            foreach (var detail in GetDetails().Values)
                 cloned[detail.Name] = detail.Value;
 
             cloned.DetailCollections = new Dictionary<string, PropertyCollection>();
@@ -702,7 +754,7 @@ namespace Zeus
         /// <returns></returns>
         public virtual bool IsEmpty()
         {
-            return string.IsNullOrEmpty(Title) && !Details.Any() && !DetailCollections.Any();
+            return string.IsNullOrEmpty(Title) && !HasDetails() && !DetailCollections.Any();
         }
 
         /// <summary>
