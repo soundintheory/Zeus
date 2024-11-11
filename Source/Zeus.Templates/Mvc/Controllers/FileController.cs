@@ -11,7 +11,7 @@ namespace Zeus.Templates.Mvc.Controllers
 	{
 		public override ActionResult Index()
 		{
-            if (CurrentItem == null)
+            if (CurrentItem == null || CurrentItem.IsEmpty())
             {
                 return HttpNotFound();
             }
@@ -27,7 +27,9 @@ namespace Zeus.Templates.Mvc.Controllers
                 if (CurrentItem.Size.HasValue)
                     httpContext.Response.Headers["Content-Length"] = CurrentItem.Size.Value.ToString();
 
-                httpContext.Response.Headers["Content-Type"] = CurrentItem.ContentType;
+                if (!string.IsNullOrEmpty(CurrentItem.ContentType))
+                    httpContext.Response.Headers["Content-Type"] = CurrentItem.ContentType;
+
                 DateTime dateOnRequest;
                 if (DateTime.TryParse(httpContext.Request.Headers["If-Modified-Since"], out dateOnRequest) && (dateOnRequest == modDate))
                 {
@@ -42,10 +44,10 @@ namespace Zeus.Templates.Mvc.Controllers
 
             if (CurrentItem.Data == null)
             {
-                return new FileContentResult(new byte[0], CurrentItem.ContentType);
+                return new FileContentResult(new byte[0], CurrentItem.ContentType ?? "application/octet-stream");
             }
 
-			return new FileContentResult(CurrentItem.Data, CurrentItem.ContentType);
+			return new FileContentResult(CurrentItem.Data, CurrentItem.ContentType ?? "application/octet-stream");
 
 		}
 	}
