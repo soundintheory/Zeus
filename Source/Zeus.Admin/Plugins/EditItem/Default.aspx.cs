@@ -282,6 +282,10 @@ namespace Zeus.Admin.Plugins.EditItem
 
             // DropzoneUpload
             ExtNet.ResourceManager.RegisterClientScriptInclude(typeof(DropzoneUpload), "Zeus.Web.Resources.Dropzone.dropzone.min.js");
+            ExtNet.ResourceManager.RegisterClientScriptInclude(typeof(DropzoneUpload), "Zeus.Web.Resources.Cropper.cropper.min.js");
+            ExtNet.ResourceManager.RegisterClientScriptInclude(typeof(DropzoneUpload), "Zeus.Web.Resources.ImageEditor.image-editor.js");
+            ExtNet.ResourceManager.RegisterClientStyleInclude(typeof(DropzoneUpload), "Zeus.Web.Resources.Cropper.cropper.min.css");
+            ExtNet.ResourceManager.RegisterClientStyleInclude(typeof(DropzoneUpload), "Zeus.Web.Resources.ImageEditor.image-editor.css");
             ExtNet.ResourceManager.RegisterClientStyleInclude(typeof(DropzoneUpload), "Zeus.Web.Resources.Dropzone.dropzone.min.css");
             ExtNet.ResourceManager.RegisterClientStyleInclude(typeof(DropzoneUpload), "Zeus.Web.Resources.Dropzone.dropzone.custom.css");
 

@@ -45,6 +45,12 @@
 [assembly: WebResource("Zeus.Web.Resources.Dropzone.dropzone.min.css", "text/css")]
 [assembly: WebResource("Zeus.Web.Resources.Dropzone.dropzone.custom.css", "text/css")]
 
+[assembly: WebResource("Zeus.Web.Resources.Cropper.cropper.min.js", "text/javascript")]
+[assembly: WebResource("Zeus.Web.Resources.Cropper.cropper.min.css", "text/css")]
+
+[assembly: WebResource("Zeus.Web.Resources.ImageEditor.image-editor.js", "text/javascript")]
+[assembly: WebResource("Zeus.Web.Resources.ImageEditor.image-editor.css", "text/css")]
+
 [assembly: WebResource("Zeus.Web.Resources.xregexp-unicode-base.js", "text/javascript")]
 [assembly: WebResource("Zeus.Web.Resources.xregexp-unicode-categories.js", "text/javascript")]
 [assembly: WebResource("Zeus.Web.Resources.xregexp.js", "text/javascript")]

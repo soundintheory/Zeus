@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
 using System.Web.UI;
@@ -120,14 +122,43 @@ namespace Zeus.Design.Editors
 			set { _propertyType = value; }
 		}
 
-		#endregion
+		private readonly List<AbstractEditorConfigAttribute> _config = new List<AbstractEditorConfigAttribute>();
 
-		#region Methods
+        public void ClearConfig(AbstractEditorConfigAttribute config)
+        {
+			_config.Clear();
+        }
 
-		/// <summary>Find out whether a user has permission to edit this detail.</summary>
-		/// <param name="user">The user to check.</param>
-		/// <returns>True if the user has the required permissions.</returns>
-		public virtual bool IsAuthorized(IPrincipal user)
+        public void AddConfig(AbstractEditorConfigAttribute config)
+        {
+			if (config != null)
+			{
+                _config.Insert(0, config);
+            }
+        }
+
+        public T GetConfig<T>() where T : AbstractEditorConfigAttribute
+        {
+			var overriden = _config.OfType<T>().FirstOrDefault();
+
+			return overriden ?? UnderlyingProperty?.GetCustomAttribute<T>();
+		}
+
+		public T[] GetAllConfig<T>() where T : AbstractEditorConfigAttribute
+        {
+			var overriden = _config.OfType<T>();
+
+            return overriden.Concat(UnderlyingProperty?.GetCustomAttributes<T>()?.ToArray() ?? Array.Empty<T>()).ToArray();
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>Find out whether a user has permission to edit this detail.</summary>
+        /// <param name="user">The user to check.</param>
+        /// <returns>True if the user has the required permissions.</returns>
+        public virtual bool IsAuthorized(IPrincipal user)
 		{
 			if (AuthorizedRoles == null)
 				return true;

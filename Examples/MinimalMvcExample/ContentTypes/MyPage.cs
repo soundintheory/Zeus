@@ -6,77 +6,54 @@ using System.Collections.Generic;
 using Zeus.Web.UI;
 using Zeus.ContentTypes;
 using Zeus.Templates.ContentTypes;
+using Zeus.FileSystem.Images;
+using Zeus.FileSystem;
 
 namespace Zeus.Examples.MinimalMvcExample.ContentTypes
 {
 	[ContentType("Page", IgnoreSEOAssets=true)]
 	[AllowedChildren(typeof(Zeus.FileSystem.File))]
 	[Panel("NewContainer", "All My Types Go in Here!", 100)]
-	[FieldSet("ImageContainer", "Main Image", 200, ContainerName = "Content")]
-    [FieldSet("AnotherImageContainer", "Secondary Image", 300, ContainerName = "Content")]
-    [FieldSet("FileContainer", "Files", 400, ContainerName = "Content")]
     public class MyPage : BasePage
 	{
-		[LinkedItemDropDownListEditor("Product", 99)]
+		[LinkedItemDropDownListEditor("Product", 100)]
 		public virtual ContentItem Product
 		{
 			get { return GetDetail<ContentItem>("Product", null); }
 			set { SetDetail("Product", value); }
 		}
 
-		[Zeus.Design.Editors.ChildEditor("Image", 100, ContainerName="ImageContainer")]
-		public virtual Zeus.FileSystem.Images.Image Image
+		[ImageEditor("Image", 110)]
+		public virtual HiddenImage Image
 		{
-			get { return GetChild("Image") as Zeus.FileSystem.Images.Image; }
-			set
-			{
-				if (value != null)
-				{
-					value.Name = "Image";
-					value.AddTo(this);
-				}
-			}
+			get { return GetChild<HiddenImage>("Image"); }
+			set { SetChild(value, "Image"); }
 		}
 
-		[Zeus.Design.Editors.ChildEditor("Another Image", 110, ContainerName = "AnotherImageContainer")]
-		public virtual Zeus.FileSystem.Images.Image AnotherImage
+		[ImageEditor("Cropped Image", 120)]
+        public virtual HiddenCroppedImage AnotherImage
 		{
-			get { return GetChild("AnotherImage") as Zeus.FileSystem.Images.Image; }
-			set
-			{
-				if (value != null)
-				{
-					value.Name = "AnotherImage";
-					value.AddTo(this);
-				}
-			}
+			get { return GetChild<HiddenCroppedImage>("AnotherImage"); }
+			set { SetChild(value, "AnotherImage"); }
 		}
 
-        [Zeus.Design.Editors.ChildEditor("File", 100, ContainerName = "FileContainer")]
-        public virtual Zeus.FileSystem.File File
+        [ImageEditor("Cropped Image With More Crops", 130)]
+        [ImageCrop]
+        [ImageCrop("Thumbnail", 300d / 200d, MinWidth = 300, MinHeight = 200)]
+        public virtual HiddenCroppedImage AnotherImage2
         {
-            get { return GetChild("File") as Zeus.FileSystem.File; }
-            set
-            {
-                if (value != null)
-                {
-                    value.Name = "File";
-                    value.AddTo(this);
-                }
-            }
+            get { return GetChild<HiddenCroppedImage>("AnotherImage2"); }
+            set { SetChild(value, "AnotherImage2"); }
         }
 
-        /*
-        [ContentProperty("Other Images", 200, EditorContainerName = "Content")]
-        [ChildrenEditor("Other Images", 200, TypeFilter = typeof(Zeus.FileSystem.Images.Image), ContainerName = "Content")]
-        public IEnumerable<Zeus.FileSystem.Images.Image> Images
+        [ChildEditor("File", 140)]
+        public virtual File File
         {
-            get { return GetChildren<Zeus.FileSystem.Images.Image>(); }
+            get { return GetChild<File>("File"); }
+            set { SetChild(value, "File"); }
         }
-         */
 
-
-        [ChildrenEditor("Test Child Editors", 15, TypeFilter = typeof(MyLittleType), ContainerName = "NewContainer")]
+        [ChildrenEditor("Test Child Editors", 150, TypeFilter = typeof(MyLittleType), ContainerName = "NewContainer")]
 		public virtual IEnumerable<MyLittleType> ListFilters
 		{
 			get { return GetChildren<MyLittleType>(); }

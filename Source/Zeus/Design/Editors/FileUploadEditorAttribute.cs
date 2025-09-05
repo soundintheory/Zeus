@@ -55,11 +55,9 @@ namespace Zeus.Design.Editors
                 // Populate File object.
 				file.FileName = fileUpload.FileName;
 				string uploadedFile = GetUploadedFilePath(fileUpload);
-				using (FileStream fs = new FileStream(uploadedFile, FileMode.Open))
+				using (FileStream fs = new FileStream(uploadedFile, FileMode.Open, FileAccess.Read, FileShare.Read))
 				{
-					file.Data = fs.ReadAllBytes();
-                    file.ContentType = file.Data.GetMimeType();
-					file.Size = fs.Length;                    
+                    UpdateFileItem(fs, file, fileUpload);
 				}
 
 				// Later, we will change the name, if this is a child property.
@@ -76,12 +74,19 @@ namespace Zeus.Design.Editors
 			return result;
 		}
 
+		protected virtual void UpdateFileItem(FileStream fs, File item, BaseFileUpload editor)
+		{
+            item.Data = fs.ReadAllBytes();
+            item.ContentType = item.Data.GetMimeType();
+            item.Size = fs.Length;
+        }
+
 		/// <summary>Creates a text box editor.</summary>
 		/// <param name="container">The container control the tetx box will be placed in.</param>
 		/// <returns>A text box control.</returns>
 		protected override Control AddEditor(Control container)
 		{
-			var fileUpload = CreateEditor();
+			var fileUpload = CreateEditor(container);
 			fileUpload.ID = Name;
 			if (!string.IsNullOrEmpty(TypeFilterDescription))
 				fileUpload.TypeFilterDescription = TypeFilterDescription;
@@ -108,14 +113,14 @@ namespace Zeus.Design.Editors
                 CurrentID = file.ID;
                 fileUpload.CurrentFileName = file.FileName;
 
-                if (file is Image)
+                if (file is Image image)
                 {
-                    fileUpload.PreviewUrl = ((Image)file).GetUrl(BaseFileUpload.THUMBNAIL_WIDTH, BaseFileUpload.THUMBNAIL_HEIGHT, false);
+                    fileUpload.PreviewUrl = image.GetUrl(BaseFileUpload.THUMBNAIL_WIDTH, BaseFileUpload.THUMBNAIL_HEIGHT, false);
                 }
             }
 		}
 
-		protected virtual BaseFileUpload CreateEditor()
+		protected virtual BaseFileUpload CreateEditor(Control container)
 		{
 			return new DropzoneUpload();
 		}

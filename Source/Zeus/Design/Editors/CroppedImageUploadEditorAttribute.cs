@@ -5,15 +5,13 @@ using Zeus.FileSystem.Images;
 using Zeus.FileSystem;
 using Zeus.ContentTypes;
 using System.IO;
+using Zeus.Web.UI;
 
 namespace Zeus.Design.Editors
 {
 	[AttributeUsage(AttributeTargets.Property)]
-	public class CroppedImageUploadEditorAttribute : FileUploadEditorAttribute
+	public class CroppedImageUploadEditorAttribute : ImageUploadEditorAttribute
 	{
-		public int? MinimumWidth { get; set; }
-		public int? MinimumHeight { get; set; }
-
 		/// <summary>Initializes a new instance of the ImageUploadEditorAttribute class.</summary>
 		/// <param name="title">The label displayed to editors</param>
 		/// <param name="sortOrder">The order of this editor</param>
@@ -23,44 +21,56 @@ namespace Zeus.Design.Editors
 
 		}
 
-		protected override BaseFileUpload CreateEditor()
-		{            
-			var uploader = new DropzoneImageUpload { MinimumWidth = MinimumWidth, MinimumHeight = MinimumHeight };
-            //add crop tool if item is already saved
-            
-            //CroppedImage image = (CroppedImage)this.UnderlyingProperty.GetValue(;
+		protected override BaseFileUpload CreateEditor(Control container)
+		{
+			var imageView = container.FindParent<ImageEditView>();
+			var uploader = new DropzoneImageUpload
+			{
+				MinWidth = MinWidth,
+				MinHeight = MinHeight
+			};
+
+			// If we're in a child image editor, take the crop settings from the property definition
+			if (imageView != null)
+			{
+				uploader.MinWidth = imageView.MinWidth;
+				uploader.MinHeight = imageView.MinHeight;
+				uploader.AllowCropping = imageView.AllowCropping;
+				uploader.Crops = imageView.Crops;
+            }
+
             return uploader;
-            
 		}
 
         protected override void UpdateEditorInternal(IEditableObject item, Control editor)
         {
             base.UpdateEditorInternal(item, editor);
 
-            if (((CroppedImage)item).Data != null)
-            {
-                //check to see if the image is large enough...
-                CroppedImage image = (CroppedImage)item;
+			if (item is CroppedImage croppedImage && editor is DropzoneImageUpload imageUpload)
+			{
+				croppedImage.EnsureSourceDimensions();
 
-                System.Drawing.Image imageForSize = System.Drawing.Image.FromStream(new MemoryStream(image.Data));
-                int ActualWidth = imageForSize.Width;
-                int ActualHeight = imageForSize.Height;
-                imageForSize.Dispose();
-
-                //if (ActualWidth > image.FixedWidthValue && ActualHeight > image.FixedHeightValue)
-                //{
-                    string selected = System.Web.HttpContext.Current.Request.QueryString["selected"];
-                    editor.Controls.AddAt(editor.Controls.Count, new LiteralControl("<div><p>Preview of how the image will look on the page</p><br/><p><a href=\"/admin/ImageCrop.aspx?id=" + image.ID + "&selected=" + selected + "\">Edit Crop</a></p><br/>"));
-                    editor.Controls.AddAt(editor.Controls.Count, new LiteralControl("<img src=\"" + ((CroppedImage)image).GetUrl(image.FixedWidthValue, image.FixedHeightValue, true, SoundInTheory.DynamicImage.DynamicImageFormat.Jpeg, false) + "?rand=" + new System.Random().Next(1000) + "\" /></div><br/><br/>"));
-                //}
-                //else
-                //{
-                //    editor.Controls.AddAt(editor.Controls.Count, new LiteralControl("<div><p>Image is not large enough to be cropped - it is advised that you upload a larger image</p></div><br/>"));                    
-                //}
-            }
+				imageUpload.CurrentCropData = croppedImage.GetAllCropData();
+				imageUpload.FullSizeUrl = croppedImage.GetUrl(800, 600, false);
+				imageUpload.SourceWidth = croppedImage.SourceWidth;
+				imageUpload.SourceHeight = croppedImage.SourceHeight;
+			}
         }
 
+        public override bool UpdateItem(IEditableObject item, Control editor)
+        {
+			var updated = false;
 
-        
-	}
+            // Update the crop data if it has been changed
+            if (item is CroppedImage image && editor is DropzoneImageUpload imageUpload && !imageUpload.HasDeletedFile && !string.IsNullOrEmpty(imageUpload.UpdatedCropData))
+            {
+                image.RawCropData = imageUpload.UpdatedCropData;
+				updated = true;
+            }
+
+            var result = base.UpdateItem(item, editor);
+
+			return result || updated;
+        }
+    }
 }

@@ -74,20 +74,20 @@ namespace Zeus.Web.UI.WebControls
 			Page.ClientScript.RegisterClientScriptResource(typeof(NameEditor), "Zeus.Web.Resources.xregexp.js");
 			Page.ClientScript.RegisterClientScriptResource(typeof(NameEditor), "Zeus.Web.Resources.xregexp-unicode-base.js");
 			Page.ClientScript.RegisterClientScriptResource(typeof(NameEditor), "Zeus.Web.Resources.xregexp-unicode-categories.js");
-	
-			if(Text == "")//New Page
-			{
-				Page.ClientScript.RegisterClientScriptResource(typeof(NameEditor), "Zeus.Web.UI.WebControls.NameEditor.js");
-			}
 
-			_labelPanel.Controls.Add(new LiteralControl("<br /><span class=\"edit\"><a href=\"#\" onclick=\"jQuery('#" + _label.ClientID + "').hide();jQuery('#" + _textBox.ClientID + "').show();return false;\">Edit</a></span>"));
+            if (Text == "")//New Page
+            {
+                Page.ClientScript.RegisterClientScriptResource(typeof(NameEditor), "Zeus.Web.UI.WebControls.NameEditor.js");
 
-			ItemView itemView = Parent.FindParent<ItemView>();
-			Control titleEditor = itemView.PropertyControls["Title"];
-			string script = string.Format(@"jQuery(document).ready(function() {{
+                ItemView itemView = Parent.FindParent<ItemView>();
+                Control titleEditor = itemView.PropertyControls["Title"];
+                string script = string.Format(@"jQuery(document).ready(function() {{
 					jQuery('#{0}, #{1}').nameEditor({{titleEditorID: '{2}'}});
 				}});", _label.ClientID, _textBox.ClientID, titleEditor.ClientID);
-			this.Page.ClientScript.RegisterStartupScript(typeof(NameEditor), "InitNameEditor", script, true);
+                this.Page.ClientScript.RegisterStartupScript(typeof(NameEditor), "InitNameEditor", script, true);
+            }
+
+            _labelPanel.Controls.Add(new LiteralControl("<br /><span class=\"edit\"><a href=\"#\" onclick=\"jQuery('#" + _label.ClientID + "').hide();jQuery('#" + _textBox.ClientID + "').show();return false;\">Edit</a></span>"));
 		}
 
 		#region IValidator Members

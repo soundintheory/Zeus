@@ -8,15 +8,20 @@ using SoundInTheory.DynamicImage.Layers;
 using SoundInTheory.DynamicImage.Sources;
 using Zeus.ContentTypes;
 using Zeus.Design.Editors;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using System.Linq;
 
 namespace Zeus.FileSystem.Images
 {
     //the editor when this isn't hidden needs to understand that the crop values will be in the parent object
 
     [ContentType("User Cropped Image")]
-    public class CroppedImage : Image, AcceptArgsFromChildEditor
+    public class CroppedImage : Image
     {
-        [CroppedImageUploadEditor("CroppedImage", 100)]
+        public const string DefaultCropId = "default";
+
+        [CroppedImageUploadEditor("Image", 100)]
         public override byte[] Data
         {
             get { return base.Data; }
@@ -31,417 +36,172 @@ namespace Zeus.FileSystem.Images
             }
         }
 
-        public virtual int TopLeftXVal
+        protected virtual Dictionary<string, CropData> Crops
         {
-            get { return GetDetail("TopLeftXVal", 0); }
-            set { SetDetail("TopLeftXVal", value); }
+            get
+            {
+                var value = RawCropData;
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    return new Dictionary<string, CropData>();
+                }
+
+                try
+                {
+                    return JsonConvert.DeserializeObject<Dictionary<string, CropData>>(value);
+                }
+                catch
+                {
+                    return new Dictionary<string, CropData>();
+                }
+            }
+            set
+            {
+                RawCropData = JsonConvert.SerializeObject(value);
+            }
         }
 
-        public virtual int TopLeftYVal
+        public string RawCropData
         {
-            get { return GetDetail("TopLeftYVal", 0); }
-            set { SetDetail("TopLeftYVal", value); }
+            get => GetDetail("Crops", default(string));
+            set => SetDetail("Crops", value);
         }
 
-        public virtual int CropWidth
+        public virtual Dictionary<string, CropData> GetAllCropData() => Crops;
+
+        public virtual CropData GetCrop(string key)
         {
-            get { return GetDetail("CropWidth", 0); }
-            set { SetDetail("CropWidth", value); }
+            if (string.IsNullOrEmpty(key))
+            {
+                return GetDefaultCrop();
+            }
+
+            return Crops.TryGetValue(key, out var cropData) ? cropData : new CropData();
         }
 
-        public virtual int CropHeight
+        public virtual void SetCrop(string key, int x, int y, int w, int h, float scale = 1)
+            => SetCrop(key, new CropData { x = x, y = y, w = w, h = h, s = scale });
+
+        public virtual void SetCrop(string key, CropData data)
         {
-            get { return GetDetail("CropHeight", 0); }
-            set { SetDetail("CropHeight", value); }
+            if (data == null)
+            {
+                ResetCrop(key);
+                return;
+            }
+
+            var crops = Crops;
+            crops[key] = data;
+            Crops = crops;
         }
 
-        public new string GetUrl(int width, int height, bool fill, DynamicImageFormat format)
+        public virtual CropData GetDefaultCrop()
         {
-            return GetUrl(width, height, fill, format, false);                
+            var crops = Crops;
+
+            if (crops.TryGetValue(DefaultCropId, out var crop))
+            {
+                return crop;
+            }
+
+            return crops.Values.FirstOrDefault() ?? new CropData();
         }
 
-        public string GetUrlForAdmin(int width, int height, bool fill, DynamicImageFormat format, bool isResize)
-        {
-            //first construct the crop
-            var imageSource = new ZeusImageSource(this);
+        public virtual void SetDefaultCrop(string key, int x, int y, int w, int h, float scale = 1)
+            => SetCrop(DefaultCropId, new CropData { x = x, y = y, w = w, h = h, s = scale });
 
-            return GetUrlForAdminViaSource(imageSource, width, height, fill, format, isResize);
+        public virtual void SetDefaultCrop(string key, CropData data)
+            => SetCrop(DefaultCropId, data);
+
+        public virtual void ResetCrop(string key)
+        {
+            var crops = Crops;
+
+            if (crops.Remove(key))
+            {
+                Crops = crops;
+            }
         }
 
-        public string GetUrlForAdminViaSource(ImageSource source, int width, int height, bool fill, DynamicImageFormat format, bool isResize)
+        public string GetCropUrl(int width, int height)
         {
-            //see if it's the standard editor crop (from admin site most likely)
-            bool isStandard = width == 800 & height == 600;
+            return GetCropUrl(null, width, height, true, DynamicImageFormat.Jpeg);
+        }
 
-            if (this.Data == null)
+        public string GetCropUrl(int width, int height, bool fill)
+        {
+            return GetCropUrl(null, width, height, fill, DynamicImageFormat.Jpeg);
+        }
+
+        public string GetCropUrl(int width, int height, bool fill, DynamicImageFormat format)
+        {
+            return GetCropUrl(null, width, height, fill, format);
+        }
+
+        public string GetCropUrl(string cropId, int width, int height)
+        {
+            return GetCropUrl(cropId, width, height, true, DynamicImageFormat.Jpeg);
+        }
+
+        public string GetCropUrl(string cropId, int width, int height, bool fill)
+        {
+            return GetCropUrl(cropId, width, height, fill, DynamicImageFormat.Jpeg);
+        }
+
+        public string GetCropUrl(string cropId, int width, int height, bool fill, DynamicImageFormat format)
+        {
+            string appKey = $"CroppedImage.{ID}.{cropId ?? "_"}.{width}.{height}.{fill}";
+
+            var crop = GetCrop(cropId);
+
+            if (crop.IsEmpty)
+            {
+                var standardResizeUrl = base.GetUrl(width, height, true, format);
+                System.Web.HttpContext.Current.Cache[appKey] = standardResizeUrl;
+
+                return standardResizeUrl;
+            }
+
+            if (IsEmpty())
+            {
                 return "";
-
-            // generate resized image url
-            // set image format
-            var dynamicImage = new SoundInTheory.DynamicImage.Composition();
-            dynamicImage.ImageFormat = format;
-
-            //create the background
-            string optionalBackground = System.Web.HttpContext.Current.Server.MapPath("/assets/zeus/background.png");
-            bool useBG = System.IO.File.Exists(optionalBackground);
-            double percChangeForBG = 1;
-            var bgLayer = new ImageLayer();
-            if (useBG)
-            {
-                bgLayer.SourceFileName = optionalBackground;
-
-                if (!isStandard)
-                {
-                    System.Drawing.Image image = System.Drawing.Image.FromStream(new MemoryStream(this.Data));
-                    int ActualWidth = image.Width;
-                    int ActualHeight = image.Height;
-                    image.Dispose();
-
-                    if ((Convert.ToDouble(ActualWidth) / Convert.ToDouble(800)) >= (Convert.ToDouble(ActualHeight) / Convert.ToDouble(600)))
-                    {
-                        percChangeForBG = (double)ActualWidth / (double)800;
-                    }
-                    else
-                    {
-                        percChangeForBG = (double)ActualHeight / (double)600;
-                    }
-
-                    if (percChangeForBG > 1)
-                    {
-                        var resizeBG = new ResizeFilter
-                        {
-                            Enabled = true,
-                            Mode = ResizeMode.UniformFill,
-                            EnlargeImage = true,
-                            //has to change as per the original resize
-                            Width = Unit.Pixel(Convert.ToInt32(Convert.ToDouble(1200) * percChangeForBG)),
-                            Height = Unit.Pixel(Convert.ToInt32(Convert.ToDouble(900) * percChangeForBG)),
-                        };
-
-                        bgLayer.Filters.Add(resizeBG);
-                    }
-                }
             }
 
-            // create image layer with a source
-            var imageLayer = new ImageLayer();
-            imageLayer.Source = source;
-
-            // add filters
-            if (!(TopLeftXVal == 0 && TopLeftYVal == 0 && CropWidth == 0 && CropHeight == 0))
-            {
-                var cropFilter = new CropFilter
-                {
-                    Enabled = true,
-                    X = this.TopLeftXVal,
-                    Y = this.TopLeftYVal,
-                    Width = this.CropWidth,
-                    Height = this.CropHeight
-                };
-                if (!isResize)
-                    imageLayer.Filters.Add(cropFilter);
-            }
-
-            if (width > 0 && height > 0)
-            {
-                var resizeFilter = new ResizeFilter
-                {
-                    Mode = isResize ? ResizeMode.Uniform : ResizeMode.UniformFill,
-                    Width = SoundInTheory.DynamicImage.Unit.Pixel(width),
-                    Height = SoundInTheory.DynamicImage.Unit.Pixel(height)
-                };
-                imageLayer.Filters.Add(resizeFilter);
-            }
-            else if (width > 0)
-            {
-                var resizeFilter = new ResizeFilter
-                {
-                    Mode = ResizeMode.UseWidth,
-                    Width = SoundInTheory.DynamicImage.Unit.Pixel(width)
-                };
-                imageLayer.Filters.Add(resizeFilter);
-            }
-            else if (height > 0)
-            {
-                var resizeFilter = new ResizeFilter
-                {
-                    Mode = ResizeMode.UseHeight,
-                    Height = SoundInTheory.DynamicImage.Unit.Pixel(height)
-                };
-                imageLayer.Filters.Add(resizeFilter);
-            }
-
-            // add the layer after resizing as it's being edited
-            if (useBG)
-            {
-                dynamicImage.Layers.Add(bgLayer);
-                if (percChangeForBG > 1)
-                {
-                    imageLayer.X = (Convert.ToInt32(Convert.ToDouble(200) * percChangeForBG));
-                    imageLayer.Y = (Convert.ToInt32(Convert.ToDouble(150) * percChangeForBG));
-                }
-                else
-                {
-                    imageLayer.X = 200;
-                    imageLayer.Y = 150;
-                }
-            }
+            var imageSource = new ZeusImageSource(this);
+            var dynamicImage = new Composition { ImageFormat = format };
+            var imageLayer = new ImageLayer { Source = imageSource };
 
             dynamicImage.Layers.Add(imageLayer);
 
-            // generate url
-            return ImageUrlGenerator.GetImageUrl(dynamicImage);
-        }
-
-        public static void Log(string what)
-        {
-            /*
-            using (StreamWriter w = System.IO.File.AppendText(System.Web.HttpContext.Current.Server.MapPath("/log.txt")))
+            // Add crop filter
+            imageLayer.Filters.Add(new ZeusCropFilter
             {
-                Log(what, w);
-                // Close the writer and underlying file.
-                w.Close();
-            }
-             */
-        }
-
-        public static void Log(string logMessage, TextWriter w)
-        {
-            w.Write("\r\nLog Entry : ");
-            w.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
-                DateTime.Now.ToLongDateString());
-            w.WriteLine("  :");
-            w.WriteLine("  :{0}", logMessage);
-            w.WriteLine("-------------------------------");
-            // Update the underlying file.
-            w.Flush();
-        }
-
-        public string GetUrl(int width, int height, bool fill, DynamicImageFormat format, bool isResize)
-        {
-            string appKey = "CroppedImage_" + this.ID + "_" + width + "_" + height + "_" + fill.ToString();
-            string res = System.Web.HttpContext.Current.Cache[appKey] == null ? null : System.Web.HttpContext.Current.Cache[appKey].ToString();
-            DateTime lastUpdated = res != null ? (DateTime)System.Web.HttpContext.Current.Cache[appKey + "_timer"] : DateTime.MinValue;
-
-            if (res != null && lastUpdated == this.Updated)
+                Enabled = true,
+                X = crop.x,
+                Y = crop.y,
+                Width = crop.w,
+                Height = crop.h
+            });
+            
+            // Resize if necessary
+            if (width > 0 || height > 0)
             {
-                Log("Image was retrieved from Cache - " + appKey);
-                return res;
-            }
-            else
-            {
-                Log("Image originated - " + appKey + " (res was " + (res == null ? "null" : res) + " and timer was " + lastUpdated.ToShortTimeString() + ")");
-            }
-
-            if (this.TopLeftXVal == 0 && this.TopLeftYVal == 0 && this.CropWidth == 0 && this.CropHeight == 0)
-            {
-                string res2 = GetUrl(width, height, fill);
-
-                System.Web.HttpContext.Current.Cache[appKey] = res2;
-                System.Web.HttpContext.Current.Cache[appKey + "_timer"] = this.Updated;
-
-                Log(res2 + " added to cache for " + appKey);
-
-                return res2;
-            }
-                
-            //see if it's the standard editor crop (from admin site most likely)
-            bool isStandard = width == 800 & height == 600;
-
-            //first construct the crop
-            var imageSource = new ZeusImageSource(this);
-
-            if (this.Data == null)
-                return "";
-
-            // generate resized image url
-            // set image format
-            var dynamicImage = new SoundInTheory.DynamicImage.Composition();
-            dynamicImage.ImageFormat = format;
-
-            ImageLayer imageLayer = new ImageLayer();
-
-            //create the background
-            string optionalBackground = System.Web.HttpContext.Current.Server.MapPath("/assets/zeus/background.png");
-            bool useBG = System.IO.File.Exists(optionalBackground);
-            double percChangeForBG = 1;
-            var bgLayer = new ImageLayer();
-            if (useBG)
-            {
-                bgLayer.SourceFileName = optionalBackground;
-
-                if (!isStandard)
+                var resizeFilter = new ResizeFilter
                 {
-                    System.Drawing.Image image = System.Drawing.Image.FromStream(new MemoryStream(this.Data));
-                    int ActualWidth = image.Width;
-                    int ActualHeight = image.Height;
-                    image.Dispose();
-
-                    if ((Convert.ToDouble(ActualWidth) / Convert.ToDouble(800)) >= (Convert.ToDouble(ActualHeight) / Convert.ToDouble(600)))
-                    {
-                        percChangeForBG = (double)ActualWidth / (double)800;
-                    }
-                    else
-                    {
-                        percChangeForBG = (double)ActualHeight / (double)600;
-                    }
-
-                    if (percChangeForBG > 1)
-                    {
-                        var resizeBG = new ResizeFilter
-                        {
-                            Enabled = true,
-                            Mode = ResizeMode.UniformFill,
-                            EnlargeImage = true,
-                            //has to change as per the original resize
-                            Width = Unit.Pixel(Convert.ToInt32(Convert.ToDouble(1200) * percChangeForBG)),
-                            Height = Unit.Pixel(Convert.ToInt32(Convert.ToDouble(900) * percChangeForBG)),
-                        };
-
-                        bgLayer.Filters.Add(resizeBG);
-                    }
-                }
-
-                dynamicImage.Layers.Add(bgLayer);
-                if (percChangeForBG > 1)
-                {
-                    imageLayer.X = (Convert.ToInt32(Convert.ToDouble(200) * percChangeForBG));
-                    imageLayer.Y = (Convert.ToInt32(Convert.ToDouble(150) * percChangeForBG));
-                }
-                else
-                {
-                    imageLayer.X = 200;
-                    imageLayer.Y = 150;
-                }
-
-            }
-
-            // create image layer wit ha source
-            imageLayer.Source = imageSource;
-
-            //now combine the 2 layers...
-            dynamicImage.Layers.Add(imageLayer);
-
-            // generate url
-            string halfWayFileName = ImageUrlGenerator.GetImageUrl(dynamicImage);
-
-            var dynamicImage2 = new SoundInTheory.DynamicImage.Composition();
-
-            var HalfwayImageSource = new ImageLayer();
-            BytesImageSource sourceData = new BytesImageSource();
-            var webClient = new WebClient();
-            try
-            {
-                sourceData.Bytes = webClient.DownloadData("http://" + System.Web.HttpContext.Current.Request.Url.Host + halfWayFileName);
-            }
-            catch
-            {
-                return "Byte retrieval failed for " + halfWayFileName;
-            }
-
-            HalfwayImageSource.Source = sourceData;
-
-            // add filters
-            if (!(TopLeftXVal == 0 && TopLeftYVal == 0 && CropWidth == 0 && CropHeight == 0))
-            {
-                var cropFilter = new CropFilter
-                {
-                    Enabled = true,
-                    X = this.TopLeftXVal,
-                    Y = this.TopLeftYVal,
-                    Width = this.CropWidth,
-                    Height = this.CropHeight
+                    Mode = fill ? ResizeMode.UniformFill : ResizeMode.Uniform,
+                    Width = width > 0 ? Unit.Pixel(width) : Unit.Empty,
+                    Height = height > 0 ? Unit.Pixel(height) : Unit.Empty
                 };
-                if (!isResize)
-                    HalfwayImageSource.Filters.Add(cropFilter);
 
-                //finally resize both image and bg (if added)
-                if (width > 0 && height > 0)
-                {
-                    var resizeFilter = new ResizeFilter
-                    {
-                        Mode = isResize ? ResizeMode.Uniform : ResizeMode.UniformFill,
-                        Width = SoundInTheory.DynamicImage.Unit.Pixel(width),
-                        Height = SoundInTheory.DynamicImage.Unit.Pixel(height)
-                    };
-
-                    HalfwayImageSource.Filters.Add(resizeFilter);
-                }
-                else if (width > 0)
-                {
-                    var resizeFilter = new ResizeFilter
-                    {
-                        Mode = ResizeMode.UseWidth,
-                        Width = SoundInTheory.DynamicImage.Unit.Pixel(width)
-                    };
-                    HalfwayImageSource.Filters.Add(resizeFilter);
-                }
-                else if (height > 0)
-                {
-                    var resizeFilter = new ResizeFilter
-                    {
-                        Mode = ResizeMode.UseHeight,
-                        Height = SoundInTheory.DynamicImage.Unit.Pixel(height)
-                    };
-                    HalfwayImageSource.Filters.Add(resizeFilter);
-                }
+                imageLayer.Filters.Add(resizeFilter);
             }
 
-            dynamicImage2.Layers.Add(HalfwayImageSource);
-
-            string imageUrl = ImageUrlGenerator.GetImageUrl(dynamicImage2);
+            string imageUrl = ImageUrlGenerator.GetImageUrl(dynamicImage);
 
             System.Web.HttpContext.Current.Cache[appKey] = imageUrl;
-            System.Web.HttpContext.Current.Cache[appKey + "_timer"] = this.Updated;
-            Log(imageUrl + " added to cache for " + appKey);
 
             return imageUrl;
         }
-
-        public string GetUrl()
-        {
-            return GetUrl(FixedWidthValue, FixedHeightValue, true, DynamicImageFormat.Jpeg, false);
-        }
-
-        public string ImageTag
-        {
-            get{
-                return "<img src=\"" + GetUrl() + "\" alt=\"" + this.Caption + "\" />";
-            }
-        }
-        
-        #region AcceptArgsFromChildEditor Members
-
-        public virtual string arg1
-        {
-            get { return (Parent as ParentWithCroppedImageValues).Width.ToString(); }
-            set { }
-        }
-
-        public virtual string arg2
-        {
-            get { return (Parent as ParentWithCroppedImageValues).Height.ToString(); }
-            set { }
-        }
-
-        public int FixedWidthValue
-        {
-            get { return Convert.ToInt32(arg1); }
-            set { arg1 = value.ToString(); }
-        }
-
-        public int FixedHeightValue
-        {
-            get { return Convert.ToInt32(arg2); }
-            set { arg2 = value.ToString(); }
-        }
-        
-        #endregion
-    }
-
-    public interface ParentWithCroppedImageValues
-    {
-        int Width { get; }
-        int Height { get; }
     }
 }

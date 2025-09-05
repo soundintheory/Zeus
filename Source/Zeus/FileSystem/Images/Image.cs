@@ -52,7 +52,19 @@ namespace Zeus.FileSystem.Images
 			};
 		}
 
-		public string GetUrl(int width, int height, bool fill, DynamicImageFormat format)
+        public static T FromStream<T>(Stream stream, string filename) where T : Image, new()
+        {
+            byte[] fileBytes = stream.ReadAllBytes();
+            return new T
+            {
+                ContentType = fileBytes.GetMimeType(),
+                Data = fileBytes,
+                Name = filename,
+                Size = stream.Length
+            };
+        }
+
+        public virtual string GetUrl(int width, int height, bool fill, DynamicImageFormat format)
 		{
             string appKey = "ZeusImage_" + this.ID + "_" + width + "_" + height + "_" + fill.ToString();
             string res = System.Web.HttpContext.Current.Cache[appKey] == null ? null : System.Web.HttpContext.Current.Cache[appKey].ToString();
@@ -90,14 +102,28 @@ namespace Zeus.FileSystem.Images
             return url;
 		}
 
-        public string GetUrl(int width, int height, bool fill)
+        public virtual string GetUrl(int width, int height, bool fill)
 		{
             return GetUrl(width, height, fill, DynamicImageFormat.Jpeg);
 		}
 
-		public string GetUrl(int width, int height)
+		public virtual string GetUrl(int width, int height)
 		{
             return GetUrl(width, height, true, DynamicImageFormat.Jpeg);
 		}
+
+        public bool EnsureSourceDimensions()
+        {
+            if (!IsEmpty() && (SourceWidth == 0 || SourceHeight == 0))
+            {
+                System.Drawing.Image image = System.Drawing.Image.FromStream(new MemoryStream(Data), false, false);
+                SourceWidth = image.Width;
+                SourceHeight = image.Height;
+
+                return true;
+            }
+
+            return false;
+        }
 	}
 }
