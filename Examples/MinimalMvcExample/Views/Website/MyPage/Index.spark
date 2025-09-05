@@ -1,2 +1,31 @@
 <viewdata model="Zeus.Examples.MinimalMvcExample.ViewModels.MyPageViewModel" />
-Param = ${Model.ParamPassed}
+
+<div>
+  <h3>Image:</h3>
+  ${Html.ImageTag(Model.CurrentItem.Image, 300, 200, false).Lazy().Attr("class", "img-1")}
+</div>
+<div>
+  <h3>Cropped Image:</h3>
+  ${Html.ImageTag(Model.CurrentItem.AnotherImage, 300, 200, false).Lazy().Attr("class", "img-2")}
+</div>
+<div>
+  <h3>Cropped Image With More Crops:</h3>
+  ${Html.ImageTag(Model.CurrentItem.AnotherImage2, 300, 200, false).Lazy().Attr("class", "img-3")}
+  ${Html.ImageTag(Model.CurrentItem.AnotherImage2, 'Thumbnail', 300, 200, false).Lazy().Attr("class", "img-4")}
+  ${Html.ImageTag(Model.CurrentItem.AnotherImage2, 300, 200).Lazy().Attr("class", "img-5")}
+</div>
+<hr/>
+<div>
+  <h3>Image:</h3>
+  <img src="${Html.ImageUrl(Model.CurrentItem.Image, 300, 200, false)}" alt="${Model.CurrentItem.Image.Caption}" />
+</div>
+<div>
+  <h3>Cropped Image:</h3>
+  <img src="${Html.ImageUrl(Model.CurrentItem.AnotherImage, 300, 200, false)}" alt="${Model.CurrentItem.AnotherImage.Caption}" />
+</div>
+<div>
+  <h3>Cropped Image With More Crops:</h3>
+  <img src="${Html.ImageUrl(Model.CurrentItem.AnotherImage2, 300, 200, false)}" alt="${Model.CurrentItem.AnotherImage2.Caption}" />
+  <img src="${Html.ImageUrl(Model.CurrentItem.AnotherImage2, 'Thumbnail', 300, 200, false)}" alt="${Model.CurrentItem.AnotherImage2.Caption}" />
+  <img src="${Html.ImageUrl(Model.CurrentItem.AnotherImage2, 300, 200)}" alt="${Model.CurrentItem.AnotherImage2.Caption}" />
+</div>

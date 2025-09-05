@@ -58,9 +58,6 @@ namespace Zeus.Design.Editors
 
 		#region Methods
 
-        public string arg1 { get; set; }
-        public string arg2 { get; set; }
-
 		public override bool UpdateItem(IEditableObject item, Control editor)
 		{
 			ItemEditView itemEditor = (ItemEditView) editor;
@@ -103,14 +100,25 @@ namespace Zeus.Design.Editors
 
 		protected override Control AddEditor(Control panel)
 		{
-			ItemEditView editor = new ItemEditView();
+            var fieldset = new FieldSet
+            {
+                ID = $"{Name}FieldSet",
+                Title = Title,
+                Collapsible = false,
+                LabelAlign = LabelAlign.Top,
+                Padding = 5,
+                LabelSeparator = " "
+            };
+
+            ItemEditView editor = new ItemEditView();
 			editor.ID = Name;
             //editor.ZoneName = DefaultChildZoneName;
             editor.Init += OnChildEditorInit;
 
-			panel.Controls.Add(editor);
+            panel.Controls.Add(fieldset);
+            fieldset.ContentContainer.Controls.Add(editor);
 
-			return editor;
+            return editor;
 		}
 
 		protected virtual void OnChildEditorInit(object sender, EventArgs e)
@@ -122,19 +130,7 @@ namespace Zeus.Design.Editors
 
 		protected virtual ContentItem GetChild(ContentItem item)
 		{
-			ContentItem childItem = Utility.GetProperty(item, Name) as ContentItem;
-
-            if (childItem as AcceptArgsFromChildEditor != null)
-            {
-                if (((AcceptArgsFromChildEditor)childItem).arg1 != this.arg1 || ((AcceptArgsFromChildEditor)childItem).arg2 != this.arg2)
-                {
-                    //different values so save these to the object - not perfect, but without this mechanism the values would need to be edited manually...
-                    //the content item needs to understand the crop it's being asked to perform
-                    ((AcceptArgsFromChildEditor)childItem).arg1 = this.arg1;
-                    ((AcceptArgsFromChildEditor)childItem).arg2 = this.arg2;
-                    Zeus.Context.Persister.Save(childItem);
-                }
-            }
+			var childItem = Utility.GetProperty(item, Name) as ContentItem;
 
 			if (childItem == null)
 			{
@@ -155,11 +151,6 @@ namespace Zeus.Design.Editors
 			try
 			{
 				child = Definitions.CreateInstance(childItemType, item);
-                if (child as AcceptArgsFromChildEditor != null)
-                {
-                    ((AcceptArgsFromChildEditor)child).arg1 = this.arg1;
-                    ((AcceptArgsFromChildEditor)child).arg2 = this.arg2;
-                }
 			}
 			catch (KeyNotFoundException ex)
 			{
@@ -178,10 +169,4 @@ namespace Zeus.Design.Editors
 
 		#endregion
 	}
-
-    public interface AcceptArgsFromChildEditor
-    {
-        string arg1 { get; set; }
-        string arg2 { get; set; }
-    }
 }

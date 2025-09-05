@@ -240,6 +240,7 @@
     <Compile Include="Mvc\Controllers\RegistrationPageController.cs" />
     <Compile Include="Mvc\Feed.cs" />
     <Compile Include="Mvc\Html\AntiSpamExtensions.cs" />
+    <Compile Include="Mvc\Html\ImageTagBuilder.cs" />
     <Compile Include="Mvc\Html\GravatarExtensions.cs" />
     <Compile Include="Mvc\Html\MarkItUpExtensions.cs" />
     <Compile Include="Mvc\Html\TaggingExtensions.cs" />

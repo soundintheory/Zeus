@@ -149,13 +149,6 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="App_Start\DynamicImage.cs" />
-    <Compile Include="Imagecrop.aspx.cs">
-      <DependentUpon>Imagecrop.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Imagecrop.aspx.designer.cs">
-      <DependentUpon>Imagecrop.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Plugins\ManageZones\ManageZonesMenuPlugin.cs" />
     <Compile Include="Plugins\ManageZones\ManageZonesUserControl.ascx.cs">
       <DependentUpon>ManageZonesUserControl.ascx</DependentUpon>
@@ -479,7 +472,6 @@
     <EmbeddedResource Include="Assets\Images\Icons\exclamation.png" />
     <EmbeddedResource Include="Assets\Images\Icons\information.png" />
     <EmbeddedResource Include="Assets\Images\Icons\LanguageMissing.gif" />
-    <EmbeddedResource Include="Imagecrop.aspx" />
     <EmbeddedResource Include="Assets\JS\jcrop\fixed.js" />
     <EmbeddedResource Include="Assets\JS\jcrop\non-fixed.js" />
     <EmbeddedResource Include="Assets\Css\jcrop.gif" />

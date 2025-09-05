@@ -19,6 +19,7 @@ using Zeus.Web.Hosting;
 using System.Threading;
 using MongoDB.Bson.Serialization.Attributes;
 using Zeus.Web.Caching;
+using System.Runtime.CompilerServices;
 
 namespace Zeus
 {
@@ -719,8 +720,8 @@ namespace Zeus
         /// </summary>
         /// <param name="childName">The name of the child item to get.</param>
         /// <returns>The child item if it is found otherwise null.</returns>
-        /// <remarks>If the method is passed an empty or null string it will return itself.</remarks>
-        public virtual ContentItem GetChild(string childName)
+        /// <remarks>If the method is passed an empty or null string it will return null.</remarks>
+        public virtual ContentItem GetChild([CallerMemberName] string childName = null)
         {
             if (string.IsNullOrEmpty(childName))
                 return null;
@@ -748,6 +749,22 @@ namespace Zeus
                     return child;
 
             return null;
+        }
+
+        public virtual T GetChild<T>([CallerMemberName] string childName = null) where T : ContentItem
+            => GetChild(childName) as T;
+
+        public virtual void SetChild(ContentItem child, [CallerMemberName] string name = null)
+        {
+            if (child != null)
+            {
+                if (!string.IsNullOrEmpty(name))
+                {
+                    child.Name = name;
+                }
+
+                child.AddTo(this);
+            }
         }
 
         public override bool Equals(object obj)

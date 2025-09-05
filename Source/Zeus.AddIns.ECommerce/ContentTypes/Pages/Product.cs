@@ -52,18 +52,11 @@ namespace Zeus.AddIns.ECommerce.ContentTypes.Pages
 		}
 
         [ContentProperty("Main Image", 230, EditorContainerName = "fsMainImage")]
-        [ChildEditor("Main Image", 230)]
+        [ImageEditor("Main Image", 230)]
         public Image MainImage
 		{
-			get { return GetChild("MainImage") as Image; }
-			set
-			{
-				if (value != null)
-				{
-					value.Name = "MainImage";
-					value.AddTo(this);
-				}
-			}
+			get { return GetChild<Image>("MainImage"); }
+			set { SetChild(value, "MainImage"); }
 		}
 
 		[MultiImageUploadEditor("Extra Images", 250, ContainerName = "Images")]

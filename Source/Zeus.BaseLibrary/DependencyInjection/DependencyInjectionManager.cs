@@ -96,6 +96,7 @@ namespace Zeus.BaseLibrary.DependencyInjection
 			}
 			catch (TypeLoadException)
 			{
+				throw;
 			}
 		}
 

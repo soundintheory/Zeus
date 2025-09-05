@@ -13,7 +13,7 @@ namespace Zeus.Web.UI.WebControls
 {
     public class DropzoneUpload : BaseFileUpload
 	{
-		protected override void CreateChildControls()
+        protected override void CreateChildControls()
 		{
 			_hiddenFileNameField = new HiddenField { ID = ID + "hdnFileName" };
 			Controls.Add(_hiddenFileNameField);
@@ -48,31 +48,13 @@ namespace Zeus.Web.UI.WebControls
 
 			Controls.Add(new LiteralControl(html));
 
-            var config = new
-            {
-                url = VirtualPathUtility.ToAbsolute("~/PostedFileUpload.axd"),
-                thumbnailMethod = "contain",
-                maxFiles = 1,
-                addRemoveLinks = true,
-                thumbnailWidth = THUMBNAIL_WIDTH,
-                thumbnailHeight = THUMBNAIL_HEIGHT,
-                acceptedFiles = TypeFilter.Length > 0 ? string.Join(",", TypeFilter) : null,
-                @params = new
-                {
-                    identifier = Identifier
-                }
-            };
-
+            var config = GetConfig();
+            var currentFile = GetCurrentFile();
             var extraJs = "";
 
-            if (!string.IsNullOrEmpty(_currentFileName))
+            if (currentFile != null)
             {
-                var fileObject = new
-                {
-                    name = _currentFileName,
-                    existing = true
-                };
-                extraJs += $@"dz.displayExistingFile({JsonConvert.SerializeObject(fileObject)}, {JsonConvert.SerializeObject(PreviewUrl)}, null, null, false);";
+                extraJs += $@"dz.displayExistingFile({JsonConvert.SerializeObject(currentFile)}, {JsonConvert.SerializeObject(PreviewUrl)}, null, null, false);";
             }
 
 			var startScript = $@"
@@ -99,7 +81,9 @@ namespace Zeus.Web.UI.WebControls
                             (document.getElementById('{_hiddenFileNameField.ClientID}') || {{}}).value = file.name;
                         }}
                     }});
+                    {GetExtraJS() ?? ""}
                     {extraJs}
+                    
                 }})();
             ";
 
@@ -114,5 +98,39 @@ namespace Zeus.Web.UI.WebControls
 
 			base.OnPreRender(e);
 		}
-	}
+
+        protected virtual string GetExtraJS()
+        {
+            return "";
+        }
+
+        protected virtual Dictionary<string, object> GetConfig()
+        {
+            return new Dictionary<string, object>
+            {
+                { "url", VirtualPathUtility.ToAbsolute("~/PostedFileUpload.axd") },
+                { "thumbnailMethod", "contain" },
+                { "maxFiles", 1 },
+                { "addRemoveLinks", true },
+                { "thumbnailWidth", THUMBNAIL_WIDTH },
+                { "thumbnailHeight", THUMBNAIL_HEIGHT },
+                { "acceptedFiles", TypeFilter.Length > 0 ? string.Join(",", TypeFilter) : null },
+                { "params", new { identifier = Identifier } },
+            };
+        }
+
+        protected virtual Dictionary<string, object> GetCurrentFile()
+        {
+            if (string.IsNullOrEmpty(_currentFileName))
+            {
+                return null;
+            }
+
+            return new Dictionary<string, object>
+            {
+                { "name", _currentFileName },
+                { "existing", true }
+            };
+        }
+    }
 }
