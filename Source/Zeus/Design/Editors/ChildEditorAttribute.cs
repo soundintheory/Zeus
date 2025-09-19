@@ -30,13 +30,15 @@ namespace Zeus.Design.Editors
 	[AttributeUsage(AttributeTargets.Property)]
 	public class ChildEditorAttribute : AbstractEditorAttribute
 	{
-		#region Fields
+        #region Fields
 
-		#endregion
+        public bool UseFieldset { get; set; } = true;
 
-		#region Constructors
+        #endregion
 
-		public ChildEditorAttribute(string title, int sortOrder)
+        #region Constructors
+
+        public ChildEditorAttribute(string title, int sortOrder)
 			: base(title, sortOrder)
 		{
 			
@@ -100,25 +102,32 @@ namespace Zeus.Design.Editors
 
 		protected override Control AddEditor(Control panel)
 		{
-            var fieldset = new FieldSet
-            {
-                ID = $"{Name}FieldSet",
-                Title = Title,
-                Collapsible = false,
-                LabelAlign = LabelAlign.Top,
-                Padding = 5,
-                LabelSeparator = " "
-            };
-
             ItemEditView editor = new ItemEditView();
 			editor.ID = Name;
             //editor.ZoneName = DefaultChildZoneName;
             editor.Init += OnChildEditorInit;
 
-            panel.Controls.Add(fieldset);
-            fieldset.ContentContainer.Controls.Add(editor);
+			if (UseFieldset)
+			{
+                var fieldset = new FieldSet
+                {
+                    ID = $"{Name}FieldSet",
+                    Title = Title,
+                    Collapsible = false,
+                    LabelAlign = LabelAlign.Top,
+                    Padding = 5,
+                    LabelSeparator = " "
+                };
 
-            return editor;
+                panel.Controls.Add(fieldset);
+                fieldset.ContentContainer.Controls.Add(editor);
+            }
+			else
+			{
+                panel.Controls.Add(editor);
+            }
+			
+			return editor;
 		}
 
 		protected virtual void OnChildEditorInit(object sender, EventArgs e)

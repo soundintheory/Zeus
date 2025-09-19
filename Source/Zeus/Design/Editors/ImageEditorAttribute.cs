@@ -20,7 +20,7 @@ namespace Zeus.Design.Editors
 
         public bool IncludeDefaultCrop { get; set; }
 
-        public double DefaultAspectRatio { get; set; }
+        public double AspectRatio { get; set; }
 
         public bool AllowCropping { get; set; } = true;
 
@@ -31,16 +31,6 @@ namespace Zeus.Design.Editors
 
         protected override Control AddEditor(Control panel)
         {
-            var fieldset = new FieldSet
-            {
-                ID = $"{Name}FieldSet",
-                Title = Title,
-                Collapsible = false,
-                LabelAlign = LabelAlign.Top,
-                Padding = 5,
-                LabelSeparator = " "
-            };
-
             var editor = new ImageEditView();
             editor.ID = Name;
             editor.Init += OnChildEditorInit;
@@ -48,10 +38,30 @@ namespace Zeus.Design.Editors
             editor.Crops = GetCrops();
             editor.MinWidth = MinWidth;
             editor.MinHeight = MinHeight;
+            editor.Title = Title;
+            editor.UseFieldset = UseFieldset;
+            editor.Description = Description;
 
-            panel.Controls.Add(fieldset);
-            fieldset.ContentContainer.Controls.Add(editor);
+            if (UseFieldset)
+            {
+                var fieldset = new FieldSet
+                {
+                    ID = $"{Name}FieldSet",
+                    Title = Title,
+                    Collapsible = false,
+                    LabelAlign = LabelAlign.Top,
+                    Padding = 5,
+                    LabelSeparator = " "
+                };
 
+                panel.Controls.Add(fieldset);
+                fieldset.ContentContainer.Controls.Add(editor);
+            }
+            else
+            {
+                panel.Controls.Add(editor);
+            }
+            
             return editor;
         }
 
@@ -70,16 +80,7 @@ namespace Zeus.Design.Editors
             if (!cropAttributes.Any() || (IncludeDefaultCrop && !cropAttributes.Any(x => x.Id == CroppedImage.DefaultCropId)))
             {
                 // Add the default crop at the beginning if needed
-                cropAttributes = cropAttributes.Prepend(new ImageCropAttribute(DefaultAspectRatio));
-            }
-            else if (DefaultAspectRatio > 0)
-            {
-                var defaultCrop = cropAttributes.FirstOrDefault(x => x.Id == CroppedImage.DefaultCropId && x.AspectRatio <= 0);
-
-                if (defaultCrop != null)
-                {
-                    defaultCrop.AspectRatio = DefaultAspectRatio;
-                }
+                cropAttributes = cropAttributes.Prepend(new ImageCropAttribute(AspectRatio) { MinWidth = MinWidth, MinHeight = MinHeight });
             }
             
             return cropAttributes

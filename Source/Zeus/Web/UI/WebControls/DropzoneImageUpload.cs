@@ -109,12 +109,39 @@ namespace Zeus.Web.UI.WebControls
 
         protected override string GetExtraJS()
         {
+            var sb = new StringBuilder();
+
 			if (AllowCropping && Crops.Length > 0)
 			{
-                return "window.ImageEditor.initDropzone(dz);";
+                sb.AppendLine("window.ImageEditor.initDropzone(dz);");
             }
 
-			return "";
+            var sizeValidationMsg = "";
+
+            if (MinWidth > 0 && MinHeight > 0)
+            {
+                sizeValidationMsg = "Image must be at least " + MinWidth + " x " + MinHeight;
+            }
+            else if (MinWidth > 0)
+            {
+                sizeValidationMsg = "Image must be at least " + MinWidth + " wide";
+            }
+            else if (MinHeight > 0)
+            {
+                sizeValidationMsg = "Image must be at least " + MinHeight + " high";
+            }
+
+            if (MinWidth > 0 || MinHeight > 0)
+            {
+                sb.AppendLine(@"dz.on(""thumbnail"", function(file) {
+                  if (!file.existing && (file.width < " + MinWidth + @" || file.height < " + MinHeight + @")) {
+                    alert(""" + sizeValidationMsg + @""");
+                    this.removeFile(file)
+                  }
+                });");
+            }
+            
+			return sb.ToString();
         }
 
 		protected override Dictionary<string, object> GetConfig()
@@ -137,11 +164,44 @@ namespace Zeus.Web.UI.WebControls
 			{
 				currentFile["crops"] = CurrentCropData;
 				currentFile["fullSizeUrl"] = FullSizeUrl;
-                currentFile["sourceWidth"] = SourceWidth;
-                currentFile["sourceHeight"] = SourceHeight;
+                currentFile["width"] = SourceWidth;
+                currentFile["height"] = SourceHeight;
 			}
 
 			return currentFile;
+        }
+
+        protected override string GetDropzoneAreaNotes()
+        {
+            var typeFilter = TypeFilterDescription ?? "";
+            var sizeNote = GetMinSizeNote() ?? "";
+
+            if (!string.IsNullOrEmpty(typeFilter) || !string.IsNullOrEmpty(sizeNote))
+            {
+                return $"<span class=\"note\">{typeFilter}<br />{sizeNote}</span>";
+            }
+
+            return "";
+        }
+
+        protected virtual string GetMinSizeNote()
+        {
+            if (MinWidth > 0 && MinHeight > 0)
+            {
+                return $"Minimum size: {MinWidth} x {MinHeight}";
+            }
+
+            if (MinWidth > 0)
+            {
+                return $"Minimum width: {MinWidth}";
+            }
+
+            if (MinHeight > 0)
+            {
+                return $"Minimum height: {MinHeight}";
+            }
+
+            return "";
         }
 
         #region IValidator Members

@@ -10,7 +10,7 @@
 </div>
 <div>
   <h3>Cropped Image With More Crops:</h3>
-  ${Html.ImageTag(Model.CurrentItem.AnotherImage2, 300, 200, false).Lazy().Attr("class", "img-3")}
+  ${Html.ImageTag(Model.CurrentItem.AnotherImage2, 300, 200, false).Lazy().Attr("data-something").Attr("id", "yep")}
   ${Html.ImageTag(Model.CurrentItem.AnotherImage2, 'Thumbnail', 300, 200, false).Lazy().Attr("class", "img-4")}
   ${Html.ImageTag(Model.CurrentItem.AnotherImage2, 300, 200).Lazy().Attr("class", "img-5")}
 </div>

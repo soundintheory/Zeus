@@ -43,64 +43,32 @@ namespace Zeus.FileSystem.Images
 		public static Image FromStream(Stream stream, string filename)
 		{
 			byte[] fileBytes = stream.ReadAllBytes();
-			return new Image
+			var image = new Image
 			{
 				ContentType = fileBytes.GetMimeType(),
 				Data = fileBytes,
-				Name = filename,
-				Size = stream.Length
+				Name = Utility.GetSafeName(filename),
+				Size = stream.Length,
+                FileName = filename
 			};
+            image.EnsureSourceDimensions();
+            return image;
 		}
 
         public static T FromStream<T>(Stream stream, string filename) where T : Image, new()
         {
             byte[] fileBytes = stream.ReadAllBytes();
-            return new T
+            var image = new T
             {
                 ContentType = fileBytes.GetMimeType(),
                 Data = fileBytes,
-                Name = filename,
-                Size = stream.Length
+                Name = Utility.GetSafeName(filename),
+                Size = stream.Length,
+                FileName = filename
             };
+            image.EnsureSourceDimensions();
+            return image;
         }
-
-        public virtual string GetUrl(int width, int height, bool fill, DynamicImageFormat format)
-		{
-            string appKey = "ZeusImage_" + this.ID + "_" + width + "_" + height + "_" + fill.ToString();
-            string res = System.Web.HttpContext.Current.Cache[appKey] == null ? null : System.Web.HttpContext.Current.Cache[appKey].ToString();
-            DateTime lastUpdated = res != null ? (DateTime)System.Web.HttpContext.Current.Cache[appKey + "_timer"] : DateTime.MinValue;
-
-            if (res != null && lastUpdated == this.Updated)
-            {
-                return res;
-            }
-
-            Composition image = new Composition {
-                ImageFormat = format
-            };
-
-            ImageLayer imageLayer = new ImageLayer
-            {
-                Source = new ZeusImageSource(this)
-            };
-
-            ResizeFilter resizeFilter = new ResizeFilter
-            {
-                Mode = fill ? ResizeMode.UniformFill : ResizeMode.Uniform,
-                Width = Unit.Pixel(width),
-                Height = Unit.Pixel(height)
-            };
-
-            imageLayer.Filters.Add(resizeFilter);
-            image.Layers.Add(imageLayer);
-
-            string url = ImageUrlGenerator.GetImageUrl(image);
-
-            System.Web.HttpContext.Current.Cache[appKey] = url;
-            System.Web.HttpContext.Current.Cache[appKey + "_timer"] = this.Updated;
-
-            return url;
-		}
 
         public virtual string GetUrl(int width, int height, bool fill)
 		{
@@ -111,6 +79,42 @@ namespace Zeus.FileSystem.Images
 		{
             return GetUrl(width, height, true, DynamicImageFormat.Jpeg);
 		}
+
+        public virtual string GetUrl(int width, int height, bool fill, DynamicImageFormat format)
+        {
+            return Context.Current.Cache.GetOrAdd(
+                ID,
+                $"ZeusImage.{ID}.{width}.{height}.{fill}",
+                () => GetUrlInternal(width, height, fill, format)
+            );
+        }
+
+        protected virtual string GetUrlInternal(int width, int height, bool fill, DynamicImageFormat format)
+        {
+            var image = new Composition
+            {
+                ImageFormat = format
+            };
+
+            var imageLayer = new ImageLayer
+            {
+                Source = new ZeusImageSource(this)
+            };
+
+            var resizeFilter = new ResizeFilter
+            {
+                Mode = fill ? ResizeMode.UniformFill : ResizeMode.Uniform,
+                Width = Unit.Pixel(width),
+                Height = Unit.Pixel(height)
+            };
+
+            imageLayer.Filters.Add(resizeFilter);
+            image.Layers.Add(imageLayer);
+
+            var url = ImageUrlGenerator.GetImageUrl(image);
+
+            return url;
+        }
 
         public bool EnsureSourceDimensions()
         {

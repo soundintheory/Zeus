@@ -9,6 +9,7 @@ using Zeus.ContentTypes;
 using Zeus.FileSystem;
 using Zeus.FileSystem.Images;
 using Zeus.Web.Handlers;
+using Zeus.Web.UI;
 using Zeus.Web.UI.WebControls;
 using File = Zeus.FileSystem.File;
 
@@ -37,6 +38,26 @@ namespace Zeus.Design.Editors
 				MinHeight = MinHeight
 			};
 		}
+
+        public override Control AddTo(Control container)
+        {
+            var imageView = container.FindParent<ImageEditView>();
+
+            if (imageView != null)
+            {
+				if (!imageView.UseFieldset && !string.IsNullOrEmpty(imageView.Title))
+				{
+                    Title = imageView.Title;
+                }
+                
+				if (!string.IsNullOrEmpty(imageView.Description))
+				{
+					Description = imageView.Description;
+				}
+            }
+
+            return base.AddTo(container);
+        }
 
         public override bool UpdateItem(IEditableObject item, Control editor)
         {

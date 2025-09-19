@@ -19,7 +19,7 @@
             this.file = file;
 
             if (this.file.existing) {
-                this.scale = Math.min(1, maxImageWidth / file.sourceWidth, maxImageHeight / file.sourceHeight);
+                this.scale = Math.min(1, maxImageWidth / file.width, maxImageHeight / file.height);
             } else {
                 this.scale = 1;
                 this.file.crops = {};
@@ -45,6 +45,8 @@
         }
 
         open() {
+            console.log('opening image editor: ', this);
+
             this.modal = document.createElement('dialog');
             this.modal.closedBy = 'none';
             const modalContent = this.getModalContent();
@@ -65,13 +67,16 @@
 
             this.modal.showModal();
 
+            this.canvas = this.modal.querySelector('.canvas');
+            this.img = this.modal.querySelector('.canvas img');
+
             this.resizeObserver = new ResizeObserver((entries) => {
                 clearTimeout(this.resizeTimeout);
                 this.resizeTimeout = setTimeout(() => {
                     this.reloadCropper();
                 }, 50);
             });
-            this.resizeObserver.observe(this.modal.querySelector('.canvas'));
+            this.resizeObserver.observe(this.canvas);
 
             this.cropSelect = this.modal.querySelector('.crop-select');
             let initialCropId = this.dz.options.crops[0].id;
@@ -137,7 +142,6 @@
             this.zoom = 1;
             this.zoomInput.value = 100;
             this.isReady = false;
-            this.img = this.modal.querySelector('.canvas img');
             let cropSettings = this.getCurrentCropSettings();
             let cropData = this.getCurrentCropData();
             let hasCropData = this.hasCropData(cropData);
@@ -180,14 +184,32 @@
                     }
                 }
 
-                if (cropSettings.minWidth) {
-                    opts.minCropBoxWidth = cropSettings.minWidth;
+                let canvasSize = this.canvas.getBoundingClientRect();
+                let canvasScale = Math.min(1, canvasSize.width / this.file.width, canvasSize.height / this.file.height);
+                let minWidth = cropSettings.minWidth || 0;
+                let minHeight = cropSettings.minHeight || 0;
+
+                if (this.file.width < minWidth || this.file.height < minHeight) {
+                    let cropBoxScale = Math.min(1, minWidth > 0 ? this.file.width / minWidth : 1, minHeight > 0 ? this.file.height / minHeight : 1);
+                    minWidth = Math.floor(minWidth * cropBoxScale);
+                    minHeight = Math.floor(minHeight * cropBoxScale);
+
+                    console.log(`Source image was smaller than min size. Scaling min width and height by ${cropBoxScale} to match`);
                 }
 
-                if (cropSettings.minHeight) {
-                    opts.minCropBoxHeight = cropSettings.minHeight;
+                /*
+                TODO: these minimum dimensions cause problems when resizing the crop canvas
+                if (minWidth > 0) {
+                    opts.minCropBoxWidth = Math.floor(minWidth * canvasScale);
                 }
+
+                if (minHeight > 0) {
+                    opts.minCropBoxHeight = Math.floor(minHeight * canvasScale);
+                }
+                */
             }
+
+            console.log(`Initialising Cropper: `, opts, this.file);
 
             this.cropper = new Cropper(this.img, opts);
         }
@@ -238,6 +260,8 @@
             fileCrop.h = Math.round((data.height || 0) / this.scale);
             fileCrop.s = data.zoom || 1;
 
+            console.log('cropBoxData: ', this.cropper.getCropBoxData());
+
             if (this.cropDataField) {
                 this.cropDataField.value = JSON.stringify(this.file.crops);
             }
@@ -276,7 +300,7 @@
                 cropSelect = `<div class="control"><label for="crop-select">Select Crop:</label> <select id="crop-select" class="crop-select">${cropOptions}</select></div>`;
             }
 
-            let zoomInput = `<div class="control zoom-control"><label for="crop-zoom">Zoom:</label> <input type="range" id="crop-zoom" class="crop-zoom" min="5" max="100" value="90" step="1" /></div>`;
+            let zoomInput = `<div class="control zoom-control"><label for="crop-zoom">Scale:</label> <input type="range" id="crop-zoom" class="crop-zoom" min="5" max="100" value="90" step="1" /></div>`;
             let imageSrc = this.file.existing ? this.file.fullSizeUrl : this.file.dataURL;
 
             return `
