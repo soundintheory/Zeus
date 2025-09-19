@@ -105,7 +105,7 @@ namespace Zeus.FileSystem.Images
                 return crop;
             }
 
-            return crops.Values.FirstOrDefault() ?? new CropData();
+            return new CropData();
         }
 
         public virtual void SetDefaultCrop(string key, int x, int y, int w, int h, float scale = 1)
@@ -151,21 +151,25 @@ namespace Zeus.FileSystem.Images
 
         public string GetCropUrl(string cropId, int width, int height, bool fill, DynamicImageFormat format)
         {
-            string appKey = $"CroppedImage.{ID}.{cropId ?? "_"}.{width}.{height}.{fill}";
+            return Context.Current.Cache.GetOrAdd(
+                ID,
+                $"CroppedImage.{ID}.{(!string.IsNullOrEmpty(cropId) ? cropId : DefaultCropId)}.{width}.{height}.{fill}.{format}",
+                () => GetCropUrlInternal(cropId, width, height, fill, format)
+            );
+        }
 
+        protected string GetCropUrlInternal(string cropId, int width, int height, bool fill, DynamicImageFormat format)
+        {
             var crop = GetCrop(cropId);
-
-            if (crop.IsEmpty)
-            {
-                var standardResizeUrl = base.GetUrl(width, height, true, format);
-                System.Web.HttpContext.Current.Cache[appKey] = standardResizeUrl;
-
-                return standardResizeUrl;
-            }
 
             if (IsEmpty())
             {
                 return "";
+            }
+
+            if (crop.IsEmpty)
+            {
+                return base.GetUrl(width, height, fill, format);
             }
 
             var imageSource = new ZeusImageSource(this);
@@ -198,8 +202,6 @@ namespace Zeus.FileSystem.Images
             }
 
             string imageUrl = ImageUrlGenerator.GetImageUrl(dynamicImage);
-
-            System.Web.HttpContext.Current.Cache[appKey] = imageUrl;
 
             return imageUrl;
         }

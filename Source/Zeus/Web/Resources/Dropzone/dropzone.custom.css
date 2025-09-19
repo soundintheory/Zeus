@@ -30,6 +30,7 @@
     font-size: 80%;
     margin: 16px 0 0;
     opacity: .8;
+    line-height: 1.5;
 }
 
 .dropzone-single {

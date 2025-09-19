@@ -35,7 +35,7 @@ namespace Zeus.Web.UI.WebControls
 			}
 
             var fieldId = $"dropzone-{Identifier}";
-            var note = !string.IsNullOrEmpty(TypeFilterDescription) ? $@"<span class=""note"">{TypeFilterDescription}</span>" : "";
+            var note = GetDropzoneAreaNotes();
 
             var html = $@"
 				<div class=""dropzone dropzone-single"" id=""{fieldId}"">
@@ -98,6 +98,11 @@ namespace Zeus.Web.UI.WebControls
 
 			base.OnPreRender(e);
 		}
+
+        protected virtual string GetDropzoneAreaNotes()
+        {
+            return !string.IsNullOrEmpty(TypeFilterDescription) ? $@"<span class=""note"">{TypeFilterDescription}</span>" : "";
+        }
 
         protected virtual string GetExtraJS()
         {

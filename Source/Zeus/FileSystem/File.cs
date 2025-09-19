@@ -79,8 +79,29 @@ namespace Zeus.FileSystem
 
 		public string FileName
 		{
-			get { return GetDetail("FileName", string.Empty); }
+			get { return GetDetail("FileName", DefaultFileName); }
 			set { SetDetail("FileName", value); }
+		}
+
+		public virtual string DefaultFileName => IsEmpty() ? string.Empty : Name + DefaultFileExtension;
+
+		public virtual string DefaultFileExtension
+		{
+			get
+			{
+				switch (ContentType)
+				{
+					case "image/png":
+						return ".png";
+                    case "image/gif":
+                        return ".gif";
+                    case "image/jpeg":
+					case "image/jpg":
+						return ".jpg";
+					default:
+						return string.Empty;
+				}
+			}
 		}
 
 		public override bool IsEmpty()

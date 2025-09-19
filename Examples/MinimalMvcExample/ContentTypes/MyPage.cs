@@ -30,14 +30,14 @@ namespace Zeus.Examples.MinimalMvcExample.ContentTypes
 			set { SetChild(value, "Image"); }
 		}
 
-		[ImageEditor("Cropped Image", 120)]
+		[ImageEditor("Cropped Image", 120, AspectRatio = 300d / 200d, MinWidth = 300, MinHeight = 200, UseFieldset = false, Description = "This is a test description")]
         public virtual HiddenCroppedImage AnotherImage
 		{
 			get { return GetChild<HiddenCroppedImage>("AnotherImage"); }
 			set { SetChild(value, "AnotherImage"); }
 		}
 
-        [ImageEditor("Cropped Image With More Crops", 130)]
+        [ImageEditor("Cropped Image With More Crops", 130, Description = "This is a test description")]
         [ImageCrop]
         [ImageCrop("Thumbnail", 300d / 200d, MinWidth = 300, MinHeight = 200)]
         public virtual HiddenCroppedImage AnotherImage2

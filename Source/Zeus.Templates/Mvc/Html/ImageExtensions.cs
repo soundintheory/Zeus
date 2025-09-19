@@ -105,6 +105,11 @@ namespace Zeus.Templates.Mvc.Html
             return ImageUrl(helper, image, width, height, fill, string.Empty, DynamicImageFormat.Jpeg);
         }
 
+        public static string ImageUrl(this HtmlHelper helper, Image image, int width, int height, bool fill, string defaultImage)
+        {
+            return ImageUrl(helper, image, width, height, fill, defaultImage, DynamicImageFormat.Jpeg);
+        }
+
         public static string ImageUrl(this HtmlHelper helper, Image image, int width, int height, bool fill, DynamicImageFormat format)
         {
             return ImageUrl(helper, image, width, height, fill, string.Empty, format);
@@ -154,6 +159,11 @@ namespace Zeus.Templates.Mvc.Html
         public static string ImageUrl(this HtmlHelper helper, CroppedImage image, string cropId, int width, int height, bool fill, DynamicImageFormat format)
         {
             return ImageUrl(helper, image, cropId, width, height, fill, string.Empty, format);
+        }
+
+        public static string ImageUrl(this HtmlHelper helper, CroppedImage image, string cropId, int width, int height, bool fill, string defaultImage)
+        {
+            return ImageUrl(helper, image, cropId, width, height, fill, defaultImage, DynamicImageFormat.Jpeg);
         }
 
         /// <summary>

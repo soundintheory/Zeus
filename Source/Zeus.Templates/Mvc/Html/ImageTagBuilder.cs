@@ -14,7 +14,7 @@ namespace Zeus.Templates.Mvc.Html
         {
         }
 
-        public ImageTagBuilder Attr(string name, string value)
+        public ImageTagBuilder Attr(string name, string value = null)
         {
             if (string.IsNullOrEmpty(name))
             {
