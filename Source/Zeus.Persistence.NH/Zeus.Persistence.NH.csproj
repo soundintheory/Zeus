@@ -160,6 +160,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ConfigurationBuilder.cs" />
+    <Compile Include="StatelessFinder.cs" />
     <Compile Include="Finder.cs" />
     <Compile Include="IConfigurationBuilder.cs" />
     <Compile Include="INotifyingInterceptor.cs" />

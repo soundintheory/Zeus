@@ -13,5 +13,6 @@ namespace Zeus.Persistence
 		IQueryable<T> QueryDetails<T>() where T : PropertyData;
 		IQueryable<PropertyCollection> QueryDetailCollections();
 		IQueryable Query(Type resultType);
-	}
+		IStatelessFinder CreateStateless();
+    }
 }
