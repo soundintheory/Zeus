@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NHibernate;
+using System;
 using System.Linq;
 using System.Reflection;
 using Zeus.ContentProperties;
@@ -66,6 +67,12 @@ namespace Zeus.Persistence.NH
 			return (IQueryable)genericQueryMethod.Invoke(this, null);
 		}
 
+		public IStatelessFinder CreateStateless()
+		{
+			return new StatelessFinder(_sessionProvider);
+        }
+
 		#endregion
 	}
+
 }

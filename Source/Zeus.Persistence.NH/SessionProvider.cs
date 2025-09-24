@@ -40,6 +40,11 @@ namespace Zeus.Persistence.NH
 			}
 		}
 
+		public virtual IStatelessSession OpenStatelessSession()
+		{
+			return _sessionFactory.WithStatelessOptions().OpenStatelessSession();
+		}
+
 		public void Dispose()
 		{
 			SessionContext sc = CurrentSession;

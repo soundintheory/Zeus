@@ -18,9 +18,18 @@ namespace Zeus.Persistence.NH
 				transaction.Begin();
 		}
 
-		#region ITransaction Members
+        public Transaction(IStatelessSession session)
+        {
+            transaction = session.Transaction;
+            if (transaction.IsActive)
+                isOriginator = false; // The method that first opened the transaction should also close it
+            else
+                transaction.Begin();
+        }
 
-		public void Commit()
+        #region ITransaction Members
+
+        public void Commit()
 		{
 			if (isOriginator && !transaction.WasCommitted && !transaction.WasRolledBack)
 				transaction.Commit();
