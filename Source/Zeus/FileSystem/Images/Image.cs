@@ -118,13 +118,17 @@ namespace Zeus.FileSystem.Images
 
         public bool EnsureSourceDimensions()
         {
-            if (!IsEmpty() && (SourceWidth == 0 || SourceHeight == 0))
+            if ((SourceWidth == 0 || SourceHeight == 0) && !IsEmpty())
             {
-                System.Drawing.Image image = System.Drawing.Image.FromStream(new MemoryStream(Data), false, false);
-                SourceWidth = image.Width;
-                SourceHeight = image.Height;
+                try
+                {
+                    System.Drawing.Image image = System.Drawing.Image.FromStream(new MemoryStream(Data), false, false);
+                    SourceWidth = image.Width;
+                    SourceHeight = image.Height;
 
-                return true;
+                    return true;
+                }
+                catch { }
             }
 
             return false;
