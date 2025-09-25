@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using Zeus.BaseLibrary.ExtensionMethods.Linq;
 using Zeus.ContentTypes;
-using System.Web.UI;
-using System.Web;
-using System.Collections;
+using Zeus.Web.UI.WebControls;
 
 namespace Zeus.Design.Editors
 {
@@ -79,26 +80,38 @@ namespace Zeus.Design.Editors
             return false;
         }
 
-		protected override ListItem[] GetListItems(IEditableObject item)
-		{
-            var listItems = GetCachedListItems();
+        protected override void SetValue(ListControl editor, object value)
+        {
+            var selectedItem = GetCachedListItems().FirstOrDefault(x => x.Id == value.ToString());
 
-			if (ExcludeSelf && item != null)
+            // Only populate the option that is selected
+            if (selectedItem != null)
             {
-                var id = item["ID"].ToString();
-                listItems = listItems.Where(i => i.Value != id);
+                var listItem = new ListItem()
+                {
+                    Value = selectedItem.Id,
+                    Text = selectedItem.Text
+                };
+                listItem.Attributes["data-icon"] = selectedItem.Icon;
+
+                editor.Items.Add(listItem);
             }
 
-			return listItems.ToArray();
+            editor.SelectedValue = value.ToString();
+        }
+
+        protected override ListItem[] GetListItems(IEditableObject item)
+		{
+			return Array.Empty<ListItem>();
 		}
 
         /// <summary>
         /// Caches the array of list items in the current request to stop multiple NHibernate calls on large editors
         /// </summary>
-        private IEnumerable<ListItem> GetCachedListItems()
+        private IEnumerable<ListItemStub> GetCachedListItems()
         {
-            var key = $"list_{TypeFilter ?? typeof(ContentItem)}_{UseNonHiearchicalTitle}";
-            var listItems = HttpContext.Current.Items[key] as IEnumerable<ListItem>;
+            var key = GetOptionsKey();
+            var listItems = HttpContext.Current.Items[key] as IEnumerable<ListItemStub>;
 
             if (listItems == null)
             {
@@ -123,12 +136,12 @@ namespace Zeus.Design.Editors
                     .OrderBy(i => i.HierarchicalTitle)
                     .Select(i =>
                     {
-                        var listItem = new ListItem()
+                        var listItem = new ListItemStub()
                         {
-                            Value = i.ID.ToString(),
-                            Text = UseNonHiearchicalTitle ? i.Title : i.HierarchicalTitle
+                            Id = i.ID.ToString(),
+                            Text = UseNonHiearchicalTitle ? i.Title : i.HierarchicalTitle,
+                            Icon = i.IconUrl
                         };
-                        listItem.Attributes.Add("data-icon", i.IconUrl);
                         return listItem;
                     });
 
@@ -137,5 +150,17 @@ namespace Zeus.Design.Editors
 
             return listItems;
         }
-	}
+
+        protected virtual string GetOptionsKey() => $"list_{TypeFilter ?? typeof(ContentItem)}_{UseNonHiearchicalTitle}";
+
+        protected override ListControl CreateEditor()
+        {
+            return new DropDownListTypahead
+            {
+                PlaceholderText = PlaceholderText ?? "Please select an item",
+                SharedOptionsKey = GetOptionsKey(),
+                SharedOptions = GetCachedListItems().ToArray()
+            };
+        }
+    }
 }
