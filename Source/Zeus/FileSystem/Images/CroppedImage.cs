@@ -108,10 +108,10 @@ namespace Zeus.FileSystem.Images
             return new CropData();
         }
 
-        public virtual void SetDefaultCrop(string key, int x, int y, int w, int h, float scale = 1)
+        public virtual void SetDefaultCrop(int x, int y, int w, int h, float scale = 1)
             => SetCrop(DefaultCropId, new CropData { x = x, y = y, w = w, h = h, s = scale });
 
-        public virtual void SetDefaultCrop(string key, CropData data)
+        public virtual void SetDefaultCrop(CropData data)
             => SetCrop(DefaultCropId, data);
 
         public virtual void ResetCrop(string key)
