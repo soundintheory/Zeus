@@ -128,14 +128,39 @@ namespace Zeus.Web.UI.WebControls
 										}}
 								
 										return null;
+									}},
+									fullStringMatcher: function(params, data) {{
+
+										if (!params.term || $.trim(params.term) === '') {{
+										    return null;
+										}}
+
+										if (!data.text) {{
+										    return null;
+										}}
+										
+										if ($.trim(data.text).toLowerCase().endsWith($.trim(params.term).toLowerCase())) {{
+											return data;
+										}}
+								
+										return null;
 									}}
 								}};
 								if (!!el.dataset.optionsKey && !!window.sharedOptions[el.dataset.optionsKey]) {{
 									opts.ajax = {{
 										transport: function (params, success, failure) {{
 											let results = [];
+											let remainingOptions = [];
 											let offset = opts.pageSize * ((params.data.page || 1) - 1);
 											window.sharedOptions[el.dataset.optionsKey].forEach((option) => {{
+												let result = opts.fullStringMatcher(params.data, option);
+												if (result) {{
+													results.push(result);
+												}} else {{
+													remainingOptions.push(option);
+												}}
+											}});
+											remainingOptions.forEach((option) => {{
 												let result = opts.matcher(params.data, option);
 												if (result) {{
 													results.push(result);
