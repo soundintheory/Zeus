@@ -22,7 +22,7 @@ namespace Zeus.Admin.Plugins.Tree
 
         public static FilteredSiteTree Filtered(string query)
         {
-            var tree = new FilteredSiteTree(Find.RootItem);
+            var tree = new FilteredSiteTree(Find.AdminRootItem);
 			tree.Query(query);	
 
 			return tree;

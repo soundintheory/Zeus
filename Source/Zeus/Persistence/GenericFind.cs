@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Zeus.Collections;
 using Zeus.FileSystem;
-using Zeus.Web;
 using Zeus.Security;
-using Zeus.Web.Security.Items;
 using Zeus.Security.ContentTypes;
+using Zeus.Web;
+using Zeus.Web.Security;
+using Zeus.Web.Security.Items;
 
 namespace Zeus.Persistence
 {
@@ -20,8 +21,17 @@ namespace Zeus.Persistence
 			get { return Context.CurrentPage; }
 		}
 
-		/// <summary>Gets an enumeration of pages leading to the current page.</summary>
-		public static IEnumerable<ContentItem> Parents
+        public static User CurrentUser
+        {
+            get
+			{
+                var webPrincipal = System.Web.HttpContext.Current.User as WebPrincipal;
+                return (webPrincipal != null) ? webPrincipal.MembershipUser : null;
+            }
+        }
+
+        /// <summary>Gets an enumeration of pages leading to the current page.</summary>
+        public static IEnumerable<ContentItem> Parents
 		{
 			get
 			{
@@ -34,12 +44,31 @@ namespace Zeus.Persistence
 		/// <summary>Gets the site's root items.</summary>
 		public static TRoot RootItem
 		{
-			//get { return (TStart) Context.Current.UrlParser.RootItem; }
-			get { return (TRoot) Context.Persister.Load(Context.Current.Host.CurrentSite.RootItemID); }
+			get { return (TRoot)Context.Persister.Load(Context.Current.Host.CurrentSite.RootItemID); }
 		}
 
-		/// <summary>Gets the current start page (this may vary depending on host url).</summary>
-		public static TStart StartPage
+        public static ContentItem AdminRootItem
+        {
+            get
+			{
+				var user = CurrentUser;
+
+				if (user != null && user.RootItem != null)
+				{
+					return user.RootItem;
+                }
+
+				return (TRoot)Context.Persister.Load(Context.Current.Host.CurrentSite.RootItemID);
+			}
+        }
+
+        public static ContentItem AdminStartPage
+        {
+			get { return AdminRootItem != RootItem ? AdminRootItem : StartPage; }
+        }
+
+        /// <summary>Gets the current start page (this may vary depending on host url).</summary>
+        public static TStart StartPage
 		{
 			get { return (TStart) Context.Current.UrlParser.StartPage; }
 		}

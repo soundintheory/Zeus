@@ -58,7 +58,14 @@ namespace Zeus.Security
 			get { return GetDetailCollection("RolesInternal", true); }
 		}
 
-		public string[] Roles
+        [ContentProperty("Admin Root Item", 60, Description = "Locks the admin tree for this user to the selected item. Only use this if you know what you are doing, to avoid accidentally locking yourself out.")]
+        public virtual ContentItem RootItem
+        {
+            get { return GetDetail("RootItem", default(ContentItem)); }
+            set { SetDetail("RootItem", value); }
+        }
+
+        public string[] Roles
 		{
 			get { return RolesInternal.Cast<Role>().Select(r => r.Name).ToArray(); }
 		}

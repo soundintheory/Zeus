@@ -66,7 +66,7 @@ namespace Zeus.Examples.MinimalMvcExample.Design.Editors
 
         protected override ListItem[] GetListItems(IEditableObject item)
         {
-            return Zeus.Find.EnumerateAccessibleChildren(Zeus.Find.StartPage).NavigablePages()
+            return Zeus.Find.EnumerateAccessibleChildren(Zeus.Find.AdminStartPage).NavigablePages()
                 .ToList()
                 .OrderBy(i => i.HierarchicalTitle)
                 .Select(i => new ListItem { Value = i.ID.ToString(), Text = i.Parent.Title + " - " + i.Title })

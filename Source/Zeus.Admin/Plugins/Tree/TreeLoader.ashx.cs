@@ -37,7 +37,7 @@ namespace Zeus.Admin.Plugins.Tree
             {
                 if (fromRoot)
                 {
-                    tree = SiteTree.Between(selectedItem, Find.RootItem, true);
+                    tree = SiteTree.Between(selectedItem, Find.AdminRootItem, true);
                 }
                 else
                 {

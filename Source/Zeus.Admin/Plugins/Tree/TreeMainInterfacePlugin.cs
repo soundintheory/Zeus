@@ -113,7 +113,7 @@ namespace Zeus.Admin.Plugins.Tree
 
 			if (!ExtNet.IsAjaxRequest)
 			{
-				TreeNodeBase treeNode = SiteTree.Between(Find.StartPage, Find.RootItem, true)
+				TreeNodeBase treeNode = SiteTree.Between(Find.AdminStartPage, Find.AdminRootItem, true)
 					.OpenTo(Find.StartPage)
 					.Filter(items => items.Authorized(Context.Current.WebContext.User, Context.SecurityManager, Operations.Read))
 					.ToTreeNode(true);
