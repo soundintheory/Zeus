@@ -10,6 +10,7 @@ using SoundInTheory.DynamicImage.Fluent;
 using SoundInTheory.DynamicImage.Filters;
 using System.Drawing;
 using System;
+using Zeus.Web.Caching;
 
 namespace Zeus.FileSystem.Images
 {
@@ -40,35 +41,23 @@ namespace Zeus.FileSystem.Images
 			set { base.Data = value; }
 		}
 
-		public static Image FromStream(Stream stream, string filename)
-		{
+        public static Image FromStream(Stream stream, string filename) => FromStream<Image>(stream, filename);
+
+        public static T FromStream<T>(Stream stream, string filename) where T : Image, new()
+        {
 			byte[] fileBytes = stream.ReadAllBytes();
-			var image = new Image
+
+			var image = new T
 			{
 				ContentType = fileBytes.GetMimeType(),
 				Data = fileBytes,
 				Name = Utility.GetSafeName(filename),
-				Size = stream.Length,
+				Size = Convert.ToInt32(stream.Length),
                 FileName = filename
 			};
             image.EnsureSourceDimensions();
             return image;
 		}
-
-        public static T FromStream<T>(Stream stream, string filename) where T : Image, new()
-        {
-            byte[] fileBytes = stream.ReadAllBytes();
-            var image = new T
-            {
-                ContentType = fileBytes.GetMimeType(),
-                Data = fileBytes,
-                Name = Utility.GetSafeName(filename),
-                Size = stream.Length,
-                FileName = filename
-            };
-            image.EnsureSourceDimensions();
-            return image;
-        }
 
         public virtual string GetUrl(int width, int height, bool fill)
 		{

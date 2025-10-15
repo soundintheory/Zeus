@@ -48,6 +48,7 @@ namespace Zeus.Design.Editors
 			if (fileUpload.HasDeletedFile)
 			{
 				file.Data = null;
+				file.Size = 0;
 				result = true;
 			}
 			else if (fileUpload.HasNewOrChangedFile)
@@ -78,7 +79,7 @@ namespace Zeus.Design.Editors
 		{
             item.Data = fs.ReadAllBytes();
             item.ContentType = item.Data.GetMimeType();
-            item.Size = fs.Length;
+            item.Size = Convert.ToInt32(fs.Length);
         }
 
 		/// <summary>Creates a text box editor.</summary>

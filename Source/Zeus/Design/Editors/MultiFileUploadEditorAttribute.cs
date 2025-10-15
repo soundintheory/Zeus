@@ -48,7 +48,7 @@ namespace Zeus.Design.Editors
 				{
 					newFile.Data = fs.ReadAllBytes();
                     newFile.ContentType = newFile.Data.GetMimeType();
-					newFile.Size = fs.Length;
+					newFile.Size = Convert.ToInt32(fs.Length);
 				}
 
 				// Delete temp folder.

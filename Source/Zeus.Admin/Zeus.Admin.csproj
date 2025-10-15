@@ -149,6 +149,9 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="App_Start\DynamicImage.cs" />
+    <Compile Include="Plugins\FileManager\FileSizeConverter.ashx.cs">
+      <DependentUpon>FileSizeConverter.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Plugins\ManageZones\ManageZonesMenuPlugin.cs" />
     <Compile Include="Plugins\ManageZones\ManageZonesUserControl.ascx.cs">
       <DependentUpon>ManageZonesUserControl.ascx</DependentUpon>
@@ -533,6 +536,7 @@
     <EmbeddedResource Include="Login.aspx" />
     <EmbeddedResource Include="Popup.master" />
     <None Include="packages.config" />
+    <EmbeddedResource Include="Plugins\FileManager\FileSizeConverter.ashx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Plugins\Tree\TreeLoader.ashx" />

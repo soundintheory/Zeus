@@ -124,7 +124,7 @@ namespace Zeus.Design.Editors
 
                 items = items
                     .ToList()
-                    .Where(i => !(i is RootItem) && !string.IsNullOrEmpty(i.Title));
+                    .Where(i => !(i is RootItem) && i.IsVisibleInTree && !string.IsNullOrEmpty(i.Title));
 
                 // If we're targeting all content items, only include ones that are pages
                 if (TypeFilter == null || TypeFilter == typeof(ContentItem))

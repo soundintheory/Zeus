@@ -24,8 +24,8 @@ namespace Zeus.Templates.Mvc.Controllers
                 
                 httpContext.Response.Headers["Last-Modified"] = modDate.ToString("ddd, dd MMM yyyy HH:mm:ss 'GMT'");
 
-                if (CurrentItem.Size.HasValue)
-                    httpContext.Response.Headers["Content-Length"] = CurrentItem.Size.Value.ToString();
+                if (CurrentItem.Size > 0)
+                    httpContext.Response.Headers["Content-Length"] = CurrentItem.Size.ToString();
 
                 if (!string.IsNullOrEmpty(CurrentItem.ContentType))
                     httpContext.Response.Headers["Content-Type"] = CurrentItem.ContentType;
