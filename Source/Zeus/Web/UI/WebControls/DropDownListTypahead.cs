@@ -138,8 +138,12 @@ namespace Zeus.Web.UI.WebControls
 										if (!data.text) {{
 										    return null;
 										}}
+
+										if (!data.path) {{
+											data.path = data.text.split('-').map(x => $.trim(x).toLowerCase());
+										}}
 										
-										if ($.trim(data.text).toLowerCase().endsWith($.trim(params.term).toLowerCase())) {{
+										if (data.path[data.path.length-1].startsWith($.trim(params.term).toLowerCase())) {{
 											return data;
 										}}
 								
