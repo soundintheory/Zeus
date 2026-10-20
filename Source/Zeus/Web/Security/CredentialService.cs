@@ -103,6 +103,9 @@ namespace Zeus.Web.Security
 
 		public bool ValidateUser(string username, string password)
 		{
+			if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+				return false;
+
 			// Get user from store.
 			User user = _store.GetUser(FormatUsername(username));
 			return (user != null && user.Password == EncryptPassword(password) && user.Verified);
