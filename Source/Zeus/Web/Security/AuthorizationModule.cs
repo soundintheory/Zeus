@@ -39,7 +39,9 @@ namespace Zeus.Web.Security
 
 			if (!context.SkipAuthorization)
 			{
-				if (!authorizationService.CheckUrlAccessForPrincipal(context.Request.Url.AbsolutePath, context.User, context.Request.RequestType))
+				// Use the decoded Request.Path (what IIS and routing use to pick a handler), not Url.AbsolutePath,
+				// which keeps percent-encoding - e.g. /%61dmin would otherwise not match the "admin" location.
+				if (!authorizationService.CheckUrlAccessForPrincipal(context.Request.Path, context.User, context.Request.RequestType))
 				{
 					context.Response.StatusCode = 0x191;
 					application.CompleteRequest();
