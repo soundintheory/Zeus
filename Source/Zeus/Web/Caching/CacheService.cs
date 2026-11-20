@@ -200,7 +200,12 @@ namespace Zeus.Web.Caching
                     if (output == null)
                     {
                         output = factory();
-                        cache[key] = output;
+
+                        // The ASP.NET cache can't hold nulls, so a missing value just isn't cached
+                        if (output != null)
+                        {
+                            cache[key] = output;
+                        }
                     }
                 }
             }
@@ -223,7 +228,12 @@ namespace Zeus.Web.Caching
                     {
                         var entry = factory();
                         output = entry.Value;
-                        cache.Insert(key, entry.Value, entry.Dependencies);
+
+                        // The ASP.NET cache can't hold nulls, so a missing item (e.g. a deleted ID) just isn't cached
+                        if (output != null)
+                        {
+                            cache.Insert(key, entry.Value, entry.Dependencies);
+                        }
                     }
                 }
             }
