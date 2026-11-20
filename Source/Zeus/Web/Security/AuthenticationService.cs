@@ -117,11 +117,32 @@ namespace Zeus.Web.Security
 			RedirectToLoginPage(null);
 		}
 
+		private static bool IsLocalUrl(string url)
+		{
+			if (url.StartsWith("~/"))
+				return true;
+
+			// A path on this site: starts with a single slash and has no control characters
+			if (url[0] != '/' || (url.Length > 1 && (url[1] == '/' || url[1] == '\\')))
+				return false;
+
+			foreach (char c in url)
+			{
+				if (char.IsControl(c))
+					return false;
+			}
+
+			return true;
+		}
+
 		private string GetReturnUrl(bool useDefaultIfAbsent)
 		{
 			string str = _webContext.Request.QueryString["ReturnUrl"];
 			if ((!string.IsNullOrEmpty(str) && !str.Contains("/")) && str.Contains("%"))
 				str = HttpUtility.UrlDecode(str);
+			// Never send a freshly logged in user to another site
+			if (!string.IsNullOrEmpty(str) && !IsLocalUrl(str))
+				str = null;
 			if (string.IsNullOrEmpty(str) && useDefaultIfAbsent)
 				return _config.DefaultUrl;
 			return str;

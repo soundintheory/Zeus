@@ -41,7 +41,13 @@ namespace Zeus.Web.Handlers
             if (!Directory.Exists(uploadRootFolderPath))
                 Directory.CreateDirectory(uploadRootFolderPath);
 
-            string uploadFolderPath = Path.Combine(uploadRootFolderPath, identifier);
+            // The identifier comes back from the browser when an item is saved. It is always a GUID, so anything
+            // else (for example "..\\.." to reach another folder) is refused.
+            Guid parsedIdentifier;
+            if (!Guid.TryParse(identifier, out parsedIdentifier))
+                throw new ArgumentException("The upload identifier is not valid", "identifier");
+
+            string uploadFolderPath = Path.Combine(uploadRootFolderPath, parsedIdentifier.ToString());
 
             return uploadFolderPath;
             
