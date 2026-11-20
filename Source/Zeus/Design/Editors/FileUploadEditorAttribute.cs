@@ -36,7 +36,8 @@ namespace Zeus.Design.Editors
 		public static string GetUploadedFilePath(BaseFileUpload fileUpload)
 		{
 			string uploadFolder = BaseFileUploadHandler.GetUploadFolder(fileUpload.Identifier);
-			return Path.Combine(uploadFolder, HttpUtility.UrlDecode(fileUpload.FileName));
+			// Only ever a file directly inside this upload's own folder, whatever name was posted
+			return Path.Combine(uploadFolder, Path.GetFileName(HttpUtility.UrlDecode(fileUpload.FileName) ?? string.Empty));
 		}
 
 		public override bool UpdateItem(IEditableObject item, Control editor)
